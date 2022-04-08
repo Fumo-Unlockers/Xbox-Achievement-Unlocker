@@ -33,9 +33,10 @@ namespace Xbox_Achievement_Unlocker
             this.LBL_Attached = new System.Windows.Forms.Label();
             this.TXT_Xauth = new System.Windows.Forms.TextBox();
             this.BTN_GrabXauth = new System.Windows.Forms.Button();
-            this.TXT_Gamertag = new System.Windows.Forms.TextBox();
             this.LBL_XUID = new System.Windows.Forms.Label();
             this.BTN_XUID = new System.Windows.Forms.Button();
+            this.LBL_Gamertag = new System.Windows.Forms.Label();
+            this.LBL_Gamerscore = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BGWorker
@@ -73,18 +74,10 @@ namespace Xbox_Achievement_Unlocker
             this.BTN_GrabXauth.UseVisualStyleBackColor = true;
             this.BTN_GrabXauth.Click += new System.EventHandler(this.BTN_GrabXauth_Click);
             // 
-            // TXT_Gamertag
-            // 
-            this.TXT_Gamertag.Location = new System.Drawing.Point(357, 27);
-            this.TXT_Gamertag.Name = "TXT_Gamertag";
-            this.TXT_Gamertag.Size = new System.Drawing.Size(158, 23);
-            this.TXT_Gamertag.TabIndex = 3;
-            this.TXT_Gamertag.Text = "EnterGamertag";
-            // 
             // LBL_XUID
             // 
             this.LBL_XUID.AutoSize = true;
-            this.LBL_XUID.Location = new System.Drawing.Point(176, 30);
+            this.LBL_XUID.Location = new System.Drawing.Point(176, 84);
             this.LBL_XUID.Name = "LBL_XUID";
             this.LBL_XUID.Size = new System.Drawing.Size(39, 15);
             this.LBL_XUID.TabIndex = 4;
@@ -92,22 +85,41 @@ namespace Xbox_Achievement_Unlocker
             // 
             // BTN_XUID
             // 
-            this.BTN_XUID.Location = new System.Drawing.Point(357, 56);
+            this.BTN_XUID.Location = new System.Drawing.Point(417, 56);
             this.BTN_XUID.Name = "BTN_XUID";
             this.BTN_XUID.Size = new System.Drawing.Size(107, 23);
             this.BTN_XUID.TabIndex = 5;
-            this.BTN_XUID.Text = "Grab XUID";
+            this.BTN_XUID.Text = "Grab Info";
             this.BTN_XUID.UseVisualStyleBackColor = true;
             this.BTN_XUID.Click += new System.EventHandler(this.BTN_XUID_Click);
+            // 
+            // LBL_Gamertag
+            // 
+            this.LBL_Gamertag.AutoSize = true;
+            this.LBL_Gamertag.Location = new System.Drawing.Point(176, 27);
+            this.LBL_Gamertag.Name = "LBL_Gamertag";
+            this.LBL_Gamertag.Size = new System.Drawing.Size(65, 15);
+            this.LBL_Gamertag.TabIndex = 6;
+            this.LBL_Gamertag.Text = "Gamertag: ";
+            // 
+            // LBL_Gamerscore
+            // 
+            this.LBL_Gamerscore.AutoSize = true;
+            this.LBL_Gamerscore.Location = new System.Drawing.Point(176, 56);
+            this.LBL_Gamerscore.Name = "LBL_Gamerscore";
+            this.LBL_Gamerscore.Size = new System.Drawing.Size(76, 15);
+            this.LBL_Gamerscore.TabIndex = 7;
+            this.LBL_Gamerscore.Text = "Gamerscore: ";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.LBL_Gamerscore);
+            this.Controls.Add(this.LBL_Gamertag);
             this.Controls.Add(this.BTN_XUID);
             this.Controls.Add(this.LBL_XUID);
-            this.Controls.Add(this.TXT_Gamertag);
             this.Controls.Add(this.BTN_GrabXauth);
             this.Controls.Add(this.TXT_Xauth);
             this.Controls.Add(this.LBL_Attached);
@@ -125,9 +137,10 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.Label LBL_Attached;
         private System.Windows.Forms.TextBox TXT_Xauth;
         private System.Windows.Forms.Button BTN_GrabXauth;
-        private System.Windows.Forms.TextBox TXT_Gamertag;
         private System.Windows.Forms.Label LBL_XUID;
         private System.Windows.Forms.Button BTN_XUID;
+        private System.Windows.Forms.Label LBL_Gamertag;
+        private System.Windows.Forms.Label LBL_Gamerscore;
     }
 }
 

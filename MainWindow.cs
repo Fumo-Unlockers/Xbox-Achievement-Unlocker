@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Memory;
 using System.Threading;
-using System.Net;
+using System.Net.Http;
 using Newtonsoft.Json.Linq;
 
 namespace Xbox_Achievement_Unlocker
@@ -87,31 +87,64 @@ namespace Xbox_Achievement_Unlocker
                 }
             }
             //read the bytes into string
-            xauthtoken = Encoding.ASCII.GetString(m.ReadBytes(XauthStartAddressHex,XauthLength));
-            TXT_Xauth.Text ="xauth: " + xauthtoken;
-        }
+            try
+            {
+                xauthtoken = Encoding.ASCII.GetString(m.ReadBytes(XauthStartAddressHex, XauthLength));
+                TXT_Xauth.Text = "xauth: " + xauthtoken;
+            }
+            catch
+            {
+                MessageBox.Show("something with the xauth scan did a fucky wucky");
+            }
 
+        }
+        HttpClient client = new HttpClient();
+        
         private async void BTN_XUID_Click(object sender, EventArgs e)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://peoplehub.xboxlive.com/users/me/people/search/decoration/detail,preferredColor?q=" + TXT_Gamertag.Text);
-            request.Headers.Add("x-xbl-contract-version", "5");
-            request.Headers.Add("Accept-Encoding", "gzip, deflate");
-            request.Headers.Add("accept", "application/json");
-            request.Headers.Add("accept-language", "en-GB");
-            request.Headers.Add("Authorization", xauthtoken);
-            request.Headers.Add("Host", "peoplehub.xboxlive.com");
-            request.Headers.Add("Connection", "Keep-Alive");
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
+            /*client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "5");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "peoplehub.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            try
             {
+                var responseString = await client.GetStringAsync("https://peoplehub.xboxlive.com/users/me/people/search/decoration/detail,preferredColor?q=" + TXT_Gamertag.Text);
                 var Jsonresponse = (dynamic)(new JObject());
-                Jsonresponse = (dynamic)JObject.Parse(reader.ReadToEnd().ToString());
-                LBL_XUID.Text= "XUID: "+ Jsonresponse.people[0].xuid;
-                Jsonresponse = null;
+                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                LBL_XUID.Text = "XUID: " + Jsonresponse.people[0].xuid;
+            }*/
+
+
+            //required headers for a request to go through. (just taken from a legitimate request to profile.xboxlive.com)
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "profile.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            try
+            {
+                //query the users own profile using their xauth to find out profile information for future queries
+                var responseString = await client.GetStringAsync("https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag,Gamerscore");
+                var Jsonresponse = (dynamic)(new JObject());
+                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                LBL_Gamertag.Text = "Gamertag: " + Jsonresponse.profileUsers[0].settings[0].value;
+                LBL_Gamerscore.Text = "Gamerscore: " + Jsonresponse.profileUsers[0].settings[1].value;
+                LBL_XUID.Text = "XUID: " + Jsonresponse.profileUsers[0].id;
             }
-            
+            catch (HttpRequestException ex)
+            {
+                if ((int)ex.StatusCode == 401)
+                    MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                else
+                    MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
+            }
 
         }
     }
