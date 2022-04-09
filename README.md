@@ -13,6 +13,9 @@ Can semi-reliably grab XAuth (probably about as good as I will get it without ma
 
 Can query the xbox server to find out profile information(XUID, Gamerscore and Gamertag)
 
+Can populate panel with recently played games (non xbox titles filtered out)
+
+Can grab achievement data after clicking one of these games
 ## Todo
 everything else
 
