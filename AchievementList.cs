@@ -22,7 +22,9 @@ namespace Xbox_Achievement_Unlocker
             InitializeComponent();
         }
         public List<string> AchievementIDs = new List<string>();
-
+        HttpClient client = new HttpClient();
+        string SCID;
+        string TitleID;
         public async void PopulateAchievementList(string AchievementData)
         {
             AchievementList ALForm= new AchievementList();
@@ -31,6 +33,8 @@ namespace Xbox_Achievement_Unlocker
             Jsonresponse = (dynamic)JObject.Parse(AchievementData);
             var newline = 0;
             var backcolour = Color.Silver;
+            ALForm.SCID = Jsonresponse.achievements[0].serviceConfigId.ToString();
+            ALForm.TitleID = Jsonresponse.achievements[0].titleAssociations[0].id.ToString();
             for (int i = 0; i < Jsonresponse.achievements.Count; i++)
             {
                 //hacky thing because im kinda retarded and dont want to do proper ui design
@@ -60,7 +64,7 @@ namespace Xbox_Achievement_Unlocker
                 AchievementUnlocked.Width = 15;
                 AchievementUnlocked.Height = 14;
                 AchievementUnlocked.BackColor = backcolour;
-                AchievementUnlocked.Click += new System.EventHandler(this.SelectAchievement);
+                AchievementUnlocked.Click += new System.EventHandler(ALForm.SelectAchievement);
                 PanelLineElement.Controls.Add(AchievementUnlocked);
                 AchievementUnlocked.BringToFront();
                 //background for name section
@@ -160,20 +164,10 @@ namespace Xbox_Achievement_Unlocker
             if (SelectedAchievement.Checked)
             {
                 AchievementIDs.Add(SelectedAchievement.Name);
-                foreach (string id in AchievementIDs)
-                {
-                    MessageBox.Show(id);
-                }
-
             }
             else
             {
-                AchievementIDs.Remove(SelectedAchievement.Name.ToString());
-                foreach (string id in AchievementIDs)
-                {
-                    MessageBox.Show(id);
-                }
-
+                AchievementIDs.Remove(SelectedAchievement.Name);
             }
         }
         private void CheckBox_Images_CheckedChanged(object sender, EventArgs e)
@@ -203,11 +197,44 @@ namespace Xbox_Achievement_Unlocker
 
         void BTN_Unlock_Click(object sender, EventArgs e)
         {
-            foreach (string id in AchievementIDs)
-            {
-                MessageBox.Show(id);
-            }
+            var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\""+SCID+ "\",\"titleId\":\""+TitleID+"\",\"userId\":\""+MainWindow.xuid+ "\",\"achievements\":[";
             
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.04.20210610.3 c");
+            //
+            if (AchievementIDs.Count == 0)
+            {
+                MessageBox.Show("Select Achivements");
+            }
+            else
+            {
+                foreach (string id in AchievementIDs)
+                {
+                    requestbody = requestbody + "{\"id\":\"" + id + "\",\"percentComplete\":\"100\"},";
+                }
+                requestbody = requestbody.Remove(requestbody.Length - 1) + "]}";
+                var bodyconverted = new StringContent(requestbody);
+                try
+                {
+                    client.PostAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements/" + SCID + "/update", bodyconverted);
+                }
+                catch (HttpRequestException ex)
+                {
+                    if ((int)ex.StatusCode == 401)
+                        MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                    else
+                        MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
+                }
+                
+
+            }
         }
     }
 }
