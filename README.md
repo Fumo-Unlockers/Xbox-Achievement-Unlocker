@@ -18,6 +18,12 @@ Can populate panel with recently played games (non xbox titles filtered out)
 Can grab achievement data after clicking one of these games
 
 Can populate a list on second form with the achievement data
+
+Can unlock achievements on maybe most games
 ## Todo
+Change recent games to the players full library
+
+Add a list of SCIDs the user can pick from for unowned/unplayed games
+
 everything else
 
