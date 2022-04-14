@@ -34,11 +34,10 @@ namespace Xbox_Achievement_Unlocker
             this.TXT_Xauth = new System.Windows.Forms.TextBox();
             this.BTN_GrabXauth = new System.Windows.Forms.Button();
             this.LBL_XUID = new System.Windows.Forms.Label();
-            this.BTN_XUID = new System.Windows.Forms.Button();
+            this.BTN_Info = new System.Windows.Forms.Button();
             this.LBL_Gamertag = new System.Windows.Forms.Label();
             this.LBL_Gamerscore = new System.Windows.Forms.Label();
             this.Panel_Recents = new System.Windows.Forms.Panel();
-            this.BTN_Recents = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // BGWorker
@@ -85,15 +84,15 @@ namespace Xbox_Achievement_Unlocker
             this.LBL_XUID.TabIndex = 4;
             this.LBL_XUID.Text = "XUID: ";
             // 
-            // BTN_XUID
+            // BTN_Info
             // 
-            this.BTN_XUID.Location = new System.Drawing.Point(666, 5);
-            this.BTN_XUID.Name = "BTN_XUID";
-            this.BTN_XUID.Size = new System.Drawing.Size(122, 23);
-            this.BTN_XUID.TabIndex = 5;
-            this.BTN_XUID.Text = "Grab Info";
-            this.BTN_XUID.UseVisualStyleBackColor = true;
-            this.BTN_XUID.Click += new System.EventHandler(this.BTN_XUID_Click);
+            this.BTN_Info.Location = new System.Drawing.Point(666, 27);
+            this.BTN_Info.Name = "BTN_Info";
+            this.BTN_Info.Size = new System.Drawing.Size(122, 23);
+            this.BTN_Info.TabIndex = 5;
+            this.BTN_Info.Text = "Grab Info";
+            this.BTN_Info.UseVisualStyleBackColor = true;
+            this.BTN_Info.Click += new System.EventHandler(this.BTN_Info_Click);
             // 
             // LBL_Gamertag
             // 
@@ -120,32 +119,21 @@ namespace Xbox_Achievement_Unlocker
             this.Panel_Recents.Size = new System.Drawing.Size(776, 336);
             this.Panel_Recents.TabIndex = 8;
             // 
-            // BTN_Recents
-            // 
-            this.BTN_Recents.Location = new System.Drawing.Point(666, 56);
-            this.BTN_Recents.Name = "BTN_Recents";
-            this.BTN_Recents.Size = new System.Drawing.Size(122, 23);
-            this.BTN_Recents.TabIndex = 9;
-            this.BTN_Recents.Text = "Grab Recent Games";
-            this.BTN_Recents.UseVisualStyleBackColor = true;
-            this.BTN_Recents.Click += new System.EventHandler(this.BTN_Recents_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.BTN_Recents);
             this.Controls.Add(this.Panel_Recents);
             this.Controls.Add(this.LBL_Gamerscore);
             this.Controls.Add(this.LBL_Gamertag);
-            this.Controls.Add(this.BTN_XUID);
+            this.Controls.Add(this.BTN_Info);
             this.Controls.Add(this.LBL_XUID);
             this.Controls.Add(this.BTN_GrabXauth);
             this.Controls.Add(this.TXT_Xauth);
             this.Controls.Add(this.LBL_Attached);
             this.Name = "MainWindow";
-            this.Text = "Form1";
+            this.Text = "MainWindow";
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -159,11 +147,10 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.TextBox TXT_Xauth;
         private System.Windows.Forms.Button BTN_GrabXauth;
         private System.Windows.Forms.Label LBL_XUID;
-        private System.Windows.Forms.Button BTN_XUID;
+        private System.Windows.Forms.Button BTN_Info;
         private System.Windows.Forms.Label LBL_Gamertag;
         private System.Windows.Forms.Label LBL_Gamerscore;
         private System.Windows.Forms.Panel Panel_Recents;
-        private System.Windows.Forms.Button BTN_Recents;
     }
 }
 
