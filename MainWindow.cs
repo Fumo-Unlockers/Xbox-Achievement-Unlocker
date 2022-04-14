@@ -98,7 +98,11 @@ namespace Xbox_Achievement_Unlocker
             }
 
         }
-        HttpClient client = new HttpClient();
+        static HttpClientHandler handler = new HttpClientHandler()
+        {
+            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
+        };
+        HttpClient client = new HttpClient(handler);
         public static string xuid;
         AchievementList ALForm = new AchievementList();
         async void LoadAchievementList(object sender, EventArgs e)
