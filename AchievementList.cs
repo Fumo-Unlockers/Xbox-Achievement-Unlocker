@@ -27,14 +27,17 @@ namespace Xbox_Achievement_Unlocker
         string TitleID;
         public async void PopulateAchievementList(string AchievementData)
         {
-            AchievementList ALForm= new AchievementList();
+            AchievementList ALForm = new AchievementList();
             ALForm.Show();
             var Jsonresponse = (dynamic)(new JObject());
             Jsonresponse = (dynamic)JObject.Parse(AchievementData);
             var newline = 0;
             var backcolour = Color.Silver;
             ALForm.SCID = Jsonresponse.achievements[0].serviceConfigId.ToString();
+            ;
             ALForm.TitleID = Jsonresponse.achievements[0].titleAssociations[0].id.ToString();
+            if (Jsonresponse.achievements[0].progression.requirements.ToString().Length > 2)
+                MessageBox.Show("This game uses event based achivements and therefore currently does not work", "Warning");
             for (int i = 0; i < Jsonresponse.achievements.Count; i++)
             {
                 //hacky thing because im kinda retarded and dont want to do proper ui design
@@ -43,7 +46,7 @@ namespace Xbox_Achievement_Unlocker
                 PanelLine.Width = 782;
                 PanelLine.BackColor = Color.Transparent;
                 PanelLine.BorderStyle = BorderStyle.FixedSingle;
-                PanelLine.Location = new System.Drawing.Point(0, 23+newline);
+                PanelLine.Location = new System.Drawing.Point(0, 23 + newline);
                 PanelLine.Name = "Line_" + i.ToString();
                 ALForm.Panel_AchievementList.Controls.Add(PanelLine);
                 var PanelLineElement = ALForm.Panel_AchievementList.Controls.OfType<Panel>().Last();
@@ -67,16 +70,7 @@ namespace Xbox_Achievement_Unlocker
                 AchievementUnlocked.Click += new System.EventHandler(ALForm.SelectAchievement);
                 PanelLineElement.Controls.Add(AchievementUnlocked);
                 AchievementUnlocked.BringToFront();
-                //background for name section
-                Panel AchievementNameBack = new Panel();
-                AchievementNameBack.Enabled = false;
-                AchievementNameBack.BackColor = backcolour;
-                AchievementNameBack.BorderStyle = BorderStyle.None;
-                AchievementNameBack.Location = new System.Drawing.Point(47, 0);
-                AchievementNameBack.Size = new System.Drawing.Size(149, 144);
-                AchievementNameBack.Name = "NameBack_"+Jsonresponse.achievements[i].id.ToString();
-                PanelLineElement.Controls.Add(AchievementNameBack);
-                //foreground for name section
+                //name section
                 Label AchievementName = new Label();
                 AchievementName.BackColor = backcolour;
                 AchievementName.Location = new System.Drawing.Point(47, 0);
@@ -86,16 +80,7 @@ namespace Xbox_Achievement_Unlocker
                 AchievementName.Text = Jsonresponse.achievements[i].name.ToString();
                 PanelLineElement.Controls.Add(AchievementName);
                 AchievementName.BringToFront();
-                //background for description section
-                Panel AchievementDescriptionBack = new Panel();
-                AchievementDescriptionBack.Enabled = false;
-                AchievementDescriptionBack.BackColor = backcolour;
-                AchievementDescriptionBack.BorderStyle = BorderStyle.None;
-                AchievementDescriptionBack.Location = new System.Drawing.Point(198, 0);
-                AchievementDescriptionBack.Size = new System.Drawing.Size(291, 144);
-                AchievementDescriptionBack.Name = "DescriptionBack_" + Jsonresponse.achievements[i].id.ToString();
-                PanelLineElement.Controls.Add(AchievementDescriptionBack);
-                //foreground for description section
+                //description section
                 Label AchievementDescription = new Label();
                 AchievementDescription.BackColor = backcolour;
                 AchievementDescription.Location = new System.Drawing.Point(198, 0);
@@ -105,16 +90,7 @@ namespace Xbox_Achievement_Unlocker
                 AchievementDescription.Text = Jsonresponse.achievements[i].description.ToString();
                 PanelLineElement.Controls.Add(AchievementDescription);
                 AchievementDescription.BringToFront();
-                //background for stats/image section
-                Panel StatsBack = new Panel();
-                StatsBack.Enabled = false;
-                StatsBack.BackColor = backcolour;
-                StatsBack.BorderStyle = BorderStyle.None;
-                StatsBack.Location = new System.Drawing.Point(491, 0);
-                StatsBack.Size = new System.Drawing.Size(292, 144);
-                StatsBack.Name = "StatsBack_" + Jsonresponse.achievements[i].id.ToString();
-                PanelLineElement.Controls.Add(StatsBack);
-                //foreground for stats section
+                //stats section
                 Label Stats = new Label();
                 Stats.BackColor = backcolour;
                 Stats.BorderStyle = BorderStyle.None;
@@ -139,7 +115,7 @@ namespace Xbox_Achievement_Unlocker
                 AchievementImage.LoadAsync(Jsonresponse.achievements[i].mediaAssets[0].url.ToString()+ "&w=280&h=280&format=jpg");
                 AchievementImage.Visible = false;*/
                 //change some ui elements if achievement is already unlocked
-                if (Jsonresponse.achievements[i].progressState.ToString()== "Achieved")
+                if (Jsonresponse.achievements[i].progressState.ToString() == "Achieved")
                 {
                     Stats.Text = "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
                                  "\nRarity: " + Jsonresponse.achievements[i].rarity.currentCategory.ToString() +
@@ -158,7 +134,7 @@ namespace Xbox_Achievement_Unlocker
                 }
             }
         }
-        void SelectAchievement(object sender,EventArgs e)
+        void SelectAchievement(object sender, EventArgs e)
         {
             CheckBox SelectedAchievement = (sender as CheckBox);
             if (SelectedAchievement.Checked)
@@ -192,13 +168,13 @@ namespace Xbox_Achievement_Unlocker
                     box.SendToBack();
                 }
             }
-            
+
         }
 
         void BTN_Unlock_Click(object sender, EventArgs e)
         {
-            var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\""+SCID+ "\",\"titleId\":\""+TitleID+"\",\"userId\":\""+MainWindow.xuid+ "\",\"achievements\":[";
-            
+            var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + SCID + "\",\"titleId\":\"" + TitleID + "\",\"userId\":\"" + MainWindow.xuid + "\",\"achievements\":[";
+
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
@@ -232,7 +208,7 @@ namespace Xbox_Achievement_Unlocker
                     else
                         MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
                 }
-                
+
 
             }
         }
