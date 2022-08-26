@@ -36,6 +36,7 @@ namespace Xbox_Achievement_Unlocker
             this.Header4 = new System.Windows.Forms.TextBox();
             this.BTN_Unlock = new System.Windows.Forms.Button();
             this.CheckBox_Images = new System.Windows.Forms.CheckBox();
+            this.BTN_UnlockAll = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Panel_AchievementList
@@ -107,7 +108,7 @@ namespace Xbox_Achievement_Unlocker
             this.BTN_Unlock.Name = "BTN_Unlock";
             this.BTN_Unlock.Size = new System.Drawing.Size(105, 46);
             this.BTN_Unlock.TabIndex = 6;
-            this.BTN_Unlock.Text = "Unlock Achievements";
+            this.BTN_Unlock.Text = "Unlock Selected Achievements";
             this.BTN_Unlock.UseVisualStyleBackColor = true;
             this.BTN_Unlock.Click += new System.EventHandler(this.BTN_Unlock_Click);
             // 
@@ -124,12 +125,24 @@ namespace Xbox_Achievement_Unlocker
             this.CheckBox_Images.UseVisualStyleBackColor = true;
             this.CheckBox_Images.CheckedChanged += new System.EventHandler(this.CheckBox_Images_CheckedChanged);
             // 
+            // BTN_UnlockAll
+            // 
+            this.BTN_UnlockAll.Location = new System.Drawing.Point(105, 405);
+            this.BTN_UnlockAll.Margin = new System.Windows.Forms.Padding(0);
+            this.BTN_UnlockAll.Name = "BTN_UnlockAll";
+            this.BTN_UnlockAll.Size = new System.Drawing.Size(105, 46);
+            this.BTN_UnlockAll.TabIndex = 8;
+            this.BTN_UnlockAll.Text = "Unlock All Achievements";
+            this.BTN_UnlockAll.UseVisualStyleBackColor = true;
+            this.BTN_UnlockAll.Click += new System.EventHandler(this.BTN_UnlockAll_Click);
+            // 
             // AchievementList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.BTN_UnlockAll);
             this.Controls.Add(this.Header1);
             this.Controls.Add(this.CheckBox_Images);
             this.Controls.Add(this.BTN_Unlock);
@@ -153,5 +166,6 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.TextBox Header3;
         private System.Windows.Forms.Button BTN_Unlock;
         private System.Windows.Forms.CheckBox CheckBox_Images;
+        private System.Windows.Forms.Button BTN_UnlockAll;
     }
 }

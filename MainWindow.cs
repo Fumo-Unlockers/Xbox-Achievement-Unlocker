@@ -26,7 +26,7 @@ namespace Xbox_Achievement_Unlocker
 
         private void BGWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while(true)
+            while (true)
             {
                 if (!m.OpenProcess("XboxAppServices"))
                 {
@@ -78,11 +78,11 @@ namespace Xbox_Achievement_Unlocker
             IEnumerable<long> XauthEndScanList = await m.AoBScan("0D 0A 43 6F 6E 74 65 6E 74 2D 4C 65 6E 67 74 68 3A 20", true, true);
             foreach (var endaddr in XauthEndScanList.ToArray())
             {
-                if (endaddr> XauthStartAddress)
+                if (endaddr > XauthStartAddress)
                 {
                     //find the closest end to the start of xauth to use as length
                     XauthEndAddress = endaddr;
-                    XauthLength = (XauthEndAddress - XauthStartAddress-15);
+                    XauthLength = (XauthEndAddress - XauthStartAddress - 15);
                     break;
                 }
             }
@@ -104,8 +104,9 @@ namespace Xbox_Achievement_Unlocker
         };
         HttpClient client = new HttpClient(handler);
         public static string xuid;
+        public static string responseString;
         AchievementList ALForm = new AchievementList();
-        async void LoadAchievementList(object sender, EventArgs e)
+        public async void LoadAchievementList(object sender, EventArgs e)
         {
             PictureBox SelectedGame = (sender as PictureBox);
 
@@ -119,7 +120,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             try
             {
-                var responseString = await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + SelectedGame.Name.ToString()+"&maxItems=1000");                
+                responseString = await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + SelectedGame.Name.ToString() + "&maxItems=1000");
                 ALForm.PopulateAchievementList(responseString);
             }
             catch (HttpRequestException ex)
@@ -181,9 +182,9 @@ namespace Xbox_Achievement_Unlocker
                 {
                     if (!(Jsonresponse.titles[i].devices.ToString()).Contains("Win32"))
                     {
-                        if (i % 6 == 0 && i != 0)
+                        if (count % 6 == 0 && count != 0)
                         {
-                            newline = +160;
+                            newline = newline + 160;
                             count = 0;
                         }
                         PictureBox GameImage = new PictureBox();
@@ -212,7 +213,7 @@ namespace Xbox_Achievement_Unlocker
                         button.Click += new System.EventHandler(this.testfunc);
                         Panel_Recents.Controls.Add(button);*/
                     }
-                    if (Panel_Recents.Controls.OfType<TextBox>().ToList().Count == 12)
+                    if (Panel_Recents.Controls.OfType<TextBox>().ToList().Count == 60)
                         break;
                 }
             }

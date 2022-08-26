@@ -25,8 +25,10 @@ namespace Xbox_Achievement_Unlocker
         HttpClient client = new HttpClient();
         string SCID;
         string TitleID;
+        List<string> UnlockableAchievements = new List<string>();
         public async void PopulateAchievementList(string AchievementData)
         {
+
             AchievementList ALForm = new AchievementList();
             ALForm.Show();
             var Jsonresponse = (dynamic)(new JObject());
@@ -36,8 +38,17 @@ namespace Xbox_Achievement_Unlocker
             ALForm.SCID = Jsonresponse.achievements[0].serviceConfigId.ToString();
             ;
             ALForm.TitleID = Jsonresponse.achievements[0].titleAssociations[0].id.ToString();
-            if (Jsonresponse.achievements[0].progression.requirements.ToString().Length > 2)
-                MessageBox.Show("This game uses event based achivements and therefore currently does not work", "Warning");
+            for (int i = 0; i < Jsonresponse.achievements.Count; i++)
+            {
+                if (Jsonresponse.achievements[0].progression.requirements.ToString().Length > 2)
+                {
+                    if (Jsonresponse.achievements[0].progression.requirements[0].id != "00000000-0000-0000-0000-000000000000")
+                        MessageBox.Show("This game might use event based achivements and if so currently does not work", "Warning");
+                    break;
+                }
+            }
+
+
             for (int i = 0; i < Jsonresponse.achievements.Count; i++)
             {
                 //hacky thing because im kinda retarded and dont want to do proper ui design
@@ -211,6 +222,59 @@ namespace Xbox_Achievement_Unlocker
 
 
             }
+        }
+
+        private void BTN_UnlockAll_Click(object sender, EventArgs e)
+        {
+
+            var Jsonresponse = (dynamic)JObject.Parse(MainWindow.responseString);
+            //create list for unlock all
+            for (int i = 0; i < Jsonresponse.achievements.Count; i++)
+            {
+                if (Jsonresponse.achievements[i].progressState.ToString() != "Achieved")
+                {
+                    UnlockableAchievements.Add(Jsonresponse.achievements[i].id.ToString());
+                }
+            }
+
+            var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + SCID + "\",\"titleId\":\"" + TitleID + "\",\"userId\":\"" + MainWindow.xuid + "\",\"achievements\":[";
+
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.04.20210610.3 c");
+
+            //foreach (string id in UnlockableAchievements)
+            for (int i = 0; i < UnlockableAchievements.Count; i++)
+            {
+                requestbody = requestbody + "{\"id\":\"" + UnlockableAchievements[i] + "\",\"percentComplete\":\"100\"},";
+
+
+                if (i % 50 == 0 || i == UnlockableAchievements.Count || i != 0)
+                {
+                    requestbody = requestbody.Remove(requestbody.Length - 1) + "]}";
+                    var bodyconverted = new StringContent(requestbody);
+                    try
+                    {
+                        client.PostAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements/" + SCID + "/update", bodyconverted);
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        if ((int)ex.StatusCode == 401)
+                            MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                        else
+                            MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
+                    }
+
+                    requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + SCID + "\",\"titleId\":\"" + TitleID + "\",\"userId\":\"" + MainWindow.xuid + "\",\"achievements\":[";
+                }
+            }
+
         }
     }
 }
