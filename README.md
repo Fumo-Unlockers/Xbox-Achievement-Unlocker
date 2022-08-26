@@ -19,11 +19,20 @@ Can grab achievement data after clicking one of these games
 
 Can populate a list on second form with the achievement data
 
-Can unlock achievements on maybe most games
+Can unlock achievements on non event based games
+
+Can detect which games are event based
 ## Todo
-Change recent games to the players full library
+Figure out event based achivements and how they are unlocked
+
+Rework the main window UI to allow for more games being displayed
+
+Add a dropdown to allow the user to switch between recently played and library games
+
+Change args on the images to load lower quality versions
 
 Add a list of SCIDs the user can pick from for unowned/unplayed games
 
-everything else
+Make loading the achivements list faster for larger lists
 
+Improve the list UI
