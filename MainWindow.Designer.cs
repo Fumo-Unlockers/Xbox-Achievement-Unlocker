@@ -114,9 +114,10 @@ namespace Xbox_Achievement_Unlocker
             // 
             // Panel_Recents
             // 
-            this.Panel_Recents.Location = new System.Drawing.Point(12, 102);
+            this.Panel_Recents.AutoScroll = true;
+            this.Panel_Recents.Location = new System.Drawing.Point(3, 102);
             this.Panel_Recents.Name = "Panel_Recents";
-            this.Panel_Recents.Size = new System.Drawing.Size(776, 336);
+            this.Panel_Recents.Size = new System.Drawing.Size(797, 336);
             this.Panel_Recents.TabIndex = 8;
             // 
             // MainWindow
