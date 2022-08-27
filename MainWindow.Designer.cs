@@ -33,11 +33,11 @@ namespace Xbox_Achievement_Unlocker
             this.LBL_Attached = new System.Windows.Forms.Label();
             this.TXT_Xauth = new System.Windows.Forms.TextBox();
             this.BTN_GrabXauth = new System.Windows.Forms.Button();
-            this.LBL_XUID = new System.Windows.Forms.Label();
-            this.BTN_Info = new System.Windows.Forms.Button();
             this.LBL_Gamertag = new System.Windows.Forms.Label();
             this.LBL_Gamerscore = new System.Windows.Forms.Label();
             this.Panel_Recents = new System.Windows.Forms.Panel();
+            this.BTN_SpoofGame = new System.Windows.Forms.Button();
+            this.TXT_Xuid = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // BGWorker
@@ -59,40 +59,24 @@ namespace Xbox_Achievement_Unlocker
             // 
             // TXT_Xauth
             // 
+            this.TXT_Xauth.BackColor = System.Drawing.SystemColors.Control;
+            this.TXT_Xauth.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TXT_Xauth.Location = new System.Drawing.Point(12, 27);
             this.TXT_Xauth.Name = "TXT_Xauth";
-            this.TXT_Xauth.Size = new System.Drawing.Size(158, 23);
+            this.TXT_Xauth.Size = new System.Drawing.Size(158, 16);
             this.TXT_Xauth.TabIndex = 1;
             this.TXT_Xauth.Text = "xauth:";
             // 
             // BTN_GrabXauth
             // 
-            this.BTN_GrabXauth.Location = new System.Drawing.Point(12, 56);
+            this.BTN_GrabXauth.Enabled = false;
+            this.BTN_GrabXauth.Location = new System.Drawing.Point(12, 53);
             this.BTN_GrabXauth.Name = "BTN_GrabXauth";
-            this.BTN_GrabXauth.Size = new System.Drawing.Size(108, 23);
+            this.BTN_GrabXauth.Size = new System.Drawing.Size(158, 46);
             this.BTN_GrabXauth.TabIndex = 2;
-            this.BTN_GrabXauth.Text = "Grab XAUTH";
+            this.BTN_GrabXauth.Text = "Grab All";
             this.BTN_GrabXauth.UseVisualStyleBackColor = true;
             this.BTN_GrabXauth.Click += new System.EventHandler(this.BTN_GrabXauth_Click);
-            // 
-            // LBL_XUID
-            // 
-            this.LBL_XUID.AutoSize = true;
-            this.LBL_XUID.Location = new System.Drawing.Point(176, 84);
-            this.LBL_XUID.Name = "LBL_XUID";
-            this.LBL_XUID.Size = new System.Drawing.Size(39, 15);
-            this.LBL_XUID.TabIndex = 4;
-            this.LBL_XUID.Text = "XUID: ";
-            // 
-            // BTN_Info
-            // 
-            this.BTN_Info.Location = new System.Drawing.Point(666, 27);
-            this.BTN_Info.Name = "BTN_Info";
-            this.BTN_Info.Size = new System.Drawing.Size(122, 23);
-            this.BTN_Info.TabIndex = 5;
-            this.BTN_Info.Text = "Grab Info";
-            this.BTN_Info.UseVisualStyleBackColor = true;
-            this.BTN_Info.Click += new System.EventHandler(this.BTN_Info_Click);
             // 
             // LBL_Gamertag
             // 
@@ -106,7 +90,8 @@ namespace Xbox_Achievement_Unlocker
             // LBL_Gamerscore
             // 
             this.LBL_Gamerscore.AutoSize = true;
-            this.LBL_Gamerscore.Location = new System.Drawing.Point(176, 56);
+            this.LBL_Gamerscore.Location = new System.Drawing.Point(176, 53);
+            this.LBL_Gamerscore.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.LBL_Gamerscore.Name = "LBL_Gamerscore";
             this.LBL_Gamerscore.Size = new System.Drawing.Size(76, 15);
             this.LBL_Gamerscore.TabIndex = 7;
@@ -120,16 +105,37 @@ namespace Xbox_Achievement_Unlocker
             this.Panel_Recents.Size = new System.Drawing.Size(797, 336);
             this.Panel_Recents.TabIndex = 8;
             // 
+            // BTN_SpoofGame
+            // 
+            this.BTN_SpoofGame.Enabled = false;
+            this.BTN_SpoofGame.Location = new System.Drawing.Point(630, 53);
+            this.BTN_SpoofGame.Name = "BTN_SpoofGame";
+            this.BTN_SpoofGame.Size = new System.Drawing.Size(158, 46);
+            this.BTN_SpoofGame.TabIndex = 9;
+            this.BTN_SpoofGame.Text = "Open Game Spoofer";
+            this.BTN_SpoofGame.UseVisualStyleBackColor = true;
+            this.BTN_SpoofGame.Click += new System.EventHandler(this.BTN_SpoofGame_Click);
+            // 
+            // TXT_Xuid
+            // 
+            this.TXT_Xuid.BackColor = System.Drawing.SystemColors.Control;
+            this.TXT_Xuid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TXT_Xuid.Location = new System.Drawing.Point(176, 80);
+            this.TXT_Xuid.Name = "TXT_Xuid";
+            this.TXT_Xuid.Size = new System.Drawing.Size(158, 16);
+            this.TXT_Xuid.TabIndex = 10;
+            this.TXT_Xuid.Text = "XUID:";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.BTN_SpoofGame);
+            this.Controls.Add(this.TXT_Xuid);
             this.Controls.Add(this.Panel_Recents);
             this.Controls.Add(this.LBL_Gamerscore);
             this.Controls.Add(this.LBL_Gamertag);
-            this.Controls.Add(this.BTN_Info);
-            this.Controls.Add(this.LBL_XUID);
             this.Controls.Add(this.BTN_GrabXauth);
             this.Controls.Add(this.TXT_Xauth);
             this.Controls.Add(this.LBL_Attached);
@@ -147,11 +153,11 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.Label LBL_Attached;
         private System.Windows.Forms.TextBox TXT_Xauth;
         private System.Windows.Forms.Button BTN_GrabXauth;
-        private System.Windows.Forms.Label LBL_XUID;
-        private System.Windows.Forms.Button BTN_Info;
         private System.Windows.Forms.Label LBL_Gamertag;
         private System.Windows.Forms.Label LBL_Gamerscore;
         private System.Windows.Forms.Panel Panel_Recents;
+        private System.Windows.Forms.Button BTN_SpoofGame;
+        private System.Windows.Forms.TextBox TXT_Xuid;
     }
 }
 
