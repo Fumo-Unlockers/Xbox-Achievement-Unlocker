@@ -51,11 +51,14 @@ namespace Xbox_Achievement_Unlocker
             {
                 LBL_Attached.Text = "Attached to: XboxAppServices.exe (" + m.GetProcIdFromName("XboxAppServices").ToString() + ")";
                 LBL_Attached.ForeColor = Color.Green;
+                BTN_GrabXauth.Enabled = true;
             }
             if (!attached)
             {
                 LBL_Attached.Text = "Not attached to Xbox App";
                 LBL_Attached.ForeColor = Color.Red;
+                BTN_GrabXauth.Enabled = false;
+                BTN_SpoofGame.Enabled = false;
             }
         }
 
@@ -97,6 +100,7 @@ namespace Xbox_Achievement_Unlocker
                 MessageBox.Show("something with the xauth scan did a fucky wucky");
             }
 
+            LoadInfo();
         }
         static HttpClientHandler handler = new HttpClientHandler()
         {
@@ -134,7 +138,7 @@ namespace Xbox_Achievement_Unlocker
 
         }
 
-        async void BTN_Info_Click(object sender, EventArgs e)
+        async void LoadInfo()
         {
             //required headers for a request to go through. (just taken from a legitimate request to profile.xboxlive.com)
             client.DefaultRequestHeaders.Clear();
@@ -153,8 +157,9 @@ namespace Xbox_Achievement_Unlocker
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
                 LBL_Gamertag.Text = "Gamertag: " + Jsonresponse.profileUsers[0].settings[0].value;
                 LBL_Gamerscore.Text = "Gamerscore: " + Jsonresponse.profileUsers[0].settings[1].value;
-                LBL_XUID.Text = "XUID: " + Jsonresponse.profileUsers[0].id;
+                TXT_Xuid.Text = "XUID: " + Jsonresponse.profileUsers[0].id;
                 xuid = Jsonresponse.profileUsers[0].id;
+                BTN_SpoofGame.Enabled = true;
             }
             catch (HttpRequestException ex)
             {
@@ -224,6 +229,12 @@ namespace Xbox_Achievement_Unlocker
                 else
                     MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
             }
+        }
+
+        private void BTN_SpoofGame_Click(object sender, EventArgs e)
+        {
+            Game_Spoofer SpoofForm = new Game_Spoofer();
+            SpoofForm.Show();
         }
     }
 }
