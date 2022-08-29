@@ -1,5 +1,6 @@
 # Xbox Achievement Unlocker
 This is a tool designed to unlock achievements ~~ideally like Steam Achivements Manager~~ on microsoft/xbox games.
+[Discord server](https://discord.gg/ugDvSw7cns)
 
 ## Why
 After doing not that much research I couldn't find any single achievement unlockers and found a bunch of paid services offering unlock tools or services to unlock a full game's achievements on your account.
