@@ -125,10 +125,13 @@ namespace Xbox_Achievement_Unlocker
             try
             {
                 responseString = await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + SelectedGame.Name.ToString() + "&maxItems=1000");
+                AchievementList ALForm = new AchievementList();
+                ALForm.Show();
                 ALForm.PopulateAchievementList(responseString);
             }
             catch (HttpRequestException ex)
             {
+
                 if ((int)ex.StatusCode == 401)
                     MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
                 else
@@ -185,7 +188,7 @@ namespace Xbox_Achievement_Unlocker
                 var newline = 0;
                 for (int i = 0; i < Jsonresponse.titles.Count; i++)
                 {
-                    if (!(Jsonresponse.titles[i].devices.ToString()).Contains("Win32"))
+                    if (!(Jsonresponse.titles[i].devices.ToString()).Contains("Win32") && !(Jsonresponse.titles[i].devices.ToString().Contains("Xbox360")))
                     {
                         if (count % 6 == 0 && count != 0)
                         {
@@ -208,15 +211,6 @@ namespace Xbox_Achievement_Unlocker
                         textbox.Text = Jsonresponse.titles[i].name;
                         Panel_Recents.Controls.Add(textbox);
                         count = count + 1;
-
-                        /*Create the dynamic Button to remove the TextBox.
-                        Button button = new Button();
-                        button.Location = new System.Drawing.Point(95, 25 * count);
-                        button.Size = new System.Drawing.Size(60, 20);
-                        button.Name = "btnDelete_" + (count + 1);
-                        button.Text = "Delete";
-                        button.Click += new System.EventHandler(this.testfunc);
-                        Panel_Recents.Controls.Add(button);*/
                     }
                     if (Panel_Recents.Controls.OfType<TextBox>().ToList().Count == 60)
                         break;

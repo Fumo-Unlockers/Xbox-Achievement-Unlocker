@@ -29,81 +29,21 @@ namespace Xbox_Achievement_Unlocker
         /// </summary>
         private void InitializeComponent()
         {
-            this.Panel_AchievementList = new System.Windows.Forms.Panel();
-            this.Header3 = new System.Windows.Forms.TextBox();
-            this.Header2 = new System.Windows.Forms.TextBox();
-            this.Header1 = new System.Windows.Forms.TextBox();
-            this.Header4 = new System.Windows.Forms.TextBox();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.BTN_Unlock = new System.Windows.Forms.Button();
-            this.CheckBox_Images = new System.Windows.Forms.CheckBox();
             this.BTN_UnlockAll = new System.Windows.Forms.Button();
+            this.DGV_AchievementList = new System.Windows.Forms.DataGridView();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CL_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CL_Stats = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CL_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_AchievementList)).BeginInit();
             this.SuspendLayout();
-            // 
-            // Panel_AchievementList
-            // 
-            this.Panel_AchievementList.AutoScroll = true;
-            this.Panel_AchievementList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.Panel_AchievementList.Location = new System.Drawing.Point(0, 0);
-            this.Panel_AchievementList.Margin = new System.Windows.Forms.Padding(0);
-            this.Panel_AchievementList.Name = "Panel_AchievementList";
-            this.Panel_AchievementList.Size = new System.Drawing.Size(800, 405);
-            this.Panel_AchievementList.TabIndex = 0;
-            // 
-            // Header3
-            // 
-            this.Header3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.Header3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Header3.Location = new System.Drawing.Point(198, 0);
-            this.Header3.Margin = new System.Windows.Forms.Padding(0);
-            this.Header3.Name = "Header3";
-            this.Header3.ReadOnly = true;
-            this.Header3.Size = new System.Drawing.Size(293, 23);
-            this.Header3.TabIndex = 5;
-            this.Header3.Text = "Description";
-            this.Header3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Header2
-            // 
-            this.Header2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.Header2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Header2.Location = new System.Drawing.Point(47, 0);
-            this.Header2.Margin = new System.Windows.Forms.Padding(0);
-            this.Header2.Name = "Header2";
-            this.Header2.ReadOnly = true;
-            this.Header2.Size = new System.Drawing.Size(151, 23);
-            this.Header2.TabIndex = 3;
-            this.Header2.Text = "Name";
-            this.Header2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Header1
-            // 
-            this.Header1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.Header1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Header1.Location = new System.Drawing.Point(0, 0);
-            this.Header1.Margin = new System.Windows.Forms.Padding(0);
-            this.Header1.Name = "Header1";
-            this.Header1.ReadOnly = true;
-            this.Header1.Size = new System.Drawing.Size(47, 23);
-            this.Header1.TabIndex = 2;
-            this.Header1.Text = "Unlock";
-            this.Header1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Header4
-            // 
-            this.Header4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.Header4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Header4.Location = new System.Drawing.Point(491, 0);
-            this.Header4.Margin = new System.Windows.Forms.Padding(0);
-            this.Header4.Name = "Header4";
-            this.Header4.ReadOnly = true;
-            this.Header4.Size = new System.Drawing.Size(292, 23);
-            this.Header4.TabIndex = 4;
-            this.Header4.Text = "Stats";
-            this.Header4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // BTN_Unlock
             // 
-            this.BTN_Unlock.Location = new System.Drawing.Point(0, 405);
+            this.BTN_Unlock.Location = new System.Drawing.Point(0, 395);
             this.BTN_Unlock.Margin = new System.Windows.Forms.Padding(0);
             this.BTN_Unlock.Name = "BTN_Unlock";
             this.BTN_Unlock.Size = new System.Drawing.Size(105, 46);
@@ -112,22 +52,9 @@ namespace Xbox_Achievement_Unlocker
             this.BTN_Unlock.UseVisualStyleBackColor = true;
             this.BTN_Unlock.Click += new System.EventHandler(this.BTN_Unlock_Click);
             // 
-            // CheckBox_Images
-            // 
-            this.CheckBox_Images.AutoSize = true;
-            this.CheckBox_Images.Enabled = false;
-            this.CheckBox_Images.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.CheckBox_Images.Location = new System.Drawing.Point(435, 416);
-            this.CheckBox_Images.Name = "CheckBox_Images";
-            this.CheckBox_Images.Size = new System.Drawing.Size(365, 24);
-            this.CheckBox_Images.TabIndex = 7;
-            this.CheckBox_Images.Text = "Show images instead of stats (disabled until I fix it)";
-            this.CheckBox_Images.UseVisualStyleBackColor = true;
-            this.CheckBox_Images.CheckedChanged += new System.EventHandler(this.CheckBox_Images_CheckedChanged);
-            // 
             // BTN_UnlockAll
             // 
-            this.BTN_UnlockAll.Location = new System.Drawing.Point(105, 405);
+            this.BTN_UnlockAll.Location = new System.Drawing.Point(105, 395);
             this.BTN_UnlockAll.Margin = new System.Windows.Forms.Padding(0);
             this.BTN_UnlockAll.Name = "BTN_UnlockAll";
             this.BTN_UnlockAll.Size = new System.Drawing.Size(105, 46);
@@ -136,36 +63,103 @@ namespace Xbox_Achievement_Unlocker
             this.BTN_UnlockAll.UseVisualStyleBackColor = true;
             this.BTN_UnlockAll.Click += new System.EventHandler(this.BTN_UnlockAll_Click);
             // 
+            // DGV_AchievementList
+            // 
+            this.DGV_AchievementList.AllowUserToAddRows = false;
+            this.DGV_AchievementList.AllowUserToDeleteRows = false;
+            this.DGV_AchievementList.AllowUserToResizeColumns = false;
+            this.DGV_AchievementList.AllowUserToResizeRows = false;
+            this.DGV_AchievementList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.DGV_AchievementList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DGV_AchievementList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_AchievementList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewCheckBoxColumn1,
+            this.dataGridViewTextBoxColumn1,
+            this.CL_Description,
+            this.CL_Stats,
+            this.CL_ID});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DGV_AchievementList.DefaultCellStyle = dataGridViewCellStyle1;
+            this.DGV_AchievementList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
+            this.DGV_AchievementList.Location = new System.Drawing.Point(-41, -3);
+            this.DGV_AchievementList.Name = "DGV_AchievementList";
+            this.DGV_AchievementList.RowTemplate.Height = 25;
+            this.DGV_AchievementList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.DGV_AchievementList.ShowCellErrors = false;
+            this.DGV_AchievementList.ShowCellToolTips = false;
+            this.DGV_AchievementList.ShowEditingIcon = false;
+            this.DGV_AchievementList.ShowRowErrors = false;
+            this.DGV_AchievementList.Size = new System.Drawing.Size(898, 395);
+            this.DGV_AchievementList.TabIndex = 10;
+            this.DGV_AchievementList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.FalseValue = "0";
+            this.dataGridViewCheckBoxColumn1.HeaderText = "Unlock";
+            this.dataGridViewCheckBoxColumn1.IndeterminateValue = "2";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            this.dataGridViewCheckBoxColumn1.TrueValue = "1";
+            this.dataGridViewCheckBoxColumn1.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Name";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // CL_Description
+            // 
+            this.CL_Description.HeaderText = "Description";
+            this.CL_Description.Name = "CL_Description";
+            this.CL_Description.ReadOnly = true;
+            this.CL_Description.Width = 300;
+            // 
+            // CL_Stats
+            // 
+            this.CL_Stats.HeaderText = "Stats";
+            this.CL_Stats.Name = "CL_Stats";
+            this.CL_Stats.ReadOnly = true;
+            this.CL_Stats.Width = 300;
+            // 
+            // CL_ID
+            // 
+            this.CL_ID.HeaderText = "ID";
+            this.CL_ID.Name = "CL_ID";
+            this.CL_ID.ReadOnly = true;
+            this.CL_ID.Width = 40;
+            // 
             // AchievementList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(856, 440);
+            this.Controls.Add(this.DGV_AchievementList);
             this.Controls.Add(this.BTN_UnlockAll);
-            this.Controls.Add(this.Header1);
-            this.Controls.Add(this.CheckBox_Images);
             this.Controls.Add(this.BTN_Unlock);
-            this.Controls.Add(this.Header3);
-            this.Controls.Add(this.Header4);
-            this.Controls.Add(this.Header2);
-            this.Controls.Add(this.Panel_AchievementList);
             this.Name = "AchievementList";
-            this.Text = "AchievementList";
+            this.Text = "Achievement List";
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_AchievementList)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel Panel_AchievementList;
-        private System.Windows.Forms.TextBox Header1;
-        private System.Windows.Forms.TextBox Header2;
-        private System.Windows.Forms.TextBox Header4;
-        private System.Windows.Forms.TextBox Header3;
         private System.Windows.Forms.Button BTN_Unlock;
-        private System.Windows.Forms.CheckBox CheckBox_Images;
         private System.Windows.Forms.Button BTN_UnlockAll;
+        private System.Windows.Forms.DataGridView DGV_AchievementList;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Stats;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CL_ID;
     }
 }
