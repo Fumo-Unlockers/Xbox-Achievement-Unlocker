@@ -90,6 +90,7 @@ namespace Xbox_Achievement_Unlocker
             this.DGV_AchievementList.Location = new System.Drawing.Point(-41, -3);
             this.DGV_AchievementList.Name = "DGV_AchievementList";
             this.DGV_AchievementList.RowTemplate.Height = 25;
+            this.DGV_AchievementList.RowTemplate.ReadOnly = true;
             this.DGV_AchievementList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.DGV_AchievementList.ShowCellErrors = false;
             this.DGV_AchievementList.ShowCellToolTips = false;
