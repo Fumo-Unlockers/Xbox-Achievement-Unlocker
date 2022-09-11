@@ -32,7 +32,13 @@ namespace Xbox_Achievement_Unlocker
             Jsonresponse = (dynamic)JObject.Parse(AchievementData);
             var newline = 0;
             var backcolour = Color.Silver;
-            try
+            if (Jsonresponse.achievements.Count == 0)
+            {
+                Close();
+                MessageBox.Show("this game has no achivements", "fucky wucky");
+
+            }
+            else
             {
                 SCID = Jsonresponse.achievements[0].serviceConfigId.ToString();
                 TitleID = Jsonresponse.achievements[0].titleAssociations[0].id.ToString();
@@ -50,42 +56,63 @@ namespace Xbox_Achievement_Unlocker
                 {
                     if (Jsonresponse.achievements[i].progressState.ToString() == "Achieved")
                     {
-                        DGV_AchievementList.Rows.Add(2,
-                            Jsonresponse.achievements[i].name.ToString(),
-                            Jsonresponse.achievements[i].description.ToString(),
-                            "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
-                            "\nRarity: " + Jsonresponse.achievements[i].rarity.currentCategory.ToString() +
-                            "\nPlayer Percentage: " + Jsonresponse.achievements[i].rarity.currentPercentage.ToString() + "%" +
-                            "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
-                            "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() +
-                            "\nUnlock Time: " + Jsonresponse.achievements[i].progression.timeUnlocked.ToString(),
-                            Jsonresponse.achievements[i].id.ToString()
-                        );
+                        try
+                        {
+
+
+                            DGV_AchievementList.Rows.Add(2,
+                                Jsonresponse.achievements[i].name.ToString(),
+                                Jsonresponse.achievements[i].description.ToString(),
+                                "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
+                                "\nRarity: " + Jsonresponse.achievements[i].rarity.currentCategory.ToString() +
+                                "\nPlayer Percentage: " +
+                                Jsonresponse.achievements[i].rarity.currentPercentage.ToString() + "%" +
+                                "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
+                                "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() +
+                                "\nUnlock Time: " + Jsonresponse.achievements[i].progression.timeUnlocked.ToString(),
+                                Jsonresponse.achievements[i].id.ToString()
+                            );
+                        }
+                        catch
+                        {
+                            DGV_AchievementList.Rows.Add(0,
+                                Jsonresponse.achievements[i].name.ToString(),
+                                Jsonresponse.achievements[i].description.ToString(),
+                                "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
+                                Jsonresponse.achievements[i].id.ToString()
+                            );
+                        }
                     }
                     else
                     {
-                        DGV_AchievementList.Rows.Add(0,
-                            Jsonresponse.achievements[i].name.ToString(),
-                            Jsonresponse.achievements[i].description.ToString(),
-                            "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
-                            "\nRarity: " + Jsonresponse.achievements[i].rarity.currentCategory.ToString() +
-                            "\nPlayer Percentage: " + Jsonresponse.achievements[i].rarity.currentPercentage.ToString() +
-                            "%" +
-                            "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
-                            "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() + "\n",
-                            Jsonresponse.achievements[i].id.ToString()
-                        );
+                        try
+                        {
+                            DGV_AchievementList.Rows.Add(0,
+                                Jsonresponse.achievements[i].name.ToString(),
+                                Jsonresponse.achievements[i].description.ToString(),
+                                "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
+                                "\nRarity: " + Jsonresponse.achievements[i].rarity.currentCategory.ToString() +
+                                "\nPlayer Percentage: " +
+                                Jsonresponse.achievements[i].rarity.currentPercentage.ToString() +
+                                "%" +
+                                "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
+                                "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() + "\n",
+                                Jsonresponse.achievements[i].id.ToString()
+                            );
+                        }
+                        catch
+                        {
+                            DGV_AchievementList.Rows.Add(0,
+                                Jsonresponse.achievements[i].name.ToString(),
+                                Jsonresponse.achievements[i].description.ToString(),
+                                "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
+                                Jsonresponse.achievements[i].id.ToString()
+                            );
+                        }
+
                     }
                 }
             }
-            catch
-            {
-                MessageBox.Show("this game has no achivements", "fucky wucky");
-                Close();
-            }
-
-
-
         }
         void SelectAchievement(object sender, EventArgs e)
         {
