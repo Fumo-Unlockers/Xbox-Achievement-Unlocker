@@ -38,6 +38,7 @@ namespace Xbox_Achievement_Unlocker
             this.CL_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CL_Stats = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CL_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Check_UnlockAll = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_AchievementList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,6 +55,7 @@ namespace Xbox_Achievement_Unlocker
             // 
             // BTN_UnlockAll
             // 
+            this.BTN_UnlockAll.Enabled = false;
             this.BTN_UnlockAll.Location = new System.Drawing.Point(105, 395);
             this.BTN_UnlockAll.Margin = new System.Windows.Forms.Padding(0);
             this.BTN_UnlockAll.Name = "BTN_UnlockAll";
@@ -137,12 +139,24 @@ namespace Xbox_Achievement_Unlocker
             this.CL_ID.ReadOnly = true;
             this.CL_ID.Width = 40;
             // 
+            // Check_UnlockAll
+            // 
+            this.Check_UnlockAll.AutoSize = true;
+            this.Check_UnlockAll.Location = new System.Drawing.Point(213, 410);
+            this.Check_UnlockAll.Name = "Check_UnlockAll";
+            this.Check_UnlockAll.Size = new System.Drawing.Size(113, 19);
+            this.Check_UnlockAll.TabIndex = 11;
+            this.Check_UnlockAll.Text = "Allow Unlock All";
+            this.Check_UnlockAll.UseVisualStyleBackColor = true;
+            this.Check_UnlockAll.CheckedChanged += new System.EventHandler(this.Check_UnlockAll_CheckedChanged);
+            // 
             // AchievementList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(856, 440);
+            this.Controls.Add(this.Check_UnlockAll);
             this.Controls.Add(this.DGV_AchievementList);
             this.Controls.Add(this.BTN_UnlockAll);
             this.Controls.Add(this.BTN_Unlock);
@@ -150,6 +164,7 @@ namespace Xbox_Achievement_Unlocker
             this.Text = "Achievement List";
             ((System.ComponentModel.ISupportInitialize)(this.DGV_AchievementList)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -162,5 +177,6 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.DataGridViewTextBoxColumn CL_Description;
         private System.Windows.Forms.DataGridViewTextBoxColumn CL_Stats;
         private System.Windows.Forms.DataGridViewTextBoxColumn CL_ID;
+        private System.Windows.Forms.CheckBox Check_UnlockAll;
     }
 }

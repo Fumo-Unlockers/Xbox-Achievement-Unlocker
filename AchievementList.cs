@@ -239,5 +239,17 @@ namespace Xbox_Achievement_Unlocker
             }
 
         }
+
+        private void Check_UnlockAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Check_UnlockAll.Checked)
+            {
+                BTN_UnlockAll.Enabled = true;
+            }
+            else
+            {
+                BTN_UnlockAll.Enabled = false;
+            }
+        }
     }
 }
