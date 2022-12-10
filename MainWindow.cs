@@ -94,13 +94,14 @@ namespace Xbox_Achievement_Unlocker
             {
                 xauthtoken = Encoding.ASCII.GetString(m.ReadBytes(XauthStartAddressHex, XauthLength));
                 TXT_Xauth.Text = "xauth: " + xauthtoken;
+                LoadInfo();
+                BTN_GrabXauth.Text = "Refresh Info";
             }
             catch
             {
-                MessageBox.Show("something with the xauth scan did a fucky wucky");
+                MessageBox.Show("Couldnt find xauth. Make sure you are signed in on the new xbox app\nTry closing xboxappservices.exe from task manager or restarting your PC");
             }
 
-            LoadInfo();
         }
         static HttpClientHandler handler = new HttpClientHandler()
         {
@@ -143,6 +144,7 @@ namespace Xbox_Achievement_Unlocker
 
         async void LoadInfo()
         {
+            Panel_Recents.Controls.Clear();
             //required headers for a request to go through. (just taken from a legitimate request to profile.xboxlive.com)
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
@@ -192,14 +194,14 @@ namespace Xbox_Achievement_Unlocker
                     {
                         if (count % 6 == 0 && count != 0)
                         {
-                            newline = newline + 160;
+                            newline = newline + 180;
                             count = 0;
                         }
                         PictureBox GameImage = new PictureBox();
                         GameImage.Location = new System.Drawing.Point(130 * count, 25 + newline);
                         GameImage.Size = new System.Drawing.Size(125, 125);
                         GameImage.SizeMode = PictureBoxSizeMode.StretchImage;
-                        GameImage.ImageLocation = Jsonresponse.titles[i].displayImage.ToString();
+                        GameImage.ImageLocation = Jsonresponse.titles[i].displayImage.ToString() + "?w=512&h=512&format=jpg";
                         GameImage.Name = Jsonresponse.titles[i].titleId.ToString();
                         GameImage.Click += new System.EventHandler(this.LoadAchievementList);
                         Panel_Recents.Controls.Add(GameImage);
@@ -210,10 +212,14 @@ namespace Xbox_Achievement_Unlocker
                         textbox.Name = "txt_" + (count + 1);
                         textbox.Text = Jsonresponse.titles[i].name;
                         Panel_Recents.Controls.Add(textbox);
+                        TextBox titleidBox = new TextBox();
+                        titleidBox.Location = new System.Drawing.Point(130 * count, 170 + newline);
+                        titleidBox.Size = new System.Drawing.Size(125, 20);
+                        titleidBox.Name = "txt_" + Jsonresponse.titles[i].modernTitleId;
+                        titleidBox.Text = "TitleID: " + Jsonresponse.titles[i].modernTitleId;
+                        Panel_Recents.Controls.Add(titleidBox);
                         count = count + 1;
                     }
-                    if (Panel_Recents.Controls.OfType<TextBox>().ToList().Count == 60)
-                        break;
                 }
             }
             catch (HttpRequestException ex)

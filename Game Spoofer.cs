@@ -47,6 +47,7 @@ namespace Xbox_Achievement_Unlocker
 
             TXT_SpoofedGame.Text = "Currently Spoofing: " + jsonresponse.titles[0].name.ToString();
             BTN_SpoofStop.Enabled = true;
+            TXT_TID.Enabled = false;
             Task.Run(() => Spoofing());
         }
 
@@ -89,6 +90,7 @@ namespace Xbox_Achievement_Unlocker
             active = false;
             stopwatch.Stop();
             stopwatch.Reset();
+            TXT_TID.Enabled = true;
             LBL_Timer.Text = "For: N/A";
             TXT_SpoofedGame.Text = "Currently Spoofing: N/A";
         }
