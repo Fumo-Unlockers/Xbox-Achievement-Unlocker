@@ -25,6 +25,7 @@ namespace Xbox_Achievement_Unlocker
         HttpClient client = new HttpClient();
         string SCID;
         string TitleID;
+        string responseString;
         List<string> UnlockableAchievements = new List<string>();
         public async void PopulateAchievementList(string AchievementData)
         {
@@ -250,6 +251,21 @@ namespace Xbox_Achievement_Unlocker
             {
                 BTN_UnlockAll.Enabled = false;
             }
+        }
+
+        async void BTN_ALRefresh_Click(object sender, EventArgs e)
+        {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            DGV_AchievementList.Rows.Clear();
+            responseString = await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements?titleId=" + TitleID + "&maxItems=1000");
+            PopulateAchievementList(responseString);
         }
     }
 }
