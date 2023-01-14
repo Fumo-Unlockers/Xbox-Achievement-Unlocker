@@ -23,6 +23,13 @@ namespace Xbox_Achievement_Unlocker
         string filter2;
         string filter3;
         string filter4;
+
+        static HttpClientHandler handler = new HttpClientHandler()
+        {
+            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
+        };
+        HttpClient client = new HttpClient(handler);
+
         public MainWindow()
         {
             InitializeComponent();
@@ -44,10 +51,32 @@ namespace Xbox_Achievement_Unlocker
             }
         }
 
-        private void MainWindow_Shown(object sender, EventArgs e)
+        async void MainWindow_Shown(object sender, EventArgs e)
         {
             BGWorker.RunWorkerAsync();
             LST_GameFilter.SelectedIndex = 2;
+            try
+            {
+                Updater Updater = new Updater();
+                //update checker
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("Host", "api.github.com");
+                client.DefaultRequestHeaders.Add("User-Agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
+                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
+                client.DefaultRequestHeaders.Add("Accept",
+                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+                var responseString =
+                    await client.GetStringAsync("https://api.github.com/repos/ItsLogic/Xbox-Achievement-unlocker/releases");
+                var Jsonresponse = (dynamic)(new JArray());
+                Jsonresponse = (dynamic)JArray.Parse(responseString);
+                if (Jsonresponse[0].tag_name.ToString() != "1.5")
+                    Updater.Show();
+            }
+            catch
+            {
+                MessageBox.Show("Failed to check for updates");
+            }
         }
 
         private void BGWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -109,11 +138,8 @@ namespace Xbox_Achievement_Unlocker
             }
 
         }
-        static HttpClientHandler handler = new HttpClientHandler()
-        {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
-        };
-        HttpClient client = new HttpClient(handler);
+
+
         public static string xuid;
         public static string responseString;
         AchievementList ALForm = new AchievementList();
