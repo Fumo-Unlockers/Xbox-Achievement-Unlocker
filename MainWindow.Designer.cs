@@ -38,6 +38,9 @@ namespace Xbox_Achievement_Unlocker
             this.Panel_Recents = new System.Windows.Forms.Panel();
             this.BTN_SpoofGame = new System.Windows.Forms.Button();
             this.TXT_Xuid = new System.Windows.Forms.TextBox();
+            this.BTN_SaveToFile = new System.Windows.Forms.Button();
+            this.LST_GameFilter = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BGWorker
@@ -126,11 +129,48 @@ namespace Xbox_Achievement_Unlocker
             this.TXT_Xuid.TabIndex = 10;
             this.TXT_Xuid.Text = "XUID:";
             // 
+            // BTN_SaveToFile
+            // 
+            this.BTN_SaveToFile.Enabled = false;
+            this.BTN_SaveToFile.Location = new System.Drawing.Point(630, 1);
+            this.BTN_SaveToFile.Name = "BTN_SaveToFile";
+            this.BTN_SaveToFile.Size = new System.Drawing.Size(158, 46);
+            this.BTN_SaveToFile.TabIndex = 11;
+            this.BTN_SaveToFile.Text = "Save games list to file";
+            this.BTN_SaveToFile.UseVisualStyleBackColor = true;
+            this.BTN_SaveToFile.Click += new System.EventHandler(this.BTN_SaveToFile_Click);
+            // 
+            // LST_GameFilter
+            // 
+            this.LST_GameFilter.FormattingEnabled = true;
+            this.LST_GameFilter.Items.AddRange(new object[] {
+            "All",
+            "Console Only",
+            "New Gen",
+            "Win32"});
+            this.LST_GameFilter.Location = new System.Drawing.Point(503, 73);
+            this.LST_GameFilter.Name = "LST_GameFilter";
+            this.LST_GameFilter.Size = new System.Drawing.Size(121, 23);
+            this.LST_GameFilter.TabIndex = 12;
+            this.LST_GameFilter.SelectedIndexChanged += new System.EventHandler(this.LST_GameFilter_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(404, 76);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(96, 15);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Filter Games List:";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.LST_GameFilter);
+            this.Controls.Add(this.BTN_SaveToFile);
             this.Controls.Add(this.BTN_SpoofGame);
             this.Controls.Add(this.TXT_Xuid);
             this.Controls.Add(this.Panel_Recents);
@@ -158,6 +198,9 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.Panel Panel_Recents;
         private System.Windows.Forms.Button BTN_SpoofGame;
         private System.Windows.Forms.TextBox TXT_Xuid;
+        private System.Windows.Forms.Button BTN_SaveToFile;
+        private System.Windows.Forms.ComboBox LST_GameFilter;
+        private System.Windows.Forms.Label label1;
     }
 }
 

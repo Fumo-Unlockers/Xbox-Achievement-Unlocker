@@ -19,6 +19,10 @@ namespace Xbox_Achievement_Unlocker
     {
         public Mem m = new Mem();
         bool attached = false;
+        string filter1;
+        string filter2;
+        string filter3;
+        string filter4;
         public MainWindow()
         {
             InitializeComponent();
@@ -43,6 +47,7 @@ namespace Xbox_Achievement_Unlocker
         private void MainWindow_Shown(object sender, EventArgs e)
         {
             BGWorker.RunWorkerAsync();
+            LST_GameFilter.SelectedIndex = 2;
         }
 
         private void BGWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -59,6 +64,7 @@ namespace Xbox_Achievement_Unlocker
                 LBL_Attached.ForeColor = Color.Red;
                 BTN_GrabXauth.Enabled = false;
                 BTN_SpoofGame.Enabled = false;
+                BTN_SaveToFile.Enabled = false;
             }
         }
 
@@ -165,6 +171,7 @@ namespace Xbox_Achievement_Unlocker
                 TXT_Xuid.Text = "XUID: " + Jsonresponse.profileUsers[0].id;
                 xuid = Jsonresponse.profileUsers[0].id;
                 BTN_SpoofGame.Enabled = true;
+                BTN_SaveToFile.Enabled = true;
             }
             catch (HttpRequestException ex)
             {
@@ -190,7 +197,7 @@ namespace Xbox_Achievement_Unlocker
                 var newline = 0;
                 for (int i = 0; i < Jsonresponse.titles.Count; i++)
                 {
-                    if (!(Jsonresponse.titles[i].devices.ToString()).Contains("Win32") && !(Jsonresponse.titles[i].devices.ToString().Contains("Xbox360")))
+                    if (!(Jsonresponse.titles[i].devices.ToString()).Contains(filter1) && !(Jsonresponse.titles[i].devices.ToString().Contains(filter2)) && !(Jsonresponse.titles[i].devices.ToString()).Contains(filter3) && !(Jsonresponse.titles[i].devices.ToString().Contains(filter4)))
                     {
                         if (count % 6 == 0 && count != 0)
                         {
@@ -235,6 +242,103 @@ namespace Xbox_Achievement_Unlocker
         {
             Game_Spoofer SpoofForm = new Game_Spoofer();
             SpoofForm.Show();
+        }
+
+        private void LST_GameFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (LST_GameFilter.SelectedIndex == 0)
+            {
+                //All
+                filter1 = "comamnds";
+                filter2 = "comamnds";
+                filter3 = "comamnds";
+                filter4 = "comamnds";
+            }
+            else if (LST_GameFilter.SelectedIndex == 1)
+            {
+                //Console Only
+                filter1 = "Win32";
+                filter2 = "comamnds";
+                filter3 = "comamnds";
+                filter4 = "comamnds";
+            }
+            else if (LST_GameFilter.SelectedIndex == 2)
+            {
+                //New Gen
+                filter1 = "Win32";
+                filter2 = "Xbox360";
+                filter3 = "comamnds";
+                filter4 = "comamnds";
+            }
+            else if (LST_GameFilter.SelectedIndex == 3)
+            {
+                //Win32
+                filter1 = "Xbox360";
+                filter2 = "XboxOne";
+                filter3 = "XboxSeries";
+                filter4 = "comamnds";
+            }
+        }
+
+        async void BTN_SaveToFile_Click(object sender, EventArgs e)
+        {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "profile.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            try
+            {
+                //query the users own profile using their xauth to find out profile information for future queries
+                var responseString = await client.GetStringAsync("https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag,Gamerscore");
+                var Jsonresponse = (dynamic)(new JObject());
+                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                LBL_Gamertag.Text = "Gamertag: " + Jsonresponse.profileUsers[0].settings[0].value;
+                LBL_Gamerscore.Text = "Gamerscore: " + Jsonresponse.profileUsers[0].settings[1].value;
+                TXT_Xuid.Text = "XUID: " + Jsonresponse.profileUsers[0].id;
+                xuid = Jsonresponse.profileUsers[0].id;
+                BTN_SpoofGame.Enabled = true;
+            }
+            catch (HttpRequestException ex)
+            {
+                if ((int)ex.StatusCode == 401)
+                    MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                else
+                    MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
+            }
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "titlehub.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            try
+            {
+                var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + xuid + ")/titles/titleHistory/decoration/Achievement,scid");
+                var Jsonresponse = (dynamic)(new JObject());
+                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                using (StreamWriter writer = new StreamWriter("GameList.txt"))
+                {
+                    for (int i = 0; i < Jsonresponse.titles.Count; i++)
+                    {
+                        if (Jsonresponse.titles[i].modernTitleId.ToString().Length > 0)
+                            writer.WriteLine(Jsonresponse.titles[i].name.ToString() + "," + Jsonresponse.titles[i].modernTitleId.ToString());
+                    }
+                }
+
+            }
+            catch (HttpRequestException ex)
+            {
+                if ((int)ex.StatusCode == 401)
+                    MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                else
+                    MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
+            }
         }
     }
 }
