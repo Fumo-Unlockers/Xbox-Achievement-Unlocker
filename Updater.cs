@@ -62,7 +62,6 @@ namespace Xbox_Achievement_Unlocker
                 writer.WriteLine("del \"" + splitpath[splitpath.Count() - 1] + "\" ");
                 writer.WriteLine("ren XAU-new.exe \"" + splitpath[splitpath.Count() - 1] + "\" ");
                 writer.WriteLine("start \"\" " + "\"" + splitpath[splitpath.Count() - 1] + "\"");
-                //writer.WriteLine("start" + "\"\" /B " + "\"" + splitpath[splitpath.Count() - 1] + "\"");
                 writer.WriteLine("goto 2 > nul & del \"%~f0\"");
             }
             Process proc = new Process();
