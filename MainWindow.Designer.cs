@@ -29,6 +29,7 @@ namespace Xbox_Achievement_Unlocker
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.BGWorker = new System.ComponentModel.BackgroundWorker();
             this.LBL_Attached = new System.Windows.Forms.Label();
             this.TXT_Xauth = new System.Windows.Forms.TextBox();
@@ -41,6 +42,7 @@ namespace Xbox_Achievement_Unlocker
             this.BTN_SaveToFile = new System.Windows.Forms.Button();
             this.LST_GameFilter = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.Skidbox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // BGWorker
@@ -64,7 +66,7 @@ namespace Xbox_Achievement_Unlocker
             // 
             this.TXT_Xauth.BackColor = System.Drawing.SystemColors.Control;
             this.TXT_Xauth.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TXT_Xauth.Location = new System.Drawing.Point(12, 27);
+            this.TXT_Xauth.Location = new System.Drawing.Point(12, 102);
             this.TXT_Xauth.Name = "TXT_Xauth";
             this.TXT_Xauth.Size = new System.Drawing.Size(158, 16);
             this.TXT_Xauth.TabIndex = 1;
@@ -73,7 +75,7 @@ namespace Xbox_Achievement_Unlocker
             // BTN_GrabXauth
             // 
             this.BTN_GrabXauth.Enabled = false;
-            this.BTN_GrabXauth.Location = new System.Drawing.Point(12, 53);
+            this.BTN_GrabXauth.Location = new System.Drawing.Point(12, 124);
             this.BTN_GrabXauth.Name = "BTN_GrabXauth";
             this.BTN_GrabXauth.Size = new System.Drawing.Size(158, 46);
             this.BTN_GrabXauth.TabIndex = 2;
@@ -84,7 +86,7 @@ namespace Xbox_Achievement_Unlocker
             // LBL_Gamertag
             // 
             this.LBL_Gamertag.AutoSize = true;
-            this.LBL_Gamertag.Location = new System.Drawing.Point(176, 27);
+            this.LBL_Gamertag.Location = new System.Drawing.Point(173, 121);
             this.LBL_Gamertag.Name = "LBL_Gamertag";
             this.LBL_Gamertag.Size = new System.Drawing.Size(65, 15);
             this.LBL_Gamertag.TabIndex = 6;
@@ -93,7 +95,7 @@ namespace Xbox_Achievement_Unlocker
             // LBL_Gamerscore
             // 
             this.LBL_Gamerscore.AutoSize = true;
-            this.LBL_Gamerscore.Location = new System.Drawing.Point(176, 53);
+            this.LBL_Gamerscore.Location = new System.Drawing.Point(173, 136);
             this.LBL_Gamerscore.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.LBL_Gamerscore.Name = "LBL_Gamerscore";
             this.LBL_Gamerscore.Size = new System.Drawing.Size(76, 15);
@@ -103,7 +105,7 @@ namespace Xbox_Achievement_Unlocker
             // Panel_Recents
             // 
             this.Panel_Recents.AutoScroll = true;
-            this.Panel_Recents.Location = new System.Drawing.Point(3, 102);
+            this.Panel_Recents.Location = new System.Drawing.Point(0, 176);
             this.Panel_Recents.Name = "Panel_Recents";
             this.Panel_Recents.Size = new System.Drawing.Size(797, 336);
             this.Panel_Recents.TabIndex = 8;
@@ -111,7 +113,7 @@ namespace Xbox_Achievement_Unlocker
             // BTN_SpoofGame
             // 
             this.BTN_SpoofGame.Enabled = false;
-            this.BTN_SpoofGame.Location = new System.Drawing.Point(630, 53);
+            this.BTN_SpoofGame.Location = new System.Drawing.Point(631, 128);
             this.BTN_SpoofGame.Name = "BTN_SpoofGame";
             this.BTN_SpoofGame.Size = new System.Drawing.Size(158, 46);
             this.BTN_SpoofGame.TabIndex = 9;
@@ -123,7 +125,7 @@ namespace Xbox_Achievement_Unlocker
             // 
             this.TXT_Xuid.BackColor = System.Drawing.SystemColors.Control;
             this.TXT_Xuid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TXT_Xuid.Location = new System.Drawing.Point(176, 80);
+            this.TXT_Xuid.Location = new System.Drawing.Point(176, 154);
             this.TXT_Xuid.Name = "TXT_Xuid";
             this.TXT_Xuid.Size = new System.Drawing.Size(158, 16);
             this.TXT_Xuid.TabIndex = 10;
@@ -132,7 +134,7 @@ namespace Xbox_Achievement_Unlocker
             // BTN_SaveToFile
             // 
             this.BTN_SaveToFile.Enabled = false;
-            this.BTN_SaveToFile.Location = new System.Drawing.Point(630, 1);
+            this.BTN_SaveToFile.Location = new System.Drawing.Point(631, 76);
             this.BTN_SaveToFile.Name = "BTN_SaveToFile";
             this.BTN_SaveToFile.Size = new System.Drawing.Size(158, 46);
             this.BTN_SaveToFile.TabIndex = 11;
@@ -148,7 +150,7 @@ namespace Xbox_Achievement_Unlocker
             "Console Only",
             "New Gen",
             "Win32"});
-            this.LST_GameFilter.Location = new System.Drawing.Point(503, 73);
+            this.LST_GameFilter.Location = new System.Drawing.Point(504, 151);
             this.LST_GameFilter.Name = "LST_GameFilter";
             this.LST_GameFilter.Size = new System.Drawing.Size(121, 23);
             this.LST_GameFilter.TabIndex = 12;
@@ -157,17 +159,29 @@ namespace Xbox_Achievement_Unlocker
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(404, 76);
+            this.label1.Location = new System.Drawing.Point(402, 154);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 15);
             this.label1.TabIndex = 13;
             this.label1.Text = "Filter Games List:";
             // 
+            // Skidbox
+            // 
+            this.Skidbox.BackColor = System.Drawing.SystemColors.Control;
+            this.Skidbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Skidbox.Location = new System.Drawing.Point(163, 6);
+            this.Skidbox.Name = "Skidbox";
+            this.Skidbox.ReadOnly = true;
+            this.Skidbox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.Skidbox.Size = new System.Drawing.Size(625, 96);
+            this.Skidbox.TabIndex = 14;
+            this.Skidbox.Text = resources.GetString("Skidbox.Text");
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 512);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LST_GameFilter);
             this.Controls.Add(this.BTN_SaveToFile);
@@ -179,6 +193,7 @@ namespace Xbox_Achievement_Unlocker
             this.Controls.Add(this.BTN_GrabXauth);
             this.Controls.Add(this.TXT_Xauth);
             this.Controls.Add(this.LBL_Attached);
+            this.Controls.Add(this.Skidbox);
             this.Name = "MainWindow";
             this.Text = "MainWindow";
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
@@ -201,6 +216,7 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.Button BTN_SaveToFile;
         private System.Windows.Forms.ComboBox LST_GameFilter;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox Skidbox;
     }
 }
 

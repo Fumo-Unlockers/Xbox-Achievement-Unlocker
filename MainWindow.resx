@@ -60,4 +60,11 @@
   <metadata name="BGWorker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="Skidbox.Text" xml:space="preserve">
+    <value>THIS IS FREE AND OPEN SOURCE SOFTWARE. IF YOU PAID FOR IT YOU GOT SCAMMED
+If you downloaded it from anywhere other than https://github.com/ItsLogic/Xbox-Achievement-Unlocker you also got scammed. The only official download location is the github page and built in auto-updater.
+Join the discord here: https://discord.gg/apCwkvfV8P
+The sole developer of this software is Draff#6900 (315923287953637377) 
+Anyone else who said they made it are lying.</value>
+  </data>
 </root>
