@@ -70,7 +70,7 @@ namespace Xbox_Achievement_Unlocker
                     await client.GetStringAsync("https://api.github.com/repos/ItsLogic/Xbox-Achievement-unlocker/releases");
                 var Jsonresponse = (dynamic)(new JArray());
                 Jsonresponse = (dynamic)JArray.Parse(responseString);
-                if (Jsonresponse[0].tag_name.ToString() != "1.6")
+                if (Jsonresponse[0].tag_name.ToString() != "1.6.1")
                     Updater.Show();
             }
             catch
@@ -365,6 +365,11 @@ namespace Xbox_Achievement_Unlocker
                 else
                     MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
             }
+        }
+
+        private void Skidbox_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", e.LinkText);
         }
     }
 }
