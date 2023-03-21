@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -83,7 +84,7 @@ namespace Xbox_Achievement_Unlocker
         {
             if (attached)
             {
-                LBL_Attached.Text = "Attached to: XboxAppServices.exe (" + m.GetProcIdFromName("XboxAppServices").ToString() + ")";
+                LBL_Attached.Text = "Attached to: " + m.GetProcIdFromName("XboxAppServices").ToString();
                 LBL_Attached.ForeColor = Color.Green;
                 BTN_GrabXauth.Enabled = true;
             }
@@ -134,7 +135,7 @@ namespace Xbox_Achievement_Unlocker
             }
             catch
             {
-                MessageBox.Show("Couldnt find xauth. Make sure you are signed in on the new xbox app\nTry closing xboxappservices.exe from task manager or restarting your PC");
+                MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.");
             }
 
         }
@@ -152,7 +153,16 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
             client.DefaultRequestHeaders.Add("accept-language", "en-GB");
-            client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            try
+            {
+                client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    "Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.");
+                return;
+            }
             client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             try
@@ -166,7 +176,7 @@ namespace Xbox_Achievement_Unlocker
             {
 
                 if ((int)ex.StatusCode == 401)
-                    MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.", "401 Unauthorised");
                 else
                     MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
             }
@@ -183,7 +193,17 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
             client.DefaultRequestHeaders.Add("accept-language", "en-GB");
-            client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            try
+            {
+                client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    "Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.",
+                    "Xauth not found");
+                return;
+            }
             client.DefaultRequestHeaders.Add("Host", "profile.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             try
@@ -202,7 +222,7 @@ namespace Xbox_Achievement_Unlocker
             catch (HttpRequestException ex)
             {
                 if ((int)ex.StatusCode == 401)
-                    MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.", "401 Unauthorised");
                 else
                     MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
             }
@@ -211,7 +231,17 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
             client.DefaultRequestHeaders.Add("accept-language", "en-GB");
-            client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            try
+            {
+                client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    "Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.",
+                    "Xauth not found");
+                return;
+            }
             client.DefaultRequestHeaders.Add("Host", "titlehub.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             try
@@ -258,7 +288,7 @@ namespace Xbox_Achievement_Unlocker
             catch (HttpRequestException ex)
             {
                 if ((int)ex.StatusCode == 401)
-                    MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.", "401 Unauthorised");
                 else
                     MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
             }
@@ -331,7 +361,7 @@ namespace Xbox_Achievement_Unlocker
             catch (HttpRequestException ex)
             {
                 if ((int)ex.StatusCode == 401)
-                    MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.", "401 Unauthorised");
                 else
                     MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
             }
@@ -340,7 +370,18 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
             client.DefaultRequestHeaders.Add("accept-language", "en-GB");
-            client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            try
+            {
+                client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    "Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.",
+                    "Xauth not found");
+                return;
+            }
+
             client.DefaultRequestHeaders.Add("Host", "titlehub.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             try
@@ -361,7 +402,7 @@ namespace Xbox_Achievement_Unlocker
             catch (HttpRequestException ex)
             {
                 if ((int)ex.StatusCode == 401)
-                    MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.", "401 Unauthorised");
                 else
                     MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
             }
@@ -370,6 +411,43 @@ namespace Xbox_Achievement_Unlocker
         private void Skidbox_LinkClicked(object sender, LinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", e.LinkText);
+        }
+
+        private void BTN_fixer_Click(object sender, EventArgs e)
+        {
+            //kill xbox app services
+            Process[] processes = Process.GetProcessesByName("XboxAppServices");
+            foreach (Process process in processes)
+            {
+                process.Kill();
+            }
+            //kill xboxapp.exe
+            processes = Process.GetProcessesByName("XboxPcApp");
+            foreach (Process process in processes)
+            {
+                process.Kill();
+            }
+            processes = Process.GetProcessesByName("GameBar");
+            foreach (Process process in processes)
+            {
+                process.Kill();
+            }
+            Thread.Sleep(5000);
+            //open the uwp xbox app
+            Process p = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.UseShellExecute = true;
+            startInfo.FileName = startInfo.FileName = @"shell:appsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App";
+            p.StartInfo = startInfo;
+            p.Start();
+            p = new Process();
+            startInfo = new ProcessStartInfo();
+            startInfo.UseShellExecute = true;
+            startInfo.FileName = startInfo.FileName = @"shell:appsFolder\Microsoft.XboxGamingOverlay_8wekyb3d8bbwe!App";
+            p.StartInfo = startInfo;
+            p.Start();
+            //
+            MessageBox.Show("This might not work first time. Click this button and refresh until it does.", "Fixer");
         }
     }
 }
