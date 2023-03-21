@@ -7,6 +7,10 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyVersion>1.6.1</AssemblyVersion>
+    <FileVersion>1.6.1</FileVersion>
+    <Copyright>Made By Draff :)</Copyright>
+    <Version>1.6.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

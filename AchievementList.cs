@@ -12,6 +12,7 @@ using Memory;
 using System.Threading;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using System.Reflection.Emit;
 
 namespace Xbox_Achievement_Unlocker
 {
@@ -27,6 +28,56 @@ namespace Xbox_Achievement_Unlocker
         string TitleID;
         string responseString;
         List<string> UnlockableAchievements = new List<string>();
+
+        #region bright warning shit for stupid people
+        private const int RainbowLength = 360;
+        private readonly Color[] Rainbow = new Color[RainbowLength];
+        private void InitRainbow()
+        {
+            for (int i = 0; i < RainbowLength; i++)
+            {
+                Rainbow[i] = ColorFromHSV(i, 1, 1);
+            }
+        }
+
+        private async void StartFlashing()
+        {
+            while (true)
+            {
+                for (int i = 0; i < RainbowLength; i++)
+                {
+                    label1.ForeColor = Rainbow[i];
+                    await Task.Delay(1);
+                }
+            }
+        }
+
+        private Color ColorFromHSV(double hue, double saturation, double value)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value = value * 255;
+            int v = Convert.ToInt32(value);
+            int p = Convert.ToInt32(value * (1 - saturation));
+            int q = Convert.ToInt32(value * (1 - f * saturation));
+            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0) return Color.FromArgb(255, v, t, p);
+            else if (hi == 1) return Color.FromArgb(255, q, v, p);
+            else if (hi == 2) return Color.FromArgb(255, p, v, t);
+            else if (hi == 3) return Color.FromArgb(255, p, q, v);
+            else if (hi == 4) return Color.FromArgb(255, t, p, v);
+            else return Color.FromArgb(255, v, p, q);
+        }
+
+
+        #endregion
+
+
+
+
+
         public async void PopulateAchievementList(string AchievementData)
         {
             var Jsonresponse = (dynamic)(new JObject());
@@ -47,11 +98,19 @@ namespace Xbox_Achievement_Unlocker
                 {
                     if (Jsonresponse.achievements[0].progression.requirements.ToString().Length > 2)
                     {
-                        if (Jsonresponse.achievements[0].progression.requirements[0].id != "00000000-0000-0000-0000-000000000000")
-                            MessageBox.Show("This game might use event based achivements and if so currently does not work", "Warning");
+                        if (Jsonresponse.achievements[0].progression.requirements[0].id !=
+                            "00000000-0000-0000-0000-000000000000")
+                        {
+                            InitRainbow();
+                            MessageBox.Show("THIS GAME USES EVENT BASED ACHIVEMENTS.\nTHIS TOOL WILL CURRENTLY NOT WORK", "Warning");
+                            label1.Visible = true;
+                            StartFlashing();
+                        }
+
                         break;
                     }
                 }
+
 
                 for (int i = 0; i < Jsonresponse.achievements.Count; i++)
                 {
@@ -165,7 +224,7 @@ namespace Xbox_Achievement_Unlocker
                 catch (HttpRequestException ex)
                 {
                     if ((int)ex.StatusCode == 401)
-                        MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                        MessageBox.Show("Xauth is not correct. Click the FuckyWucky Fixer button until the error goes away", "401 Unauthorised");
                     else
                         MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
                 }
@@ -215,7 +274,7 @@ namespace Xbox_Achievement_Unlocker
                     catch (HttpRequestException ex)
                     {
                         if ((int)ex.StatusCode == 401)
-                            MessageBox.Show("Xauth is not correct. Restart this tool and kill xbox app services in task manager before reopening the xbox app", "401 Unauthorised");
+                            MessageBox.Show("Xauth is not correct. Click the FuckyWucky Fixer button until the error goes away", "401 Unauthorised");
                         else
                             MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
                     }
