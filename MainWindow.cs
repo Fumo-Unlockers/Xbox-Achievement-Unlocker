@@ -55,7 +55,7 @@ namespace Xbox_Achievement_Unlocker
         async void MainWindow_Shown(object sender, EventArgs e)
         {
             BGWorker.RunWorkerAsync();
-            LST_GameFilter.SelectedIndex = 2;
+            LST_GameFilterType.SelectedIndex = 2;
             try
             {
                 Updater Updater = new Updater();
@@ -250,37 +250,62 @@ namespace Xbox_Achievement_Unlocker
                 var Jsonresponse = (dynamic)(new JObject());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
                 var count = 0;
-                var newline = 0;
+                const int itemWidth = 150;
+                const int rowHeight = 180;
+                int itemCountPerRow = 6;
+                int newline = 0;
+                int itemWidthWithMargin = 0;
                 for (int i = 0; i < Jsonresponse.titles.Count; i++)
                 {
-                    if (!(Jsonresponse.titles[i].devices.ToString()).Contains(filter1) && !(Jsonresponse.titles[i].devices.ToString().Contains(filter2)) && !(Jsonresponse.titles[i].devices.ToString()).Contains(filter3) && !(Jsonresponse.titles[i].devices.ToString().Contains(filter4)))
+                    dynamic title = Jsonresponse.titles[i];
+                    string devices = title.devices.ToString();
+                    string titles = title.name.ToString() + " " + title.titleId.ToString();
+                    if (!devices.Contains(filter1)
+                        && !devices.Contains(filter2)
+                        && !devices.Contains(filter3)
+                        && !devices.Contains(filter4)
+                        && titles.ToLower().Contains(TXT_GameFilterTitle.Text.ToLower()))
                     {
-                        if (count % 6 == 0 && count != 0)
+                        if (count % itemCountPerRow == 0 && count != 0)
                         {
-                            newline = newline + 180;
+                            newline = newline + rowHeight;
                             count = 0;
                         }
                         PictureBox GameImage = new PictureBox();
-                        GameImage.Location = new System.Drawing.Point(130 * count, 25 + newline);
-                        GameImage.Size = new System.Drawing.Size(125, 125);
+                        GameImage.Location = new Point(itemWidthWithMargin * count, 25 + newline);
+                        GameImage.Size = new Size(itemWidth, 125);
+                        if (count == 0)
+                            itemWidthWithMargin = GameImage.Width + GameImage.Margin.Left + GameImage.Margin.Right;
                         GameImage.SizeMode = PictureBoxSizeMode.StretchImage;
                         GameImage.ImageLocation = Jsonresponse.titles[i].displayImage.ToString() + "?w=512&h=512&format=jpg";
                         GameImage.Name = Jsonresponse.titles[i].titleId.ToString();
-                        GameImage.Click += new System.EventHandler(this.LoadAchievementList);
+                        GameImage.Cursor = Cursors.Hand;
+                        GameImage.Click += new EventHandler(this.LoadAchievementList);
                         Panel_Recents.Controls.Add(GameImage);
                         //Create the dynamic TextBox.
                         TextBox textbox = new TextBox();
-                        textbox.Location = new System.Drawing.Point(130 * count, 150 + newline);
-                        textbox.Size = new System.Drawing.Size(125, 20);
+                        textbox.Location = new Point(itemWidthWithMargin * count, 150 + newline);
+                        textbox.Size = new Size(itemWidth, 20);
+                        textbox.BorderStyle = BorderStyle.None;
+                        textbox.Margin = new Padding(textbox.Margin.Left + 2, 0, textbox.Margin.Right + 2, 0);
+                        textbox.ReadOnly = true;
                         textbox.Name = "txt_" + (count + 1);
                         textbox.Text = Jsonresponse.titles[i].name;
                         Panel_Recents.Controls.Add(textbox);
                         TextBox titleidBox = new TextBox();
-                        titleidBox.Location = new System.Drawing.Point(130 * count, 170 + newline);
-                        titleidBox.Size = new System.Drawing.Size(125, 20);
+                        titleidBox.Location = new Point(itemWidthWithMargin * count, 170 + newline);
+                        titleidBox.Size = new Size(itemWidth, 20);
+                        titleidBox.BorderStyle = BorderStyle.None;
+                        titleidBox.ReadOnly = true;
                         titleidBox.Name = "txt_" + Jsonresponse.titles[i].modernTitleId;
                         titleidBox.Text = "TitleID: " + Jsonresponse.titles[i].modernTitleId;
                         Panel_Recents.Controls.Add(titleidBox);
+
+                        if (count == 0)
+                            // calculate how many items will fit the current width
+                            itemCountPerRow = Convert.ToInt32(Math.Floor(Convert.ToDouble(Panel_Recents.Width)
+                                / (itemWidth + GameImage.Margin.Left + GameImage.Margin.Right + textbox.Margin.Left + textbox.Margin.Right + titleidBox.Margin.Left + titleidBox.Margin.Right)));
+
                         count = count + 1;
                     }
                 }
@@ -288,7 +313,7 @@ namespace Xbox_Achievement_Unlocker
             catch (HttpRequestException ex)
             {
                 if ((int)ex.StatusCode == 401)
-                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.", "401 Unauthorised");
+                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesn't happen.", "401 Unauthorised");
                 else
                     MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
             }
@@ -302,37 +327,37 @@ namespace Xbox_Achievement_Unlocker
 
         private void LST_GameFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (LST_GameFilter.SelectedIndex == 0)
+            if (LST_GameFilterType.SelectedIndex == 0)
             {
                 //All
-                filter1 = "comamnds";
-                filter2 = "comamnds";
-                filter3 = "comamnds";
-                filter4 = "comamnds";
+                filter1 = "commands";
+                filter2 = "commands";
+                filter3 = "commands";
+                filter4 = "commands";
             }
-            else if (LST_GameFilter.SelectedIndex == 1)
+            else if (LST_GameFilterType.SelectedIndex == 1)
             {
                 //Console Only
                 filter1 = "Win32";
-                filter2 = "comamnds";
-                filter3 = "comamnds";
-                filter4 = "comamnds";
+                filter2 = "commands";
+                filter3 = "commands";
+                filter4 = "commands";
             }
-            else if (LST_GameFilter.SelectedIndex == 2)
+            else if (LST_GameFilterType.SelectedIndex == 2)
             {
                 //New Gen
                 filter1 = "Win32";
                 filter2 = "Xbox360";
-                filter3 = "comamnds";
-                filter4 = "comamnds";
+                filter3 = "commands";
+                filter4 = "commands";
             }
-            else if (LST_GameFilter.SelectedIndex == 3)
+            else if (LST_GameFilterType.SelectedIndex == 3)
             {
                 //Win32
                 filter1 = "Xbox360";
                 filter2 = "XboxOne";
                 filter3 = "XboxSeries";
-                filter4 = "comamnds";
+                filter4 = "commands";
             }
         }
 

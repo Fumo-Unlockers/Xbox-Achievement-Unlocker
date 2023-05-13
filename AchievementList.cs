@@ -130,7 +130,7 @@ namespace Xbox_Achievement_Unlocker
                                 "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
                                 "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() +
                                 "\nUnlock Time: " + Jsonresponse.achievements[i].progression.timeUnlocked.ToString(),
-                                Jsonresponse.achievements[i].id.ToString()
+                                Convert.ToInt32(Jsonresponse.achievements[i].id)
                             );
                         }
                         catch
@@ -139,7 +139,7 @@ namespace Xbox_Achievement_Unlocker
                                 Jsonresponse.achievements[i].name.ToString(),
                                 Jsonresponse.achievements[i].description.ToString(),
                                 "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
-                                Jsonresponse.achievements[i].id.ToString()
+                                Convert.ToInt32(Jsonresponse.achievements[i].id)
                             );
                         }
                     }
@@ -157,7 +157,7 @@ namespace Xbox_Achievement_Unlocker
                                 "%" +
                                 "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
                                 "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() + "\n",
-                                Jsonresponse.achievements[i].id.ToString()
+                                Convert.ToInt32(Jsonresponse.achievements[i].id)
                             );
                         }
                         catch
@@ -166,7 +166,7 @@ namespace Xbox_Achievement_Unlocker
                                 Jsonresponse.achievements[i].name.ToString(),
                                 Jsonresponse.achievements[i].description.ToString(),
                                 "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
-                                Jsonresponse.achievements[i].id.ToString()
+                                Convert.ToInt32(Jsonresponse.achievements[i].id)
                             );
                         }
 
@@ -287,15 +287,19 @@ namespace Xbox_Achievement_Unlocker
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0
+                || e.ColumnIndex < 0)
+                return;
+
             if ((int)DGV_AchievementList.Rows[e.RowIndex].Cells[0].Value == 0)
             {
-                AchievementIDs.Add(DGV_AchievementList.Rows[e.RowIndex].Cells[4].Value.ToString());
+                AchievementIDs.Add(DGV_AchievementList.Rows[e.RowIndex].Cells["CL_ID"].Value.ToString());
                 DGV_AchievementList.Rows[e.RowIndex].Cells[0].Value = 1;
             }
             else if ((int)DGV_AchievementList.Rows[e.RowIndex].Cells[0].Value == 1)
             {
                 DGV_AchievementList.Rows[e.RowIndex].Cells[0].Value = 0;
-                AchievementIDs.Remove(DGV_AchievementList.Rows[e.RowIndex].Cells[4].Value.ToString());
+                AchievementIDs.Remove(DGV_AchievementList.Rows[e.RowIndex].Cells["CL_ID"].Value.ToString());
             }
 
         }
@@ -314,6 +318,11 @@ namespace Xbox_Achievement_Unlocker
 
         async void BTN_ALRefresh_Click(object sender, EventArgs e)
         {
+            await RefreshList();
+        }
+
+        private async Task RefreshList()
+        {
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
@@ -325,6 +334,13 @@ namespace Xbox_Achievement_Unlocker
             DGV_AchievementList.Rows.Clear();
             responseString = await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements?titleId=" + TitleID + "&maxItems=1000");
             PopulateAchievementList(responseString);
+        }
+
+        private async void AchievementList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+                await RefreshList();
+
         }
     }
 }
