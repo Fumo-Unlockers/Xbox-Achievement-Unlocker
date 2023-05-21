@@ -45,15 +45,15 @@ This tool utilizes memory.dll to extract the user's XAuth token from one of the 
 ## Discord Server
 Join us on our [Discord server][discord-invite] to stay updated and engage with our community.
 
-[contributors-badge]: https://img.shields.io/github/contributors/ItsLogic/Xbox-Achievement-Unlocker
+[contributors-badge]: https://img.shields.io/github/contributors/ItsLogic/Xbox-Achievement-Unlocker?style=for-the-badge
 [contributors-url]: https://github.com/ItsLogic/Xbox-Achievement-Unlocker/graphs/contributors
-[forks-badge]: https://img.shields.io/github/forks/ItsLogic/Xbox-Achievement-Unlocker?style=social
+[forks-badge]: https://img.shields.io/github/forks/ItsLogic/Xbox-Achievement-Unlocker?style=for-the-badge
 [forks-url]: https://github.com/ItsLogic/Xbox-Achievement-Unlocker/network/members
-[stars-badge]: https://img.shields.io/github/stars/ItsLogic/Xbox-Achievement-Unlocker?style=social
+[stars-badge]: https://img.shields.io/github/stars/ItsLogic/Xbox-Achievement-Unlocker?style=for-the-badge
 [stars-url]: https://github.com/ItsLogic/Xbox-Achievement-Unlocker/stargazers
-[issues-badge]: https://img.shields.io/github/issues/ItsLogic/Xbox-Achievement-Unlocker
+[issues-badge]: https://img.shields.io/github/issues/ItsLogic/Xbox-Achievement-Unlocker?style=for-the-badge
 [issues-url]: https://github.com/ItsLogic/Xbox-Achievement-Unlocker/issues
-[release-badge]: https://img.shields.io/github/v/release/ItsLogic/Xbox-Achievement-Unlocker
+[release-badge]: https://img.shields.io/github/v/release/ItsLogic/Xbox-Achievement-Unlocker?style=for-the-badge
 [release-url]: https://github.com/ItsLogic/Xbox-Achievement-Unlocker/releases
 [discord-id]: https://img.shields.io/discord/1013602813093359657?logo=discord&style=for-the-badge
 [discord-invite]: https://discord.gg/ugDvSw7cns
