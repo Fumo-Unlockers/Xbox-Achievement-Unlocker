@@ -28,4 +28,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: BuildArtifacts
-          path: ./path/to/build/directory
+          path: D:\a\Xbox-Achievement-Unlocker\Xbox-Achievement-Unlocker\bin\Release\net6.0-windows\
+
