@@ -40,10 +40,12 @@ namespace Xbox_Achievement_Unlocker
             BTN_SpoofGame = new System.Windows.Forms.Button();
             TXT_Xuid = new System.Windows.Forms.TextBox();
             BTN_SaveToFile = new System.Windows.Forms.Button();
-            LST_GameFilter = new System.Windows.Forms.ComboBox();
+            LST_GameFilterType = new System.Windows.Forms.ComboBox();
             label1 = new System.Windows.Forms.Label();
             Skidbox = new System.Windows.Forms.RichTextBox();
             BTN_fixer = new System.Windows.Forms.Button();
+            label2 = new System.Windows.Forms.Label();
+            TXT_GameFilterTitle = new System.Windows.Forms.TextBox();
             SuspendLayout();
             // 
             // BGWorker
@@ -69,8 +71,8 @@ namespace Xbox_Achievement_Unlocker
             TXT_Xauth.BorderStyle = System.Windows.Forms.BorderStyle.None;
             TXT_Xauth.Location = new System.Drawing.Point(12, 102);
             TXT_Xauth.Name = "TXT_Xauth";
-            TXT_Xauth.Size = new System.Drawing.Size(158, 16);
-            TXT_Xauth.TabIndex = 1;
+            TXT_Xauth.Size = new System.Drawing.Size(600, 16);
+            TXT_Xauth.TabIndex = 16;
             TXT_Xauth.Text = "xauth:";
             // 
             // BTN_GrabXauth
@@ -96,7 +98,7 @@ namespace Xbox_Achievement_Unlocker
             // LBL_Gamerscore
             // 
             LBL_Gamerscore.AutoSize = true;
-            LBL_Gamerscore.Location = new System.Drawing.Point(173, 136);
+            LBL_Gamerscore.Location = new System.Drawing.Point(173, 137);
             LBL_Gamerscore.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             LBL_Gamerscore.Name = "LBL_Gamerscore";
             LBL_Gamerscore.Size = new System.Drawing.Size(76, 15);
@@ -105,10 +107,11 @@ namespace Xbox_Achievement_Unlocker
             // 
             // Panel_Recents
             // 
+            Panel_Recents.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             Panel_Recents.AutoScroll = true;
-            Panel_Recents.Location = new System.Drawing.Point(0, 176);
+            Panel_Recents.Location = new System.Drawing.Point(4, 176);
             Panel_Recents.Name = "Panel_Recents";
-            Panel_Recents.Size = new System.Drawing.Size(797, 336);
+            Panel_Recents.Size = new System.Drawing.Size(793, 333);
             Panel_Recents.TabIndex = 8;
             // 
             // BTN_SpoofGame
@@ -117,7 +120,7 @@ namespace Xbox_Achievement_Unlocker
             BTN_SpoofGame.Location = new System.Drawing.Point(631, 128);
             BTN_SpoofGame.Name = "BTN_SpoofGame";
             BTN_SpoofGame.Size = new System.Drawing.Size(158, 46);
-            BTN_SpoofGame.TabIndex = 9;
+            BTN_SpoofGame.TabIndex = 5;
             BTN_SpoofGame.Text = "Open Game Spoofer";
             BTN_SpoofGame.UseVisualStyleBackColor = true;
             BTN_SpoofGame.Click += BTN_SpoofGame_Click;
@@ -126,7 +129,7 @@ namespace Xbox_Achievement_Unlocker
             // 
             TXT_Xuid.BackColor = System.Drawing.SystemColors.Control;
             TXT_Xuid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            TXT_Xuid.Location = new System.Drawing.Point(176, 154);
+            TXT_Xuid.Location = new System.Drawing.Point(177, 154);
             TXT_Xuid.Name = "TXT_Xuid";
             TXT_Xuid.Size = new System.Drawing.Size(158, 16);
             TXT_Xuid.TabIndex = 10;
@@ -138,29 +141,29 @@ namespace Xbox_Achievement_Unlocker
             BTN_SaveToFile.Location = new System.Drawing.Point(631, 76);
             BTN_SaveToFile.Name = "BTN_SaveToFile";
             BTN_SaveToFile.Size = new System.Drawing.Size(158, 46);
-            BTN_SaveToFile.TabIndex = 11;
+            BTN_SaveToFile.TabIndex = 4;
             BTN_SaveToFile.Text = "Save games list to file";
             BTN_SaveToFile.UseVisualStyleBackColor = true;
             BTN_SaveToFile.Click += BTN_SaveToFile_Click;
             // 
-            // LST_GameFilter
+            // LST_GameFilterType
             // 
-            LST_GameFilter.FormattingEnabled = true;
-            LST_GameFilter.Items.AddRange(new object[] { "All", "Console Only", "New Gen", "Win32" });
-            LST_GameFilter.Location = new System.Drawing.Point(504, 151);
-            LST_GameFilter.Name = "LST_GameFilter";
-            LST_GameFilter.Size = new System.Drawing.Size(121, 23);
-            LST_GameFilter.TabIndex = 12;
-            LST_GameFilter.SelectedIndexChanged += LST_GameFilter_SelectedIndexChanged;
+            LST_GameFilterType.FormattingEnabled = true;
+            LST_GameFilterType.Items.AddRange(new object[] { "All", "Console Only", "New Gen", "Win32" });
+            LST_GameFilterType.Location = new System.Drawing.Point(525, 127);
+            LST_GameFilterType.Name = "LST_GameFilterType";
+            LST_GameFilterType.Size = new System.Drawing.Size(100, 23);
+            LST_GameFilterType.TabIndex = 3;
+            LST_GameFilterType.SelectedIndexChanged += LST_GameFilter_SelectedIndexChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(402, 154);
+            label1.Location = new System.Drawing.Point(405, 130);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(96, 15);
+            label1.Size = new System.Drawing.Size(85, 15);
             label1.TabIndex = 13;
-            label1.Text = "Filter Games List:";
+            label1.Text = "Filter Platform:";
             // 
             // Skidbox
             // 
@@ -180,19 +183,37 @@ namespace Xbox_Achievement_Unlocker
             BTN_fixer.Location = new System.Drawing.Point(12, 27);
             BTN_fixer.Name = "BTN_fixer";
             BTN_fixer.Size = new System.Drawing.Size(145, 69);
-            BTN_fixer.TabIndex = 15;
+            BTN_fixer.TabIndex = 1;
             BTN_fixer.Text = "FuckyWucky \r\nFixer";
             BTN_fixer.UseVisualStyleBackColor = true;
             BTN_fixer.Click += BTN_fixer_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(405, 154);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(109, 15);
+            label2.TabIndex = 17;
+            label2.Text = "Filter Name/TitleID:";
+            // 
+            // TXT_GameFilterTitle
+            // 
+            TXT_GameFilterTitle.Location = new System.Drawing.Point(525, 151);
+            TXT_GameFilterTitle.Name = "TXT_GameFilterTitle";
+            TXT_GameFilterTitle.Size = new System.Drawing.Size(100, 23);
+            TXT_GameFilterTitle.TabIndex = 18;
             // 
             // MainWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(800, 512);
+            Controls.Add(TXT_GameFilterTitle);
+            Controls.Add(label2);
             Controls.Add(BTN_fixer);
             Controls.Add(label1);
-            Controls.Add(LST_GameFilter);
+            Controls.Add(LST_GameFilterType);
             Controls.Add(BTN_SaveToFile);
             Controls.Add(BTN_SpoofGame);
             Controls.Add(TXT_Xuid);
@@ -201,8 +222,8 @@ namespace Xbox_Achievement_Unlocker
             Controls.Add(LBL_Gamertag);
             Controls.Add(BTN_GrabXauth);
             Controls.Add(TXT_Xauth);
-            Controls.Add(LBL_Attached);
             Controls.Add(Skidbox);
+            Controls.Add(LBL_Attached);
             Name = "MainWindow";
             Text = "MainWindow";
             Shown += MainWindow_Shown;
@@ -222,10 +243,12 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.Button BTN_SpoofGame;
         private System.Windows.Forms.TextBox TXT_Xuid;
         private System.Windows.Forms.Button BTN_SaveToFile;
-        private System.Windows.Forms.ComboBox LST_GameFilter;
+        private System.Windows.Forms.ComboBox LST_GameFilterType;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox Skidbox;
         private System.Windows.Forms.Button BTN_fixer;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox TXT_GameFilterTitle;
     }
 }
 
