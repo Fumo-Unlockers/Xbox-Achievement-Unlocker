@@ -251,7 +251,7 @@ namespace Xbox_Achievement_Unlocker
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
                 var count = 0;
                 const int itemWidth = 150;
-                const int rowHeight = 180;
+                const int rowHeight = 205;
                 int itemCountPerRow = 6;
                 int newline = 0;
                 int itemWidthWithMargin = 0;
@@ -272,8 +272,8 @@ namespace Xbox_Achievement_Unlocker
                             count = 0;
                         }
                         PictureBox GameImage = new PictureBox();
-                        GameImage.Location = new Point(itemWidthWithMargin * count, 25 + newline);
-                        GameImage.Size = new Size(itemWidth, 125);
+                        GameImage.Location = new Point(itemWidthWithMargin * count,  newline);
+                        GameImage.Size = new Size(itemWidth, 150);
                         if (count == 0)
                             itemWidthWithMargin = GameImage.Width + GameImage.Margin.Left + GameImage.Margin.Right;
                         GameImage.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -304,7 +304,7 @@ namespace Xbox_Achievement_Unlocker
                         if (count == 0)
                             // calculate how many items will fit the current width
                             itemCountPerRow = Convert.ToInt32(Math.Floor(Convert.ToDouble(Panel_Recents.Width)
-                                / (itemWidth + GameImage.Margin.Left + GameImage.Margin.Right + textbox.Margin.Left + textbox.Margin.Right + titleidBox.Margin.Left + titleidBox.Margin.Right)));
+                                / (itemWidth + GameImage.Margin.Left + GameImage.Margin.Right)));
 
                         count = count + 1;
                     }
