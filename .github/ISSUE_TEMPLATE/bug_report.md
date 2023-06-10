@@ -1,33 +1,43 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
----
-Please fill out all of the following. If not filled out then issue will be closed after 24 hours.
-
-**Describe the bug:**
-A clear and concise description of what the bug is.
-
-**How Reproduce:**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
-
-**Expected Behavior:**
-A clear and concise description of what you expected to happen.
-
-**Screenshots:**
-If applicable, add screenshots to help explain your problem.
-
-**Build Info (please complete the following information):**
- - OS: [e.g. Windows]
- - Program Version: [e.g. 0.1.2-stable]
-
-
-**Additional Context:**
-Add any other context about the problem here.
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Make sure you fill in every section correctly and with as much detail as possible.
+  - type: input
+    id: Tool-Version
+    attributes:
+      label: What version of the app were you running?
+      placeholder: 1.xx
+    validations:
+      required: true
+  - type: dropdown
+    id: Winver
+    attributes:
+      label: Winver
+      description: What Version of windows are you running?
+      options:
+        - Win10
+        - Win11
+    validations:
+      required: true
+  - type: dropdown
+    id: have-i-checked
+    attributes:
+      label: Have I checked if the bug was reported?
+      description: Did you search the previous issues in this repo for similar issues?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: What is the bug?
+      description: What did you expect to happen and what actually happened? What were you doing? (include images/video where applicable)
+    validations:
+      required: true

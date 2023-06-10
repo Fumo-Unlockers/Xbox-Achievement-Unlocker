@@ -1,20 +1,27 @@
----
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
----
-
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
-
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
-
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+name: Feature Request
+description: Request a new feature for the Unlocker
+title: "[Feature-Request]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Make sure you fill in every section correctly and with as much detail as possible.
+  - type: dropdown
+    id: ToolSection
+    attributes:
+      label: Tool Section
+      description: What section of the tool does the feature request impact
+      options:
+        - Unlocker
+        - Spoofer
+        - New/Other
+    validations:
+      required: true
+  - type: textarea
+    id: Feature-description
+    attributes:
+      label: What feature are you requesting?
+      description: How would you like it to work and what would you want it to do?
+    validations:
+      required: true
