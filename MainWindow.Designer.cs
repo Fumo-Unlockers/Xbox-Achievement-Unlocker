@@ -213,6 +213,7 @@ namespace Xbox_Achievement_Unlocker
             TXT_Xauth.Name = "TXT_Xauth";
             TXT_Xauth.Size = new System.Drawing.Size(570, 16);
             TXT_Xauth.TabIndex = 19;
+            TXT_Xauth.TextChanged += TXT_Xauth_TextChanged;
             // 
             // MainWindow
             // 

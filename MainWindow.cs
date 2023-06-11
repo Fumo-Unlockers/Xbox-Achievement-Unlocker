@@ -110,11 +110,11 @@ namespace Xbox_Achievement_Unlocker
         public static string xauthtoken;
         private async void BTN_GrabXauth_Click(object sender, EventArgs e)
         {
-            if (LBL_Xauth.Text.Length > 10)
+            if (TXT_Xauth.Text.Length > 10)
             {
                 try
                 {
-                    xauthtoken = LBL_Xauth.Text;
+                    xauthtoken = TXT_Xauth.Text;
                     LoadInfo();
                     BTN_GrabXauth.Text = "Refresh Info";
                 }
@@ -488,6 +488,11 @@ namespace Xbox_Achievement_Unlocker
             p.Start();
             //
             MessageBox.Show("This might not work first time. Click this button and refresh until it does.", "Fixer");
+        }
+
+        private void TXT_Xauth_TextChanged(object sender, EventArgs e)
+        {
+            BTN_GrabXauth.Enabled = true;
         }
     }
 }
