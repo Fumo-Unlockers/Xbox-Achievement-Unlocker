@@ -32,7 +32,7 @@ namespace Xbox_Achievement_Unlocker
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             BGWorker = new System.ComponentModel.BackgroundWorker();
             LBL_Attached = new System.Windows.Forms.Label();
-            TXT_Xauth = new System.Windows.Forms.TextBox();
+            LBL_Xauth = new System.Windows.Forms.TextBox();
             BTN_GrabXauth = new System.Windows.Forms.Button();
             LBL_Gamertag = new System.Windows.Forms.Label();
             LBL_Gamerscore = new System.Windows.Forms.Label();
@@ -46,6 +46,7 @@ namespace Xbox_Achievement_Unlocker
             BTN_fixer = new System.Windows.Forms.Button();
             label2 = new System.Windows.Forms.Label();
             TXT_GameFilterTitle = new System.Windows.Forms.TextBox();
+            TXT_Xauth = new System.Windows.Forms.TextBox();
             SuspendLayout();
             // 
             // BGWorker
@@ -65,15 +66,15 @@ namespace Xbox_Achievement_Unlocker
             LBL_Attached.TabIndex = 0;
             LBL_Attached.Text = "Not attached to Xbox App";
             // 
-            // TXT_Xauth
+            // LBL_Xauth
             // 
-            TXT_Xauth.BackColor = System.Drawing.SystemColors.Control;
-            TXT_Xauth.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            TXT_Xauth.Location = new System.Drawing.Point(12, 102);
-            TXT_Xauth.Name = "TXT_Xauth";
-            TXT_Xauth.Size = new System.Drawing.Size(600, 16);
-            TXT_Xauth.TabIndex = 16;
-            TXT_Xauth.Text = "xauth:";
+            LBL_Xauth.BackColor = System.Drawing.SystemColors.Control;
+            LBL_Xauth.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            LBL_Xauth.Location = new System.Drawing.Point(12, 102);
+            LBL_Xauth.Name = "LBL_Xauth";
+            LBL_Xauth.Size = new System.Drawing.Size(37, 16);
+            LBL_Xauth.TabIndex = 16;
+            LBL_Xauth.Text = "xauth:";
             // 
             // BTN_GrabXauth
             // 
@@ -204,11 +205,21 @@ namespace Xbox_Achievement_Unlocker
             TXT_GameFilterTitle.Size = new System.Drawing.Size(100, 23);
             TXT_GameFilterTitle.TabIndex = 18;
             // 
+            // TXT_Xauth
+            // 
+            TXT_Xauth.BackColor = System.Drawing.SystemColors.Control;
+            TXT_Xauth.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            TXT_Xauth.Location = new System.Drawing.Point(55, 102);
+            TXT_Xauth.Name = "TXT_Xauth";
+            TXT_Xauth.Size = new System.Drawing.Size(570, 16);
+            TXT_Xauth.TabIndex = 19;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(800, 512);
+            Controls.Add(TXT_Xauth);
             Controls.Add(TXT_GameFilterTitle);
             Controls.Add(label2);
             Controls.Add(BTN_fixer);
@@ -221,7 +232,7 @@ namespace Xbox_Achievement_Unlocker
             Controls.Add(LBL_Gamerscore);
             Controls.Add(LBL_Gamertag);
             Controls.Add(BTN_GrabXauth);
-            Controls.Add(TXT_Xauth);
+            Controls.Add(LBL_Xauth);
             Controls.Add(Skidbox);
             Controls.Add(LBL_Attached);
             Name = "MainWindow";
@@ -235,7 +246,7 @@ namespace Xbox_Achievement_Unlocker
 
         private System.ComponentModel.BackgroundWorker BGWorker;
         private System.Windows.Forms.Label LBL_Attached;
-        private System.Windows.Forms.TextBox TXT_Xauth;
+        private System.Windows.Forms.TextBox LBL_Xauth;
         private System.Windows.Forms.Button BTN_GrabXauth;
         private System.Windows.Forms.Label LBL_Gamertag;
         private System.Windows.Forms.Label LBL_Gamerscore;
@@ -249,6 +260,7 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.Button BTN_fixer;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox TXT_GameFilterTitle;
+        private System.Windows.Forms.TextBox TXT_Xauth;
     }
 }
 
