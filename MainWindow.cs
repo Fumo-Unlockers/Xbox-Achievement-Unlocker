@@ -434,7 +434,7 @@ namespace Xbox_Achievement_Unlocker
                     for (int i = 0; i < Jsonresponse.titles.Count; i++)
                     {
                         if (Jsonresponse.titles[i].modernTitleId.ToString().Length > 0)
-                            writer.WriteLine(Jsonresponse.titles[i].name.ToString() + "," + Jsonresponse.titles[i].modernTitleId.ToString());
+                            writer.WriteLine(Jsonresponse.titles[i].modernTitleId.ToString() + "," +Jsonresponse.titles[i].name.ToString());
                     }
                 }
 
