@@ -110,34 +110,49 @@ namespace Xbox_Achievement_Unlocker
         public static string xauthtoken;
         private async void BTN_GrabXauth_Click(object sender, EventArgs e)
         {
-            //scan for first part of xauth "Authorization: XBL3.0 x="
-            XauthStartAddress = (await (m.AoBScan("41 75 74 68 6F 72 69 7A 61 74 69 6F 6E 3A 20 58 42 4C 33 2E 30 20 78 3D", true, true))).FirstOrDefault();
-            XauthStartAddressHex = (XauthStartAddress + 15).ToString("X");
-            //scan for the end of xauth "Content - Length: "
-            IEnumerable<long> XauthEndScanList = await m.AoBScan("0D 0A 43 6F 6E 74 65 6E 74 2D 4C 65 6E 67 74 68 3A 20", true, true);
-            foreach (var endaddr in XauthEndScanList.ToArray())
+            if (LBL_Xauth.Text.Length > 10)
             {
-                if (endaddr > XauthStartAddress)
+                try
                 {
-                    //find the closest end to the start of xauth to use as length
-                    XauthEndAddress = endaddr;
-                    XauthLength = (XauthEndAddress - XauthStartAddress - 15);
-                    break;
+                    xauthtoken = LBL_Xauth.Text;
+                    LoadInfo();
+                    BTN_GrabXauth.Text = "Refresh Info";
+                }
+                catch
+                {
+                    MessageBox.Show("There is an issue with the xauth token provided.");
                 }
             }
-            //read the bytes into string
-            try
+            else
             {
-                xauthtoken = Encoding.ASCII.GetString(m.ReadBytes(XauthStartAddressHex, XauthLength));
-                TXT_Xauth.Text = "xauth: " + xauthtoken;
-                LoadInfo();
-                BTN_GrabXauth.Text = "Refresh Info";
+                //scan for first part of xauth "Authorization: XBL3.0 x="
+                XauthStartAddress = (await (m.AoBScan("41 75 74 68 6F 72 69 7A 61 74 69 6F 6E 3A 20 58 42 4C 33 2E 30 20 78 3D", true, true))).FirstOrDefault();
+                XauthStartAddressHex = (XauthStartAddress + 15).ToString("X");
+                //scan for the end of xauth "Content - Length: "
+                IEnumerable<long> XauthEndScanList = await m.AoBScan("0D 0A 43 6F 6E 74 65 6E 74 2D 4C 65 6E 67 74 68 3A 20", true, true);
+                foreach (var endaddr in XauthEndScanList.ToArray())
+                {
+                    if (endaddr > XauthStartAddress)
+                    {
+                        //find the closest end to the start of xauth to use as length
+                        XauthEndAddress = endaddr;
+                        XauthLength = (XauthEndAddress - XauthStartAddress - 15);
+                        break;
+                    }
+                }
+                //read the bytes into string
+                try
+                {
+                    xauthtoken = Encoding.ASCII.GetString(m.ReadBytes(XauthStartAddressHex, XauthLength));
+                    LBL_Xauth.Text = xauthtoken;
+                    LoadInfo();
+                    BTN_GrabXauth.Text = "Refresh Info";
+                }
+                catch
+                {
+                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.");
+                }
             }
-            catch
-            {
-                MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.");
-            }
-
         }
 
 
@@ -272,7 +287,7 @@ namespace Xbox_Achievement_Unlocker
                             count = 0;
                         }
                         PictureBox GameImage = new PictureBox();
-                        GameImage.Location = new Point(itemWidthWithMargin * count,  newline);
+                        GameImage.Location = new Point(itemWidthWithMargin * count, newline);
                         GameImage.Size = new Size(itemWidth, 150);
                         if (count == 0)
                             itemWidthWithMargin = GameImage.Width + GameImage.Margin.Left + GameImage.Margin.Right;
