@@ -47,6 +47,7 @@ namespace Xbox_Achievement_Unlocker
             label2 = new System.Windows.Forms.Label();
             TXT_GameFilterTitle = new System.Windows.Forms.TextBox();
             TXT_Xauth = new System.Windows.Forms.TextBox();
+            BTN_StatsEditor = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // BGWorker
@@ -118,9 +119,9 @@ namespace Xbox_Achievement_Unlocker
             // BTN_SpoofGame
             // 
             BTN_SpoofGame.Enabled = false;
-            BTN_SpoofGame.Location = new System.Drawing.Point(631, 128);
+            BTN_SpoofGame.Location = new System.Drawing.Point(631, 151);
             BTN_SpoofGame.Name = "BTN_SpoofGame";
-            BTN_SpoofGame.Size = new System.Drawing.Size(158, 46);
+            BTN_SpoofGame.Size = new System.Drawing.Size(158, 23);
             BTN_SpoofGame.TabIndex = 5;
             BTN_SpoofGame.Text = "Open Game Spoofer";
             BTN_SpoofGame.UseVisualStyleBackColor = true;
@@ -215,11 +216,23 @@ namespace Xbox_Achievement_Unlocker
             TXT_Xauth.TabIndex = 19;
             TXT_Xauth.TextChanged += TXT_Xauth_TextChanged;
             // 
+            // BTN_StatsEditor
+            // 
+            BTN_StatsEditor.Enabled = false;
+            BTN_StatsEditor.Location = new System.Drawing.Point(630, 126);
+            BTN_StatsEditor.Name = "BTN_StatsEditor";
+            BTN_StatsEditor.Size = new System.Drawing.Size(158, 23);
+            BTN_StatsEditor.TabIndex = 20;
+            BTN_StatsEditor.Text = "Open Stats Editor";
+            BTN_StatsEditor.UseVisualStyleBackColor = true;
+            BTN_StatsEditor.Click += BTN_StatsEditor_Click;
+            // 
             // MainWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(800, 512);
+            Controls.Add(BTN_StatsEditor);
             Controls.Add(TXT_Xauth);
             Controls.Add(TXT_GameFilterTitle);
             Controls.Add(label2);
@@ -262,6 +275,7 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox TXT_GameFilterTitle;
         private System.Windows.Forms.TextBox TXT_Xauth;
+        private System.Windows.Forms.Button BTN_StatsEditor;
     }
 }
 
