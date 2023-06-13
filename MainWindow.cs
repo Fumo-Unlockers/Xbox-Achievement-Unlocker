@@ -24,7 +24,7 @@ namespace Xbox_Achievement_Unlocker
         string filter2;
         string filter3;
         string filter4;
-
+        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         static HttpClientHandler handler = new HttpClientHandler()
         {
             AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
@@ -168,7 +168,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             try
             {
                 client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
@@ -208,7 +208,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             try
             {
                 client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
@@ -247,7 +247,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             try
             {
                 client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
@@ -389,7 +389,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
             client.DefaultRequestHeaders.Add("Host", "profile.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
@@ -417,7 +417,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             try
             {
                 client.DefaultRequestHeaders.Add("Authorization", xauthtoken);

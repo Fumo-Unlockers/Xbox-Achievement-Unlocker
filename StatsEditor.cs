@@ -18,6 +18,7 @@ namespace Xbox_Achievement_Unlocker
         {
             InitializeComponent();
         }
+        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         static HttpClientHandler handler = new HttpClientHandler()
         {
             AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
@@ -53,7 +54,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
             client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
-            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);   
             StringContent requestbody = new StringContent("{\"arrangebyfield\":\"xuid\",\"xuids\":[\"" + MainWindow.xuid + "\"],\"groups\":[{\"name\":\"Hero\",\"titleId\":\"" + TXT_TitleID.Text + "\"}]}");
             jsonresponse = (dynamic)JObject.Parse(await client.PostAsync("https://userstats.xboxlive.com/batch", requestbody).Result.Content.ReadAsStringAsync());
             try
