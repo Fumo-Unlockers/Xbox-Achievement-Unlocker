@@ -95,6 +95,7 @@ namespace Xbox_Achievement_Unlocker
                 BTN_GrabXauth.Enabled = false;
                 BTN_SpoofGame.Enabled = false;
                 BTN_SaveToFile.Enabled = false;
+                BTN_StatsEditor.Enabled = false;
             }
         }
 
@@ -144,7 +145,7 @@ namespace Xbox_Achievement_Unlocker
                 try
                 {
                     xauthtoken = Encoding.ASCII.GetString(m.ReadBytes(XauthStartAddressHex, XauthLength));
-                    LBL_Xauth.Text = xauthtoken;
+                    TXT_Xauth.Text = xauthtoken;
                     LoadInfo();
                     BTN_GrabXauth.Text = "Refresh Info";
                 }
@@ -233,6 +234,7 @@ namespace Xbox_Achievement_Unlocker
                 xuid = Jsonresponse.profileUsers[0].id;
                 BTN_SpoofGame.Enabled = true;
                 BTN_SaveToFile.Enabled = true;
+                BTN_StatsEditor.Enabled = true;
             }
             catch (HttpRequestException ex)
             {
@@ -339,6 +341,11 @@ namespace Xbox_Achievement_Unlocker
             Game_Spoofer SpoofForm = new Game_Spoofer();
             SpoofForm.Show();
         }
+        private void BTN_StatsEditor_Click(object sender, EventArgs e)
+        {
+            StatsEditor StatsForm = new StatsEditor();
+            StatsForm.Show();
+        }
 
         private void LST_GameFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -397,6 +404,7 @@ namespace Xbox_Achievement_Unlocker
                 TXT_Xuid.Text = "XUID: " + Jsonresponse.profileUsers[0].id;
                 xuid = Jsonresponse.profileUsers[0].id;
                 BTN_SpoofGame.Enabled = true;
+                BTN_StatsEditor.Enabled = true;
             }
             catch (HttpRequestException ex)
             {
@@ -434,7 +442,7 @@ namespace Xbox_Achievement_Unlocker
                     for (int i = 0; i < Jsonresponse.titles.Count; i++)
                     {
                         if (Jsonresponse.titles[i].modernTitleId.ToString().Length > 0)
-                            writer.WriteLine(Jsonresponse.titles[i].modernTitleId.ToString() + "," +Jsonresponse.titles[i].name.ToString());
+                            writer.WriteLine(Jsonresponse.titles[i].modernTitleId.ToString() + "," + Jsonresponse.titles[i].name.ToString());
                     }
                 }
 
