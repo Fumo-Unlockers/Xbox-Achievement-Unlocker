@@ -22,6 +22,7 @@ namespace Xbox_Achievement_Unlocker
         {
             InitializeComponent();
         }
+        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         public List<string> AchievementIDs = new List<string>();
         HttpClient client = new HttpClient();
         string SCID;
@@ -73,8 +74,6 @@ namespace Xbox_Achievement_Unlocker
 
 
         #endregion
-
-
 
 
 
@@ -199,7 +198,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
             client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
@@ -252,7 +251,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
             client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
@@ -327,7 +326,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", "en-GB");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
             client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
