@@ -202,7 +202,8 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
             client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-            client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.04.20210610.3 c");
+            client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
+            client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
             //
             if (AchievementIDs.Count == 0)
             {
@@ -215,7 +216,7 @@ namespace Xbox_Achievement_Unlocker
                     requestbody = requestbody + "{\"id\":\"" + id + "\",\"percentComplete\":\"100\"},";
                 }
                 requestbody = requestbody.Remove(requestbody.Length - 1) + "]}";
-                var bodyconverted = new StringContent(requestbody);
+                var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/json");
                 try
                 {
                     client.PostAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements/" + SCID + "/update", bodyconverted);
