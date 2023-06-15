@@ -112,7 +112,6 @@
             this.Controls.Add(this.LBL_TID);
             this.Name = "Game_Spoofer";
             this.Text = "Game Spoofer";
-            this.Load += new System.EventHandler(this.Game_Spoofer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

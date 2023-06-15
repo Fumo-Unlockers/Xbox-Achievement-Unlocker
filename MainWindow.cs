@@ -19,6 +19,8 @@ namespace Xbox_Achievement_Unlocker
     public partial class MainWindow : Form
     {
         public Mem m = new Mem();
+        Game_Spoofer SpoofForm = new Game_Spoofer();
+        StatsEditor StatsForm = new StatsEditor();
         bool attached = false;
         string filter1;
         string filter2;
@@ -338,13 +340,13 @@ namespace Xbox_Achievement_Unlocker
 
         private void BTN_SpoofGame_Click(object sender, EventArgs e)
         {
-            Game_Spoofer SpoofForm = new Game_Spoofer();
-            SpoofForm.Show();
+            try { SpoofForm.Show(this); }
+            catch { SpoofForm.Focus(); }
         }
         private void BTN_StatsEditor_Click(object sender, EventArgs e)
         {
-            StatsEditor StatsForm = new StatsEditor();
-            StatsForm.Show();
+            try { StatsForm.Show(this); }
+            catch { StatsForm.Focus(); }
         }
 
         private void LST_GameFilter_SelectedIndexChanged(object sender, EventArgs e)

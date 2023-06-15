@@ -19,7 +19,7 @@ namespace Xbox_Achievement_Unlocker
 {
     public partial class Game_Spoofer : Form
     {
-        private Stopwatch stopwatch;
+        private Stopwatch stopwatch = new Stopwatch();
         public Game_Spoofer()
         {
             InitializeComponent();
@@ -96,15 +96,15 @@ namespace Xbox_Achievement_Unlocker
             TXT_SpoofedGame.Text = "Currently Spoofing: N/A";
         }
 
-        private void Game_Spoofer_Load(object sender, EventArgs e)
-        {
-            stopwatch = new Stopwatch();
-        }
-
         private void SpoofingTime_Tick(object sender, EventArgs e)
         {
             LBL_Timer.Text = "For: " + string.Format("{0:hh\\:mm\\:ss}", stopwatch.Elapsed);
+        }
 
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
         }
     }
 }

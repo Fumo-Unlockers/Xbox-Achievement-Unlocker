@@ -111,5 +111,11 @@ namespace Xbox_Achievement_Unlocker
 
 
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+        }
     }
 }
