@@ -481,19 +481,8 @@ namespace Xbox_Achievement_Unlocker
         private void BTN_fixer_Click(object sender, EventArgs e)
         {
             TXT_Xauth.Text = "";
-            //kill xbox app services
-            Process[] processes = Process.GetProcessesByName("XboxAppServices");
-            foreach (Process process in processes)
-            {
-                process.Kill();
-            }
             //kill xboxapp.exe
-            processes = Process.GetProcessesByName("XboxPcApp");
-            foreach (Process process in processes)
-            {
-                process.Kill();
-            }
-            processes = Process.GetProcessesByName("GameBar");
+            Process[] processes = Process.GetProcessesByName("XboxPcApp");
             foreach (Process process in processes)
             {
                 process.Kill();
@@ -506,13 +495,6 @@ namespace Xbox_Achievement_Unlocker
             startInfo.FileName = startInfo.FileName = @"shell:appsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App";
             p.StartInfo = startInfo;
             p.Start();
-            p = new Process();
-            startInfo = new ProcessStartInfo();
-            startInfo.UseShellExecute = true;
-            startInfo.FileName = startInfo.FileName = @"shell:appsFolder\Microsoft.XboxGamingOverlay_8wekyb3d8bbwe!App";
-            p.StartInfo = startInfo;
-            p.Start();
-            //
             MessageBox.Show("This might not work first time. Click this button and refresh until it does.", "Fixer");
         }
 
