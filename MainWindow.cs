@@ -157,19 +157,28 @@ namespace Xbox_Achievement_Unlocker
                         highestFrequency = pair.Value;
                     }
                 }
-                if (mostCommon.Contains("XBL3.0 x=[v] dddd [ob] LThis game clip is inappropriate or offensive."))
-                    BTN_GrabXauth_Click(sender,e);
-                try
+                if (highestFrequency == 1)
                 {
-                    xauthtoken = mostCommon;
-                    TXT_Xauth.Text = xauthtoken;
-                    LoadInfo();
-                    BTN_GrabXauth.Text = "Refresh Info";
+                    MessageBox.Show("Dont press the button as soon as the xbox app starts up.\nWait until it has loaded");
+                    Thread.Sleep(500);
+                    BTN_GrabXauth_Click(null, null);
                 }
-                catch
+                else
                 {
-                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.");
+                    try
+                    {
+                        xauthtoken = mostCommon;
+                        TXT_Xauth.Text = xauthtoken;
+                        LoadInfo();
+                        BTN_GrabXauth.Text = "Refresh Info";
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.");
+                    }
                 }
+
+
             }
         }
 
