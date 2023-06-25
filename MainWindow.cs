@@ -13,7 +13,6 @@ using Memory;
 using System.Threading;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using Microsoft.VisualBasic;
 
 namespace Xbox_Achievement_Unlocker
 {
@@ -158,6 +157,8 @@ namespace Xbox_Achievement_Unlocker
                         highestFrequency = pair.Value;
                     }
                 }
+                if (mostCommon.Contains("XBL3.0 x=[v] dddd [ob] LThis game clip is inappropriate or offensive."))
+                    BTN_GrabXauth_Click(sender,e);
                 try
                 {
                     xauthtoken = mostCommon;
@@ -479,6 +480,7 @@ namespace Xbox_Achievement_Unlocker
 
         private void BTN_fixer_Click(object sender, EventArgs e)
         {
+            TXT_Xauth.Text = "";
             //kill xbox app services
             Process[] processes = Process.GetProcessesByName("XboxAppServices");
             foreach (Process process in processes)
