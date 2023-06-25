@@ -157,7 +157,7 @@ namespace Xbox_Achievement_Unlocker
                         highestFrequency = pair.Value;
                     }
                 }
-                if (highestFrequency == 1)
+                if (highestFrequency < 3)
                 {
                     MessageBox.Show("Dont press the button as soon as the xbox app starts up.\nWait until it has loaded");
                     Thread.Sleep(500);
