@@ -33,6 +33,7 @@ This tool utilizes memory.dll to extract the user's XAuth token from one of the 
 6. Can unlock achievements on non-event-based games.
 7. Able to detect which games are event-based.
 8. Can spoof time in unowned games using a supplied Title ID.
+9. Experimental stat editor for certain games using title managed stats
 
 ## To-Do List
 1. Understand event-based achievements and how they are unlocked.
