@@ -13,6 +13,7 @@ using Memory;
 using System.Threading;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using Microsoft.VisualBasic;
 
 namespace Xbox_Achievement_Unlocker
 {
@@ -40,7 +41,7 @@ namespace Xbox_Achievement_Unlocker
         {
             while (true)
             {
-                if (!m.OpenProcess("XboxAppServices"))
+                if (!m.OpenProcess("XboxPcApp"))
                 {
                     attached = false;
                     Thread.Sleep(1000);
@@ -84,7 +85,7 @@ namespace Xbox_Achievement_Unlocker
         {
             if (attached)
             {
-                LBL_Attached.Text = "Attached to: " + m.GetProcIdFromName("XboxAppServices").ToString();
+                LBL_Attached.Text = "Attached to: " + m.GetProcIdFromName("XboxPcApp").ToString();
                 LBL_Attached.ForeColor = Color.Green;
                 BTN_GrabXauth.Enabled = true;
             }
@@ -126,25 +127,40 @@ namespace Xbox_Achievement_Unlocker
             }
             else
             {
-                //scan for first part of xauth "Authorization: XBL3.0 x="
-                XauthStartAddress = (await (m.AoBScan("41 75 74 68 6F 72 69 7A 61 74 69 6F 6E 3A 20 58 42 4C 33 2E 30 20 78 3D", true, true))).FirstOrDefault();
-                XauthStartAddressHex = (XauthStartAddress + 15).ToString("X");
-                //scan for the end of xauth "Content - Length: "
-                IEnumerable<long> XauthEndScanList = await m.AoBScan("0D 0A 43 6F 6E 74 65 6E 74 2D 4C 65 6E 67 74 68 3A 20", true, true);
-                foreach (var endaddr in XauthEndScanList.ToArray())
+                //this is actually the stupidest guess I have ever done while coding but it should work so I dont care
+                IEnumerable<long> XauthScanList = await m.AoBScan("58 42 4C 33 2E 30 20 78 3D", true, true);
+                string[] XauthStrings = new string[XauthScanList.Count()];
+                var i = 0;
+                foreach (var address in XauthScanList)
                 {
-                    if (endaddr > XauthStartAddress)
+                    XauthStrings[i] = m.ReadString(address.ToString("X"), length: 10000);
+                    i++;
+                }
+                Dictionary<string, int> frequency = new Dictionary<string, int>();
+                foreach (string str in XauthStrings)
+                {
+                    if (!frequency.ContainsKey(str))
                     {
-                        //find the closest end to the start of xauth to use as length
-                        XauthEndAddress = endaddr;
-                        XauthLength = (XauthEndAddress - XauthStartAddress - 15);
-                        break;
+                        frequency[str] = 1;
+                    }
+                    else
+                    {
+                        frequency[str]++;
                     }
                 }
-                //read the bytes into string
+                string mostCommon = XauthStrings[0];
+                int highestFrequency = 0;
+                foreach (KeyValuePair<string, int> pair in frequency)
+                {
+                    if (pair.Value > highestFrequency)
+                    {
+                        mostCommon = pair.Key;
+                        highestFrequency = pair.Value;
+                    }
+                }
                 try
                 {
-                    xauthtoken = Encoding.ASCII.GetString(m.ReadBytes(XauthStartAddressHex, XauthLength));
+                    xauthtoken = mostCommon;
                     TXT_Xauth.Text = xauthtoken;
                     LoadInfo();
                     BTN_GrabXauth.Text = "Refresh Info";
