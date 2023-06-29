@@ -15,6 +15,7 @@ body:
       options:
         - Unlocker
         - Spoofer
+        - Stats Editor
         - New/Other
     validations:
       required: true
