@@ -20,10 +20,10 @@ namespace Xbox_Achievement_Unlocker
     {
         public Mem m = new Mem();
         bool attached = false;
-        string filter1;
-        string filter2;
-        string filter3;
-        string filter4;
+        string filter1, filter2, filter3, filter4;
+
+        dynamic dataProfile, dataTitles;
+
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         static HttpClientHandler handler = new HttpClientHandler()
         {
@@ -254,6 +254,7 @@ namespace Xbox_Achievement_Unlocker
                 var responseString = await client.GetStringAsync("https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag,Gamerscore");
                 var Jsonresponse = (dynamic)(new JObject());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
+                dataProfile = Jsonresponse;
                 LBL_Gamertag.Text = "Gamertag: " + Jsonresponse.profileUsers[0].settings[0].value;
                 LBL_Gamerscore.Text = "Gamerscore: " + Jsonresponse.profileUsers[0].settings[1].value;
                 TXT_Xuid.Text = "XUID: " + Jsonresponse.profileUsers[0].id;
@@ -289,20 +290,24 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             try
             {
+                string line = "", devices, titles;
                 var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + xuid + ")/titles/titleHistory/decoration/Achievement,scid");
                 var Jsonresponse = (dynamic)(new JObject());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
-                var count = 0;
                 const int itemWidth = 150;
                 const int rowHeight = 205;
-                int itemCountPerRow = 6;
-                int newline = 0;
-                int itemWidthWithMargin = 0;
+                int itemCountPerRow = 6,
+                    newline = 0,
+                    itemWidthWithMargin = 0,
+                    count = 0;
+
+                dynamic title;
+                dataTitles = Jsonresponse;
                 for (int i = 0; i < Jsonresponse.titles.Count; i++)
                 {
-                    dynamic title = Jsonresponse.titles[i];
-                    string devices = title.devices.ToString();
-                    string titles = title.name.ToString() + " " + title.titleId.ToString();
+                    title = Jsonresponse.titles[i];
+                    devices = title.devices.ToString();
+                    titles = title.name.ToString() + " " + title.titleId.ToString();
                     if (!devices.Contains(filter1)
                         && !devices.Contains(filter2)
                         && !devices.Contains(filter3)
@@ -349,9 +354,11 @@ namespace Xbox_Achievement_Unlocker
                             itemCountPerRow = Convert.ToInt32(Math.Floor(Convert.ToDouble(Panel_Recents.Width)
                                 / (itemWidth + GameImage.Margin.Left + GameImage.Margin.Right)));
 
-                        count = count + 1;
+                        count++;
                     }
+                    line += Jsonresponse.titles[i].modernTitleId + "," + Jsonresponse.titles[i].name + "\n";
                 }
+                saveFileGameList(line);
             }
             catch (HttpRequestException ex)
             {
@@ -361,7 +368,24 @@ namespace Xbox_Achievement_Unlocker
                     MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
             }
         }
-
+        private void saveFileGameList(string line)
+        {
+            try
+            {
+                String path = "GamesListAll.txt";
+                StreamWriter sw = new StreamWriter(path);
+                sw.WriteLine(line);
+                sw.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Executing finally block.");
+            }
+        }
         private void BTN_SpoofGame_Click(object sender, EventArgs e)
         {
             Game_Spoofer SpoofForm = new Game_Spoofer();
@@ -411,64 +435,14 @@ namespace Xbox_Achievement_Unlocker
 
         async void BTN_SaveToFile_Click(object sender, EventArgs e)
         {
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
-            client.DefaultRequestHeaders.Add("Host", "profile.xboxlive.com");
-            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             try
-            {
-                //query the users own profile using their xauth to find out profile information for future queries
-                var responseString = await client.GetStringAsync("https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag,Gamerscore");
-                var Jsonresponse = (dynamic)(new JObject());
-                Jsonresponse = (dynamic)JObject.Parse(responseString);
-                LBL_Gamertag.Text = "Gamertag: " + Jsonresponse.profileUsers[0].settings[0].value;
-                LBL_Gamerscore.Text = "Gamerscore: " + Jsonresponse.profileUsers[0].settings[1].value;
-                TXT_Xuid.Text = "XUID: " + Jsonresponse.profileUsers[0].id;
-                xuid = Jsonresponse.profileUsers[0].id;
-                BTN_SpoofGame.Enabled = true;
-                BTN_StatsEditor.Enabled = true;
-            }
-            catch (HttpRequestException ex)
-            {
-                if ((int)ex.StatusCode == 401)
-                    MessageBox.Show("Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.", "401 Unauthorised");
-                else
-                    MessageBox.Show("something did a fucky wucky and I dont have a specific message for the error code", "fucky wucky");
-            }
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            try
-            {
-                client.DefaultRequestHeaders.Add("Authorization", xauthtoken);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(
-                    "Couldnt find xauth. Go click the FuckyWucky Fixer button until this doesnt happen.",
-                    "Xauth not found");
-                return;
-            }
-
-            client.DefaultRequestHeaders.Add("Host", "titlehub.xboxlive.com");
-            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-            try
-            {
-                var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + xuid + ")/titles/titleHistory/decoration/Achievement,scid");
-                var Jsonresponse = (dynamic)(new JObject());
-                Jsonresponse = (dynamic)JObject.Parse(responseString);
+            {                
                 using (StreamWriter writer = new StreamWriter("GameList.txt"))
                 {
-                    for (int i = 0; i < Jsonresponse.titles.Count; i++)
+                    for (int i = 0; i < dataTitles.titles.Count; i++)
                     {
-                        if (Jsonresponse.titles[i].modernTitleId.ToString().Length > 0)
-                            writer.WriteLine(Jsonresponse.titles[i].modernTitleId.ToString() + "," + Jsonresponse.titles[i].name.ToString());
+                        if (dataTitles.titles[i].modernTitleId.ToString().Length > 0)
+                            writer.WriteLine(dataTitles.titles[i].modernTitleId.ToString() + "," + dataTitles.titles[i].name.ToString());
                     }
                 }
 
