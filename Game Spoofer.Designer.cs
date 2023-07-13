@@ -28,104 +28,96 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.LBL_TID = new System.Windows.Forms.Label();
-            this.TXT_TID = new System.Windows.Forms.TextBox();
-            this.BTN_Spoof = new System.Windows.Forms.Button();
-            this.TXT_SpoofedGame = new System.Windows.Forms.RichTextBox();
-            this.BTN_SpoofStop = new System.Windows.Forms.Button();
-            this.LBL_Timer = new System.Windows.Forms.Label();
-            this.SpoofingTime = new System.Windows.Forms.Timer(this.components);
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            LBL_TID = new System.Windows.Forms.Label();
+            BTN_Spoof = new System.Windows.Forms.Button();
+            BTN_SpoofStop = new System.Windows.Forms.Button();
+            LBL_Timer = new System.Windows.Forms.Label();
+            SpoofingTime = new System.Windows.Forms.Timer(components);
+            CB_titleList = new System.Windows.Forms.ComboBox();
+            SuspendLayout();
             // 
             // LBL_TID
             // 
-            this.LBL_TID.AutoSize = true;
-            this.LBL_TID.Location = new System.Drawing.Point(3, 9);
-            this.LBL_TID.Name = "LBL_TID";
-            this.LBL_TID.Size = new System.Drawing.Size(43, 15);
-            this.LBL_TID.TabIndex = 0;
-            this.LBL_TID.Text = "TitleID:";
-            // 
-            // TXT_TID
-            // 
-            this.TXT_TID.Location = new System.Drawing.Point(52, 6);
-            this.TXT_TID.Name = "TXT_TID";
-            this.TXT_TID.Size = new System.Drawing.Size(168, 23);
-            this.TXT_TID.TabIndex = 1;
+            LBL_TID.AutoSize = true;
+            LBL_TID.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            LBL_TID.Location = new System.Drawing.Point(12, 20);
+            LBL_TID.Name = "LBL_TID";
+            LBL_TID.Size = new System.Drawing.Size(114, 25);
+            LBL_TID.TabIndex = 0;
+            LBL_TID.Text = "Search Title:";
             // 
             // BTN_Spoof
             // 
-            this.BTN_Spoof.Location = new System.Drawing.Point(226, 5);
-            this.BTN_Spoof.Name = "BTN_Spoof";
-            this.BTN_Spoof.Size = new System.Drawing.Size(98, 34);
-            this.BTN_Spoof.TabIndex = 3;
-            this.BTN_Spoof.Text = "Start";
-            this.BTN_Spoof.UseVisualStyleBackColor = true;
-            this.BTN_Spoof.Click += new System.EventHandler(this.BTN_Spoof_Click);
-            // 
-            // TXT_SpoofedGame
-            // 
-            this.TXT_SpoofedGame.BackColor = System.Drawing.SystemColors.Control;
-            this.TXT_SpoofedGame.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TXT_SpoofedGame.Location = new System.Drawing.Point(3, 35);
-            this.TXT_SpoofedGame.Margin = new System.Windows.Forms.Padding(0);
-            this.TXT_SpoofedGame.Name = "TXT_SpoofedGame";
-            this.TXT_SpoofedGame.Size = new System.Drawing.Size(217, 44);
-            this.TXT_SpoofedGame.TabIndex = 4;
-            this.TXT_SpoofedGame.Text = "Currently Spoofing: N/A";
+            BTN_Spoof.Location = new System.Drawing.Point(327, 29);
+            BTN_Spoof.Name = "BTN_Spoof";
+            BTN_Spoof.Size = new System.Drawing.Size(98, 34);
+            BTN_Spoof.TabIndex = 3;
+            BTN_Spoof.Text = "Start";
+            BTN_Spoof.UseVisualStyleBackColor = true;
+            BTN_Spoof.Click += BTN_Spoof_Click;
             // 
             // BTN_SpoofStop
             // 
-            this.BTN_SpoofStop.Location = new System.Drawing.Point(226, 45);
-            this.BTN_SpoofStop.Name = "BTN_SpoofStop";
-            this.BTN_SpoofStop.Size = new System.Drawing.Size(98, 34);
-            this.BTN_SpoofStop.TabIndex = 5;
-            this.BTN_SpoofStop.Text = "Stop";
-            this.BTN_SpoofStop.UseVisualStyleBackColor = true;
-            this.BTN_SpoofStop.Click += new System.EventHandler(this.BTN_SpoofStop_Click);
+            BTN_SpoofStop.Location = new System.Drawing.Point(327, 69);
+            BTN_SpoofStop.Name = "BTN_SpoofStop";
+            BTN_SpoofStop.Size = new System.Drawing.Size(98, 34);
+            BTN_SpoofStop.TabIndex = 5;
+            BTN_SpoofStop.Text = "Stop";
+            BTN_SpoofStop.UseVisualStyleBackColor = true;
+            BTN_SpoofStop.Click += BTN_SpoofStop_Click;
             // 
             // LBL_Timer
             // 
-            this.LBL_Timer.AutoSize = true;
-            this.LBL_Timer.Location = new System.Drawing.Point(72, 64);
-            this.LBL_Timer.Name = "LBL_Timer";
-            this.LBL_Timer.Size = new System.Drawing.Size(72, 15);
-            this.LBL_Timer.TabIndex = 6;
-            this.LBL_Timer.Text = "For: 00:00:00";
+            LBL_Timer.AutoSize = true;
+            LBL_Timer.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            LBL_Timer.Location = new System.Drawing.Point(12, 80);
+            LBL_Timer.Name = "LBL_Timer";
+            LBL_Timer.Size = new System.Drawing.Size(127, 37);
+            LBL_Timer.TabIndex = 6;
+            LBL_Timer.Text = "00:00:00";
             // 
             // SpoofingTime
             // 
-            this.SpoofingTime.Enabled = true;
-            this.SpoofingTime.Tick += new System.EventHandler(this.SpoofingTime_Tick);
+            SpoofingTime.Enabled = true;
+            SpoofingTime.Tick += SpoofingTime_Tick;
+            // 
+            // CB_titleList
+            // 
+            CB_titleList.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            CB_titleList.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_titleList.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            CB_titleList.FormattingEnabled = true;
+            CB_titleList.Location = new System.Drawing.Point(12, 48);
+            CB_titleList.Name = "CB_titleList";
+            CB_titleList.Size = new System.Drawing.Size(294, 29);
+            CB_titleList.TabIndex = 7;
             // 
             // Game_Spoofer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(336, 84);
-            this.Controls.Add(this.LBL_Timer);
-            this.Controls.Add(this.BTN_SpoofStop);
-            this.Controls.Add(this.TXT_SpoofedGame);
-            this.Controls.Add(this.BTN_Spoof);
-            this.Controls.Add(this.TXT_TID);
-            this.Controls.Add(this.LBL_TID);
-            this.Name = "Game_Spoofer";
-            this.Text = "Game Spoofer";
-            this.Load += new System.EventHandler(this.Game_Spoofer_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(448, 126);
+            Controls.Add(CB_titleList);
+            Controls.Add(LBL_Timer);
+            Controls.Add(BTN_SpoofStop);
+            Controls.Add(BTN_Spoof);
+            Controls.Add(LBL_TID);
+            Name = "Game_Spoofer";
+            Text = "Game Spoofer";
+            Load += Game_Spoofer_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private System.Windows.Forms.Label LBL_TID;
-        private System.Windows.Forms.TextBox TXT_TID;
         private System.Windows.Forms.Button BTN_Spoof;
         private System.Windows.Forms.RichTextBox TXT_SpoofedGame;
         private System.Windows.Forms.Button BTN_SpoofStop;
         private System.Windows.Forms.Label LBL_Timer;
         private System.Windows.Forms.Timer SpoofingTime;
+        private System.Windows.Forms.ComboBox CB_titleList;
     }
 }
