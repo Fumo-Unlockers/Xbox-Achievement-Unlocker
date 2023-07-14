@@ -23,8 +23,11 @@ namespace Xbox_Achievement_Unlocker
     public partial class Game_Spoofer : Form
     {
         private Stopwatch stopwatch;
-        public Game_Spoofer()
+        private dynamic dataProfile, dataTitles;
+        public Game_Spoofer(dynamic dataProfile, dynamic dataTitles)
         {
+            this.dataProfile = dataProfile;
+            this.dataTitles = dataTitles;
             InitializeComponent();
             fill_Cb_GameList();
         }
@@ -59,7 +62,7 @@ namespace Xbox_Achievement_Unlocker
             {
 
                 //Pass the file path and file name to the StreamReader constructor
-                StreamReader sr = new StreamReader("GamesListAll.txt");
+                StreamReader sr = new StreamReader("GamesListAll.csv");
                 //Read the first line of text
                 line = sr.ReadLine();
 
@@ -138,7 +141,21 @@ namespace Xbox_Achievement_Unlocker
         private void SpoofingTime_Tick(object sender, EventArgs e)
         {
             LBL_Timer.Text = string.Format("{0:hh\\:mm\\:ss}", stopwatch.Elapsed);
+        }
 
+        private void CB_titleList_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (CB_titleList.SelectedValue != null)
+            {
+                for (int i = 0; i < dataTitles.titles.Count; i++)
+                {
+                    if (CB_titleList.SelectedValue.ToString() == dataTitles.titles[i].modernTitleId.ToString())
+                    {
+                        gameImage.ImageLocation = dataTitles.titles[i].displayImage.ToString() + "?w=70&format=jpg";
+                        break;
+                    }
+                }
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Xbox_Achievement_Unlocker
         bool attached = false;
         string filter1, filter2, filter3, filter4;
 
-        dynamic dataProfile, dataTitles;
+        private dynamic dataProfile, dataTitles;
 
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         static HttpClientHandler handler = new HttpClientHandler()
@@ -356,7 +356,10 @@ namespace Xbox_Achievement_Unlocker
 
                         count++;
                     }
-                    line += Jsonresponse.titles[i].modernTitleId + "," + Jsonresponse.titles[i].name + "\n";
+                    line += Jsonresponse.titles[i].modernTitleId + ","
+                        +Jsonresponse.titles[i].name + ","
+                        +Jsonresponse.titles[i].displayImage.ToString()
+                        + "\n";
                 }
                 saveFileGameList(line);
             }
@@ -372,7 +375,7 @@ namespace Xbox_Achievement_Unlocker
         {
             try
             {
-                String path = "GamesListAll.txt";
+                String path = "GamesListAll.csv";
                 StreamWriter sw = new StreamWriter(path);
                 sw.WriteLine(line);
                 sw.Close();
@@ -388,7 +391,7 @@ namespace Xbox_Achievement_Unlocker
         }
         private void BTN_SpoofGame_Click(object sender, EventArgs e)
         {
-            Game_Spoofer SpoofForm = new Game_Spoofer();
+            Game_Spoofer SpoofForm = new Game_Spoofer(dataProfile, dataTitles);
             SpoofForm.Show();
         }
         private void BTN_StatsEditor_Click(object sender, EventArgs e)
