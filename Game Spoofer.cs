@@ -38,6 +38,12 @@ namespace Xbox_Achievement_Unlocker
         bool active;
         async void BTN_Spoof_Click(object sender, EventArgs e)
         {
+            if (CB_titleList.SelectedValue == null)
+            {
+                MessageBox.Show("You must select a game.\n Do you want to cause a bug?", "Game not selected", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                return;
+            }
+
             BTN_Spoof.Enabled = false;
             BTN_SpoofStop.Enabled = true;
             string uuiGame = CB_titleList.SelectedValue.ToString();
