@@ -13,14 +13,21 @@ using System.Threading;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Reflection.Emit;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Xbox_Achievement_Unlocker
 {
     public partial class AchievementList : Form
     {
+        private Timer typingTimer = new Timer();
+
         public AchievementList()
         {
             InitializeComponent();
+
+            // timer so it doesnt update 9999 times after the search
+            typingTimer.Interval = 500;
+            typingTimer.Tick += TypingTimer_Tick;
         }
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         public List<string> AchievementIDs = new List<string>();
@@ -79,6 +86,15 @@ namespace Xbox_Achievement_Unlocker
 
         public async void PopulateAchievementList(string AchievementData)
         {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+            client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            DGV_AchievementList.Rows.Clear();
             var Jsonresponse = (dynamic)(new JObject());
             Jsonresponse = (dynamic)JObject.Parse(AchievementData);
             var newline = 0;
@@ -110,14 +126,15 @@ namespace Xbox_Achievement_Unlocker
                     }
                 }
 
-
                 for (int i = 0; i < Jsonresponse.achievements.Count; i++)
                 {
-                    if (Jsonresponse.achievements[i].progressState.ToString() == "Achieved")
+                    if (Jsonresponse.achievements[i].progressState.ToString() == "Achieved" && (Sorting_Box.SelectedIndex is 0 or 2))
                     {
                         try
                         {
-
+                            if (searchbox.Text.Length > 0)
+                                if (!Jsonresponse.achievements[i].name.ToString().ToLowerInvariant().Contains(searchbox.Text.ToLowerInvariant()))
+                                    continue;
 
                             DGV_AchievementList.Rows.Add(2,
                                 Jsonresponse.achievements[i].name.ToString(),
@@ -142,8 +159,12 @@ namespace Xbox_Achievement_Unlocker
                             );
                         }
                     }
-                    else
+                    if (Jsonresponse.achievements[i].progressState.ToString() != "Achieved" && (Sorting_Box.SelectedIndex is 0 or 1))
                     {
+                        if (searchbox.Text.Length > 0)
+                            if (!Jsonresponse.achievements[i].name.ToString().ToLowerInvariant().Contains(searchbox.Text.ToLowerInvariant()))
+                                continue;
+
                         try
                         {
                             DGV_AchievementList.Rows.Add(0,
@@ -323,17 +344,7 @@ namespace Xbox_Achievement_Unlocker
 
         private async Task RefreshList()
         {
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
-            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
-            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-            DGV_AchievementList.Rows.Clear();
-            responseString = await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements?titleId=" + TitleID + "&maxItems=1000");
-            PopulateAchievementList(responseString);
+            PopulateAchievementList(await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements?titleId=" + TitleID + "&maxItems=1000"));
         }
 
         private async void AchievementList_KeyDown(object sender, KeyEventArgs e)
@@ -341,6 +352,24 @@ namespace Xbox_Achievement_Unlocker
             if (e.KeyCode == Keys.F5)
                 await RefreshList();
 
+        }
+
+        private async void Sorting_Box_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PopulateAchievementList(await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements?titleId=" + TitleID + "&maxItems=1000"));
+        }
+
+
+        private async void searchbox_TextChanged(object sender, EventArgs e)
+        {
+            typingTimer.Stop();
+            typingTimer.Start();
+        }
+
+        private async void TypingTimer_Tick(object sender, EventArgs e)
+        {
+            typingTimer.Stop();
+            PopulateAchievementList(await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements?titleId=" + TitleID + "&maxItems=1000"));
         }
     }
 }

@@ -29,18 +29,21 @@ namespace Xbox_Achievement_Unlocker
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             BTN_Unlock = new System.Windows.Forms.Button();
             BTN_UnlockAll = new System.Windows.Forms.Button();
             DGV_AchievementList = new System.Windows.Forms.DataGridView();
-            Check_UnlockAll = new System.Windows.Forms.CheckBox();
-            BTN_ALRefresh = new System.Windows.Forms.Button();
-            label1 = new System.Windows.Forms.Label();
             dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             CL_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             CL_Stats = new System.Windows.Forms.DataGridViewTextBoxColumn();
             CL_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Check_UnlockAll = new System.Windows.Forms.CheckBox();
+            BTN_ALRefresh = new System.Windows.Forms.Button();
+            label1 = new System.Windows.Forms.Label();
+            Sorting_Box = new System.Windows.Forms.ComboBox();
+            label2 = new System.Windows.Forms.Label();
+            searchbox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)DGV_AchievementList).BeginInit();
             SuspendLayout();
             // 
@@ -79,14 +82,14 @@ namespace Xbox_Achievement_Unlocker
             DGV_AchievementList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             DGV_AchievementList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DGV_AchievementList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { dataGridViewCheckBoxColumn1, dataGridViewTextBoxColumn1, CL_Description, CL_Stats, CL_ID });
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            DGV_AchievementList.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            DGV_AchievementList.DefaultCellStyle = dataGridViewCellStyle2;
             DGV_AchievementList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             DGV_AchievementList.Location = new System.Drawing.Point(0, 0);
             DGV_AchievementList.Name = "DGV_AchievementList";
@@ -100,45 +103,9 @@ namespace Xbox_Achievement_Unlocker
             DGV_AchievementList.ShowCellToolTips = false;
             DGV_AchievementList.ShowEditingIcon = false;
             DGV_AchievementList.ShowRowErrors = false;
-            DGV_AchievementList.Size = new System.Drawing.Size(855, 388);
+            DGV_AchievementList.Size = new System.Drawing.Size(1160, 388);
             DGV_AchievementList.TabIndex = 1;
             DGV_AchievementList.CellClick += dataGridView1_CellClick;
-            // 
-            // Check_UnlockAll
-            // 
-            Check_UnlockAll.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            Check_UnlockAll.AutoSize = true;
-            Check_UnlockAll.Location = new System.Drawing.Point(225, 396);
-            Check_UnlockAll.Name = "Check_UnlockAll";
-            Check_UnlockAll.Size = new System.Drawing.Size(80, 34);
-            Check_UnlockAll.TabIndex = 4;
-            Check_UnlockAll.Text = "Allow\r\nUnlock All";
-            Check_UnlockAll.UseVisualStyleBackColor = true;
-            Check_UnlockAll.CheckedChanged += Check_UnlockAll_CheckedChanged;
-            // 
-            // BTN_ALRefresh
-            // 
-            BTN_ALRefresh.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            BTN_ALRefresh.Location = new System.Drawing.Point(745, 394);
-            BTN_ALRefresh.Margin = new System.Windows.Forms.Padding(0);
-            BTN_ALRefresh.Name = "BTN_ALRefresh";
-            BTN_ALRefresh.Size = new System.Drawing.Size(105, 40);
-            BTN_ALRefresh.TabIndex = 5;
-            BTN_ALRefresh.Text = "Refresh (F5)";
-            BTN_ALRefresh.UseVisualStyleBackColor = true;
-            BTN_ALRefresh.Click += BTN_ALRefresh_Click;
-            // 
-            // label1
-            // 
-            label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            label1.Location = new System.Drawing.Point(312, 399);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(430, 31);
-            label1.TabIndex = 13;
-            label1.Text = "THIS IS EVENT BASED. IT WONT WORK";
-            label1.Visible = false;
             // 
             // dataGridViewCheckBoxColumn1
             // 
@@ -188,12 +155,81 @@ namespace Xbox_Achievement_Unlocker
             CL_ID.ReadOnly = true;
             CL_ID.Width = 40;
             // 
+            // Check_UnlockAll
+            // 
+            Check_UnlockAll.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            Check_UnlockAll.AutoSize = true;
+            Check_UnlockAll.Location = new System.Drawing.Point(225, 396);
+            Check_UnlockAll.Name = "Check_UnlockAll";
+            Check_UnlockAll.Size = new System.Drawing.Size(80, 34);
+            Check_UnlockAll.TabIndex = 4;
+            Check_UnlockAll.Text = "Allow\r\nUnlock All";
+            Check_UnlockAll.UseVisualStyleBackColor = true;
+            Check_UnlockAll.CheckedChanged += Check_UnlockAll_CheckedChanged;
+            // 
+            // BTN_ALRefresh
+            // 
+            BTN_ALRefresh.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            BTN_ALRefresh.Location = new System.Drawing.Point(1050, 394);
+            BTN_ALRefresh.Margin = new System.Windows.Forms.Padding(0);
+            BTN_ALRefresh.Name = "BTN_ALRefresh";
+            BTN_ALRefresh.Size = new System.Drawing.Size(105, 40);
+            BTN_ALRefresh.TabIndex = 5;
+            BTN_ALRefresh.Text = "Refresh (F5)";
+            BTN_ALRefresh.UseVisualStyleBackColor = true;
+            BTN_ALRefresh.Click += BTN_ALRefresh_Click;
+            // 
+            // label1
+            // 
+            label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            label1.Location = new System.Drawing.Point(617, 399);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(430, 31);
+            label1.TabIndex = 13;
+            label1.Text = "THIS IS EVENT BASED. IT WONT WORK";
+            label1.Visible = false;
+            // 
+            // Sorting_Box
+            // 
+            Sorting_Box.FormattingEnabled = true;
+            Sorting_Box.Items.AddRange(new object[] { "all", "unlockable", "unlocked" });
+            Sorting_Box.Location = new System.Drawing.Point(303, 410);
+            Sorting_Box.Name = "Sorting_Box";
+            Sorting_Box.Size = new System.Drawing.Size(121, 23);
+            Sorting_Box.TabIndex = 14;
+            Sorting_Box.TabStop = false;
+            Sorting_Box.SelectedIndex = 0;
+            Sorting_Box.SelectedIndexChanged += Sorting_Box_SelectedIndexChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(341, 393);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(45, 15);
+            label2.TabIndex = 15;
+            label2.Text = "Sorting";
+            // 
+            // searchbox
+            // 
+            searchbox.Location = new System.Drawing.Point(447, 411);
+            searchbox.Name = "searchbox";
+            searchbox.PlaceholderText = "search box";
+            searchbox.Size = new System.Drawing.Size(164, 23);
+            searchbox.TabIndex = 16;
+            searchbox.TextChanged += searchbox_TextChanged;
+            // 
             // AchievementList
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            ClientSize = new System.Drawing.Size(856, 440);
+            ClientSize = new System.Drawing.Size(1161, 440);
+            Controls.Add(searchbox);
+            Controls.Add(label2);
+            Controls.Add(Sorting_Box);
             Controls.Add(BTN_ALRefresh);
             Controls.Add(Check_UnlockAll);
             Controls.Add(DGV_AchievementList);
@@ -221,5 +257,8 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.DataGridViewTextBoxColumn CL_Description;
         private System.Windows.Forms.DataGridViewTextBoxColumn CL_Stats;
         private System.Windows.Forms.DataGridViewTextBoxColumn CL_ID;
+        private System.Windows.Forms.ComboBox Sorting_Box;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox searchbox;
     }
 }

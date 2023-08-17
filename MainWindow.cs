@@ -496,7 +496,7 @@ namespace Xbox_Achievement_Unlocker
             {
                 process.Kill();
             }
-            Thread.Sleep(5000);
+            Thread.Sleep(500);
             //open the uwp xbox app
             Process p = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
