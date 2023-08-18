@@ -34,12 +34,6 @@ namespace Xbox_Achievement_Unlocker
             BTN_Unlock = new System.Windows.Forms.Button();
             BTN_UnlockAll = new System.Windows.Forms.Button();
             DGV_AchievementList = new System.Windows.Forms.DataGridView();
-            dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            CL_Rarity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            CL_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            CL_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            CL_Stats = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            CL_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             Check_UnlockAll = new System.Windows.Forms.CheckBox();
             BTN_ALRefresh = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
@@ -59,6 +53,12 @@ namespace Xbox_Achievement_Unlocker
             panel7 = new System.Windows.Forms.Panel();
             panel5 = new System.Windows.Forms.Panel();
             SpoofingTime = new System.Windows.Forms.Timer(components);
+            dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            CL_Rarity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            CL_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            CL_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            CL_Stats = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            CL_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)DGV_AchievementList).BeginInit();
             panel1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -131,63 +131,6 @@ namespace Xbox_Achievement_Unlocker
             DGV_AchievementList.Size = new System.Drawing.Size(652, 463);
             DGV_AchievementList.TabIndex = 1;
             DGV_AchievementList.CellClick += dataGridView1_CellClick;
-            // 
-            // dataGridViewCheckBoxColumn1
-            // 
-            dataGridViewCheckBoxColumn1.FalseValue = "0";
-            dataGridViewCheckBoxColumn1.FillWeight = 70F;
-            dataGridViewCheckBoxColumn1.HeaderText = "";
-            dataGridViewCheckBoxColumn1.IndeterminateValue = "2";
-            dataGridViewCheckBoxColumn1.MinimumWidth = 40;
-            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-            dataGridViewCheckBoxColumn1.ReadOnly = true;
-            dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            dataGridViewCheckBoxColumn1.TrueValue = "1";
-            dataGridViewCheckBoxColumn1.Width = 40;
-            // 
-            // CL_Rarity
-            // 
-            CL_Rarity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            CL_Rarity.HeaderText = "%";
-            CL_Rarity.MinimumWidth = 20;
-            CL_Rarity.Name = "CL_Rarity";
-            CL_Rarity.ReadOnly = true;
-            // 
-            // CL_Name
-            // 
-            CL_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            CL_Name.FillWeight = 150F;
-            CL_Name.HeaderText = "Name";
-            CL_Name.MinimumWidth = 50;
-            CL_Name.Name = "CL_Name";
-            CL_Name.ReadOnly = true;
-            // 
-            // CL_Description
-            // 
-            CL_Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            CL_Description.FillWeight = 300F;
-            CL_Description.HeaderText = "Description";
-            CL_Description.MinimumWidth = 100;
-            CL_Description.Name = "CL_Description";
-            CL_Description.ReadOnly = true;
-            // 
-            // CL_Stats
-            // 
-            CL_Stats.FillWeight = 300F;
-            CL_Stats.HeaderText = "Stats";
-            CL_Stats.MinimumWidth = 100;
-            CL_Stats.Name = "CL_Stats";
-            CL_Stats.ReadOnly = true;
-            CL_Stats.Width = 200;
-            // 
-            // CL_ID
-            // 
-            CL_ID.FillWeight = 40F;
-            CL_ID.HeaderText = "ID";
-            CL_ID.MinimumWidth = 6;
-            CL_ID.Name = "CL_ID";
-            CL_ID.ReadOnly = true;
-            CL_ID.Width = 20;
             // 
             // Check_UnlockAll
             // 
@@ -386,6 +329,63 @@ namespace Xbox_Achievement_Unlocker
             // 
             SpoofingTime.Enabled = true;
             SpoofingTime.Tick += SpoofingTime_Tick;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            dataGridViewCheckBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCheckBoxColumn1.FalseValue = "0";
+            dataGridViewCheckBoxColumn1.FillWeight = 70F;
+            dataGridViewCheckBoxColumn1.HeaderText = "";
+            dataGridViewCheckBoxColumn1.IndeterminateValue = "2";
+            dataGridViewCheckBoxColumn1.MinimumWidth = 20;
+            dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            dataGridViewCheckBoxColumn1.ReadOnly = true;
+            dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            dataGridViewCheckBoxColumn1.TrueValue = "1";
+            // 
+            // CL_Rarity
+            // 
+            CL_Rarity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            CL_Rarity.HeaderText = "%";
+            CL_Rarity.MinimumWidth = 20;
+            CL_Rarity.Name = "CL_Rarity";
+            CL_Rarity.ReadOnly = true;
+            // 
+            // CL_Name
+            // 
+            CL_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            CL_Name.FillWeight = 150F;
+            CL_Name.HeaderText = "Name";
+            CL_Name.MinimumWidth = 50;
+            CL_Name.Name = "CL_Name";
+            CL_Name.ReadOnly = true;
+            // 
+            // CL_Description
+            // 
+            CL_Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            CL_Description.FillWeight = 300F;
+            CL_Description.HeaderText = "Description";
+            CL_Description.MinimumWidth = 100;
+            CL_Description.Name = "CL_Description";
+            CL_Description.ReadOnly = true;
+            // 
+            // CL_Stats
+            // 
+            CL_Stats.FillWeight = 300F;
+            CL_Stats.HeaderText = "Stats";
+            CL_Stats.MinimumWidth = 100;
+            CL_Stats.Name = "CL_Stats";
+            CL_Stats.ReadOnly = true;
+            CL_Stats.Width = 200;
+            // 
+            // CL_ID
+            // 
+            CL_ID.FillWeight = 40F;
+            CL_ID.HeaderText = "ID";
+            CL_ID.MinimumWidth = 6;
+            CL_ID.Name = "CL_ID";
+            CL_ID.ReadOnly = true;
+            CL_ID.Width = 20;
             // 
             // AchievementList
             // 

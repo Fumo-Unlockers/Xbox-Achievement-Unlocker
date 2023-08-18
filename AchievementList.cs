@@ -35,7 +35,7 @@ namespace Xbox_Achievement_Unlocker
         bool active;
         string SCID;
         string TitleID, TitleName;
-        string responseString;
+        string responseString, urlPicture_global_temp;
         List<string> UnlockableAchievements = new List<string>();
 
 
@@ -84,14 +84,41 @@ namespace Xbox_Achievement_Unlocker
 
         #endregion
 
-
+        public string statsTrueAchivements(string nameGame)
+        {
+            try
+            {
+                nameGame = nameGame.Replace("'", "")
+                                    .Replace("®", "")
+                                    .Replace("’", "")
+                                    .Replace(":", "")
+                                    .Replace("(", "")
+                                    .Replace(")", "")
+                                    .Replace("-", "")
+                                    .Replace(" ", "-");
+                HtmlAgilityPack.HtmlWeb web = new();
+                HtmlAgilityPack.HtmlDocument doc = web.Load("https://www.trueachievements.com/game/" + nameGame + "/completiontime");
+                if (doc.DocumentNode.SelectNodes("//*[@id=\"divInfo\"]/p[1]/strong") != null)
+                {
+                    foreach (var item in doc.DocumentNode.SelectNodes("//*[@id=\"divInfo\"]/p[1]/strong"))
+                    {
+                        return item.InnerText.ToString();
+                    }
+                }
+                return "No Data!";
+            }
+            catch
+            {
+                return "No Data!";
+                throw;
+            }
+        }
 
         public async void PopulateAchievementList(string AchievementData, string urlPicture = "")
         {
+
             var Jsonresponse = (dynamic)(new JObject());
             Jsonresponse = (dynamic)JObject.Parse(AchievementData);
-            var newline = 0;
-            var backcolour = Color.Silver;
             if (Jsonresponse.achievements.Count == 0)
             {
                 Close();
@@ -99,51 +126,49 @@ namespace Xbox_Achievement_Unlocker
             }
             else
             {
+                urlPicture_global_temp = (urlPicture != "") ? urlPicture : urlPicture_global_temp;
+                gameImage.ImageLocation = urlPicture_global_temp;
                 SCID = Jsonresponse.achievements[0].serviceConfigId.ToString();
                 TitleName = Jsonresponse.achievements[0].titleAssociations[0].name.ToString();
                 TitleID = Jsonresponse.achievements[0].titleAssociations[0].id.ToString();
-                gameImage.ImageLocation = urlPicture;
                 this.Text = TitleName;
                 LBL_TID.Text = TitleName;
                 LBL_TID_UIXD.Text = TitleID;
                 int achieved;
+                lblLink_completationTime.Visible = true;
+                lblLink_completationTime.Text = "Completion Time: " + statsTrueAchivements(TitleName);
                 for (int i = 0; i < Jsonresponse.achievements.Count; i++)
                 {
-                    if (Jsonresponse.achievements[0].progression.requirements.ToString().Length > 2)
+                    if (Jsonresponse.achievements[i].progression.requirements.Count != 0 && 
+                        Jsonresponse.achievements[i].progression.requirements[0].id != "00000000-0000-0000-0000-000000000000")
                     {
-                        if (Jsonresponse.achievements[0].progression.requirements[0].id != "00000000-0000-0000-0000-000000000000")
-                        {
-                            InitRainbow();
-                            MessageBox.Show("THIS GAME USES EVENT BASED ACHIVEMENTS.\nTHIS TOOL WILL CURRENTLY NOT WORK", "Warning");
-                            label1.Visible = true;
-                            StartFlashing();
-                            break;
-                        }
-                        else
-                        {
-                            achieved = (Jsonresponse.achievements[i].progressState.ToString() == "Achieved") ? 2 : 0;
-                            try
-                            {
-                                DGV_AchievementList.Rows.Add(
-                                    achieved,
-                                    Convert.ToDecimal(Jsonresponse.achievements[i].rarity.currentPercentage.ToString()),
-                                    Jsonresponse.achievements[i].name.ToString(),
-                                    Jsonresponse.achievements[i].description.ToString(),
-                                    "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
-                                    "\nUnlock Time: " + Jsonresponse.achievements[i].progression.timeUnlocked.ToString(),
-                                    Convert.ToInt32(Jsonresponse.achievements[i].id)
-                                );
-                            }
-                            catch
-                            {
-                                DGV_AchievementList.Rows.Add(0,
-                                    Jsonresponse.achievements[i].name.ToString(),
-                                    Jsonresponse.achievements[i].description.ToString(),
-                                    "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
-                                    Convert.ToInt32(Jsonresponse.achievements[i].id)
-                                );
-                            }
-                        }
+                        InitRainbow();
+                        MessageBox.Show("THIS GAME USES EVENT BASED ACHIVEMENTS.\nTHIS TOOL WILL CURRENTLY NOT WORK", "Warning");
+                        label1.Visible = true;
+                        StartFlashing();
+                        break;
+                    }                        
+                    achieved = (Jsonresponse.achievements[i].progressState.ToString() == "Achieved") ? 2 : 0;
+                    try
+                    {
+                        DGV_AchievementList.Rows.Add(
+                            achieved,
+                            Convert.ToDecimal(Jsonresponse.achievements[i].rarity.currentPercentage.ToString()),
+                            Jsonresponse.achievements[i].name.ToString(),
+                            Jsonresponse.achievements[i].description.ToString(),
+                            "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
+                            "\nUnlock Time: " + Jsonresponse.achievements[i].progression.timeUnlocked.ToString(),
+                            Convert.ToInt32(Jsonresponse.achievements[i].id)
+                        );
+                    }
+                    catch
+                    {
+                        DGV_AchievementList.Rows.Add(0,
+                            Jsonresponse.achievements[i].name.ToString(),
+                            Jsonresponse.achievements[i].description.ToString(),
+                            "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
+                            Convert.ToInt32(Jsonresponse.achievements[i].id)
+                        );
                     }
                 }
             }
