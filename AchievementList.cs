@@ -14,22 +14,27 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Reflection.Emit;
 using System.Diagnostics;
+using System.Net;
 
 namespace Xbox_Achievement_Unlocker
 {
     public partial class AchievementList : Form
     {
-        private Stopwatch stopwatch;
-        private dynamic dataProfile, dataTitles;
+        public Stopwatch timer = new Stopwatch();
         public AchievementList()
         {
             InitializeComponent();
         }
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         public List<string> AchievementIDs = new List<string>();
-        HttpClient client = new HttpClient();
+        static HttpClientHandler handler = new HttpClientHandler()
+        {
+            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
+        };
+        HttpClient client = new HttpClient(handler);
+        bool active;
         string SCID;
-        string TitleID;
+        string TitleID, TitleName;
         string responseString;
         List<string> UnlockableAchievements = new List<string>();
 
@@ -81,7 +86,7 @@ namespace Xbox_Achievement_Unlocker
 
 
 
-        public async void PopulateAchievementList(string AchievementData)
+        public async void PopulateAchievementList(string AchievementData, string urlPicture = "")
         {
             var Jsonresponse = (dynamic)(new JObject());
             Jsonresponse = (dynamic)JObject.Parse(AchievementData);
@@ -91,88 +96,54 @@ namespace Xbox_Achievement_Unlocker
             {
                 Close();
                 MessageBox.Show("this game has no achivements", "fucky wucky");
-
             }
             else
             {
                 SCID = Jsonresponse.achievements[0].serviceConfigId.ToString();
+                TitleName = Jsonresponse.achievements[0].titleAssociations[0].name.ToString();
                 TitleID = Jsonresponse.achievements[0].titleAssociations[0].id.ToString();
+                gameImage.ImageLocation = urlPicture;
+                this.Text = TitleName;
+                LBL_TID.Text = TitleName;
+                LBL_TID_UIXD.Text = TitleID;
+                int achieved;
                 for (int i = 0; i < Jsonresponse.achievements.Count; i++)
                 {
                     if (Jsonresponse.achievements[0].progression.requirements.ToString().Length > 2)
                     {
-                        if (Jsonresponse.achievements[0].progression.requirements[0].id !=
-                            "00000000-0000-0000-0000-000000000000")
+                        if (Jsonresponse.achievements[0].progression.requirements[0].id != "00000000-0000-0000-0000-000000000000")
                         {
                             InitRainbow();
                             MessageBox.Show("THIS GAME USES EVENT BASED ACHIVEMENTS.\nTHIS TOOL WILL CURRENTLY NOT WORK", "Warning");
                             label1.Visible = true;
                             StartFlashing();
+                            break;
                         }
-
-                        break;
-                    }
-                }
-
-
-                for (int i = 0; i < Jsonresponse.achievements.Count; i++)
-                {
-                    if (Jsonresponse.achievements[i].progressState.ToString() == "Achieved")
-                    {
-                        try
+                        else
                         {
-
-
-                            DGV_AchievementList.Rows.Add(2,
-                                Jsonresponse.achievements[i].name.ToString(),
-                                Jsonresponse.achievements[i].description.ToString(),
-                                "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
-                                "\nRarity: " + Jsonresponse.achievements[i].rarity.currentCategory.ToString() +
-                                "\nPlayer Percentage: " +
-                                Jsonresponse.achievements[i].rarity.currentPercentage.ToString() + "%" +
-                                "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
-                                "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() +
-                                "\nUnlock Time: " + Jsonresponse.achievements[i].progression.timeUnlocked.ToString(),
-                                Convert.ToInt32(Jsonresponse.achievements[i].id)
-                            );
+                            achieved = (Jsonresponse.achievements[i].progressState.ToString() == "Achieved") ? 2 : 0;
+                            try
+                            {
+                                DGV_AchievementList.Rows.Add(
+                                    achieved,
+                                    Convert.ToDecimal(Jsonresponse.achievements[i].rarity.currentPercentage.ToString()),
+                                    Jsonresponse.achievements[i].name.ToString(),
+                                    Jsonresponse.achievements[i].description.ToString(),
+                                    "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
+                                    "\nUnlock Time: " + Jsonresponse.achievements[i].progression.timeUnlocked.ToString(),
+                                    Convert.ToInt32(Jsonresponse.achievements[i].id)
+                                );
+                            }
+                            catch
+                            {
+                                DGV_AchievementList.Rows.Add(0,
+                                    Jsonresponse.achievements[i].name.ToString(),
+                                    Jsonresponse.achievements[i].description.ToString(),
+                                    "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
+                                    Convert.ToInt32(Jsonresponse.achievements[i].id)
+                                );
+                            }
                         }
-                        catch
-                        {
-                            DGV_AchievementList.Rows.Add(0,
-                                Jsonresponse.achievements[i].name.ToString(),
-                                Jsonresponse.achievements[i].description.ToString(),
-                                "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
-                                Convert.ToInt32(Jsonresponse.achievements[i].id)
-                            );
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            DGV_AchievementList.Rows.Add(0,
-                                Jsonresponse.achievements[i].name.ToString(),
-                                Jsonresponse.achievements[i].description.ToString(),
-                                "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
-                                "\nRarity: " + Jsonresponse.achievements[i].rarity.currentCategory.ToString() +
-                                "\nPlayer Percentage: " +
-                                Jsonresponse.achievements[i].rarity.currentPercentage.ToString() +
-                                "%" +
-                                "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
-                                "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() + "\n",
-                                Convert.ToInt32(Jsonresponse.achievements[i].id)
-                            );
-                        }
-                        catch
-                        {
-                            DGV_AchievementList.Rows.Add(0,
-                                Jsonresponse.achievements[i].name.ToString(),
-                                Jsonresponse.achievements[i].description.ToString(),
-                                "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
-                                Convert.ToInt32(Jsonresponse.achievements[i].id)
-                            );
-                        }
-
                     }
                 }
             }
@@ -348,10 +319,10 @@ namespace Xbox_Achievement_Unlocker
         }
 
         #region Incrusted Game Spoofer
-        bool active;
+
         async void BTN_Spoof_Click(object sender, EventArgs e)
         {
-            if (CB_titleList.SelectedValue == null)
+            if (TitleID == null)
             {
                 MessageBox.Show("You must select a game.\n Do you want to cause a bug?", "Game not selected", MessageBoxButtons.OK, MessageBoxIcon.Question);
                 return;
@@ -359,47 +330,10 @@ namespace Xbox_Achievement_Unlocker
 
             BTN_Spoof.Enabled = false;
             BTN_SpoofStop.Enabled = true;
-            string uuiGame = CB_titleList.SelectedValue.ToString();
-            CB_titleList.Enabled = false;
-            this.Text = "Game Spoofer:: " + CB_titleList.Text;
+            string uuiGame = TitleID;
             Task.Run(() => Spoofing(uuiGame));
         }
 
-        private void fill_Cb_GameList()
-        {
-            String line;
-            try
-            {
-
-                //Pass the file path and file name to the StreamReader constructor
-                StreamReader sr = new StreamReader("GamesListAll.csv");
-                //Read the first line of text
-                line = sr.ReadLine();
-
-                List<object> items = new List<object>();
-                while (line != null)
-                {
-                    string[] row = line.Split(",");
-
-                    if (row[0] != "")
-                        items.Add(new { Text = Convert.ToString(row[1]), Value = Convert.ToString(row[0]) });
-                    line = sr.ReadLine();
-                }
-                //close the file
-                sr.Close();
-                CB_titleList.ValueMember = "Value";
-                CB_titleList.DisplayMember = "Text";
-                CB_titleList.DataSource = items;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Executing finally block.");
-            }
-        }
         public async Task Spoofing(string uuiGame)
         {
             client.DefaultRequestHeaders.Clear();
@@ -408,8 +342,14 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
 
             var requestbody = new StringContent("{\"titles\":[{\"expiration\":600,\"id\":" + uuiGame + ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, "application/json");
-            stopwatch.Start();
-            await client.PostAsync("https://presence-heartbeat.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/devices/current", requestbody);
+            timer.Start();
+            active = true;
+            while (active)
+            {
+                if (!active) break;
+                await client.PostAsync("https://presence-heartbeat.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/devices/current", requestbody);
+                Thread.Sleep(1000);
+            }
             var i = 0;
             active = true;
             while (active)
@@ -437,31 +377,17 @@ namespace Xbox_Achievement_Unlocker
         private void BTN_SpoofStop_Click(object sender, EventArgs e)
         {
             active = false;
-            stopwatch.Stop();
-            stopwatch.Reset();
-            CB_titleList.Enabled = true;
-            LBL_Timer.Text = "";
+            timer.Stop();
+            timer.Reset();
+            LBL_Timer.Text = "00:00:00";
         }
 
         private void SpoofingTime_Tick(object sender, EventArgs e)
         {
-            LBL_Timer.Text = string.Format("{0:hh\\:mm\\:ss}", stopwatch.Elapsed);
-        }
-
-        private void CB_titleList_SelectedValueChanged(object sender, EventArgs e)
-        {
-            if (CB_titleList.SelectedValue != null)
-            {
-                for (int i = 0; i < dataTitles.titles.Count; i++)
-                {
-                    if (CB_titleList.SelectedValue.ToString() == dataTitles.titles[i].modernTitleId.ToString())
-                    {
-                        gameImage.ImageLocation = dataTitles.titles[i].displayImage.ToString() + "?w=70&format=jpg";
-                        break;
-                    }
-                }
-            }
+            LBL_Timer.Text = string.Format("{0:hh\\:mm\\:ss}", timer.Elapsed);
         }
         #endregion
+
+
     }
 }

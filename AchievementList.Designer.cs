@@ -35,7 +35,8 @@ namespace Xbox_Achievement_Unlocker
             BTN_UnlockAll = new System.Windows.Forms.Button();
             DGV_AchievementList = new System.Windows.Forms.DataGridView();
             dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            CL_Rarity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            CL_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             CL_Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             CL_Stats = new System.Windows.Forms.DataGridViewTextBoxColumn();
             CL_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,26 +44,31 @@ namespace Xbox_Achievement_Unlocker
             BTN_ALRefresh = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             panel1 = new System.Windows.Forms.Panel();
-            groupBox2 = new System.Windows.Forms.GroupBox();
+            LBL_TID_UIXD = new System.Windows.Forms.Label();
+            LBL_TID = new System.Windows.Forms.Label();
+            lblLink_completationTime = new System.Windows.Forms.LinkLabel();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            gameImage = new System.Windows.Forms.PictureBox();
             panel4 = new System.Windows.Forms.Panel();
             LBL_Timer = new System.Windows.Forms.Label();
             BTN_SpoofStop = new System.Windows.Forms.Button();
             BTN_Spoof = new System.Windows.Forms.Button();
-            groupBox1 = new System.Windows.Forms.GroupBox();
-            gameImage = new System.Windows.Forms.PictureBox();
-            CB_titleList = new System.Windows.Forms.ComboBox();
-            LBL_TID = new System.Windows.Forms.Label();
+            panel6 = new System.Windows.Forms.Panel();
             panel2 = new System.Windows.Forms.Panel();
             panel3 = new System.Windows.Forms.Panel();
+            panel7 = new System.Windows.Forms.Panel();
+            panel5 = new System.Windows.Forms.Panel();
             SpoofingTime = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)DGV_AchievementList).BeginInit();
             panel1.SuspendLayout();
-            groupBox2.SuspendLayout();
-            panel4.SuspendLayout();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gameImage).BeginInit();
+            panel4.SuspendLayout();
+            panel6.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
+            panel7.SuspendLayout();
+            panel5.SuspendLayout();
             SuspendLayout();
             // 
             // BTN_Unlock
@@ -98,7 +104,7 @@ namespace Xbox_Achievement_Unlocker
             DGV_AchievementList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             DGV_AchievementList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             DGV_AchievementList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGV_AchievementList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { dataGridViewCheckBoxColumn1, dataGridViewTextBoxColumn1, CL_Description, CL_Stats, CL_ID });
+            DGV_AchievementList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { dataGridViewCheckBoxColumn1, CL_Rarity, CL_Name, CL_Description, CL_Stats, CL_ID });
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -109,8 +115,9 @@ namespace Xbox_Achievement_Unlocker
             DGV_AchievementList.DefaultCellStyle = dataGridViewCellStyle1;
             DGV_AchievementList.Dock = System.Windows.Forms.DockStyle.Fill;
             DGV_AchievementList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
-            DGV_AchievementList.Location = new System.Drawing.Point(0, 102);
+            DGV_AchievementList.Location = new System.Drawing.Point(0, 0);
             DGV_AchievementList.Name = "DGV_AchievementList";
+            DGV_AchievementList.ReadOnly = true;
             DGV_AchievementList.RowHeadersVisible = false;
             DGV_AchievementList.RowHeadersWidth = 51;
             DGV_AchievementList.RowTemplate.Height = 25;
@@ -121,7 +128,7 @@ namespace Xbox_Achievement_Unlocker
             DGV_AchievementList.ShowCellToolTips = false;
             DGV_AchievementList.ShowEditingIcon = false;
             DGV_AchievementList.ShowRowErrors = false;
-            DGV_AchievementList.Size = new System.Drawing.Size(915, 399);
+            DGV_AchievementList.Size = new System.Drawing.Size(652, 463);
             DGV_AchievementList.TabIndex = 1;
             DGV_AchievementList.CellClick += dataGridView1_CellClick;
             // 
@@ -129,37 +136,49 @@ namespace Xbox_Achievement_Unlocker
             // 
             dataGridViewCheckBoxColumn1.FalseValue = "0";
             dataGridViewCheckBoxColumn1.FillWeight = 70F;
-            dataGridViewCheckBoxColumn1.HeaderText = "Unlock";
+            dataGridViewCheckBoxColumn1.HeaderText = "";
             dataGridViewCheckBoxColumn1.IndeterminateValue = "2";
-            dataGridViewCheckBoxColumn1.MinimumWidth = 70;
+            dataGridViewCheckBoxColumn1.MinimumWidth = 40;
             dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            dataGridViewCheckBoxColumn1.ReadOnly = true;
             dataGridViewCheckBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             dataGridViewCheckBoxColumn1.TrueValue = "1";
-            dataGridViewCheckBoxColumn1.Width = 70;
+            dataGridViewCheckBoxColumn1.Width = 40;
             // 
-            // dataGridViewTextBoxColumn1
+            // CL_Rarity
             // 
-            dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewTextBoxColumn1.FillWeight = 150F;
-            dataGridViewTextBoxColumn1.HeaderText = "Name";
-            dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            CL_Rarity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            CL_Rarity.HeaderText = "%";
+            CL_Rarity.MinimumWidth = 20;
+            CL_Rarity.Name = "CL_Rarity";
+            CL_Rarity.ReadOnly = true;
+            // 
+            // CL_Name
+            // 
+            CL_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            CL_Name.FillWeight = 150F;
+            CL_Name.HeaderText = "Name";
+            CL_Name.MinimumWidth = 50;
+            CL_Name.Name = "CL_Name";
+            CL_Name.ReadOnly = true;
             // 
             // CL_Description
             // 
             CL_Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             CL_Description.FillWeight = 300F;
             CL_Description.HeaderText = "Description";
-            CL_Description.MinimumWidth = 6;
+            CL_Description.MinimumWidth = 100;
             CL_Description.Name = "CL_Description";
+            CL_Description.ReadOnly = true;
             // 
             // CL_Stats
             // 
             CL_Stats.FillWeight = 300F;
             CL_Stats.HeaderText = "Stats";
-            CL_Stats.MinimumWidth = 6;
+            CL_Stats.MinimumWidth = 100;
             CL_Stats.Name = "CL_Stats";
-            CL_Stats.Width = 298;
+            CL_Stats.ReadOnly = true;
+            CL_Stats.Width = 200;
             // 
             // CL_ID
             // 
@@ -167,7 +186,8 @@ namespace Xbox_Achievement_Unlocker
             CL_ID.HeaderText = "ID";
             CL_ID.MinimumWidth = 6;
             CL_ID.Name = "CL_ID";
-            CL_ID.Width = 40;
+            CL_ID.ReadOnly = true;
+            CL_ID.Width = 20;
             // 
             // Check_UnlockAll
             // 
@@ -184,7 +204,7 @@ namespace Xbox_Achievement_Unlocker
             // BTN_ALRefresh
             // 
             BTN_ALRefresh.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            BTN_ALRefresh.Location = new System.Drawing.Point(809, 4);
+            BTN_ALRefresh.Location = new System.Drawing.Point(798, 4);
             BTN_ALRefresh.Margin = new System.Windows.Forms.Padding(0);
             BTN_ALRefresh.Name = "BTN_ALRefresh";
             BTN_ALRefresh.Size = new System.Drawing.Size(97, 46);
@@ -207,103 +227,117 @@ namespace Xbox_Achievement_Unlocker
             // 
             // panel1
             // 
-            panel1.Controls.Add(groupBox2);
-            panel1.Controls.Add(groupBox1);
+            panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            panel1.Controls.Add(LBL_TID_UIXD);
+            panel1.Controls.Add(LBL_TID);
             panel1.Dock = System.Windows.Forms.DockStyle.Top;
             panel1.Location = new System.Drawing.Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(915, 102);
+            panel1.Size = new System.Drawing.Size(904, 44);
             panel1.TabIndex = 14;
             // 
-            // groupBox2
+            // LBL_TID_UIXD
             // 
-            groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            groupBox2.Controls.Add(panel4);
-            groupBox2.Controls.Add(BTN_SpoofStop);
-            groupBox2.Controls.Add(BTN_Spoof);
-            groupBox2.Location = new System.Drawing.Point(506, 12);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(397, 71);
-            groupBox2.TabIndex = 11;
-            groupBox2.TabStop = false;
+            LBL_TID_UIXD.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            LBL_TID_UIXD.AutoSize = true;
+            LBL_TID_UIXD.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            LBL_TID_UIXD.Location = new System.Drawing.Point(740, 6);
+            LBL_TID_UIXD.Name = "LBL_TID_UIXD";
+            LBL_TID_UIXD.Size = new System.Drawing.Size(157, 30);
+            LBL_TID_UIXD.TabIndex = 1;
+            LBL_TID_UIXD.Text = "123493827832";
             // 
-            // panel4
+            // LBL_TID
             // 
-            panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            panel4.Controls.Add(LBL_Timer);
-            panel4.Location = new System.Drawing.Point(231, 19);
-            panel4.Name = "panel4";
-            panel4.Size = new System.Drawing.Size(151, 40);
-            panel4.TabIndex = 7;
+            LBL_TID.AutoSize = true;
+            LBL_TID.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            LBL_TID.Location = new System.Drawing.Point(7, 6);
+            LBL_TID.Name = "LBL_TID";
+            LBL_TID.Size = new System.Drawing.Size(347, 30);
+            LBL_TID.TabIndex = 0;
+            LBL_TID.Text = "Monster Hunter (windows version)";
             // 
-            // LBL_Timer
+            // lblLink_completationTime
             // 
-            LBL_Timer.AutoSize = true;
-            LBL_Timer.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            LBL_Timer.Location = new System.Drawing.Point(14, -1);
-            LBL_Timer.Name = "LBL_Timer";
-            LBL_Timer.Size = new System.Drawing.Size(127, 37);
-            LBL_Timer.TabIndex = 6;
-            LBL_Timer.Text = "00:00:00";
-            // 
-            // BTN_SpoofStop
-            // 
-            BTN_SpoofStop.Location = new System.Drawing.Point(114, 22);
-            BTN_SpoofStop.Name = "BTN_SpoofStop";
-            BTN_SpoofStop.Size = new System.Drawing.Size(98, 34);
-            BTN_SpoofStop.TabIndex = 5;
-            BTN_SpoofStop.Text = "Stop";
-            BTN_SpoofStop.UseVisualStyleBackColor = true;
-            // 
-            // BTN_Spoof
-            // 
-            BTN_Spoof.Location = new System.Drawing.Point(10, 22);
-            BTN_Spoof.Name = "BTN_Spoof";
-            BTN_Spoof.Size = new System.Drawing.Size(98, 34);
-            BTN_Spoof.TabIndex = 3;
-            BTN_Spoof.Text = "Start";
-            BTN_Spoof.UseVisualStyleBackColor = true;
+            lblLink_completationTime.AutoSize = true;
+            lblLink_completationTime.Location = new System.Drawing.Point(43, 2);
+            lblLink_completationTime.Name = "lblLink_completationTime";
+            lblLink_completationTime.Size = new System.Drawing.Size(145, 15);
+            lblLink_completationTime.TabIndex = 8;
+            lblLink_completationTime.TabStop = true;
+            lblLink_completationTime.Text = "Completation Time: 4 - 6h";
+            lblLink_completationTime.Visible = false;
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom;
             groupBox1.Controls.Add(gameImage);
-            groupBox1.Controls.Add(CB_titleList);
-            groupBox1.Controls.Add(LBL_TID);
-            groupBox1.Location = new System.Drawing.Point(3, 2);
+            groupBox1.Controls.Add(panel4);
+            groupBox1.Controls.Add(BTN_SpoofStop);
+            groupBox1.Controls.Add(BTN_Spoof);
+            groupBox1.Location = new System.Drawing.Point(14, 18);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(461, 90);
+            groupBox1.Size = new System.Drawing.Size(227, 415);
             groupBox1.TabIndex = 10;
             groupBox1.TabStop = false;
             // 
             // gameImage
             // 
-            gameImage.Location = new System.Drawing.Point(12, 13);
+            gameImage.Location = new System.Drawing.Point(57, 18);
             gameImage.Name = "gameImage";
-            gameImage.Size = new System.Drawing.Size(68, 68);
+            gameImage.Size = new System.Drawing.Size(120, 120);
             gameImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             gameImage.TabIndex = 8;
             gameImage.TabStop = false;
             // 
-            // CB_titleList
+            // panel4
             // 
-            CB_titleList.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            CB_titleList.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            CB_titleList.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            CB_titleList.FormattingEnabled = true;
-            CB_titleList.Location = new System.Drawing.Point(91, 52);
-            CB_titleList.Name = "CB_titleList";
-            CB_titleList.Size = new System.Drawing.Size(141, 29);
-            CB_titleList.TabIndex = 7;
+            panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            panel4.Controls.Add(LBL_Timer);
+            panel4.Location = new System.Drawing.Point(6, 148);
+            panel4.Name = "panel4";
+            panel4.Size = new System.Drawing.Size(215, 43);
+            panel4.TabIndex = 7;
             // 
-            // LBL_TID
+            // LBL_Timer
             // 
-            LBL_TID.AutoSize = true;
-            LBL_TID.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            LBL_TID.Location = new System.Drawing.Point(91, 22);
-            LBL_TID.Name = "LBL_TID";
-            LBL_TID.Size = new System.Drawing.Size(251, 21);
-            LBL_TID.TabIndex = 0;
-            LBL_TID.Text = "Monster Hunter (windows version)";
+            LBL_Timer.AutoSize = true;
+            LBL_Timer.Font = new System.Drawing.Font("Segoe UI", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            LBL_Timer.Location = new System.Drawing.Point(12, -9);
+            LBL_Timer.Name = "LBL_Timer";
+            LBL_Timer.Size = new System.Drawing.Size(183, 54);
+            LBL_Timer.TabIndex = 0;
+            LBL_Timer.Text = "00:00:00";
+            // 
+            // BTN_SpoofStop
+            // 
+            BTN_SpoofStop.Location = new System.Drawing.Point(6, 247);
+            BTN_SpoofStop.Name = "BTN_SpoofStop";
+            BTN_SpoofStop.Size = new System.Drawing.Size(215, 43);
+            BTN_SpoofStop.TabIndex = 5;
+            BTN_SpoofStop.Text = "Stop";
+            BTN_SpoofStop.UseVisualStyleBackColor = true;
+            BTN_SpoofStop.Click += BTN_SpoofStop_Click;
+            // 
+            // BTN_Spoof
+            // 
+            BTN_Spoof.Location = new System.Drawing.Point(6, 198);
+            BTN_Spoof.Name = "BTN_Spoof";
+            BTN_Spoof.Size = new System.Drawing.Size(215, 43);
+            BTN_Spoof.TabIndex = 3;
+            BTN_Spoof.Text = "Start";
+            BTN_Spoof.UseVisualStyleBackColor = true;
+            BTN_Spoof.Click += BTN_Spoof_Click;
+            // 
+            // panel6
+            // 
+            panel6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            panel6.Controls.Add(lblLink_completationTime);
+            panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
+            panel6.Location = new System.Drawing.Point(0, 439);
+            panel6.Name = "panel6";
+            panel6.Size = new System.Drawing.Size(252, 24);
+            panel6.TabIndex = 9;
             // 
             // panel2
             // 
@@ -313,48 +347,73 @@ namespace Xbox_Achievement_Unlocker
             panel2.Controls.Add(BTN_Unlock);
             panel2.Controls.Add(Check_UnlockAll);
             panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            panel2.Location = new System.Drawing.Point(0, 501);
+            panel2.Location = new System.Drawing.Point(0, 507);
             panel2.Name = "panel2";
-            panel2.Size = new System.Drawing.Size(915, 54);
+            panel2.Size = new System.Drawing.Size(904, 54);
             panel2.TabIndex = 15;
             // 
             // panel3
             // 
-            panel3.Controls.Add(DGV_AchievementList);
+            panel3.Controls.Add(panel7);
+            panel3.Controls.Add(panel5);
             panel3.Controls.Add(panel1);
             panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             panel3.Location = new System.Drawing.Point(0, 0);
             panel3.Name = "panel3";
-            panel3.Size = new System.Drawing.Size(915, 501);
+            panel3.Size = new System.Drawing.Size(904, 507);
             panel3.TabIndex = 16;
+            // 
+            // panel7
+            // 
+            panel7.Controls.Add(DGV_AchievementList);
+            panel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            panel7.Location = new System.Drawing.Point(0, 44);
+            panel7.Name = "panel7";
+            panel7.Size = new System.Drawing.Size(652, 463);
+            panel7.TabIndex = 16;
+            // 
+            // panel5
+            // 
+            panel5.Controls.Add(panel6);
+            panel5.Controls.Add(groupBox1);
+            panel5.Dock = System.Windows.Forms.DockStyle.Right;
+            panel5.Location = new System.Drawing.Point(652, 44);
+            panel5.Name = "panel5";
+            panel5.Size = new System.Drawing.Size(252, 463);
+            panel5.TabIndex = 15;
             // 
             // SpoofingTime
             // 
             SpoofingTime.Enabled = true;
+            SpoofingTime.Tick += SpoofingTime_Tick;
             // 
             // AchievementList
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            ClientSize = new System.Drawing.Size(915, 555);
+            ClientSize = new System.Drawing.Size(904, 561);
             Controls.Add(panel3);
             Controls.Add(panel2);
             KeyPreview = true;
+            MinimumSize = new System.Drawing.Size(920, 600);
             Name = "AchievementList";
-            Text = "Achievement List";
+            Text = "Monster Hunter (windows version)";
             KeyDown += AchievementList_KeyDown;
             ((System.ComponentModel.ISupportInitialize)DGV_AchievementList).EndInit();
             panel1.ResumeLayout(false);
-            groupBox2.ResumeLayout(false);
+            panel1.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)gameImage).EndInit();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)gameImage).EndInit();
+            panel6.ResumeLayout(false);
+            panel6.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel3.ResumeLayout(false);
+            panel7.ResumeLayout(false);
+            panel5.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -365,23 +424,27 @@ namespace Xbox_Achievement_Unlocker
         private System.Windows.Forms.CheckBox Check_UnlockAll;
         private System.Windows.Forms.Button BTN_ALRefresh;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Description;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Stats;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CL_ID;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Timer SpoofingTime;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PictureBox gameImage;
-        private System.Windows.Forms.ComboBox CB_titleList;
         private System.Windows.Forms.Label LBL_TID;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label LBL_Timer;
         private System.Windows.Forms.Button BTN_SpoofStop;
         private System.Windows.Forms.Button BTN_Spoof;
+        private System.Windows.Forms.LinkLabel lblLink_completationTime;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Timer SpoofingTime;
+        private System.Windows.Forms.Label LBL_Timer;
+        private System.Windows.Forms.Label LBL_TID_UIXD;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Rarity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CL_Stats;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CL_ID;
     }
 }

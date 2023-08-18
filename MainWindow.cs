@@ -185,7 +185,7 @@ namespace Xbox_Achievement_Unlocker
 
         public static string xuid;
         public static string responseString;
-        AchievementList ALForm = new AchievementList();
+        AchievementList ALForm;
         public async void LoadAchievementList(object sender, EventArgs e)
         {
             PictureBox SelectedGame = (sender as PictureBox);
@@ -210,9 +210,16 @@ namespace Xbox_Achievement_Unlocker
             try
             {
                 responseString = await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + SelectedGame.Name.ToString() + "&maxItems=1000");
-                AchievementList ALForm = new AchievementList();
+
+                /* ::TODO::
+                implement 1 single form but if this with the game spoofer take a message box
+                Form exist = Application.OpenForms.OfType<Form>().Where(pre => pre.Name == "AchievementList").SingleOrDefault<Form>();
+                if (exist != null)
+                    ALForm.Close();
+                */
+                ALForm = new AchievementList();
                 ALForm.Show();
-                ALForm.PopulateAchievementList(responseString);
+                ALForm.PopulateAchievementList(responseString, SelectedGame.ImageLocation.ToString());
             }
             catch (HttpRequestException ex)
             {
@@ -357,8 +364,8 @@ namespace Xbox_Achievement_Unlocker
                         count++;
                     }
                     line += Jsonresponse.titles[i].modernTitleId + ","
-                        +Jsonresponse.titles[i].name + ","
-                        +Jsonresponse.titles[i].displayImage.ToString()
+                        + Jsonresponse.titles[i].name + ","
+                        + Jsonresponse.titles[i].displayImage.ToString()
                         + "\n";
                 }
                 saveFileGameList(line);
@@ -439,7 +446,7 @@ namespace Xbox_Achievement_Unlocker
         async void BTN_SaveToFile_Click(object sender, EventArgs e)
         {
             try
-            {                
+            {
                 using (StreamWriter writer = new StreamWriter("GameList.txt"))
                 {
                     for (int i = 0; i < dataTitles.titles.Count; i++)
