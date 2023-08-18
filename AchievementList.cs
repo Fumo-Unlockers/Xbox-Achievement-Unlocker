@@ -13,11 +13,14 @@ using System.Threading;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Reflection.Emit;
+using System.Diagnostics;
 
 namespace Xbox_Achievement_Unlocker
 {
     public partial class AchievementList : Form
     {
+        private Stopwatch stopwatch;
+        private dynamic dataProfile, dataTitles;
         public AchievementList()
         {
             InitializeComponent();
@@ -29,6 +32,7 @@ namespace Xbox_Achievement_Unlocker
         string TitleID;
         string responseString;
         List<string> UnlockableAchievements = new List<string>();
+
 
         #region bright warning shit for stupid people
         private const int RainbowLength = 360;
@@ -342,5 +346,122 @@ namespace Xbox_Achievement_Unlocker
                 await RefreshList();
 
         }
+
+        #region Incrusted Game Spoofer
+        bool active;
+        async void BTN_Spoof_Click(object sender, EventArgs e)
+        {
+            if (CB_titleList.SelectedValue == null)
+            {
+                MessageBox.Show("You must select a game.\n Do you want to cause a bug?", "Game not selected", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                return;
+            }
+
+            BTN_Spoof.Enabled = false;
+            BTN_SpoofStop.Enabled = true;
+            string uuiGame = CB_titleList.SelectedValue.ToString();
+            CB_titleList.Enabled = false;
+            this.Text = "Game Spoofer:: " + CB_titleList.Text;
+            Task.Run(() => Spoofing(uuiGame));
+        }
+
+        private void fill_Cb_GameList()
+        {
+            String line;
+            try
+            {
+
+                //Pass the file path and file name to the StreamReader constructor
+                StreamReader sr = new StreamReader("GamesListAll.csv");
+                //Read the first line of text
+                line = sr.ReadLine();
+
+                List<object> items = new List<object>();
+                while (line != null)
+                {
+                    string[] row = line.Split(",");
+
+                    if (row[0] != "")
+                        items.Add(new { Text = Convert.ToString(row[1]), Value = Convert.ToString(row[0]) });
+                    line = sr.ReadLine();
+                }
+                //close the file
+                sr.Close();
+                CB_titleList.ValueMember = "Value";
+                CB_titleList.DisplayMember = "Text";
+                CB_titleList.DataSource = items;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Executing finally block.");
+            }
+        }
+        public async Task Spoofing(string uuiGame)
+        {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
+
+            var requestbody = new StringContent("{\"titles\":[{\"expiration\":600,\"id\":" + uuiGame + ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, "application/json");
+            stopwatch.Start();
+            await client.PostAsync("https://presence-heartbeat.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/devices/current", requestbody);
+            var i = 0;
+            active = true;
+            while (active)
+            {
+                if (i == 60)
+                {
+                    await client.PostAsync("https://presence-heartbeat.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/devices/current", requestbody);
+                    i = 0;
+                }
+                else
+                {
+                    if (!active)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+                Thread.Sleep(1000);
+
+            }
+            BTN_Spoof.Invoke(new Action(() => BTN_Spoof.Enabled = true));
+            BTN_SpoofStop.Invoke(new Action(() => BTN_SpoofStop.Enabled = false));
+        }
+
+        private void BTN_SpoofStop_Click(object sender, EventArgs e)
+        {
+            active = false;
+            stopwatch.Stop();
+            stopwatch.Reset();
+            CB_titleList.Enabled = true;
+            LBL_Timer.Text = "";
+        }
+
+        private void SpoofingTime_Tick(object sender, EventArgs e)
+        {
+            LBL_Timer.Text = string.Format("{0:hh\\:mm\\:ss}", stopwatch.Elapsed);
+        }
+
+        private void CB_titleList_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (CB_titleList.SelectedValue != null)
+            {
+                for (int i = 0; i < dataTitles.titles.Count; i++)
+                {
+                    if (CB_titleList.SelectedValue.ToString() == dataTitles.titles[i].modernTitleId.ToString())
+                    {
+                        gameImage.ImageLocation = dataTitles.titles[i].displayImage.ToString() + "?w=70&format=jpg";
+                        break;
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }
