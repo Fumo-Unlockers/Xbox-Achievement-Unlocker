@@ -25,7 +25,8 @@ namespace Xbox_Achievement_Unlocker
         {
             InitializeComponent();
         }
-        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+        //string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+        string currentSystemLanguage = "en-US";
         public List<string> AchievementIDs = new List<string>();
         static HttpClientHandler handler = new HttpClientHandler()
         {
@@ -88,14 +89,11 @@ namespace Xbox_Achievement_Unlocker
         {
             try
             {
-                nameGame = nameGame.Replace("'", "")
-                                    .Replace("®", "")
-                                    .Replace("’", "")
-                                    .Replace(":", "")
-                                    .Replace("(", "")
-                                    .Replace(")", "")
-                                    .Replace("-", "")
-                                    .Replace(" ", "-");
+                string[] scapeCharacter = { "'", "®", "™", "’", ":", "(", ")", "-" };
+                foreach (var character in scapeCharacter)
+                    nameGame = nameGame.Replace(character, "");
+                
+                nameGame = nameGame.Replace(" ", "-");
                 HtmlAgilityPack.HtmlWeb web = new();
                 HtmlAgilityPack.HtmlDocument doc = web.Load("https://www.trueachievements.com/game/" + nameGame + "/completiontime");
                 if (doc.DocumentNode.SelectNodes("//*[@id=\"divInfo\"]/p[1]/strong") != null)

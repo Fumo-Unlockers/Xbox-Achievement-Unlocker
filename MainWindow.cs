@@ -24,7 +24,8 @@ namespace Xbox_Achievement_Unlocker
 
         private dynamic dataProfile, dataTitles;
 
-        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+        //string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+        string currentSystemLanguage = "en-US";
         static HttpClientHandler handler = new HttpClientHandler()
         {
             AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
