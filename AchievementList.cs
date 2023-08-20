@@ -202,7 +202,7 @@ namespace Xbox_Achievement_Unlocker
             //dont even know if I can put images in a data grid view lmao
         }
 
-        void BTN_Unlock_Click(object sender, EventArgs e)
+        async void BTN_Unlock_Click(object sender, EventArgs e)
         {
             var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + SCID + "\",\"titleId\":\"" + TitleID + "\",\"userId\":\"" + MainWindow.xuid + "\",\"achievements\":[";
 
@@ -243,9 +243,10 @@ namespace Xbox_Achievement_Unlocker
 
 
             }
+            await RefreshList();
         }
 
-        private void BTN_UnlockAll_Click(object sender, EventArgs e)
+        private async void BTN_UnlockAll_Click(object sender, EventArgs e)
         {
 
             var Jsonresponse = (dynamic)JObject.Parse(MainWindow.responseString);
@@ -294,7 +295,7 @@ namespace Xbox_Achievement_Unlocker
                     requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + SCID + "\",\"titleId\":\"" + TitleID + "\",\"userId\":\"" + MainWindow.xuid + "\",\"achievements\":[";
                 }
             }
-
+            await RefreshList();
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -335,6 +336,16 @@ namespace Xbox_Achievement_Unlocker
 
         private async Task RefreshList()
         {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+            client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            aJsonresponse = (dynamic)(new JObject());
+            aJsonresponse = (dynamic)JObject.Parse(MainWindow.responseString);
             PopulateAchievementList();
         }
 
