@@ -189,7 +189,7 @@ namespace Xbox_Achievement_Unlocker
         public async void LoadAchievementList(object sender, EventArgs e)
         {
             PictureBox SelectedGame = (sender as PictureBox);
-
+            
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
@@ -212,7 +212,17 @@ namespace Xbox_Achievement_Unlocker
                 responseString = await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + SelectedGame.Name.ToString() + "&maxItems=1000");
                 AchievementList ALForm = new AchievementList();
                 ALForm.Show();
-                ALForm.PopulateAchievementList(responseString);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
+                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+                client.DefaultRequestHeaders.Add("accept", "application/json");
+                client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+                client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
+                client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
+                client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+                ALForm.aJsonresponse = (dynamic)(new JObject());
+                ALForm.aJsonresponse = (dynamic)JObject.Parse(responseString);
+                ALForm.PopulateAchievementList();
             }
             catch (HttpRequestException ex)
             {
@@ -496,7 +506,7 @@ namespace Xbox_Achievement_Unlocker
             {
                 process.Kill();
             }
-            Thread.Sleep(5000);
+            Thread.Sleep(500);
             //open the uwp xbox app
             Process p = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();

@@ -13,18 +13,26 @@ using System.Threading;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using System.Reflection.Emit;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Xbox_Achievement_Unlocker
 {
     public partial class AchievementList : Form
     {
+        private Timer typingTimer = new Timer();
+        public dynamic aJsonresponse;
+        public HttpClient client = new HttpClient();
+
         public AchievementList()
         {
             InitializeComponent();
+            
+            // timer so it doesnt update 9999 times after the search
+            typingTimer.Interval = 500;
+            typingTimer.Tick += TypingTimer_Tick;
         }
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         public List<string> AchievementIDs = new List<string>();
-        HttpClient client = new HttpClient();
         string SCID;
         string TitleID;
         string responseString;
@@ -77,13 +85,12 @@ namespace Xbox_Achievement_Unlocker
 
 
 
-        public async void PopulateAchievementList(string AchievementData)
+        public void PopulateAchievementList()
         {
-            var Jsonresponse = (dynamic)(new JObject());
-            Jsonresponse = (dynamic)JObject.Parse(AchievementData);
+            DGV_AchievementList.Rows.Clear();
             var newline = 0;
             var backcolour = Color.Silver;
-            if (Jsonresponse.achievements.Count == 0)
+            if (aJsonresponse.achievements.Count == 0)
             {
                 Close();
                 MessageBox.Show("this game has no achivements", "fucky wucky");
@@ -91,13 +98,13 @@ namespace Xbox_Achievement_Unlocker
             }
             else
             {
-                SCID = Jsonresponse.achievements[0].serviceConfigId.ToString();
-                TitleID = Jsonresponse.achievements[0].titleAssociations[0].id.ToString();
-                for (int i = 0; i < Jsonresponse.achievements.Count; i++)
+                SCID = aJsonresponse.achievements[0].serviceConfigId.ToString();
+                TitleID = aJsonresponse.achievements[0].titleAssociations[0].id.ToString();
+                for (int i = 0; i < aJsonresponse.achievements.Count; i++)
                 {
-                    if (Jsonresponse.achievements[0].progression.requirements.ToString().Length > 2)
+                    if (aJsonresponse.achievements[0].progression.requirements.ToString().Length > 2)
                     {
-                        if (Jsonresponse.achievements[0].progression.requirements[0].id !=
+                        if (aJsonresponse.achievements[0].progression.requirements[0].id !=
                             "00000000-0000-0000-0000-000000000000")
                         {
                             InitRainbow();
@@ -110,62 +117,67 @@ namespace Xbox_Achievement_Unlocker
                     }
                 }
 
-
-                for (int i = 0; i < Jsonresponse.achievements.Count; i++)
+                for (int i = 0; i < aJsonresponse.achievements.Count; i++)
                 {
-                    if (Jsonresponse.achievements[i].progressState.ToString() == "Achieved")
+                    if (aJsonresponse.achievements[i].progressState.ToString() == "Achieved" && (Sorting_Box.SelectedIndex is 0 or 2))
                     {
                         try
                         {
-
+                            if (searchbox.Text.Length > 0)
+                                if (!aJsonresponse.achievements[i].name.ToString().ToLowerInvariant().Contains(searchbox.Text.ToLowerInvariant()))
+                                    continue;
 
                             DGV_AchievementList.Rows.Add(2,
-                                Jsonresponse.achievements[i].name.ToString(),
-                                Jsonresponse.achievements[i].description.ToString(),
-                                "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
-                                "\nRarity: " + Jsonresponse.achievements[i].rarity.currentCategory.ToString() +
+                                aJsonresponse.achievements[i].name.ToString(),
+                                aJsonresponse.achievements[i].description.ToString(),
+                                "Gamerscore: " + aJsonresponse.achievements[i].rewards[0].value.ToString() +
+                                "\nRarity: " + aJsonresponse.achievements[i].rarity.currentCategory.ToString() +
                                 "\nPlayer Percentage: " +
-                                Jsonresponse.achievements[i].rarity.currentPercentage.ToString() + "%" +
-                                "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
-                                "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() +
-                                "\nUnlock Time: " + Jsonresponse.achievements[i].progression.timeUnlocked.ToString(),
-                                Convert.ToInt32(Jsonresponse.achievements[i].id)
+                                aJsonresponse.achievements[i].rarity.currentPercentage.ToString() + "%" +
+                                "\nSecret: " + aJsonresponse.achievements[i].isSecret.ToString() +
+                                "\nProgress State: " + aJsonresponse.achievements[i].progressState.ToString() +
+                                "\nUnlock Time: " + aJsonresponse.achievements[i].progression.timeUnlocked.ToString(),
+                                Convert.ToInt32(aJsonresponse.achievements[i].id)
                             );
                         }
                         catch
                         {
                             DGV_AchievementList.Rows.Add(0,
-                                Jsonresponse.achievements[i].name.ToString(),
-                                Jsonresponse.achievements[i].description.ToString(),
+                                aJsonresponse.achievements[i].name.ToString(),
+                                aJsonresponse.achievements[i].description.ToString(),
                                 "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
-                                Convert.ToInt32(Jsonresponse.achievements[i].id)
+                                Convert.ToInt32(aJsonresponse.achievements[i].id)
                             );
                         }
                     }
-                    else
+                    if (aJsonresponse.achievements[i].progressState.ToString() != "Achieved" && (Sorting_Box.SelectedIndex is 0 or 1))
                     {
+                        if (searchbox.Text.Length > 0)
+                            if (!aJsonresponse.achievements[i].name.ToString().ToLowerInvariant().Contains(searchbox.Text.ToLowerInvariant()))
+                                continue;
+
                         try
                         {
                             DGV_AchievementList.Rows.Add(0,
-                                Jsonresponse.achievements[i].name.ToString(),
-                                Jsonresponse.achievements[i].description.ToString(),
-                                "Gamerscore: " + Jsonresponse.achievements[i].rewards[0].value.ToString() +
-                                "\nRarity: " + Jsonresponse.achievements[i].rarity.currentCategory.ToString() +
+                                aJsonresponse.achievements[i].name.ToString(),
+                                aJsonresponse.achievements[i].description.ToString(),
+                                "Gamerscore: " + aJsonresponse.achievements[i].rewards[0].value.ToString() +
+                                "\nRarity: " + aJsonresponse.achievements[i].rarity.currentCategory.ToString() +
                                 "\nPlayer Percentage: " +
-                                Jsonresponse.achievements[i].rarity.currentPercentage.ToString() +
+                                aJsonresponse.achievements[i].rarity.currentPercentage.ToString() +
                                 "%" +
-                                "\nSecret: " + Jsonresponse.achievements[i].isSecret.ToString() +
-                                "\nProgress State: " + Jsonresponse.achievements[i].progressState.ToString() + "\n",
-                                Convert.ToInt32(Jsonresponse.achievements[i].id)
+                                "\nSecret: " + aJsonresponse.achievements[i].isSecret.ToString() +
+                                "\nProgress State: " + aJsonresponse.achievements[i].progressState.ToString() + "\n",
+                                Convert.ToInt32(aJsonresponse.achievements[i].id)
                             );
                         }
                         catch
                         {
                             DGV_AchievementList.Rows.Add(0,
-                                Jsonresponse.achievements[i].name.ToString(),
-                                Jsonresponse.achievements[i].description.ToString(),
+                                aJsonresponse.achievements[i].name.ToString(),
+                                aJsonresponse.achievements[i].description.ToString(),
                                 "There was a problem grabbing stats for this achievement.\n\n\n\n\n",
-                                Convert.ToInt32(Jsonresponse.achievements[i].id)
+                                Convert.ToInt32(aJsonresponse.achievements[i].id)
                             );
                         }
 
@@ -190,7 +202,7 @@ namespace Xbox_Achievement_Unlocker
             //dont even know if I can put images in a data grid view lmao
         }
 
-        void BTN_Unlock_Click(object sender, EventArgs e)
+        async void BTN_Unlock_Click(object sender, EventArgs e)
         {
             var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + SCID + "\",\"titleId\":\"" + TitleID + "\",\"userId\":\"" + MainWindow.xuid + "\",\"achievements\":[";
 
@@ -231,9 +243,10 @@ namespace Xbox_Achievement_Unlocker
 
 
             }
+            await RefreshList();
         }
 
-        private void BTN_UnlockAll_Click(object sender, EventArgs e)
+        private async void BTN_UnlockAll_Click(object sender, EventArgs e)
         {
 
             var Jsonresponse = (dynamic)JObject.Parse(MainWindow.responseString);
@@ -282,7 +295,7 @@ namespace Xbox_Achievement_Unlocker
                     requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + SCID + "\",\"titleId\":\"" + TitleID + "\",\"userId\":\"" + MainWindow.xuid + "\",\"achievements\":[";
                 }
             }
-
+            await RefreshList();
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -331,9 +344,9 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
             client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-            DGV_AchievementList.Rows.Clear();
-            responseString = await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements?titleId=" + TitleID + "&maxItems=1000");
-            PopulateAchievementList(responseString);
+            aJsonresponse = (dynamic)(new JObject());
+            aJsonresponse = (dynamic)JObject.Parse(MainWindow.responseString);
+            PopulateAchievementList();
         }
 
         private async void AchievementList_KeyDown(object sender, KeyEventArgs e)
@@ -341,6 +354,24 @@ namespace Xbox_Achievement_Unlocker
             if (e.KeyCode == Keys.F5)
                 await RefreshList();
 
+        }
+
+        private async void Sorting_Box_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PopulateAchievementList();
+        }
+
+
+        private async void searchbox_TextChanged(object sender, EventArgs e)
+        {
+            typingTimer.Stop();
+            typingTimer.Start();
+        }
+
+        private async void TypingTimer_Tick(object sender, EventArgs e)
+        {
+            typingTimer.Stop();
+            PopulateAchievementList();
         }
     }
 }
