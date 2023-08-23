@@ -98,7 +98,28 @@ namespace Xbox_Achievement_Unlocker
             var selectedStat = jsonresponse.groups[0].statlistscollection[0].stats[LST_Stats.SelectedIndex];
             var currentTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.ffffffZ");
             long unixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            StringContent requestbody = new StringContent("{\"$schema\":\"http://stats.xboxlive.com/2017-1/schema#\",\"previousRevision\":" + unixTime + ",\"revision\":" + (unixTime + 1) + ",\"stats\":{\"title\":{\"" + selectedStat.name + "\":{\"value\":" + TXT_Stat.Text + "}}},\"timestamp\":\"" + currentTime + "\"}", Encoding.UTF8, "application/json");
+            string content = "{\"$schema\":\"http://stats.xboxlive.com/2017-1/schema#\",\"previousRevision\":" + unixTime + ",\"revision\":" + (unixTime + 1) + ",\"stats\":{\"title\":{";
+            for (int i = 0; i < jsonresponse.groups[0].statlistscollection[0].stats.Count; i++)
+            {
+                if (i==0)
+                {
+
+                }
+                else
+                {
+                   content += ",";
+                }
+                if (jsonresponse.groups[0].statlistscollection[0].stats[i].name == selectedStat.name)
+                {
+                    content += "\"" + selectedStat.name + "\":{\"value\":" + TXT_Stat.Text + "}"; 
+                }
+                else
+                {
+                    content += "\"" + jsonresponse.groups[0].statlistscollection[0].stats[i].name + "\":{\"value\":" + jsonresponse.groups[0].statlistscollection[0].stats[i].value + "}";
+                }
+            }
+            content += "}},\"timestamp\":\"" + currentTime + "\"}";
+            StringContent requestbody = new StringContent(content, Encoding.UTF8, "application/json");
             var response = client.PostAsync("https://statswrite.xboxlive.com/stats/users/" + MainWindow.xuid + "/scids/" + selectedStat.scid, requestbody);
             if (response.Result.IsSuccessStatusCode)
             {
