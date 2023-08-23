@@ -29,7 +29,7 @@ namespace Xbox_Achievement_Unlocker
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             BTN_Unlock = new System.Windows.Forms.Button();
             BTN_UnlockAll = new System.Windows.Forms.Button();
             DGV_AchievementList = new System.Windows.Forms.DataGridView();
@@ -82,14 +82,14 @@ namespace Xbox_Achievement_Unlocker
             DGV_AchievementList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             DGV_AchievementList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DGV_AchievementList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { dataGridViewCheckBoxColumn1, dataGridViewTextBoxColumn1, CL_Description, CL_Stats, CL_ID });
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            DGV_AchievementList.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            DGV_AchievementList.DefaultCellStyle = dataGridViewCellStyle1;
             DGV_AchievementList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             DGV_AchievementList.Location = new System.Drawing.Point(0, 0);
             DGV_AchievementList.Name = "DGV_AchievementList";
@@ -193,18 +193,20 @@ namespace Xbox_Achievement_Unlocker
             // 
             // Sorting_Box
             // 
+            Sorting_Box.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             Sorting_Box.FormattingEnabled = true;
-            Sorting_Box.Items.AddRange(new object[] { "all", "unlockable", "unlocked" });
+            Sorting_Box.Items.AddRange(new object[] { "All", "Unlockable", "Unlocked" });
             Sorting_Box.Location = new System.Drawing.Point(303, 410);
             Sorting_Box.Name = "Sorting_Box";
             Sorting_Box.Size = new System.Drawing.Size(121, 23);
             Sorting_Box.TabIndex = 14;
             Sorting_Box.TabStop = false;
-            Sorting_Box.SelectedIndex = 0;
+            Sorting_Box.Text = "All";
             Sorting_Box.SelectedIndexChanged += Sorting_Box_SelectedIndexChanged;
             // 
             // label2
             // 
+            label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label2.AutoSize = true;
             label2.Location = new System.Drawing.Point(341, 393);
             label2.Name = "label2";
@@ -214,9 +216,10 @@ namespace Xbox_Achievement_Unlocker
             // 
             // searchbox
             // 
+            searchbox.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             searchbox.Location = new System.Drawing.Point(447, 411);
             searchbox.Name = "searchbox";
-            searchbox.PlaceholderText = "search box";
+            searchbox.PlaceholderText = "Search";
             searchbox.Size = new System.Drawing.Size(164, 23);
             searchbox.TabIndex = 16;
             searchbox.TextChanged += searchbox_TextChanged;
