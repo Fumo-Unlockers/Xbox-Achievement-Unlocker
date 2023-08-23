@@ -26,7 +26,7 @@ namespace Xbox_Achievement_Unlocker
         public AchievementList()
         {
             InitializeComponent();
-            
+
             // timer so it doesnt update 9999 times after the search
             typingTimer.Interval = 500;
             typingTimer.Tick += TypingTimer_Tick;
@@ -119,7 +119,7 @@ namespace Xbox_Achievement_Unlocker
 
                 for (int i = 0; i < aJsonresponse.achievements.Count; i++)
                 {
-                    if (aJsonresponse.achievements[i].progressState.ToString() == "Achieved" && (Sorting_Box.SelectedIndex is 0 or 2))
+                    if (aJsonresponse.achievements[i].progressState.ToString() == "Achieved" && (Sorting_Box.SelectedIndex is 0 or 2 or -1))
                     {
                         try
                         {
@@ -231,7 +231,7 @@ namespace Xbox_Achievement_Unlocker
                 var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/json");
                 try
                 {
-                    client.PostAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements/" + SCID + "/update", bodyconverted);
+                    await client.PostAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements/" + SCID + "/update", bodyconverted);
                 }
                 catch (HttpRequestException ex)
                 {
