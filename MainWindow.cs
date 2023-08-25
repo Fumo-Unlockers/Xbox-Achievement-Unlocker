@@ -71,7 +71,7 @@ namespace Xbox_Achievement_Unlocker
                     await client.GetStringAsync("https://api.github.com/repos/ItsLogic/Xbox-Achievement-unlocker/releases");
                 var Jsonresponse = (dynamic)(new JArray());
                 Jsonresponse = (dynamic)JArray.Parse(responseString);
-                if (Jsonresponse[0].tag_name.ToString() != "1.8.1")
+                if (Jsonresponse[0].tag_name.ToString() != "1.8.2")
                     Updater.Show();
             }
             catch
