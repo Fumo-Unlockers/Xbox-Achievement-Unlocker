@@ -248,8 +248,15 @@ namespace Xbox_Achievement_Unlocker
 
         private async void BTN_UnlockAll_Click(object sender, EventArgs e)
         {
-
-            var Jsonresponse = (dynamic)JObject.Parse(MainWindow.responseString);
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+            client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
+            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            var Jsonresponse = (dynamic)JObject.Parse(await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements?titleId=" + TitleID + "&maxItems=1000"));
             //create list for unlock all
             for (int i = 0; i < Jsonresponse.achievements.Count; i++)
             {
@@ -335,7 +342,7 @@ namespace Xbox_Achievement_Unlocker
             await RefreshList();
         }
 
-        private async Task RefreshList()
+        async Task RefreshList()
         {
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
@@ -345,8 +352,7 @@ namespace Xbox_Achievement_Unlocker
             client.DefaultRequestHeaders.Add("Authorization", MainWindow.xauthtoken);
             client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-            aJsonresponse = (dynamic)(new JObject());
-            aJsonresponse = (dynamic)JObject.Parse(MainWindow.responseString);
+            aJsonresponse = (dynamic)JObject.Parse(await client.GetStringAsync("https://achievements.xboxlive.com/users/xuid(" + MainWindow.xuid + ")/achievements?titleId=" + TitleID + "&maxItems=1000"));
             PopulateAchievementList();
         }
 
