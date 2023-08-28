@@ -102,7 +102,7 @@ namespace Xbox_Achievement_Unlocker
             bool FirstWrite = true;
             for (int i = 0; i < jsonresponse.groups[0].statlistscollection[0].stats.Count; i++)
             {
-                if (jsonresponse.groups[0].statlistscollection[0].stats[i].ContainsKey("type"))
+                if (jsonresponse.groups[0].statlistscollection[0].stats[i].ContainsKey("type") || jsonresponse.groups[0].statlistscollection[0].stats[i].name == selectedStat.name)
                 {
                     if (FirstWrite)
                     {
