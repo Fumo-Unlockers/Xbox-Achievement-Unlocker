@@ -1,0 +1,147 @@
+﻿<Page
+    x:Class="XAU.Views.Pages.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:XAU.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="DashboardPage"
+    d:DataContext="{d:DesignInstance local:DashboardPage,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+
+
+    <Grid>
+        <ui:TextBlock 
+            Text="{Binding ViewModel.Attached}"
+            Foreground="{Binding ViewModel.AttachedColor}"
+        ></ui:TextBlock>
+        <ui:Image
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Width="150"
+            Height="150"
+            Source="{Binding ViewModel.GamerPic, Mode=OneWay}"
+            CornerRadius="75"
+        ></ui:Image>
+        <ui:TextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Padding="0, 170, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.GamerTag, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Padding="0, 170, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.Xuid, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Padding="0, 210, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.GamerScore, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Padding="0, 210, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.ProfileRep, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Padding="0, 210, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.AccountTier, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Padding="0, 250, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.CurrentlyPlaying, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Padding="0, 250, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.ActiveDevice, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Padding="0, 290, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.IsVerified, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Padding="0, 290, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.Location, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Padding="0, 290, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.Tenure, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Padding="0, 330, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.Followers, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Padding="0, 330, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.Following, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Padding="0, 330, 0, 0"
+            FontSize="20"
+            Text="{Binding ViewModel.Gamepass, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:TextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Padding="0, 370, 0, 0"
+            FontSize="20"
+            TextWrapping="Wrap"
+            Text="{Binding ViewModel.Bio, Mode=OneWay}"
+        ></ui:TextBlock>
+        <ui:Button
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Content="Refresh"
+            Command="{Binding ViewModel.RefreshProfileCommand, Mode=OneWay}"/>
+        <ui:InfoBar
+            Title="{Binding ViewModel.InfoBarTitle, Mode=OneWay}"
+            Message="{Binding ViewModel.InfoBarText, Mode=OneWay}"
+            IsOpen="{Binding ViewModel.IsInfoBarOpen, Mode=TwoWay}"
+            Severity="{Binding ViewModel.InfoBarType, Mode=OneWay}"
+            VerticalAlignment="Bottom"
+            MouseDown="CloseInfoBar"
+        />
+    </Grid>
+
+</Page>
