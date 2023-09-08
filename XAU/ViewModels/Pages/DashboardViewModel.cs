@@ -4,6 +4,7 @@ using Wpf.Ui.Controls;
 using Memory;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using Wpf.Ui.Common;
 
 namespace XAU.ViewModels.Pages
 {
@@ -32,21 +33,18 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _gamepass = "Gamepass: Unknown";
         [ObservableProperty] private string _bio = "Bio: Unknown";
 
-        //infobar
-        [ObservableProperty] private bool _isInfoBarOpen = false;
-        [ObservableProperty] private string _infoBarText = "InfoBar Text";
-        [ObservableProperty] private string _infoBarTitle = "InfoBar Title";
-        [ObservableProperty] private InfoBarSeverity _infoBarType = InfoBarSeverity.Informational;
+        //SnackBar
+        public DashboardViewModel(ISnackbarService snackbarService)
+        {
+            _snackbarService = snackbarService;
+        }
+        private readonly ISnackbarService _snackbarService;
+        private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
 
         [RelayCommand]
         private void RefreshProfile()
         {
-            //refresh profile
-            GamerTag = "Gamertag: balls";
-            InfoBarText = "Profile Refreshed";
-            InfoBarTitle = "Success";
-            InfoBarType = InfoBarSeverity.Success;
-            IsInfoBarOpen = true;
+            GrabProfile();
         }
 
         Mem m = new Mem();
@@ -212,24 +210,40 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("Host", "peoplehub.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             client.DefaultRequestHeaders.Add("Authorization", XAUTH);
-            var responseString = await client.GetStringAsync(
-                $"https://peoplehub.xboxlive.com/users/me/people/xuids({XUIDOnly})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
-            var Jsonresponse = (dynamic)(new JObject());
-            Jsonresponse = (dynamic)JObject.Parse(responseString);
-            GamerPic = Jsonresponse.people[0].displayPicRaw;
-            GamerScore = $"Gamerscore: {Jsonresponse.people[0].gamerScore}";
-            ProfileRep = $"Reputation: {Jsonresponse.people[0].xboxOneRep}";
-            AccountTier = $"Tier: {Jsonresponse.people[0].detail.accountTier}";
-            CurrentlyPlaying = $"Currently Playing: {Jsonresponse.people[0].presenceDetails[0].TitleId}";
-            ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
-            IsVerified = $"Verified: {Jsonresponse.people[0].detail.isVerified}";
-            Location = $"Location: {Jsonresponse.people[0].detail.location}";
-            Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
-            Following = $"Following: {Jsonresponse.people[0].detail.followingCount}";
-            Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
-            Gamepass = $"Gamepass: {Jsonresponse.people[0].detail.hasGamePass}";
-            Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
-            GrabbedProfile = true;
+            try
+            {
+                var responseString = await client.GetStringAsync(
+                    $"https://peoplehub.xboxlive.com/users/me/people/xuids({XUIDOnly})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
+                var Jsonresponse = (dynamic)(new JObject());
+                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                GamerPic = Jsonresponse.people[0].displayPicRaw;
+                GamerScore = $"Gamerscore: {Jsonresponse.people[0].gamerScore}";
+                ProfileRep = $"Reputation: {Jsonresponse.people[0].xboxOneRep}";
+                AccountTier = $"Tier: {Jsonresponse.people[0].detail.accountTier}";
+                CurrentlyPlaying = $"Currently Playing: {Jsonresponse.people[0].presenceDetails[0].TitleId}";
+                ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
+                IsVerified = $"Verified: {Jsonresponse.people[0].detail.isVerified}";
+                Location = $"Location: {Jsonresponse.people[0].detail.location}";
+                Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
+                Following = $"Following: {Jsonresponse.people[0].detail.followingCount}";
+                Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
+                Gamepass = $"Gamepass: {Jsonresponse.people[0].detail.hasGamePass}";
+                Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
+                GrabbedProfile = true;
+                _snackbarService.Show("Success", "Profile information grabbed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+            }
+            catch (HttpRequestException ex)
+            {
+                if ((int)ex.StatusCode == 401)
+                {
+                    IsLoggedIn = false;
+                    XAUTHTested = false;
+                    _snackbarService.Show("401 Unauthorised", "Something went wrong. Retrying", ControlAppearance.Success, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                }
+                
+            }
+            
+            
         }
 
 
