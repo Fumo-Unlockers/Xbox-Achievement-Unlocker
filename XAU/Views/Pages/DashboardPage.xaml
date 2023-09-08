@@ -22,6 +22,11 @@
             Text="{Binding ViewModel.Attached}"
             Foreground="{Binding ViewModel.AttachedColor}"
         ></ui:TextBlock>
+        <ui:TextBlock 
+            Padding="0, 30, 0, 0"
+            Text="{Binding ViewModel.LoggedIn}"
+            Foreground="{Binding ViewModel.LoggedInColor}"
+        ></ui:TextBlock>
         <ui:Image
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
