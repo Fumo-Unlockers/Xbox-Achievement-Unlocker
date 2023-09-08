@@ -139,14 +139,6 @@
             VerticalAlignment="Top"
             Content="Refresh"
             Command="{Binding ViewModel.RefreshProfileCommand, Mode=OneWay}"/>
-        <ui:InfoBar
-            Title="{Binding ViewModel.InfoBarTitle, Mode=OneWay}"
-            Message="{Binding ViewModel.InfoBarText, Mode=OneWay}"
-            IsOpen="{Binding ViewModel.IsInfoBarOpen, Mode=TwoWay}"
-            Severity="{Binding ViewModel.InfoBarType, Mode=OneWay}"
-            VerticalAlignment="Bottom"
-            MouseDown="CloseInfoBar"
-        />
     </Grid>
 
 </Page>

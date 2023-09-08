@@ -22,11 +22,5 @@ namespace XAU.Views.Pages
             ViewModel.XauthWorker.WorkerReportsProgress = true;
             InitializeComponent();
         }
-        //the info bar is supposed to close on its own. For some reason it doesnt so this fixes it
-        //relevant issue https://github.com/lepoco/wpfui/issues/540
-        private void CloseInfoBar(object sender, MouseButtonEventArgs e)
-        {
-            ViewModel.IsInfoBarOpen = false;
-        }
     }
 }
