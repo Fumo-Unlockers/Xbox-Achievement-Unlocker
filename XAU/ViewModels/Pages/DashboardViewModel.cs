@@ -238,7 +238,7 @@ namespace XAU.ViewModels.Pages
                 {
                     IsLoggedIn = false;
                     XAUTHTested = false;
-                    _snackbarService.Show("401 Unauthorised", "Something went wrong. Retrying", ControlAppearance.Success, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    _snackbarService.Show("401 Unauthorised", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 }
                 
             }
