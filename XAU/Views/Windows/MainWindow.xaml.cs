@@ -7,7 +7,7 @@ namespace XAU.Views.Windows
     public partial class MainWindow
     {
         public MainWindowViewModel ViewModel { get; }
-
+        public static INavigationService MainNavigationService;
         public MainWindow(
             MainWindowViewModel viewModel,
             INavigationService navigationService,
@@ -22,7 +22,7 @@ namespace XAU.Views.Windows
             DataContext = this;
 
             InitializeComponent();
-
+            MainNavigationService = navigationService;
             navigationService.SetNavigationControl(NavigationView);
             snackbarService.SetSnackbarPresenter(SnackbarPresenter);
             contentDialogService.SetContentPresenter(RootContentDialog);

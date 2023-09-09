@@ -1,14 +1,16 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
 using Memory;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Wpf.Ui.Common;
+using Newtonsoft.Json;
 
 namespace XAU.ViewModels.Pages
 {
-    public partial class DashboardViewModel : ObservableObject
+    public partial class HomeViewModel : ObservableObject, INavigationAware
     {
         //attach vars
         [ObservableProperty] private string _attached = "Not Attached";
@@ -32,14 +34,17 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _followers = "Followers: Unknown";
         [ObservableProperty] private string _gamepass = "Gamepass: Unknown";
         [ObservableProperty] private string _bio = "Bio: Unknown";
+        [ObservableProperty] public static bool _isLoggedIn = false;
 
         //SnackBar
-        public DashboardViewModel(ISnackbarService snackbarService)
+        public HomeViewModel(ISnackbarService snackbarService)
         {
             _snackbarService = snackbarService;
+            _contentDialogService = new ContentDialogService();
         }
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
+        private readonly IContentDialogService _contentDialogService;
 
         [RelayCommand]
         private void RefreshProfile()
@@ -50,11 +55,13 @@ namespace XAU.ViewModels.Pages
         Mem m = new Mem();
         public BackgroundWorker XauthWorker = new BackgroundWorker();
         bool IsAttached = false;
-        bool IsLoggedIn = false;
         bool GrabbedProfile = false;
         bool XAUTHTested = false;
-        public string XAUTH="";
-        public string XUIDOnly;
+        public static string XAUTH="";
+        public static string XUIDOnly;
+        public static bool InitComplete = false;
+        private bool _isInitialized = false;
+        string SettingsFilePath = Path.Combine((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU")), "settings.json");
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         static HttpClientHandler handler = new HttpClientHandler()
         {
@@ -62,6 +69,44 @@ namespace XAU.ViewModels.Pages
         };
         HttpClient client = new HttpClient(handler);
 
+        public void OnNavigatedTo()
+        {
+            if (!_isInitialized)
+                InitializeViewModel();
+        }
+        public void OnNavigatedFrom() { }
+
+        private void InitializeViewModel()
+        {
+            XauthWorker.DoWork += XauthWorker_DoWork;
+            XauthWorker.ProgressChanged += XauthWorker_ProgressChanged;
+            XauthWorker.RunWorkerCompleted += XauthWorker_RunWorkerCompleted;
+            XauthWorker.WorkerReportsProgress = true;
+            XauthWorker.RunWorkerAsync();
+            if (!File.Exists(SettingsFilePath))
+            {
+                if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        "XAU")))
+                {
+                    Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"));
+                }
+                var defaultSettings = new
+                {
+                    SettingsVersion = "1",
+                    ToolVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
+                    UnlockAllEnabled = false,
+                };
+                string defaultSettingsJson = JsonConvert.SerializeObject(defaultSettings, Formatting.Indented);
+                using (var file = new StreamWriter(SettingsFilePath))
+                {
+                    file.Write(defaultSettingsJson);
+                }
+                
+            }
+            _isInitialized = true;
+        }
+
+#region Xauth
         public async void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
@@ -81,7 +126,6 @@ namespace XAU.ViewModels.Pages
 
             }
         }
-
         public void XauthWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             if (IsAttached)
@@ -94,7 +138,6 @@ namespace XAU.ViewModels.Pages
                         GrabProfile();
                     LoggedIn = "Logged In";
                     LoggedInColor = new SolidColorBrush(Colors.Green);
-
                 }
                 else
                 {
@@ -118,7 +161,6 @@ namespace XAU.ViewModels.Pages
             if (!XauthWorker.IsBusy)
                 XauthWorker.RunWorkerAsync();
         }
-
         private async void GetXAUTH()
         {
             IEnumerable<long> XauthScanList = await m.AoBScan("58 42 4C 33 2E 30 20 78 3D", true, true);
@@ -159,7 +201,6 @@ namespace XAU.ViewModels.Pages
                 XAUTH = mostCommon;
             }
         }
-
         private async void TestXAUTH()
         {
             client.DefaultRequestHeaders.Clear();
@@ -188,6 +229,7 @@ namespace XAU.ViewModels.Pages
                 XUIDOnly = Jsonresponse.profileUsers[0].id;
                 IsLoggedIn = true;
                 XAUTHTested= true;
+                InitComplete = true;
             }
             catch (HttpRequestException ex)
             {
@@ -199,7 +241,6 @@ namespace XAU.ViewModels.Pages
                 }
             }
         }
-
         private async void GrabProfile()
         {
             client.DefaultRequestHeaders.Clear();
@@ -245,7 +286,7 @@ namespace XAU.ViewModels.Pages
             
             
         }
-
+#endregion
 
     }
 }

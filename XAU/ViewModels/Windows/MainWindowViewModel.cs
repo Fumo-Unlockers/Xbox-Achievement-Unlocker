@@ -16,19 +16,19 @@ namespace XAU.ViewModels.Windows
             {
                 Content = "Home",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
-                TargetPageType = typeof(Views.Pages.DashboardPage)
+                TargetPageType = typeof(Views.Pages.HomePage)
             },
             new NavigationViewItem()
             {
                 Content = "Games",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Games24 },
-                TargetPageType = typeof(Views.Pages.PlaceholderPage)
+                TargetPageType = typeof(Views.Pages.GamesPage)
             },
             new NavigationViewItem()
             {
                 Content = "Achievements",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Trophy24 },
-                TargetPageType = typeof(Views.Pages.PlaceholderPage)
+                TargetPageType = typeof(Views.Pages.AchievementsPage)
             },
             new NavigationViewItem()
             {
