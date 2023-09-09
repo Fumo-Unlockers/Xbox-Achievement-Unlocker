@@ -19,7 +19,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" MaxHeight="{Binding ViewModel.GamesGridLength}"/>
+            <RowDefinition Height="Auto" MaxHeight="{Binding ViewModel.LoadingGridLength}"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
@@ -50,7 +51,7 @@
                 Content=""
                 HorizontalAlignment="Right"
                 Icon="{ui:SymbolIcon ArrowRepeatAll24}"
-                Command="{Binding ViewModel.RefreshCommand}"
+                Command="{Binding ViewModel.GetGamesListCommand}"
             />
             <Label 
                 Grid.Row="0" 
@@ -97,6 +98,11 @@
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"/>
         </Grid>
+        <ui:ProgressRing IsIndeterminate="True" Grid.Row="2" 
+                         VerticalAlignment="Center" 
+                         HorizontalAlignment="Center" 
+                         Height="{Binding ViewModel.LoadingSize}"
+                         Width="{Binding ViewModel.LoadingSize}"/>
         <Grid Margin="0,15,0,0" Grid.Row="1">
             <ItemsControl ItemsSource="{Binding ViewModel.Games}">
                 <ItemsControl.ItemsPanel>

@@ -69,7 +69,7 @@ namespace XAU.ViewModels.Pages
             _isInitialized = true;
             
         }
-
+        [RelayCommand]
         private async void GetGamesList()
         {
             client.DefaultRequestHeaders.Clear();
@@ -86,15 +86,23 @@ namespace XAU.ViewModels.Pages
             for (int i = 0; i < GamesResponse.titles.Count; i++)
             {
                 dynamic title = GamesResponse.titles[i];
+                var EditedImage = title.displayImage.ToString();
+                if (EditedImage.Contains("store-images.s-microsoft.com"))
+                {
+                    EditedImage = EditedImage + "?w=256&h=256&format=jpg";
+                }
                 GamesList.Add(new Game(){Title = title.name.ToString(), 
                     CurrentAchievements = title.achievement.currentAchievements.ToString(), 
                     Gamerscore = title.achievement.currentGamerscore.ToString()+"/"+ title.achievement.totalGamerscore.ToString(),
                     Progress = title.achievement.progressPercentage.ToString(),
-                    Image = title.displayImage.ToString(),
+                    Image = EditedImage,
                     Index = i.ToString()
                 });
             }
+            if(Games != null)
+                Games.Clear();
             Games = GamesList;
+
         }
         public async void OpenAchievements(string index)
         {
