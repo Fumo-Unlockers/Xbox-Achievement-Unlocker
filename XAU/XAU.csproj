@@ -26,10 +26,12 @@
 
   <ItemGroup>
     <None Remove="Assets\cirno.png" />
+    <None Remove="Assets\G.png"/>
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\cirno.png" />
+    <Resource Include="Assets\G.png" />
   </ItemGroup>
 
 </Project>

@@ -35,12 +35,16 @@ namespace XAU
                 services.AddSingleton<ISnackbarService, SnackbarService>();
                 services.AddSingleton<IContentDialogService, ContentDialogService>();
 
-                services.AddSingleton<DashboardPage>();
-                services.AddSingleton<DashboardViewModel>();
+                services.AddSingleton<HomePage>();
+                services.AddSingleton<HomeViewModel>();
                 services.AddSingleton<DataPage>();
                 services.AddSingleton<DataViewModel>();
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
+                services.AddSingleton<GamesPage>();
+                services.AddSingleton<GamesViewModel>();
+                services.AddSingleton<AchievementsPage>();
+                services.AddSingleton<AchievementsViewModel>();
                 services.AddSingleton<PlaceholderPage>();
             }).Build();
 
