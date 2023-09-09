@@ -19,8 +19,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" MaxHeight="{Binding ViewModel.GamesGridLength}"/>
-            <RowDefinition Height="Auto" MaxHeight="{Binding ViewModel.LoadingGridLength}"/>
+            <RowDefinition Height="{Binding ViewModel.GamesListHeight}"/>
+            <RowDefinition Height="{Binding ViewModel.LoadingHeight}"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
@@ -31,6 +31,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ui:TextBox
                 Grid.Row="1"
@@ -46,7 +47,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 x:Name="RefreshButton"
-                Padding="10,4,8,7"
+                Padding="10,5,8,5"
                 Margin="10,0,5,0"
                 Content=""
                 HorizontalAlignment="Right"
@@ -61,33 +62,46 @@
                 Content="XUID Override"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"/>
-
             <ui:TextBox
                 Grid.Row="1"
                 Grid.Column="1"
                 x:Name="SearchBox"
                 Padding="10,4,8,7"
-                Margin="10,0,10,0"
-                Text=""
+                Margin="10,0,44,0"
+                Text="{Binding ViewModel.SearchText, Mode=TwoWay}"
                 PlaceholderText="Search for a game"
                 TextAlignment="Center"
                 ClearButtonEnabled="False"
+                KeyDown="SearchBox_OnKeyDown"
+            />
+            <ui:Button
+                Grid.Row="1"
+                Grid.Column="1"
+                x:Name="SearchButton"
+                Padding="10,5,8,5"
+                Margin="10,0,5,0"
+                Content=""
+                HorizontalAlignment="Right"
+                Icon="{ui:SymbolIcon Search24}"
+                Command="{Binding ViewModel.SearchAndFilterGamesCommand}"
             />
             <Label
                 Grid.Row="0" 
                 Grid.Column="1"
                 Margin="10,0,10,0"
                 Target="{Binding ElementName=SearchBox}"
-                Content="Game Search"
+                Content="{Binding ViewModel.SearchLabel}"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"/>
-
             <ComboBox
                 Grid.Row="1"
                 Grid.Column="2"
                 x:Name="FilterBox"
                 Padding="10,4,8,7"
                 Margin="10,0,10,0"
+                ItemsSource="{Binding ViewModel.FilterOptions}"
+                SelectionChanged="FilterBox_OnSelectionChanged"
+                SelectedIndex="{Binding ViewModel.FilterIndex, Mode=TwoWay}"
             />
             <Label 
                 Grid.Row="0" 
@@ -97,14 +111,33 @@
                 Content="Game Filter"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"/>
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="3"
+                x:Name="PageBox"
+                Padding="10,4,8,7"
+                Margin="10,0,10,0"
+                ItemsSource="{Binding ViewModel.PageOptions, Mode=OneWay}"
+                SelectionChanged="PageBox_OnSelectionChanged"
+                SelectedIndex="{Binding ViewModel.CurrentPage, Mode=TwoWay}"
+            />
+            <Label 
+                Grid.Row="0" 
+                Grid.Column="3"
+                Margin="10,0,10,0"
+                Target="{Binding ElementName=PageBox}"
+                Content="Page"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"/>
         </Grid>
         <ui:ProgressRing IsIndeterminate="True" Grid.Row="2" 
                          VerticalAlignment="Center" 
                          HorizontalAlignment="Center" 
                          Height="{Binding ViewModel.LoadingSize}"
-                         Width="{Binding ViewModel.LoadingSize}"/>
+                         Width="{Binding ViewModel.LoadingSize}"
+                         />
         <Grid Margin="0,15,0,0" Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding ViewModel.Games}">
+            <ItemsControl ItemsSource="{Binding ViewModel.GamesPaged}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel />
@@ -116,7 +149,7 @@
                             <Button Height="170" Width="170" Click="ButtonBase_OnClick" Content="{Binding Index}">
                                 <Button.Template>
                                     <ControlTemplate>
-                                        <ui:Image  Source="{Binding Image}" Width="170" Height="170" CornerRadius="10" Margin="0,0,0,0"/>
+                                        <ui:Image  Source="{Binding Image, IsAsync=true}" Width="170" Height="170" CornerRadius="10" Margin="0,0,0,0"/>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
@@ -140,7 +173,6 @@
                                 IsReadOnlyCaretVisible="True"
                                 Padding="10,4,8,7"
                                 Text="{Binding Title}"/>
-                            
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
