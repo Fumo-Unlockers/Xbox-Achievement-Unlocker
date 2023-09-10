@@ -88,7 +88,7 @@
             <Label
                 Grid.Row="0" 
                 Grid.Column="1"
-                Margin="10,0,10,0"
+                Margin="10,0,44,0"
                 Target="{Binding ElementName=SearchBox}"
                 Content="{Binding ViewModel.SearchLabel}"
                 VerticalAlignment="Top"
