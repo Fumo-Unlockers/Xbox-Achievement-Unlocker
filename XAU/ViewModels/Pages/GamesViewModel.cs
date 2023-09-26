@@ -35,6 +35,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private int _numPages = 0;
         [ObservableProperty] private ObservableCollection<string> _pageOptions = new ObservableCollection<string>();
         [ObservableProperty] private int _currentPage = 0;
+        [ObservableProperty] private bool _isInitialized = false;
 
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
 
@@ -45,7 +46,6 @@ namespace XAU.ViewModels.Pages
 
         HttpClient client = new HttpClient(handler);
         dynamic GamesResponse = (dynamic)(new JObject());
-        public string SelectedTitleID = "0";
         public bool PageReset = true;
 
 
@@ -61,7 +61,7 @@ namespace XAU.ViewModels.Pages
         }
 
         private string XAUTH = HomeViewModel.XAUTH;
-        private bool _isInitialized = false;
+        
 
         public GamesViewModel(ISnackbarService snackbarService)
         {
@@ -76,7 +76,7 @@ namespace XAU.ViewModels.Pages
         public void OnNavigatedTo()
         {
 
-            if (!_isInitialized && HomeViewModel.InitComplete)
+            if (!IsInitialized && HomeViewModel.InitComplete)
                 InitializeViewModel();
         }
 
@@ -88,7 +88,7 @@ namespace XAU.ViewModels.Pages
         {
             XuidOverride = HomeViewModel.XUIDOnly;
             GetGamesList();
-            _isInitialized = true;
+            IsInitialized = true;
 
         }
 
@@ -106,9 +106,7 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
             client.DefaultRequestHeaders.Add("Host", "titlehub.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-            var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" +
-                                                             XuidOverride +
-                                                             ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
+            var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + XuidOverride + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
             GamesResponse = (dynamic)JObject.Parse(responseString);
             LoadGames();
           }
@@ -126,10 +124,10 @@ namespace XAU.ViewModels.Pages
         }
         public async void OpenAchievements(string index)
         {
-            XAU.Views.Windows.MainWindow.MainNavigationService.Navigate(typeof(AchievementsPage));
-            SelectedTitleID = GamesResponse.titles[int.Parse(index)].titleId.ToString();
-            _snackbarService.Show("Success", $"Index: {index}\nTitleID: {SelectedTitleID}", ControlAppearance.Success,
-                new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+            AchievementsViewModel.TitleID = GamesResponse.titles[int.Parse(index)].titleId.ToString();
+            AchievementsViewModel.IsSelectedGame360 = GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Xbox360");
+            AchievementsViewModel.NewGame = true;
+            MainWindow.MainNavigationService.Navigate(typeof(AchievementsPage));
         }
         [RelayCommand]
         public async void SearchAndFilterGames()
@@ -378,6 +376,14 @@ namespace XAU.ViewModels.Pages
             GamesListHeight = new GridLength(1, GridUnitType.Star);
             LoadingHeight = new GridLength(0, GridUnitType.Star);
             LoadingSize = 0;
+        }
+
+        public void CopyToClipboard(string index)
+        {
+            var titleid = GamesResponse.titles[int.Parse(index)].titleId.ToString();
+            var title = GamesResponse.titles[int.Parse(index)].name.ToString();
+            Clipboard.SetDataObject(GamesResponse.titles[int.Parse(index)].titleId.ToString());
+            _snackbarService.Show("TitleID Copied", $"Copied the title ID of {title.ToString()} to clipboard\nTitleID: {titleid.ToString()}", ControlAppearance.Success, new SymbolIcon(SymbolRegular.ClipboardCheckmark24), _snackbarDuration);
         }
     }
     

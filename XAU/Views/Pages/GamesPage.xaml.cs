@@ -45,5 +45,11 @@ namespace XAU.Views.Pages
         {
             ViewModel.PageChanged();
         }
+
+        private void ButtonBase_RightClick(object sender, MouseButtonEventArgs e)
+        {
+            ButtonBase selectedGame = sender as ButtonBase;
+            ViewModel.CopyToClipboard(selectedGame.Content.ToString());
+        }
     }
 }

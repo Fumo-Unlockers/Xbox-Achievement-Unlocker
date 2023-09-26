@@ -37,6 +37,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 x:Name="XUIDBox"
+                IsEnabled="{Binding ViewModel.IsInitialized}"
                 Padding="10,4,8,7"
                 Margin="0,0,44,0"
                 Text="{Binding ViewModel.XuidOverride, Mode=TwoWay}"
@@ -47,6 +48,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 x:Name="RefreshButton"
+                IsEnabled="{Binding ViewModel.IsInitialized}"
                 Padding="10,5,8,5"
                 Margin="10,0,5,0"
                 Content=""
@@ -66,6 +68,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 x:Name="SearchBox"
+                IsEnabled="{Binding ViewModel.IsInitialized}"
                 Padding="10,4,8,7"
                 Margin="10,0,44,0"
                 Text="{Binding ViewModel.SearchText, Mode=TwoWay}"
@@ -78,6 +81,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 x:Name="SearchButton"
+                IsEnabled="{Binding ViewModel.IsInitialized}"
                 Padding="10,5,8,5"
                 Margin="10,0,5,0"
                 Content=""
@@ -97,6 +101,7 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 x:Name="FilterBox"
+                IsEnabled="{Binding ViewModel.IsInitialized}"
                 Padding="10,4,8,7"
                 Margin="10,0,10,0"
                 ItemsSource="{Binding ViewModel.FilterOptions}"
@@ -115,6 +120,7 @@
                 Grid.Row="1"
                 Grid.Column="3"
                 x:Name="PageBox"
+                IsEnabled="{Binding ViewModel.IsInitialized}"
                 Padding="10,4,8,7"
                 Margin="10,0,10,0"
                 ItemsSource="{Binding ViewModel.PageOptions, Mode=OneWay}"
@@ -146,10 +152,10 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" Margin="5,5,5,7">
-                            <Button Height="170" Width="170" Click="ButtonBase_OnClick" Content="{Binding Index}">
+                            <Button MinHeight="170" MinWidth="170" Click="ButtonBase_OnClick" MouseRightButtonDown="ButtonBase_RightClick" Content="{Binding Index}">
                                 <Button.Template>
                                     <ControlTemplate>
-                                        <ui:Image  Source="{Binding Image, IsAsync=true}" Width="170" Height="170" CornerRadius="10" Margin="0,0,0,0"/>
+                                        <ui:Image Source="{Binding Image, IsAsync=true}" Width="170" Height="170" CornerRadius="10" Margin="0,0,0,0" Background="White"/>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
