@@ -12,16 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
+using XAU.ViewModels.Pages;
 
 namespace XAU.Views.Pages
 {
     /// <summary>
     /// Interaction logic for AchievementsPage.xaml
     /// </summary>
-    public partial class AchievementsPage : Page
+    public partial class AchievementsPage : INavigableView<AchievementsViewModel>
     {
-        public AchievementsPage()
+        public AchievementsViewModel ViewModel { get; }
+
+        public AchievementsPage(AchievementsViewModel viewModel)
         {
+            ViewModel = viewModel;
+            DataContext = this;
             InitializeComponent();
         }
     }
