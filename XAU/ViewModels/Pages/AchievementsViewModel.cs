@@ -104,6 +104,7 @@ namespace XAU.ViewModels.Pages
             public float RarityPercentage { get; set; }
             public string RarityCategory { get; set; }
             public string ProgressState { get; set; }
+            public bool IsUnlockable { get; set; }
         }
         public void OnNavigatedTo()
         {
@@ -259,7 +260,8 @@ namespace XAU.ViewModels.Pages
                         Gamerscore = int.Parse(achievement.rewardsvalue),
                         RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                         RarityCategory = achievement.raritycurrentCategory,
-                        ProgressState = achievement.progressState
+                        ProgressState = achievement.progressState,
+                        IsUnlockable = achievement.progressState != "Achieved" && Unlockable
                     });
                 }
 
@@ -321,6 +323,7 @@ namespace XAU.ViewModels.Pages
             LoadAchievements();
             if (SpooferEnabled)
                 SpoofGame();
+            NewGame = false;
 
         }
     }
