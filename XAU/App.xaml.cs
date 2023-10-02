@@ -48,6 +48,8 @@ namespace XAU
                 services.AddSingleton<StatsViewModel>();
                 services.AddSingleton<MiscPage>();
                 services.AddSingleton<MiscViewModel>();
+                services.AddSingleton<InfoPage>();
+                services.AddSingleton<InfoViewModel>();
 
             }).Build();
 

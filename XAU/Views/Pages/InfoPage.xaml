@@ -1,0 +1,64 @@
+﻿<Page x:Class="XAU.Views.Pages.InfoPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:XAU.Views.Pages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="InfoPage"
+      d:DataContext="{d:DesignInstance local:InfoPage,
+                                     IsDesignTimeCreatable=False}"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+      ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+      mc:Ignorable="d">
+
+    <StackPanel>
+        <TextBlock
+            FontSize="20"
+            FontWeight="Medium"
+            Text="Info" />
+        <TextBlock
+            FontSize="16"
+            Text="Version: 2.0.0" />
+        <TextBlock
+            FontSize="16"
+            Text="Creator: Draff" />
+        <TextBlock
+            FontSize="16">
+            <Hyperlink Command="{Binding ViewModel.OpenDiscordUrlCommand}"> Discord Server </Hyperlink>
+        </TextBlock>
+        <TextBlock
+            FontSize="16">
+            <Hyperlink  Command="{Binding ViewModel.OpenGithubUserUrlCommand}"> Github </Hyperlink>
+        </TextBlock>
+        <TextBlock
+            FontSize="20"
+            FontWeight="Medium"
+            Margin="0,20,0,0"
+            Text="About" />
+        <TextBlock 
+            FontSize="16"
+            TextWrapping="Wrap"
+            Text="This tool is free and open source. If you paid money you were scammed."/>
+        <TextBlock
+            FontSize="16"
+            TextWrapping="Wrap"
+            Text="The only official download location is the github releases page or the in app auto updater."/>
+        <TextBlock
+            FontSize="16"
+            TextWrapping="Wrap"
+            Text="This tool was created using WPF-UI and memory.dll and is not in any way affiliated with microsoft or xbox."/>
+        <TextBlock
+            FontSize="16"
+            Margin="0,20,0,0"
+            TextWrapping="Wrap"
+            Text="I just like to code ;)"/>
+
+
+
+
+    </StackPanel>
+</Page>

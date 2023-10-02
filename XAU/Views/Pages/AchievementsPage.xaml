@@ -80,7 +80,7 @@
                 Margin="10,0,5,0"
                 Content="Unlock All"
                 HorizontalAlignment="Right"
-                Command="{Binding ViewModel.RefreshAchievementsCommand}"
+                Command="{Binding ViewModel.UnlockAllCommand}"
             />
         </Grid>
         <DataGrid Grid.Row="1"  

@@ -352,6 +352,58 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
+        public async void UnlockAll()
+        {
+            var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" +
+                              AchievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" +
+                              AchievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" +
+                              HomeViewModel.XUIDOnly + "\",\"achievements\":[";
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
+            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
+            if (HomeViewModel.Settings.FakeSignatureEnabled)
+                client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
+            foreach (Achievement achievement in Achievements)
+            {
+                if (achievement.progressState != "Achieved")
+                {
+                    requestbody += "{\"id\":\"" +achievement.id + "\",\"percentComplete\":\"100\"},";
+                }
+            }
+            requestbody = requestbody.Remove(requestbody.Length - 1)+ "]}";
+            var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/json");
+            try
+            {
+                await client.PostAsync(
+                    "https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements/" +
+                    AchievementResponse.achievements[0].serviceConfigId + "/update", bodyconverted);
+                _snackbarService.Show("All Achievements Unlocked", $"All Achievements for this game have been unlocked",
+                    ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                var unlocktime = DateTime.Now;
+                foreach (DGAchievement achievement in DGAchievements)
+                {
+                    
+                    if (achievement.ProgressState != "Achieved")
+                    {
+                        achievement.IsUnlockable = false;
+                        achievement.ProgressState = "Achieved";
+                        achievement.DateUnlocked = unlocktime;
+                    }
+                }
+            }
+            catch 
+            {
+
+            }
+        }
+
+        [RelayCommand]
         public async void RefreshAchievements()
         {
             Achievements.Clear();
