@@ -62,6 +62,8 @@ namespace XAU.ViewModels.Pages
 
         private void InitializeViewModel()
         {
+            if (HomeViewModel.Settings.RegionOverride)
+                currentSystemLanguage = "en-GB";
             IsInitialized = true;
         }
 
