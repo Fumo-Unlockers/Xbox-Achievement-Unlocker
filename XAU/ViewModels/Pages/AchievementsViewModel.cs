@@ -258,6 +258,11 @@ namespace XAU.ViewModels.Pages
                 }
                 foreach (var achievement in Achievements)
                 {
+                    var gamerscore = 0;
+                    if (achievement.rewardstype == "Gamerscore")
+                    {
+                        gamerscore = int.Parse(achievement.rewardsvalue);
+                    }
                     DGAchievements.Add(new DGAchievement()
                     {
                         Index = Achievements.IndexOf(achievement),
@@ -266,7 +271,7 @@ namespace XAU.ViewModels.Pages
                         Description = achievement.description,
                         IsSecret = achievement.isSecret,
                         DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
-                        Gamerscore = int.Parse(achievement.rewardsvalue),
+                        Gamerscore = gamerscore,
                         RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                         RarityCategory = achievement.raritycurrentCategory,
                         ProgressState = achievement.progressState,
