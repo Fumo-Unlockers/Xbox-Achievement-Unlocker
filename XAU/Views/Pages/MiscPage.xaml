@@ -1,0 +1,75 @@
+﻿<Page
+    x:Class="XAU.Views.Pages.MiscPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:XAU.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="Misc Page"
+    d:DataContext="{d:DesignInstance local:MiscPage,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+
+    <Grid>
+        <TabControl Margin="0,0,0,0">
+            <TabItem IsSelected="True">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="XboxController24" />
+                        <TextBlock Text="Spoofer" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0"  Text="{Binding ViewModel.SpoofingText}"/>
+                    <Button Grid.Row="0" Grid.Column="1" Content="{Binding ViewModel.SpoofingButtonText}" HorizontalAlignment="Stretch" Command="{Binding ViewModel.SpooferButtonClickedCommand}" IsEnabled="{Binding ViewModel.IsInitialized}"/>
+                    <ui:TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,5,0,0" PlaceholderText="Title ID" Text="{Binding ViewModel.NewSpoofingID, Mode=TwoWay}"/>
+                    <ui:Image 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Source="{Binding ViewModel.GameImage}"
+                        Height="250"
+                        Width="250"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                    ></ui:Image>
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameName}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,0,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameTitleID}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,20,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GamePFN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,40,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameType}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,60,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameGamepass}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,80,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameDevices}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,100,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameGamerscore}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,120,0,0" />
+
+
+                </Grid>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Search24" />
+                        <TextBlock Text="Title ID Search" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <TextBlock Margin="0" Text="This tab isnt finished yet just use the TitleID scraper on my github" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+        
+    </Grid>
+</Page>

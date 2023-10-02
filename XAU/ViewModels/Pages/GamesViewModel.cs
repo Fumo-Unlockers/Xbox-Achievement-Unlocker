@@ -89,6 +89,8 @@ namespace XAU.ViewModels.Pages
             XuidOverride = HomeViewModel.XUIDOnly;
             GetGamesList();
             IsInitialized = true;
+            if (HomeViewModel.Settings.RegionOverride)
+                currentSystemLanguage = "en-GB";
 
         }
 

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using Newtonsoft.Json.Linq;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
@@ -23,7 +24,8 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private bool _titleIDEnabled = false;
         [ObservableProperty] private ObservableCollection<Achievement> _achievements = new ObservableCollection<Achievement>();
         [ObservableProperty] private ObservableCollection<DGAchievement> _dGAchievements = new ObservableCollection<DGAchievement>();
-        [ObservableProperty] private string _gameInfo = "Not Spoofing: ";
+        [ObservableProperty] public string _gameInfo = "Not Spoofing: ";
+        [ObservableProperty] private bool _isUnlockAllEnabled = false;
         public static bool SpooferEnabled = false;
         public static string TitleID="0";
         private bool IsTitleIDValid = false;
@@ -95,6 +97,7 @@ namespace XAU.ViewModels.Pages
 
         public class DGAchievement
         {
+            public int Index { get; set; }
             public int ID { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
@@ -119,6 +122,7 @@ namespace XAU.ViewModels.Pages
                 TitleIDEnabled = true;
             if (!IsInitialized && HomeViewModel.InitComplete && TitleIDOverride != "0")
                 InitializeViewModel();
+            
 
         }
 
@@ -134,6 +138,8 @@ namespace XAU.ViewModels.Pages
                 SpoofGame();
             TitleIDEnabled = true;
             IsInitialized = true;
+            if (HomeViewModel.Settings.RegionOverride)
+                currentSystemLanguage = "en-GB";
         }
 
 
@@ -158,12 +164,12 @@ namespace XAU.ViewModels.Pages
                 GameInfo = "Not Spoofing: " + GameInfoResponse.titles[0].name.ToString();
                 IsTitleIDValid = true;
             }
-            catch (Exception e)
+            catch
             {
                 GameInfo = "Error";
                 IsTitleIDValid = false;
+                return;
             }
-            
         }
 
         private async void SpoofGame()
@@ -173,6 +179,7 @@ namespace XAU.ViewModels.Pages
 
         private async void LoadAchievements()
         {
+            Achievements.Clear();
             if (!IsTitleIDValid)
                 return;
             if (!IsSelectedGame360)
@@ -252,6 +259,7 @@ namespace XAU.ViewModels.Pages
                 {
                     DGAchievements.Add(new DGAchievement()
                     {
+                        Index = Achievements.IndexOf(achievement),
                         ID = int.Parse(achievement.id),
                         Name = achievement.name,
                         Description = achievement.description,
@@ -264,6 +272,8 @@ namespace XAU.ViewModels.Pages
                         IsUnlockable = achievement.progressState != "Achieved" && Unlockable
                     });
                 }
+
+                
 
             }
             else
@@ -286,7 +296,6 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-
             if (IsSelectedGame360)
             {
                 _snackbarService.Show("Warning: Unsupported Game", $"This tool does not support Xbox 360 titles", ControlAppearance.Caution,
@@ -298,10 +307,16 @@ namespace XAU.ViewModels.Pages
                     new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
             }
 
+            if (HomeViewModel.Settings.UnlockAllEnabled && Unlockable)
+                IsUnlockAllEnabled = Unlockable;
+            else
+                IsUnlockAllEnabled = false;
         }
 
-        private async void UnlockAchievement()
+        public async void UnlockAchievement(int AchievementIndex)
         {
+            
+            var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + AchievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" + AchievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" + HomeViewModel.XUIDOnly + "\",\"achievements\":[{\"id\":\"" + DGAchievements[AchievementIndex].ID + "\",\"percentComplete\":\"100\"}]}";
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
@@ -311,10 +326,31 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
-            client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
+            if (HomeViewModel.Settings.FakeSignatureEnabled)
+                client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
+            var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/json");
+            try
+            {
+                await client.PostAsync(
+                    "https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements/" +
+                    AchievementResponse.achievements[0].serviceConfigId + "/update", bodyconverted);
+                _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
+                    ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                DGAchievements[AchievementIndex].IsUnlockable = false;
+                DGAchievements[AchievementIndex].ProgressState = "Achieved";
+                DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
+                CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
 
 
+            }
+            catch (HttpRequestException ex)
+            {
+                _snackbarService.Show("Error: Achievement Not Unlocked",
+                    $"{DGAchievements[AchievementIndex].Name} was not unlocked", ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
         }
+
         [RelayCommand]
         public async void RefreshAchievements()
         {

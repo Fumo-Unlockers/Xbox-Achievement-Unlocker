@@ -37,8 +37,6 @@ namespace XAU
 
                 services.AddSingleton<HomePage>();
                 services.AddSingleton<HomeViewModel>();
-                services.AddSingleton<DataPage>();
-                services.AddSingleton<DataViewModel>();
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
                 services.AddSingleton<GamesPage>();
@@ -46,6 +44,11 @@ namespace XAU
                 services.AddSingleton<AchievementsPage>();
                 services.AddSingleton<AchievementsViewModel>();
                 services.AddSingleton<PlaceholderPage>();
+                services.AddSingleton<StatsPage>();
+                services.AddSingleton<StatsViewModel>();
+                services.AddSingleton<MiscPage>();
+                services.AddSingleton<MiscViewModel>();
+
             }).Build();
 
         /// <summary>

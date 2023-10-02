@@ -2,7 +2,6 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:helpers="clr-namespace:XAU.Helpers"
       xmlns:local="clr-namespace:XAU.Views.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -76,7 +75,7 @@
                 Grid.Row="0"
                 Grid.Column="2"
                 x:Name="UnlockAllButton"
-                IsEnabled="{Binding ViewModel.Unlockable}"
+                IsEnabled="{Binding ViewModel.IsUnlockAllEnabled}"
                 Padding="10,5,8,5"
                 Margin="10,0,5,0"
                 Content="Unlock All"
@@ -85,7 +84,7 @@
             />
         </Grid>
         <DataGrid Grid.Row="1"  
-                  VerticalScrollBarVisibility="Visible" 
+                  VerticalScrollBarVisibility="Hidden" 
                   HorizontalScrollBarVisibility="Visible"
                   Margin="0,5,0,5" 
                   AutoGenerateColumns="False"  
@@ -123,7 +122,9 @@
                 <DataGridTemplateColumn Header="Unlock" Width="0.13*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Unlock</Button>
+                            <Button Margin="5,5,5,5" Click="UnlockButton" Tag="{Binding Index}"
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    IsEnabled="{Binding IsUnlockable}">Unlock</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -18,24 +17,15 @@ using XAU.ViewModels.Pages;
 
 namespace XAU.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for AchievementsPage.xaml
-    /// </summary>
-    public partial class AchievementsPage : INavigableView<AchievementsViewModel>
+    public partial class MiscPage : INavigableView<MiscViewModel>
     {
-        public AchievementsViewModel ViewModel { get; }
+        public MiscViewModel ViewModel { get; }
 
-        public AchievementsPage(AchievementsViewModel viewModel)
+        public MiscPage(MiscViewModel viewModel)
         {
             ViewModel = viewModel;
             DataContext = this;
             InitializeComponent();
-        }
-
-        private void UnlockButton(object sender, RoutedEventArgs e)
-        {
-            ButtonBase SelectedAchievement = sender as ButtonBase;
-            ViewModel.UnlockAchievement(Convert.ToInt32(SelectedAchievement.Tag));
         }
     }
 }
