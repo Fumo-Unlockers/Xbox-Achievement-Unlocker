@@ -180,6 +180,7 @@ namespace XAU.ViewModels.Pages
         private async void LoadAchievements()
         {
             Achievements.Clear();
+            DGAchievements.Clear();
             if (!IsTitleIDValid)
                 return;
             if (!IsSelectedGame360)
@@ -406,7 +407,6 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public async void RefreshAchievements()
         {
-            Achievements.Clear();
             LoadGameInfo();
             LoadAchievements();
             if (SpooferEnabled)
