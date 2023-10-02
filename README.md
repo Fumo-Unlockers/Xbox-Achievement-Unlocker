@@ -14,6 +14,7 @@ A convenient tool for unlocking achievements on Microsoft/Xbox games, inspired b
   - [Table of Contents](#table-of-contents)
   - [Why Xbox Achievement Unlocker?](#why-xbox-achievement-unlocker)
   - [How It Works](#how-it-works)
+  - [Requirements](#requirements)
   - [What can it do?](#what-can-it-do)
   - [Screenshots](#screenshots)
   - [To-Do List](#to-do-list)
@@ -25,6 +26,9 @@ Through my research, I found that there weren't any free achievement unlockers a
 
 ## How It Works
 This tool utilizes memory.dll to extract the user's XAuth token from one of the Xbox app processes. The token is then used to make web requests to Xbox servers, pulling information on achievements and informing the server which of these achievements have been unlocked.
+
+## Requirements
+Literally just [dotnet 7](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-7.0.11-windows-x64-installer) and the [new xbox app](https://apps.microsoft.com/store/detail/xbox/9MV0B5HZVK9Z)
 
 ## What can it do?
 - Grab XAuth from xbox app
