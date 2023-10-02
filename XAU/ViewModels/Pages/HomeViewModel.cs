@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Wpf.Ui.Common;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace XAU.ViewModels.Pages
 {
@@ -35,12 +37,13 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _gamepass = "Gamepass: Unknown";
         [ObservableProperty] private string _bio = "Bio: Unknown";
         [ObservableProperty] public static bool _isLoggedIn = false;
+        [ObservableProperty] public static bool _updateAvaliable = false;
 
         //SnackBar
-        public HomeViewModel(ISnackbarService snackbarService)
+        public HomeViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
             _snackbarService = snackbarService;
-            _contentDialogService = new ContentDialogService();
+            _contentDialogService = contentDialogService;
         }
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
@@ -76,8 +79,65 @@ namespace XAU.ViewModels.Pages
         }
         public void OnNavigatedFrom() { }
 
+        private async void CheckForUpdates()
+        {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("Host", "api.github.com");
+            client.DefaultRequestHeaders.Add("User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
+            client.DefaultRequestHeaders.Add("Accept",
+                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+            var responseString =
+                await client.GetStringAsync("https://api.github.com/repos/ItsLogic/Xbox-Achievement-unlocker/releases");
+            var Jsonresponse = (dynamic)(new JArray());
+            Jsonresponse = (dynamic)JArray.Parse(responseString);
+            if (Jsonresponse[0].tag_name.ToString() != "2.0")
+            {
+                var result = await _contentDialogService.ShowSimpleDialogAsync(
+                    new SimpleContentDialogCreateOptions()
+                    {
+                        Title = $"Version {Jsonresponse[0].tag_name.ToString()} available to download",
+                        Content = "Would you like to update to this version?",
+                        PrimaryButtonText = "Update",
+                        CloseButtonText = "Cancel"
+                    }
+                );
+                if (result == ContentDialogResult.Primary)
+                {
+                    _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                    string sourceFile = Jsonresponse[0].assets[0].browser_download_url.ToString();
+                    string destFile = @"XAU-new.exe";
+                    WebClient webClient = new WebClient();
+                    webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Update);
+                    webClient.DownloadFileAsync(new Uri(sourceFile), destFile);
+                }
+            }
+        }
+
+        private void Update(object sender, AsyncCompletedEventArgs e)
+        {
+            var path = Environment.ProcessPath.ToString();
+            string[] splitpath = path.Split("\\");
+            using (StreamWriter writer = new StreamWriter("XAU-Updater.bat"))
+            {
+                writer.WriteLine("@echo off");
+                writer.WriteLine("timeout 1 > nul");
+                writer.WriteLine("del \"" + Environment.ProcessPath + "\" ");
+                writer.WriteLine("del \"" + splitpath[splitpath.Count() - 1] + "\" ");
+                writer.WriteLine("ren XAU-new.exe \"" + splitpath[splitpath.Count() - 1] + "\" ");
+                writer.WriteLine("start \"\" " + "\"" + splitpath[splitpath.Count() - 1] + "\"");
+                writer.WriteLine("goto 2 > nul & del \"%~f0\"");
+            }
+            Process proc = new Process();
+            proc.StartInfo.FileName = "XAU-Updater.bat";
+            proc.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+            proc.Start();
+            Environment.Exit(0);
+        }
         private void InitializeViewModel()
         {
+            CheckForUpdates();
             XauthWorker.DoWork += XauthWorker_DoWork;
             XauthWorker.ProgressChanged += XauthWorker_ProgressChanged;
             XauthWorker.RunWorkerCompleted += XauthWorker_RunWorkerCompleted;
@@ -95,6 +155,12 @@ namespace XAU.ViewModels.Pages
                     SettingsVersion = "1",
                     ToolVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
                     UnlockAllEnabled = false,
+                    AutoSpooferEnabled = false,
+                    AutoLaunchXboxAppEnabled = false,
+                    FakeSignatureEnabled = true,
+                    RegionOverride = false,
+                    UseAcrylic = false,
+                    PrivacyMode = false
                 };
                 string defaultSettingsJson = JsonConvert.SerializeObject(defaultSettings, Formatting.Indented);
                 using (var file = new StreamWriter(SettingsFilePath))
@@ -103,7 +169,19 @@ namespace XAU.ViewModels.Pages
                 }
                 
             }
+            LoadSettings();
             _isInitialized = true;
+            if (Settings.AutoLaunchXboxAppEnabled)
+            {
+                Process p = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.UseShellExecute = true;
+                startInfo.FileName = startInfo.FileName = @"shell:appsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App";
+                p.StartInfo = startInfo;
+                p.Start();
+            }
+            if (Settings.RegionOverride)
+                currentSystemLanguage = "en-GB";
         }
 
 #region Xauth
@@ -224,8 +302,17 @@ namespace XAU.ViewModels.Pages
                     await client.GetStringAsync("https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag");
                 var Jsonresponse = (dynamic)(new JObject());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
-                GamerTag = $"Gamertag: {Jsonresponse.profileUsers[0].settings[0].value}";
-                Xuid = $"XUID: {Jsonresponse.profileUsers[0].id}";
+                if (Settings.PrivacyMode)
+                {
+                    GamerTag = $"Gamertag: Hidden";
+                    Xuid = $"XUID: Hidden";
+                }
+                else
+                {
+                    GamerTag = $"Gamertag: {Jsonresponse.profileUsers[0].settings[0].value}";
+                    Xuid = $"XUID: {Jsonresponse.profileUsers[0].id}";
+                }
+                
                 XUIDOnly = Jsonresponse.profileUsers[0].id;
                 IsLoggedIn = true;
                 XAUTHTested= true;
@@ -241,6 +328,9 @@ namespace XAU.ViewModels.Pages
                 }
             }
         }
+#endregion
+
+#region Profile
         private async void GrabProfile()
         {
             client.DefaultRequestHeaders.Clear();
@@ -257,19 +347,59 @@ namespace XAU.ViewModels.Pages
                     $"https://peoplehub.xboxlive.com/users/me/people/xuids({XUIDOnly})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
                 var Jsonresponse = (dynamic)(new JObject());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
-                GamerPic = Jsonresponse.people[0].displayPicRaw;
-                GamerScore = $"Gamerscore: {Jsonresponse.people[0].gamerScore}";
-                ProfileRep = $"Reputation: {Jsonresponse.people[0].xboxOneRep}";
-                AccountTier = $"Tier: {Jsonresponse.people[0].detail.accountTier}";
-                CurrentlyPlaying = $"Currently Playing: {Jsonresponse.people[0].presenceDetails[0].TitleId}";
-                ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
-                IsVerified = $"Verified: {Jsonresponse.people[0].detail.isVerified}";
-                Location = $"Location: {Jsonresponse.people[0].detail.location}";
-                Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
-                Following = $"Following: {Jsonresponse.people[0].detail.followingCount}";
-                Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
-                Gamepass = $"Gamepass: {Jsonresponse.people[0].detail.hasGamePass}";
-                Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
+                if (Settings.PrivacyMode)
+                {
+                    GamerTag = $"Gamertag: Hidden";
+                    Xuid = $"XUID: Hidden";
+                    GamerPic = "pack://application:,,,/Assets/cirno.png";
+                    GamerScore = $"Gamerscore: Hidden";
+                    ProfileRep = $"Reputation: Hidden";
+                    AccountTier = $"Tier: Hidden";
+                    CurrentlyPlaying = $"Currently Playing: Hidden";
+                    ActiveDevice = $"Active Device: Hidden";
+                    IsVerified = $"Verified: Hidden";
+                    Location = $"Location: Hidden";
+                    Tenure = $"Tenure: Hidden";
+                    Following = $"Following: Hidden";
+                    Followers = $"Followers: Hidden";
+                    Gamepass = $"Gamepass: Hidden";
+                    Bio = $"Bio: Hidden";
+
+                }
+                else
+                {
+                    GamerTag = $"Gamertag: {Jsonresponse.people[0].gamertag}";
+                    Xuid = $"XUID: {Jsonresponse.people[0].xuid}";
+                    GamerPic = Jsonresponse.people[0].displayPicRaw;
+                    GamerScore = $"Gamerscore: {Jsonresponse.people[0].gamerScore}";
+                    ProfileRep = $"Reputation: {Jsonresponse.people[0].xboxOneRep}";
+                    AccountTier = $"Tier: {Jsonresponse.people[0].detail.accountTier}";
+                    try
+                    {
+                        client.DefaultRequestHeaders.Clear();
+                        client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+                        client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+                        client.DefaultRequestHeaders.Add("accept", "application/json");
+                        client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+                        client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+                        StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + Jsonresponse.people[0].presenceDetails[0].TitleId + "\"]}");
+                        var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
+                        CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
+                    }
+                    catch
+                    {
+                        CurrentlyPlaying = $"Currently Playing: Unknown ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
+                    }
+                    
+                    ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
+                    IsVerified = $"Verified: {Jsonresponse.people[0].detail.isVerified}";
+                    Location = $"Location: {Jsonresponse.people[0].detail.location}";
+                    Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
+                    Following = $"Following: {Jsonresponse.people[0].detail.followingCount}";
+                    Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
+                    Gamepass = $"Gamepass: {Jsonresponse.people[0].detail.hasGamePass}";
+                    Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
+                }
                 GrabbedProfile = true;
                 _snackbarService.Show("Success", "Profile information grabbed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
             }
@@ -287,6 +417,38 @@ namespace XAU.ViewModels.Pages
             
         }
 #endregion
+        
+#region Settings
 
+        public class SettingsList
+        {
+            public string SettingsVersion { get; set; }
+            public string ToolVersion { get; set; }
+            public bool UnlockAllEnabled { get; set; }
+            public bool AutoSpooferEnabled { get; set; }
+            public bool AutoLaunchXboxAppEnabled { get; set; }
+            public bool FakeSignatureEnabled { get; set; }
+            public bool RegionOverride { get; set; }
+            public bool UseAcrylic { get; set; }
+            public bool PrivacyMode { get; set; }
+        }
+        public static SettingsList Settings = new SettingsList();
+
+        public void LoadSettings()
+        {
+            string settingsJson = File.ReadAllText(SettingsFilePath);
+            var settings = JsonConvert.DeserializeObject<dynamic>(settingsJson);
+            Settings.SettingsVersion = settings.SettingsVersion;
+            Settings.ToolVersion = settings.ToolVersion;
+            Settings.UnlockAllEnabled = settings.UnlockAllEnabled;
+            Settings.AutoSpooferEnabled = settings.AutoSpooferEnabled;
+            Settings.AutoLaunchXboxAppEnabled = settings.AutoLaunchXboxAppEnabled;
+            Settings.FakeSignatureEnabled = settings.FakeSignatureEnabled;
+            Settings.RegionOverride = settings.RegionOverride;
+            Settings.UseAcrylic = settings.UseAcrylic;
+            Settings.PrivacyMode = settings.PrivacyMode;
+        }
+
+#endregion
     }
 }

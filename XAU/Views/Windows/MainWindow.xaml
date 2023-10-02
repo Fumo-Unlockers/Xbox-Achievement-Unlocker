@@ -32,7 +32,6 @@
             Grid.Row="1"
             Padding="42,0,42,0"
             OpenPaneLength="220"
-            BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
             FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
             FrameMargin="0"
             IsBackButtonVisible="Collapsed"
@@ -40,7 +39,8 @@
             MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
             PaneDisplayMode="Left">
             <ui:NavigationView.Header>
-                <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
+                <!--leaving this so I can have 20px top padding-->
+                <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="0,20,0,0" HorizontalAlignment="Center" />
             </ui:NavigationView.Header>
             <ui:NavigationView.ContentOverlay>
                 <Grid>

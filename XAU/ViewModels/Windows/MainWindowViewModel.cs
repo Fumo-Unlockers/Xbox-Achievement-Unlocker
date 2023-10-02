@@ -34,8 +34,16 @@ namespace XAU.ViewModels.Windows
             {
                 Content = "Stats",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.DataHistogram24 },
-                TargetPageType = typeof(Views.Pages.PlaceholderPage)
+                TargetPageType = typeof(Views.Pages.StatsPage)
+            },
+            new NavigationViewItem()
+            {
+                Content = "Misc",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.MoreCircle24 },
+                TargetPageType = typeof(Views.Pages.MiscPage)
             }
+
+
         };
 
         [ObservableProperty]
