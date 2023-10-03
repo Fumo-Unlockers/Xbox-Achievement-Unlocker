@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <Version>2.0</Version>
+    <Version>2.0.1</Version>
     <Copyright>Made By Draff ;)</Copyright>
   </PropertyGroup>
 
@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <None Remove="Assets\cirno.png" />
-    <None Remove="Assets\G.png"/>
+    <None Remove="Assets\G.png" />
   </ItemGroup>
 
   <ItemGroup>
