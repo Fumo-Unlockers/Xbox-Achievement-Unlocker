@@ -214,6 +214,30 @@ namespace XAU.ViewModels.Pages
                 }
                 for (int i = 0; i < AchievementResponse.achievements.Count; i++)
                 {
+                    var rewardnameplaceholder = "";
+                    var rewarddescriptionplaceholder = "";
+                    var rewardvalueplaceholder = "";
+                    var rewardtypeplaceholder = "";
+                    var rewardmediaAssetplaceholder = "";
+                    var rewardvalueTypeplaceholder = "";
+                    try
+                    {
+                        rewardnameplaceholder = AchievementResponse.achievements[i].rewards[0].name.ToString();
+                        rewarddescriptionplaceholder = AchievementResponse.achievements[i].rewards[0].description.ToString();
+                        rewardvalueplaceholder = AchievementResponse.achievements[i].rewards[0].value.ToString();
+                        rewardtypeplaceholder = AchievementResponse.achievements[i].rewards[0].type.ToString();
+                        rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset.ToString();
+                        rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType.ToString();
+                    }
+                    catch
+                    {
+                        rewardnameplaceholder = "N/A";
+                        rewarddescriptionplaceholder = "N/A";
+                        rewardvalueplaceholder = "N/A";
+                        rewardtypeplaceholder = "N/A";
+                        rewardmediaAssetplaceholder = "N/A";
+                        rewardvalueTypeplaceholder = "N/A";
+                    }
 
                     Achievements.Add( new Achievement()
                         {
@@ -242,12 +266,12 @@ namespace XAU.ViewModels.Pages
                             achievementType = AchievementResponse.achievements[i].achievementType.ToString(),
                             participationType = AchievementResponse.achievements[i].participationType.ToString(),
                             timeWindow = AchievementResponse.achievements[i].timeWindow.ToString(),
-                            rewardsname = AchievementResponse.achievements[i].rewards[0].name.ToString(),
-                            rewardsdescription = AchievementResponse.achievements[i].rewards[0].description.ToString(),
-                            rewardsvalue = AchievementResponse.achievements[i].rewards[0].value.ToString(),
-                            rewardstype = AchievementResponse.achievements[i].rewards[0].type.ToString(),
-                            rewardsmediaAsset = AchievementResponse.achievements[i].rewards[0].mediaAsset.ToString(),
-                            rewardsvalueType = AchievementResponse.achievements[i].rewards[0].valueType.ToString(),
+                            rewardsname = rewardnameplaceholder,
+                            rewardsdescription = rewarddescriptionplaceholder,
+                            rewardsvalue = rewardvalueplaceholder,
+                            rewardstype = rewardtypeplaceholder,
+                            rewardsmediaAsset = rewardmediaAssetplaceholder,
+                            rewardsvalueType = rewardvalueTypeplaceholder,
                             estimatedTime = AchievementResponse.achievements[i].estimatedTime.ToString(),
                             deeplink = AchievementResponse.achievements[i].deeplink.ToString(),
                             isRevoked = AchievementResponse.achievements[i].isRevoked.ToString(),

@@ -22,7 +22,7 @@
             Text="Info" />
         <TextBlock
             FontSize="16"
-            Text="Version: 2.0.1" />
+            Text="Version: 2.1.0" />
         <TextBlock
             FontSize="16"
             Text="Creator: Draff" />
