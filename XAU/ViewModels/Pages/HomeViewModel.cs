@@ -97,7 +97,7 @@ private async void CheckForUpdates()
                 await client.GetStringAsync("https://api.github.com/repos/ItsLogic/Xbox-Achievement-unlocker/releases");
             var Jsonresponse = (dynamic)(new JArray());
             Jsonresponse = (dynamic)JArray.Parse(responseString);
-            if (Jsonresponse[0].tag_name.ToString() != "2.0.1")
+            if (Jsonresponse[0].tag_name.ToString() != "2.1.0")
             {
                 var result = await _contentDialogService.ShowSimpleDialogAsync(
                     new SimpleContentDialogCreateOptions()
