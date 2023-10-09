@@ -53,7 +53,7 @@
                     <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameGamepass}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,80,0,0" />
                     <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameDevices}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,100,0,0" />
                     <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameGamerscore}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,120,0,0" />
-
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameTime}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,140,0,0" />
 
                 </Grid>
             </TabItem>

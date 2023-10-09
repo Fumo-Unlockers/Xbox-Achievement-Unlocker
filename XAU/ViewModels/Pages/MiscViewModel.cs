@@ -15,23 +15,6 @@ namespace XAU.ViewModels.Pages
 {
     public partial class MiscViewModel : ObservableObject, INavigationAware
     {
-        [ObservableProperty] private int _spoofingStatus = 0; //0=NotSpoofing, 1 =Spoofing, 2 = AutoSpoofing
-        [ObservableProperty] private string _gameName = "Name: ";
-        [ObservableProperty] private string _gameTitleID = "Title ID: ";
-        [ObservableProperty] private string _gamePFN = "PFN: ";
-        [ObservableProperty] private string _gameType = "Type: ";
-        [ObservableProperty] private string _gameGamepass = "Gamepass: ";
-        [ObservableProperty] private string _gameDevices = "Devices: ";
-        [ObservableProperty] private string _gameGamerscore = "Gamerscore: ?/?";
-        [ObservableProperty] private string _gameImage = "pack://application:,,,/Assets/cirno.png";
-        [ObservableProperty] private bool _isInitialized = false;
-        [ObservableProperty] private string _currentSpoofingID = "";
-        [ObservableProperty] private string _newSpoofingID = "";
-        [ObservableProperty] private string _spoofingText = "Spoofing Not Started";
-        [ObservableProperty] private string _spoofingButtonText = "Start Spoofing";
-        private bool SpoofingUpdate = false;
-        private bool CurrentlySpoofing = false;
-        private dynamic GameInfoResponse;
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
 
         static HttpClientHandler handler = new HttpClientHandler()
@@ -66,6 +49,27 @@ namespace XAU.ViewModels.Pages
                 currentSystemLanguage = "en-GB";
             IsInitialized = true;
         }
+#region Spoofer
+
+        [ObservableProperty] private int _spoofingStatus = 0; //0=NotSpoofing, 1 =Spoofing, 2 = AutoSpoofing
+        [ObservableProperty] private string _gameName = "Name: ";
+        [ObservableProperty] private string _gameTitleID = "Title ID: ";
+        [ObservableProperty] private string _gamePFN = "PFN: ";
+        [ObservableProperty] private string _gameType = "Type: ";
+        [ObservableProperty] private string _gameGamepass = "Gamepass: ";
+        [ObservableProperty] private string _gameDevices = "Devices: ";
+        [ObservableProperty] private string _gameGamerscore = "Gamerscore: ?/?";
+        [ObservableProperty] private string _gameImage = "pack://application:,,,/Assets/cirno.png";
+        [ObservableProperty] private string _gameTime = "Time Played: ";
+        [ObservableProperty] private bool _isInitialized = false;
+        [ObservableProperty] private string _currentSpoofingID = "";
+        [ObservableProperty] private string _newSpoofingID = "";
+        [ObservableProperty] private string _spoofingText = "Spoofing Not Started";
+        [ObservableProperty] private string _spoofingButtonText = "Start Spoofing";
+        private bool SpoofingUpdate = false;
+        private bool CurrentlySpoofing = false;
+        private dynamic GameInfoResponse;
+        private dynamic GameStatsResponse;
 
         [RelayCommand]
         public void SpooferButtonClicked()
@@ -85,6 +89,7 @@ namespace XAU.ViewModels.Pages
                 GameDevices = "Devices: ";
                 GameGamerscore = "Gamerscore: ?/?";
                 GameImage = "pack://application:,,,/Assets/cirno.png";
+                GameTime = "Time Played: ";
                 return;
             }
             switch (SpoofingStatus)
@@ -115,13 +120,19 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("accept", "application/json");
             client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
             client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + NewSpoofingID + "\"]}");
+            StringContent requestbody = new StringContent($"{{\"pfns\":null,\"titleIds\":[\"{NewSpoofingID}\"]}}");
             CurrentSpoofingID = NewSpoofingID;
             GameInfoResponse = (dynamic)JObject.Parse(await client
                 .PostAsync(
                     "https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
                     ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content
                 .ReadAsStringAsync());
+            requestbody =
+                new StringContent($"{{\"arrangebyfield\":\"xuid\",\"xuids\":[\"{HomeViewModel.XUIDOnly}\"],\"stats\":[{{\"name\":\"MinutesPlayed\",\"titleId\":\"{NewSpoofingID}\"}}]}}");
+            GameStatsResponse = (dynamic)JObject.Parse(await client
+                .PostAsync("https://userstats.xboxlive.com/batch", requestbody).Result.Content
+                .ReadAsStringAsync());
+
             try
             {
                 GameName = "Name: " + GameInfoResponse.titles[0].name.ToString();
@@ -139,8 +150,9 @@ namespace XAU.ViewModels.Pages
                 GameDevices = GameDevices.Remove(GameDevices.Length - 2);
                 GameGamerscore = "Gamerscore: " + GameInfoResponse.titles[0].achievement.currentGamerscore.ToString() +
                                  "/" + GameInfoResponse.titles[0].achievement.totalGamerscore.ToString();
+                GameTime = "Time Played: " + TimeSpan.FromMinutes(Convert.ToDouble(GameStatsResponse.statlistscollection[0].stats[0].value)).ToString(@"hh\:mm") ;
             }
-            catch (Exception e)
+            catch
             {
                 GameName = "Name: ";
                 _snackbarService.Show("Error: Invalid TitleID",
@@ -160,6 +172,10 @@ namespace XAU.ViewModels.Pages
 
         public async Task Spoofing()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            TimeSpan spoofingTime = stopwatch.Elapsed;
+            SpoofingText = $"Spoofing {GameName} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
             client.DefaultRequestHeaders.Add("accept", "application/json");
@@ -189,11 +205,16 @@ namespace XAU.ViewModels.Pages
                     {
                         break;
                     }
-
+                    spoofingTime = stopwatch.Elapsed;
+                    SpoofingText = $"Spoofing {GameInfoResponse.titles[0].name.ToString()} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
                     i++;
                 }
                 Thread.Sleep(1000);
             }
         }
+
+        #endregion
+
+
     }
 }
