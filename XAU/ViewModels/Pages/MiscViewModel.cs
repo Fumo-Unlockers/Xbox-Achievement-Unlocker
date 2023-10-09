@@ -231,7 +231,19 @@ namespace XAU.ViewModels.Pages
             doc.LoadHtml(html);
 
             var table = doc.DocumentNode.Descendants("table").FirstOrDefault(x => x.HasClass("maintable"));
-            var templinks = table.Descendants("a").Select(a => a.GetAttributeValue("href", null)).Where(h => !string.IsNullOrEmpty(h)).ToList();
+            var templinks = new List<string>();
+            try
+            {
+                templinks = table.Descendants("a").Select(a => a.GetAttributeValue("href", null)).Where(h => !string.IsNullOrEmpty(h)).ToList();
+            }
+            catch
+            {
+                _snackbarService.Show("Error: No Results",$"No results were found for {TSearchText}",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+            
             var tempnames = table.Descendants("td")
                 .Where(td => td.HasClass("gamerwide"))
                 .Select(td => td.InnerText.Trim())

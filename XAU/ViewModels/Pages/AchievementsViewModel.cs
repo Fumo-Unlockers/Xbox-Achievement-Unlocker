@@ -113,17 +113,21 @@ namespace XAU.ViewModels.Pages
         }
         public void OnNavigatedTo()
         {
-            if (HomeViewModel.SpoofingStatus == 1 && !(GameInfo == ""))
+            if (SpooferEnabled)
             {
-                if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
-                    GameInfo = $"Manually Spoofing {GameInfoResponse.titles[0].name.ToString()}";
-                else
-                    GameInfo = $"Not Spoofing {GameInfoResponse.titles[0].name.ToString()} (Manually Spoofing a different game)";
+                if (HomeViewModel.SpoofingStatus == 1 && !(GameInfo == ""))
+                {
+                    if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
+                        GameInfo = $"Manually Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+                    else
+                        GameInfo = $"Not Spoofing {GameInfoResponse.titles[0].name.ToString()} (Manually Spoofing a different game)";
+                }
+                else if (HomeViewModel.SpoofingStatus == 0 && !(GameInfo == ""))
+                {
+                    SpoofGame();
+                }
             }
-            else if (HomeViewModel.SpoofingStatus == 0 && !(GameInfo == ""))
-            {
-                SpoofGame();
-            }
+            
             if (IsInitialized&&NewGame)
                 RefreshAchievements();
             if (TitleID != "0")
@@ -135,8 +139,6 @@ namespace XAU.ViewModels.Pages
                 TitleIDEnabled = true;
             if (!IsInitialized && HomeViewModel.InitComplete && TitleIDOverride != "0")
                 InitializeViewModel();
-            
-
         }
 
         public void OnNavigatedFrom() { }
