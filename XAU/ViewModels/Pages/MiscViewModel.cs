@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using HtmlAgilityPack;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +11,7 @@ using System.Windows.Media.Animation;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using XAU.Views.Windows;
+
 
 namespace XAU.ViewModels.Pages
 {
@@ -209,6 +211,125 @@ namespace XAU.ViewModels.Pages
 
         #endregion
 
+
+        #region GameSearch
+        [ObservableProperty] private List<string> _tSearchGameLinks = new List<string>();
+        [ObservableProperty] private string _tSearchText = "";
+        [ObservableProperty] private List<string> _tSearchGameNames = new List<string>();
+        [ObservableProperty] private string _tSearchGameImage = "pack://application:,,,/Assets/cirno.png";
+        [ObservableProperty] private string _tSearchGameName = "Name: ";
+        [ObservableProperty] private string _tSearchGameTitleID = "";
+        [RelayCommand]
+        public async void SearchGame()
+        {
+            client.DefaultRequestHeaders.Clear();
+            var SearchQuerytext = Uri.EscapeDataString(TSearchText);
+            SearchQuerytext = SearchQuerytext.Replace("%20", "+");
+            var response = await client.GetAsync($"https://www.trueachievements.com/searchresults.aspx?search={SearchQuerytext}");
+            var html = await response.Content.ReadAsStringAsync();
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            var table = doc.DocumentNode.Descendants("table").FirstOrDefault(x => x.HasClass("maintable"));
+            var templinks = table.Descendants("a").Select(a => a.GetAttributeValue("href", null)).Where(h => !string.IsNullOrEmpty(h)).ToList();
+            var tempnames = table.Descendants("td")
+                .Where(td => td.HasClass("gamerwide"))
+                .Select(td => td.InnerText.Trim())
+                .ToList();
+            templinks.RemoveAt(0);
+            templinks.RemoveAt(0);
+            for (var i = 0; i < templinks.Count; i++)
+            {
+                templinks[i] = "https://www.trueachievements.com" + templinks[i];
+                templinks[i] = templinks[i].Replace("/achievements", "/price");
+                if (i >0)
+                {
+                    if (templinks[i - 1] == templinks[i])
+                    {
+                        templinks.RemoveAt(i);
+                        i--;
+                        continue;
+                    }
+                    
+                }
+                if (!templinks[i].Contains("/game/"))
+                {
+                    templinks.RemoveAt(i);
+                    templinks.RemoveAt(i);
+                    tempnames.RemoveAt(i);
+                    i--;
+                }
+            }
+            TSearchGameLinks = templinks;
+            TSearchGameNames = tempnames;
+        }
+
+        public async void DisplayGameInfo(int index)
+        {
+            var response = await client.GetAsync(TSearchGameLinks[index]);
+            var html = await response.Content.ReadAsStringAsync();
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            var ProductID = "";
+            try
+            {
+                ProductID = doc.DocumentNode.SelectSingleNode("//a[@class='price']").Attributes["href"].Value;
+            }
+            catch
+            {
+                _snackbarService.Show("Error: No Store Page",
+                    $"This Game does not have a store page listed.",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
+            ProductID = ProductID.Replace("/ext?u=", "");
+            ProductID = System.Web.HttpUtility.UrlDecode(ProductID);
+            ProductID = ProductID.Substring(0, ProductID.LastIndexOf('&'));
+            ProductID = ProductID.Split('/').Last();
+            if (ProductID.Contains("-"))
+            {
+                TSearchGameName = "Name: " + TSearchGameNames[index];
+                TSearchGameTitleID = Convert.ToInt32(ProductID.Substring(ProductID.Length - 8), 16).ToString();
+            }
+            else
+            {
+                client.DefaultRequestHeaders.Clear();
+                var ProductIDsConverted = new StringContent("{\"Products\":[\"" +ProductID+ "\"]}");
+                var TitleIDsResponse = await client.PostAsync(
+                    "https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome",
+                    ProductIDsConverted);
+                var TitleIDsContent = await TitleIDsResponse.Content.ReadAsStringAsync();
+                var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
+                var xboxTitleId = JsonTitleIDs.Products[$"{ProductID}"].XboxTitleId;
+                //here is some super dumb shit to handle bundles
+                if (xboxTitleId == null)
+                {
+                    foreach (var Product in JsonTitleIDs.Products)
+                    {
+                        foreach (var Title in Product)
+                        {
+                            if (Title.ToString().Contains("\"ProductType\": \"Game\",") && Title.XboxTitleId != null)
+                            {
+                                xboxTitleId = Title.XboxTitleId;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                TSearchGameName = "Name: " + TSearchGameNames[index];
+                TSearchGameTitleID = xboxTitleId;
+            }
+
+        }
+        #endregion
+
+        #region GamertagSearch
+
+
+        #endregion
 
     }
 }

@@ -83,7 +83,8 @@ namespace XAU.ViewModels.Pages
         }
         public void OnNavigatedFrom() { }
 
-        private async void CheckForUpdates()
+#region Update
+private async void CheckForUpdates()
         {
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("Host", "api.github.com");
@@ -139,6 +140,8 @@ namespace XAU.ViewModels.Pages
             proc.Start();
             Environment.Exit(0);
         }
+#endregion
+
         private void InitializeViewModel()
         {
             CheckForUpdates();

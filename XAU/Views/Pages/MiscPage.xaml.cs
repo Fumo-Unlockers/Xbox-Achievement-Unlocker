@@ -27,5 +27,12 @@ namespace XAU.Views.Pages
             DataContext = this;
             InitializeComponent();
         }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox listbox = sender as ListBox;
+            if (listbox.SelectedIndex == -1) return;
+            ViewModel.DisplayGameInfo(listbox.SelectedIndex);
+        }
     }
 }
