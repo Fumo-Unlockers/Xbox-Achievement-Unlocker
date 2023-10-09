@@ -270,6 +270,10 @@ private async void CheckForUpdates()
                 }
             }
 
+            if (XauthStrings.Length == 0)
+            {
+                return;
+            }
             string mostCommon = XauthStrings[0];
             int highestFrequency = 0;
             foreach (KeyValuePair<string, int> pair in frequency)
