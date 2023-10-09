@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Printing;
@@ -24,9 +25,9 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private bool _titleIDEnabled = false;
         [ObservableProperty] private ObservableCollection<Achievement> _achievements = new ObservableCollection<Achievement>();
         [ObservableProperty] private ObservableCollection<DGAchievement> _dGAchievements = new ObservableCollection<DGAchievement>();
-        [ObservableProperty] public string _gameInfo = "Not Spoofing: ";
+        [ObservableProperty] public string _gameInfo = "";
         [ObservableProperty] private bool _isUnlockAllEnabled = false;
-        public static bool SpooferEnabled = false;
+        public static bool SpooferEnabled = HomeViewModel.Settings.AutoSpooferEnabled;
         public static string TitleID="0";
         private bool IsTitleIDValid = false;
         public static bool NewGame = false;
@@ -34,6 +35,7 @@ namespace XAU.ViewModels.Pages
         private dynamic AchievementResponse = (dynamic)(new JObject());
         private dynamic GameInfoResponse = (dynamic)(new JObject());
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+        public static bool SpoofingUpdate = false;
 
         static HttpClientHandler handler = new HttpClientHandler()
         {
@@ -111,6 +113,17 @@ namespace XAU.ViewModels.Pages
         }
         public void OnNavigatedTo()
         {
+            if (HomeViewModel.SpoofingStatus == 1 && !(GameInfo == ""))
+            {
+                if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
+                    GameInfo = $"Manually Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+                else
+                    GameInfo = $"Not Spoofing {GameInfoResponse.titles[0].name.ToString()} (Manually Spoofing a different game)";
+            }
+            else if (HomeViewModel.SpoofingStatus == 0 && !(GameInfo == ""))
+            {
+                SpoofGame();
+            }
             if (IsInitialized&&NewGame)
                 RefreshAchievements();
             if (TitleID != "0")
@@ -138,6 +151,7 @@ namespace XAU.ViewModels.Pages
                 SpoofGame();
             TitleIDEnabled = true;
             IsInitialized = true;
+            NewGame = false;
             if (HomeViewModel.Settings.RegionOverride)
                 currentSystemLanguage = "en-GB";
         }
@@ -150,7 +164,7 @@ namespace XAU.ViewModels.Pages
                 TitleIDOverride = TitleID;
                 TitleID = "0";
             }
-            GameInfo = "Not Spoofing: ";
+            GameInfo = "";
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
@@ -161,7 +175,7 @@ namespace XAU.ViewModels.Pages
             GameInfoResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
             try
             {
-                GameInfo = "Not Spoofing: " + GameInfoResponse.titles[0].name.ToString();
+                GameInfo = GameInfoResponse.titles[0].name.ToString();
                 IsTitleIDValid = true;
             }
             catch
@@ -174,7 +188,68 @@ namespace XAU.ViewModels.Pages
 
         private async void SpoofGame()
         {
+            if (HomeViewModel.SpoofingStatus == 1)
+            {
+                if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
+                    GameInfo = $"Manually Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+                else
+                    GameInfo = $"Not Spoofing {GameInfoResponse.titles[0].name.ToString()} (Manually Spoofing a different game)";
+            }
+            else
+            {
+                HomeViewModel.AutoSpoofedTitleID = TitleIDOverride;
+                HomeViewModel.SpoofingStatus = 2;
+                GameInfo = $"Auto Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+                await Task.Run(() => Spoofing());
+                if (HomeViewModel.SpoofingStatus == 1)
+                {
+                    if (HomeViewModel.SpoofedTitleID == HomeViewModel.AutoSpoofedTitleID)
+                        GameInfo = $"Manually Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+                    else
+                        GameInfo = $"Not Spoofing {GameInfoResponse.titles[0].name.ToString()} (Manually Spoofing a different game)";
+                }
+                HomeViewModel.AutoSpoofedTitleID = "0";
+            }
+            
 
+        }
+
+        public async Task Spoofing()
+        {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
+            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            var requestbody =
+                new StringContent(
+                    "{\"titles\":[{\"expiration\":600,\"id\":" + HomeViewModel.AutoSpoofedTitleID +
+                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, "application/json");
+            await client.PostAsync(
+                "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current",
+                requestbody);
+            var i = 0;
+            Thread.Sleep(1000);
+            SpoofingUpdate = false;
+            while (!SpoofingUpdate)
+            {
+                if (i == 300)
+                {
+                    await client.PostAsync(
+                        "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
+                        ")/devices/current", requestbody);
+                    i = 0;
+                }
+                else
+                {
+                    if (SpoofingUpdate)
+                    {
+                        
+                        break;
+                    }
+                    i++;
+                }
+                Thread.Sleep(1000);
+            }
         }
 
         private async void LoadAchievements()
@@ -438,10 +513,9 @@ namespace XAU.ViewModels.Pages
         {
             LoadGameInfo();
             LoadAchievements();
+            NewGame = false;
             if (SpooferEnabled)
                 SpoofGame();
-            NewGame = false;
-
         }
     }
 }

@@ -51,7 +51,6 @@ namespace XAU.ViewModels.Pages
         }
 #region Spoofer
 
-        [ObservableProperty] private int _spoofingStatus = 0; //0=NotSpoofing, 1 =Spoofing, 2 = AutoSpoofing
         [ObservableProperty] private string _gameName = "Name: ";
         [ObservableProperty] private string _gameTitleID = "Title ID: ";
         [ObservableProperty] private string _gamePFN = "PFN: ";
@@ -90,28 +89,21 @@ namespace XAU.ViewModels.Pages
                 GameGamerscore = "Gamerscore: ?/?";
                 GameImage = "pack://application:,,,/Assets/cirno.png";
                 GameTime = "Time Played: ";
+                HomeViewModel.SpoofingStatus = 0;
                 return;
             }
-            switch (SpoofingStatus)
-            {
-                case 0:
-                    SpoofGame(1);
-                    break;
-                case 1:
-                    if (CurrentSpoofingID != NewSpoofingID)
-                        SpoofGame(1);
-                    break;
-                case 2:
-                    if (CurrentSpoofingID != NewSpoofingID)
-                    {
-                        SpoofGame(1);
-                    }
+            HomeViewModel.SpoofedTitleID = NewSpoofingID;
 
-                    break;
+            if (HomeViewModel.SpoofingStatus == 2)
+            {
+                HomeViewModel.SpoofingStatus = 1;
+                AchievementsViewModel.SpoofingUpdate = true;
             }
+            HomeViewModel.SpoofingStatus = 1;
+            SpoofGame();
         }
 
-        public async void SpoofGame(int SpoofingSource)
+        public async void SpoofGame()
         {
 
             client.DefaultRequestHeaders.Clear();
@@ -203,6 +195,8 @@ namespace XAU.ViewModels.Pages
                 {
                     if (SpoofingUpdate)
                     {
+                        HomeViewModel.SpoofingStatus = 0;
+                        HomeViewModel.SpoofedTitleID = "0";
                         break;
                     }
                     spoofingTime = stopwatch.Elapsed;
