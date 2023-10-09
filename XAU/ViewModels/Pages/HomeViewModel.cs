@@ -39,6 +39,10 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] public static bool _isLoggedIn = false;
         [ObservableProperty] public static bool _updateAvaliable = false;
 
+        public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
+        public static string SpoofedTitleID = "0";
+        public static string AutoSpoofedTitleID = "0";
+
         //SnackBar
         public HomeViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
