@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="Misc Page"
+    x:Name="MiscPagen"
     d:DataContext="{d:DesignInstance local:MiscPage,
                                      IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
@@ -16,7 +17,9 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid
+        Height="{Binding ElementName=MiscPagen, Path=ActualHeight}"
+        Width="{Binding ElementName=MiscPagen, Path=ActualWidth}">
         <TabControl Margin="0,0,0,0">
             <TabItem IsSelected="True">
                 <TabItem.Header>
@@ -66,7 +69,62 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid>
-                    <TextBlock Margin="0" Text="This tab isnt finished yet just use the TitleID scraper on my github" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ui:Button
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Icon="{ui:SymbolIcon Search24}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Stretch"
+                        Margin="25,0,0,0"
+                        Command="{Binding ViewModel.SearchGameCommand}"></ui:Button>
+                    <ui:TextBox
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        VerticalAlignment="Top"
+                        Margin="0,0,40,0"
+                        ClearButtonEnabled="False"
+                        PlaceholderText="Game"
+                        MinWidth="200"
+                        Text="{Binding ViewModel.TSearchText, Mode=TwoWay}"></ui:TextBox>
+                    <ListBox
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="0,5,0,0"
+                        ItemsSource="{Binding ViewModel.TSearchGameNames}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        SelectionChanged="Selector_OnSelectionChanged"></ListBox>
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Content="{Binding ViewModel.TSearchGameName}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="5,5,0,0"></Label>
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Content="Title ID: "
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="5,35,0,0"></Label>
+                    <ui:TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Margin="55,27,0,0"
+                        PlaceholderText="Title ID"
+                        Text="{Binding ViewModel.TSearchGameTitleID, Mode=TwoWay}"></ui:TextBox>
+
                 </Grid>
             </TabItem>
         </TabControl>
