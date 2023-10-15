@@ -401,6 +401,76 @@ namespace XAU.ViewModels.Pages
                                                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
+                //cut down version of the code to display minimal information about 360 achievements
+                for (int i = 0; i < AchievementResponse.achievements.Count; i++)
+                {
+                    var rewardnameplaceholder = "";
+                    var rewarddescriptionplaceholder = "";
+                    var rewardvalueplaceholder = "";
+                    var rewardtypeplaceholder = "";
+                    var rewardmediaAssetplaceholder = "";
+                    var rewardvalueTypeplaceholder = "";
+                    try
+                    {
+                        rewardnameplaceholder = AchievementResponse.achievements[i].rewards[0].name.ToString();
+                        rewarddescriptionplaceholder = AchievementResponse.achievements[i].rewards[0].description.ToString();
+                        rewardvalueplaceholder = AchievementResponse.achievements[i].rewards[0].value.ToString();
+                        rewardtypeplaceholder = AchievementResponse.achievements[i].rewards[0].type.ToString();
+                        rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset.ToString();
+                        rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType.ToString();
+                    }
+                    catch
+                    {
+                        rewardnameplaceholder = "N/A";
+                        rewarddescriptionplaceholder = "N/A";
+                        rewardvalueplaceholder = "N/A";
+                        rewardtypeplaceholder = "N/A";
+                        rewardmediaAssetplaceholder = "N/A";
+                        rewardvalueTypeplaceholder = "N/A";
+                    }
+
+                    Achievements.Add(new Achievement()
+                    {
+                        id = AchievementResponse.achievements[i].id.ToString(),
+                        serviceConfigId = "Null",
+                        name = AchievementResponse.achievements[i].name.ToString(),
+                        progressState = "Null",
+                        progressiontimeUnlocked = "0001-01-01T00:00:00.0000000Z",
+                        isSecret = AchievementResponse.achievements[i].isSecret.ToString(),
+                        description = AchievementResponse.achievements[i].description.ToString(),
+                        rewardsname = "Null",
+                        rewardsdescription = "Null",
+                        rewardsvalue = AchievementResponse.achievements[i].gamerscore.ToString(),
+                        rewardstype = "Gamerscore",
+                        rewardsmediaAsset = "Null",
+                        rewardsvalueType = rewardvalueTypeplaceholder,
+                        raritycurrentCategory = AchievementResponse.achievements[i].rarity.currentCategory.ToString(),
+                        raritycurrentPercentage = AchievementResponse.achievements[i].rarity.currentPercentage.ToString()
+                    }
+                    );
+                }
+                foreach (var achievement in Achievements)
+                {
+                    var gamerscore = 0;
+                    if (achievement.rewardstype == "Gamerscore")
+                    {
+                        gamerscore = int.Parse(achievement.rewardsvalue);
+                    }
+                    DGAchievements.Add(new DGAchievement()
+                    {
+                        Index = Achievements.IndexOf(achievement),
+                        ID = int.Parse(achievement.id),
+                        Name = achievement.name,
+                        Description = achievement.description,
+                        IsSecret = achievement.isSecret,
+                        DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                        Gamerscore = gamerscore,
+                        RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                        RarityCategory = achievement.raritycurrentCategory,
+                        ProgressState = achievement.progressState,
+                        IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                    });
+                }
             }
 
             if (IsSelectedGame360)
