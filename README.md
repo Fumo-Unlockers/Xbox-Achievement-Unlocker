@@ -36,13 +36,13 @@ Literally just [dotnet 7](https://dotnet.microsoft.com/en-us/download/dotnet/tha
 - Unlock Achievements for any Title Managed game
 - Spoof time in any game
 - Automatically detect updates and update itself
+- Automatically spoof time in the currently viewed game
+- Search TA and use the xbox API to get the titleID for any game with a store page
 
 ## Screenshots
 coming soon probably
 
 ## To-Do List
-- Implement auto spoofing functionality
-- Implement an in app TitleID search
 - Implement a stats editor
 - Implement support for Event based stats
 - Implement support for Event based achievements
@@ -52,7 +52,7 @@ coming soon probably
 Join the [Discord server][discord-invite] (dont its full of idiots)
 
 ## License Information
-The UI for this program was built ontop of the WPF-UI Fluent template as of [this commit][https://github.com/lepoco/wpfui/tree/c8cd75f6f82414a52a94d2a55fe2a21dd5db83d7] which is MIT licensed therefore a [copy is included in the repo][MIT-LICENSE]
+The UI for this program was built ontop of the WPF-UI Fluent template as of [this commit](https://github.com/lepoco/wpfui/tree/c8cd75f6f82414a52a94d2a55fe2a21dd5db83d7) which is MIT licensed therefore a [copy is included in the repo][MIT-LICENSE]
 Any and all modifications and/or additions to this template are GNU GPL licensed which you can find a copy of [here][LICENSE]
 
 
