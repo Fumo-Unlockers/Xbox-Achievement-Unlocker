@@ -40,6 +40,7 @@ They then claim to have made the tool themselves
 ![image](https://github.com/ItsLogic/Xbox-Achievement-Unlocker/assets/38233332/378edb83-648b-48b2-b92b-000afe78a39e)
 
 When called out they double down
+
 ![image](https://github.com/ItsLogic/Xbox-Achievement-Unlocker/assets/38233332/48770120-7d0b-4f23-b2e4-8c75139e99b3)
 
 I then replied to this message with the file hashes proving they did not edit anything and its just a direct rip
