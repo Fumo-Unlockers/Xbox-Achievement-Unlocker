@@ -281,6 +281,10 @@ namespace XAU.ViewModels.Pages
                         {
                             Unlockable = false;
                         }
+                        else
+                        {
+                            Unlockable = true;
+                        }
                     }
                 }
                 catch
@@ -291,6 +295,19 @@ namespace XAU.ViewModels.Pages
                 }
                 for (int i = 0; i < AchievementResponse.achievements.Count; i++)
                 {
+                    //absolutely fucking dogwater event based check
+                    if (AchievementResponse.achievements[i].progression.requirements.ToString().Length > 2)
+                    {
+                        if (AchievementResponse.achievements[i].progression.requirements[0].id !=
+                            "00000000-0000-0000-0000-000000000000")
+                        {
+                            Unlockable = false;
+                        }
+                        else
+                        {
+                            Unlockable = true;
+                        }
+                    }
                     var rewardnameplaceholder = "";
                     var rewarddescriptionplaceholder = "";
                     var rewardvalueplaceholder = "";
