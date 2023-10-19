@@ -177,6 +177,7 @@ namespace XAU.ViewModels.Pages
             GameInfoResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
             try
             {
+                IsSelectedGame360 = GameInfoResponse.titles[0].devices.ToString().Contains("Xbox360") || GameInfoResponse.titles[0].devices.ToString().Contains("Mobile");
                 GameInfo = GameInfoResponse.titles[0].name.ToString();
                 IsTitleIDValid = true;
             }
@@ -186,6 +187,7 @@ namespace XAU.ViewModels.Pages
                 IsTitleIDValid = false;
                 return;
             }
+
         }
 
         private async void SpoofGame()

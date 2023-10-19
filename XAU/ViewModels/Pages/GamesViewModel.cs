@@ -127,7 +127,7 @@ namespace XAU.ViewModels.Pages
         public async void OpenAchievements(string index)
         {
             AchievementsViewModel.TitleID = GamesResponse.titles[int.Parse(index)].titleId.ToString();
-            AchievementsViewModel.IsSelectedGame360 = GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Xbox360");
+            AchievementsViewModel.IsSelectedGame360 = GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Xbox360") || GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Mobile");
             AchievementsViewModel.NewGame = true;
             MainWindow.MainNavigationService.Navigate(typeof(AchievementsPage));
         }
