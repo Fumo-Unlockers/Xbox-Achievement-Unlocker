@@ -144,7 +144,15 @@ namespace XAU.ViewModels.Pages
                 GameDevices = GameDevices.Remove(GameDevices.Length - 2);
                 GameGamerscore = "Gamerscore: " + GameInfoResponse.titles[0].achievement.currentGamerscore.ToString() +
                                  "/" + GameInfoResponse.titles[0].achievement.totalGamerscore.ToString();
-                GameTime = "Time Played: " + TimeSpan.FromMinutes(Convert.ToDouble(GameStatsResponse.statlistscollection[0].stats[0].value)).ToString(@"hh\:mm") ;
+                try
+                {
+                    GameTime = "Time Played: " + TimeSpan.FromMinutes(Convert.ToDouble(GameStatsResponse.statlistscollection[0].stats[0].value)).ToString(@"hh\:mm");
+                }
+                catch
+                {
+                    GameTime = "Time Played: Unknown";
+                }
+               
             }
             catch
             {
