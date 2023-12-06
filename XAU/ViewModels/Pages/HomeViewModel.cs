@@ -102,8 +102,8 @@ namespace XAU.ViewModels.Pages
                     await client.GetStringAsync("https://raw.githubusercontent.com/ItsLogic/Xbox-Achievement-Unlocker/Pre-Release/info.json");
                 var Jsonresponse = (dynamic)(new JArray());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
-                System.Windows.MessageBox.Show(Jsonresponse.LatestBuildVersion.ToString());
-                if (Jsonresponse.LatestBuildVersion.ToString() != ToolVersion)
+
+                if (("DEV-"+Jsonresponse.LatestBuildVersion.ToString()) != ToolVersion)
                 {
                     var result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
