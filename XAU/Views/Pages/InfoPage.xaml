@@ -50,7 +50,7 @@
         <TextBlock
             FontSize="16"
             TextWrapping="Wrap"
-            Text="This tool was created using WPF-UI and memory.dll and is not in any way affiliated with microsoft or xbox."/>
+            Text="This tool was created using WPF-UI and code from memory.dll and is not in any way affiliated with microsoft or xbox."/>
         <TextBlock
             FontSize="16"
             Margin="0,20,0,0"
