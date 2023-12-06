@@ -1,0 +1,60 @@
+name: .NET 7 Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Get latest commit hash
+      id: get-hash
+      run: echo "::set-output name=hash::$(git rev-parse HEAD)"
+
+    - name: Replace ToolVersion with commit hash
+      run: |
+        $content = Get-Content -Path "${{github.workspace}}/XAU/ViewModels/Pages/HomeViewModel.cs" -Raw
+        $content = $content -replace 'public static string ToolVersion = "EmptyDevToolVersion";', 'public static string ToolVersion = "DEV-${{ steps.get-hash.outputs.hash }}";'
+        Set-Content -Path "${{github.workspace}}/XAU/ViewModels/Pages/HomeViewModel.cs" -Value $content
+
+    - name: Restore dependencies
+      run: dotnet restore /p:EnableWindowsTargeting=true
+
+    - name: Build
+      run: dotnet publish XAU.sln -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:PublishReadyToRun=false /p:IncludeAllContentForSelfExtract=true /p:EnableWindowsTargeting=true -o ./publish
+
+    - name: Copy .exe file to temp
+      run: |
+        New-Item -ItemType Directory -Force -Path "${{github.workspace}}/../temp"
+        Copy-Item -Path "./publish/XAU.exe" -Destination "${{github.workspace}}/../temp/"
+
+    - name: Checkout Pre-Release branch
+      uses: actions/checkout@v2
+      with:
+        ref: 'Pre-Release'
+    - name: Copy .exe file to workspace
+      run: |
+        Remove-Item -Path "${{github.workspace}}/XAU.exe" -ErrorAction Ignore
+        Move-Item -Path "${{github.workspace}}/../temp/XAU.exe" -Destination "${{github.workspace}}/XAU.exe"
+
+    - name: Write download URL and version to JSON file
+      run: |
+        echo "{ `"DownloadURL`": `"https://github.com/${{ github.repository }}/raw/Pre-Release/XAU.exe`", `"LatestBuildVersion`": `"${{ steps.get-hash.outputs.hash }}`" }" | Out-File -FilePath info.json
+
+    - name: Commit and push
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Actions"
+        git add info.json XAU.exe
+        git commit -m "Update pre-release version"
+        git push
