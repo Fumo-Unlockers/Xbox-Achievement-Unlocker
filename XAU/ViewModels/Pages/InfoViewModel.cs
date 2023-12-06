@@ -10,6 +10,7 @@ namespace XAU.ViewModels.Pages
     public partial class InfoViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
+        [ObservableProperty] private string _toolVersion;
         public void OnNavigatedTo()
         {
             if (!_isInitialized)
@@ -19,6 +20,7 @@ namespace XAU.ViewModels.Pages
 
         private void InitializeViewModel()
         {
+            ToolVersion = $"Version: {HomeViewModel.ToolVersion}";
             _isInitialized = true;
         }
 

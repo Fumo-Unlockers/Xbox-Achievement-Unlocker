@@ -14,6 +14,7 @@ namespace XAU.ViewModels.Pages
 {
     public partial class HomeViewModel : ObservableObject, INavigationAware
     {
+        public static string ToolVersion = "EmptyDevToolVersion";
         //attach vars
         [ObservableProperty] private string _attached = "Not Attached";
         [ObservableProperty] private Brush _attachedColor = new SolidColorBrush(Colors.Red);
@@ -84,40 +85,76 @@ namespace XAU.ViewModels.Pages
         public void OnNavigatedFrom() { }
 
 #region Update
-private async void CheckForUpdates()
+        private async void CheckForUpdates()
         {
+            if (ToolVersion == "EmptyDevToolVersion")
+                return;
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Host", "api.github.com");
             client.DefaultRequestHeaders.Add("User-Agent",
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
             client.DefaultRequestHeaders.Add("Accept",
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-            var responseString =
-                await client.GetStringAsync("https://api.github.com/repos/ItsLogic/Xbox-Achievement-unlocker/releases");
-            var Jsonresponse = (dynamic)(new JArray());
-            Jsonresponse = (dynamic)JArray.Parse(responseString);
-            if (Jsonresponse[0].tag_name.ToString() != "2.1.0")
+            if (ToolVersion.Contains("DEV"))
             {
-                var result = await _contentDialogService.ShowSimpleDialogAsync(
-                    new SimpleContentDialogCreateOptions()
-                    {
-                        Title = $"Version {Jsonresponse[0].tag_name.ToString()} available to download",
-                        Content = "Would you like to update to this version?",
-                        PrimaryButtonText = "Update",
-                        CloseButtonText = "Cancel"
-                    }
-                );
-                if (result == ContentDialogResult.Primary)
+                client.DefaultRequestHeaders.Add("Host", "raw.githubusercontent.com");
+                var responseString =
+                    await client.GetStringAsync("https://raw.githubusercontent.com/ItsLogic/Xbox-Achievement-Unlocker/Pre-Release/info.json");
+                var Jsonresponse = (dynamic)(new JArray());
+                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                System.Windows.MessageBox.Show(Jsonresponse.LatestBuildVersion.ToString());
+                if (Jsonresponse.LatestBuildVersion.ToString() != ToolVersion)
                 {
-                    _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                    string sourceFile = Jsonresponse[0].assets[0].browser_download_url.ToString();
-                    string destFile = @"XAU-new.exe";
-                    WebClient webClient = new WebClient();
-                    webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Update);
-                    webClient.DownloadFileAsync(new Uri(sourceFile), destFile);
+                    var result = await _contentDialogService.ShowSimpleDialogAsync(
+                        new SimpleContentDialogCreateOptions()
+                        {
+                            Title = $"Version {Jsonresponse.LatestBuildVersion.ToString()} available to download",
+                            Content = "Would you like to update to this version?",
+                            PrimaryButtonText = "Update",
+                            CloseButtonText = "Cancel"
+                        }
+                    );
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                        string sourceFile = Jsonresponse.DownloadURL.ToString();
+                        string destFile = @"XAU-new.exe";
+                        WebClient webClient = new WebClient();
+                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Update);
+                        webClient.DownloadFileAsync(new Uri(sourceFile), destFile);
+                    }
                 }
             }
+            else
+            {
+                client.DefaultRequestHeaders.Add("Host", "api.github.com");
+                var responseString =
+                    await client.GetStringAsync("https://api.github.com/repos/ItsLogic/Xbox-Achievement-unlocker/releases");
+                var Jsonresponse = (dynamic)(new JArray());
+                Jsonresponse = (dynamic)JArray.Parse(responseString);
+                if (Jsonresponse[0].tag_name.ToString() != ToolVersion)
+                {
+                    var result = await _contentDialogService.ShowSimpleDialogAsync(
+                        new SimpleContentDialogCreateOptions()
+                        {
+                            Title = $"Version {Jsonresponse[0].tag_name.ToString()} available to download",
+                            Content = "Would you like to update to this version?",
+                            PrimaryButtonText = "Update",
+                            CloseButtonText = "Cancel"
+                        }
+                    );
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                        string sourceFile = Jsonresponse[0].assets[0].browser_download_url.ToString();
+                        string destFile = @"XAU-new.exe";
+                        WebClient webClient = new WebClient();
+                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Update);
+                        webClient.DownloadFileAsync(new Uri(sourceFile), destFile);
+                    }
+                }
+            }
+            
         }
 
         private void Update(object sender, AsyncCompletedEventArgs e)

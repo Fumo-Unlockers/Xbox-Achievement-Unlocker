@@ -22,7 +22,7 @@
             Text="Info" />
         <TextBlock
             FontSize="16"
-            Text="Version: 2.1.0" />
+            Text="{Binding ViewModel.ToolVersion}" />
         <TextBlock
             FontSize="16"
             Text="Creator: Draff" />
