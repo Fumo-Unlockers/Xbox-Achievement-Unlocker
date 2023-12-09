@@ -24,7 +24,7 @@ jobs:
     - name: Replace ToolVersion with commit hash
       run: |
         $content = Get-Content -Path "${{github.workspace}}/XAU/ViewModels/Pages/HomeViewModel.cs" -Raw
-        $content = $content -replace 'public static string ToolVersion = "EmptyDevToolVersion";', 'public static string ToolVersion = "DEV-${{ steps.get-hash.outputs.hash }}";'
+        $content = $content -replace 'public const string ToolVersion = "EmptyDevToolVersion";', 'public static string ToolVersion = "DEV-${{ steps.get-hash.outputs.hash }}";'
         Set-Content -Path "${{github.workspace}}/XAU/ViewModels/Pages/HomeViewModel.cs" -Value $content
 
     - name: Restore dependencies
