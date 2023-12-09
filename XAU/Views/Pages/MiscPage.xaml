@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="Misc Page"
-    x:Name="MiscPagen"
     d:DataContext="{d:DesignInstance local:MiscPage,
                                      IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
@@ -17,9 +16,7 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <Grid
-        Height="{Binding ElementName=MiscPagen, Path=ActualHeight}"
-        Width="{Binding ElementName=MiscPagen, Path=ActualWidth}">
+    <Grid>
         <TabControl Margin="0,0,0,0">
             <TabItem IsSelected="True">
                 <TabItem.Header>
@@ -39,7 +36,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Margin="0"  Text="{Binding ViewModel.SpoofingText}"/>
                     <Button Grid.Row="0" Grid.Column="1" Content="{Binding ViewModel.SpoofingButtonText}" HorizontalAlignment="Stretch" Command="{Binding ViewModel.SpooferButtonClickedCommand}" IsEnabled="{Binding ViewModel.IsInitialized}"/>
-                    <ui:TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,5,0,0" PlaceholderText="Title ID" Text="{Binding ViewModel.NewSpoofingID, Mode=TwoWay}"/>
+                    <ui:TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,5,0,0" PlaceholderText="Title ID" Text="{Binding ViewModel.NewSpoofingId, Mode=TwoWay}"/>
                     <ui:Image 
                         Grid.Row="1"
                         Grid.Column="0"
@@ -50,12 +47,12 @@
                         VerticalAlignment="Top"
                     ></ui:Image>
                     <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameName}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,0,0,0" />
-                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameTitleID}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,20,0,0" />
-                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GamePFN}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,40,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameTitleId}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,20,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GamePfn}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,40,0,0" />
                     <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameType}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,60,0,0" />
-                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameGamepass}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,80,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameGamePass}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,80,0,0" />
                     <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameDevices}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,100,0,0" />
-                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameGamerscore}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,120,0,0" />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameGamerScore}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,120,0,0" />
                     <Label Grid.Row="1" Grid.Column="0" Content="{Binding ViewModel.GameTime}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,140,0,0" />
 
                 </Grid>
@@ -123,7 +120,7 @@
                         HorizontalAlignment="Left"
                         Margin="55,27,0,0"
                         PlaceholderText="Title ID"
-                        Text="{Binding ViewModel.TSearchGameTitleID, Mode=TwoWay}"></ui:TextBox>
+                        Text="{Binding ViewModel.TSearchGameTitleId, Mode=TwoWay}"></ui:TextBox>
 
                 </Grid>
             </TabItem>

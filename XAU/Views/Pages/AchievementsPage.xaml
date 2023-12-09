@@ -6,9 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       Title="AchievementsPage"
-      x:Name="AchievementsPagen"
-      d:DataContext="{d:DesignInstance local:AchievementsPage,
-                                 IsDesignTimeCreatable=False}"
+      d:DataContext="{d:DesignInstance local:AchievementsPage,IsDesignTimeCreatable=False}"
       d:DesignHeight="450"
       d:DesignWidth="800"
       ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -17,9 +15,7 @@
       mc:Ignorable="d">
 
 
-    <Grid
-          Height="{Binding ElementName=AchievementsPagen, Path=ActualHeight}"
-          Width="{Binding ElementName=AchievementsPagen, Path=ActualWidth}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -37,19 +33,18 @@
             <ui:TextBox
                 Grid.Row="1"
                 Grid.Column="0"
-                x:Name="TitleIDBox"
-                IsEnabled="{Binding ViewModel.TitleIDEnabled}"
+                x:Name="TitleIdBox"
+                IsEnabled="{Binding ViewModel.TitleIdEnabled}"
                 Padding="10,4,8,7"
                 Margin="0,0,44,0"
-                Text="{Binding ViewModel.TitleIDOverride, Mode=TwoWay}"
+                Text="{Binding ViewModel.TitleIdOverride, Mode=TwoWay}"
                 TextAlignment="Center"
                 ClearButtonEnabled="False" 
             ></ui:TextBox>
             <ui:Button
                 Grid.Row="1"
                 Grid.Column="0"
-                x:Name="RefreshButton"
-                IsEnabled="{Binding ViewModel.TitleIDEnabled}"
+                IsEnabled="{Binding ViewModel.TitleIdEnabled}"
                 Padding="10,5,8,5"
                 Margin="10,0,5,0"
                 Content=""
@@ -61,7 +56,7 @@
                 Grid.Row="0" 
                 Grid.Column="0"
                 Margin="00,0,54,0"
-                Target="{Binding ElementName=TitleIDBox}"
+                Target="{Binding ElementName=TitleIdBox}"
                 Content="TitleID Override"
                 VerticalAlignment="Center"
                 HorizontalAlignment="left"/>
@@ -70,14 +65,13 @@
                 Grid.Row="0" 
                 Grid.Column="1"
                 Margin="10,0,10,0"
-                Target="{Binding ElementName=TitleIDBox}"
+                Target="{Binding ElementName=TitleIdBox}"
                 Content="{Binding ViewModel.GameInfo}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"/>
             <ui:Button
                 Grid.Row="0"
                 Grid.Column="2"
-                x:Name="UnlockAllButton"
                 IsEnabled="{Binding ViewModel.IsUnlockAllEnabled}"
                 Padding="10,5,8,5"
                 Margin="10,0,5,0"
@@ -101,7 +95,7 @@
                   CanUserSortColumns="True"
         >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="0.05*" />
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="0.05*" />
                 <DataGridTextColumn Header="Achievement" Binding="{Binding Name}" Width="0.2*" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -118,7 +112,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Secret" Binding="{Binding IsSecret}"  Width="0.1*"/>
                 <DataGridTextColumn Header="Date Unlocked" Binding="{Binding DateUnlocked}" Width="0.27*"/>
-                <DataGridTextColumn Header="G's" Binding="{Binding Gamerscore}" Width="0.06*"/>
+                <DataGridTextColumn Header="G's" Binding="{Binding GamerScore}" Width="0.06*"/>
                 <DataGridTextColumn Header="Percentage" Binding="{Binding RarityPercentage}" Width="0.13*"/>
                 <DataGridTextColumn Header="Rarity" Binding="{Binding RarityCategory}" Width="0.11*"/>
                 <DataGridTextColumn Header="State" Binding="{Binding ProgressState}" Width="0.12*"/>
@@ -127,7 +121,7 @@
                         <DataTemplate>
                             <Button Margin="5,5,5,5" Click="UnlockButton" Tag="{Binding Index}"
                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                    IsEnabled="{Binding IsUnlockable}">Unlock</Button>
+                                    IsEnabled="{Binding IsUnlockAble}">Unlock</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

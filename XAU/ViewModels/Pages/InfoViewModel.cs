@@ -1,48 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Wpf.Ui.Controls;
+﻿using Wpf.Ui.Controls;
 
-namespace XAU.ViewModels.Pages
+namespace XAU.ViewModels.Pages;
+
+public partial class InfoViewModel : ObservableObject, INavigationAware
 {
-    public partial class InfoViewModel : ObservableObject, INavigationAware
+    private bool _isInitialized;
+    
+    [ObservableProperty] 
+    private string? _toolVersion;
+    
+    public void OnNavigatedTo()
     {
-        private bool _isInitialized = false;
-        [ObservableProperty] private string _toolVersion;
-        public void OnNavigatedTo()
-        {
-            if (!_isInitialized)
-                InitializeViewModel();
-        }
-        public void OnNavigatedFrom() { }
+        if (_isInitialized) return;
+        InitializeViewModel();
+    }
+    
+    public void OnNavigatedFrom() { }
 
-        private void InitializeViewModel()
-        {
-            ToolVersion = $"Version: {HomeViewModel.ToolVersion}";
-            _isInitialized = true;
-        }
+    private void InitializeViewModel()
+    {
+        ToolVersion = $"Version: {HomeViewModel.ToolVersion}";
+        _isInitialized = true;
+    }
 
-        [RelayCommand]
-        public void OpenDiscordUrl(string url)
-        {
-            var destinationurl = "https://discord.gg/fCqM7287jG";
-            var sInfo = new System.Diagnostics.ProcessStartInfo(destinationurl)
-            {
-                UseShellExecute = true,
-            };
-            System.Diagnostics.Process.Start(sInfo);
-        }
-        [RelayCommand]
-        public void OpenGithubUserUrl(string url)
-        {
-            var destinationurl = "https://github.com/ItsLogic";
-            var sInfo = new System.Diagnostics.ProcessStartInfo(destinationurl)
-            {
-                UseShellExecute = true,
-            };
-            System.Diagnostics.Process.Start(sInfo);
-        }
+    [RelayCommand]
+    private static void OpenDiscordUrl()
+    {
+        OpenUrl("https://discord.gg/fCqM7287jG");
+    }
+    
+    [RelayCommand]
+    private static void OpenGithubUserUrl()
+    {
+        OpenUrl("https://github.com/ItsLogic");
+    }
+
+    private static void OpenUrl(string destinationUrl)
+    {
+        var sInfo = new System.Diagnostics.ProcessStartInfo(destinationUrl) { UseShellExecute = true };
+        System.Diagnostics.Process.Start(sInfo);
     }
 }

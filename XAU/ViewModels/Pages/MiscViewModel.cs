@@ -1,355 +1,379 @@
 ﻿using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using XAU.Views.Windows;
 
 
-namespace XAU.ViewModels.Pages
+namespace XAU.ViewModels.Pages;
+
+public partial class MiscViewModel : ObservableObject, INavigationAware
 {
-    public partial class MiscViewModel : ObservableObject, INavigationAware
+    private string _currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+
+    private static readonly HttpClientHandler Handler = new()
     {
-        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+        AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
+    };
 
-        static HttpClientHandler handler = new HttpClientHandler()
+    private readonly HttpClient _client = new(Handler);
+    private readonly ISnackbarService _snackBarService;
+    private readonly TimeSpan _snackBarDuration = TimeSpan.FromSeconds(2);
+
+    public MiscViewModel(ISnackbarService snackBarService)
+    {
+        _snackBarService = snackBarService;
+    }
+
+    public void OnNavigatedTo()
+    {
+        if (IsInitialized || !HomeViewModel.InitComplete) return;
+        InitializeViewModel();
+    }
+
+    public void OnNavigatedFrom()
+    {
+    }
+
+    private void InitializeViewModel()
+    {
+        if (HomeViewModel.Settings.RegionOverride)
         {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
-        };
-
-        HttpClient client = new HttpClient(handler);
-        private readonly IContentDialogService _contentDialogService;
-        private readonly ISnackbarService _snackbarService;
-        private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
-
-        public MiscViewModel(ISnackbarService snackbarService)
-        {
-            _snackbarService = snackbarService;
-            _contentDialogService = new ContentDialogService();
+            _currentSystemLanguage = "en-GB";
         }
 
-        public void OnNavigatedTo()
+        IsInitialized = true;
+    }
+    #region Spoofer
+
+    [ObservableProperty] 
+    private string _gameName = "Name: ";
+    
+    [ObservableProperty] 
+    private string _gameTitleId = "Title ID: ";
+    
+    [ObservableProperty] 
+    private string _gamePfn = "PFN: ";
+    
+    [ObservableProperty] 
+    private string _gameType = "Type: ";
+    
+    [ObservableProperty] 
+    private string _gameGamePass = "GamePass: ";
+    
+    [ObservableProperty] 
+    private string _gameDevices = "Devices: ";
+    
+    [ObservableProperty] 
+    private string _gameGamerScore = "GamerScore: ?/?";
+    
+    [ObservableProperty] 
+    private string _gameImage = "pack://application:,,,/Assets/cirno.png";
+    
+    [ObservableProperty] 
+    private string _gameTime = "Time Played: ";
+    
+    [ObservableProperty] 
+    private bool _isInitialized;
+    
+    [ObservableProperty] 
+    private string _currentSpoofingId = "";
+    
+    [ObservableProperty]
+    private string _newSpoofingId = "";
+    
+    [ObservableProperty] 
+    private string _spoofingText = "Spoofing Not Started";
+    
+    [ObservableProperty] 
+    private string _spoofingButtonText = "Start Spoofing";
+    
+    private bool _spoofingUpdate;
+    private bool _currentlySpoofing;
+    private dynamic? _gameInfoResponse;
+    private dynamic? _gameStatsResponse;
+
+    [RelayCommand]
+    private void SpooferButtonClicked()
+    {
+        if (_currentlySpoofing)
         {
-            if (!IsInitialized && HomeViewModel.InitComplete)
-                InitializeViewModel();
+            _spoofingUpdate = true;
+            _currentlySpoofing = false;
+            SpoofingText = "Spoofing Not Started";
+            SpoofingButtonText = "Start Spoofing";
+            //reset game info
+            GameName = "Name: ";
+            GameTitleId = "Title ID: ";
+            GamePfn = "PFN: ";
+            GameType = "Type: ";
+            GameGamePass = "GamePass: ";
+            GameDevices = "Devices: ";
+            GameGamerScore = "GamerScore: ?/?";
+            GameImage = "pack://application:,,,/Assets/cirno.png";
+            GameTime = "Time Played: ";
+            HomeViewModel.SpoofingStatus = 0;
+            return;
         }
+        HomeViewModel.SpoofedTitleId = NewSpoofingId;
 
-        public void OnNavigatedFrom()
+        if (HomeViewModel.SpoofingStatus == HomeViewModel.SpooofingStatuses.AutoSpoofing)
         {
+            HomeViewModel.SpoofingStatus = HomeViewModel.SpooofingStatuses.Spoofing;
+            AchievementsViewModel.SpoofingUpdate = true;
         }
+        HomeViewModel.SpoofingStatus = HomeViewModel.SpooofingStatuses.Spoofing;
+        SpoofGame();
+    }
 
-        private void InitializeViewModel()
+    private async void SpoofGame()
+    {
+        if (HomeViewModel.XAuth == string.Empty)
         {
-            if (HomeViewModel.Settings.RegionOverride)
-                currentSystemLanguage = "en-GB";
-            IsInitialized = true;
+            _snackBarService.Show("Error: XAuth is a null string",
+                "Couldn't start spoofing",
+                ControlAppearance.Danger,
+                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackBarDuration);
+            return;
         }
-#region Spoofer
+        
+        _client.DefaultRequestHeaders.Clear();
+        _client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+        _client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+        _client.DefaultRequestHeaders.Add("accept", "application/json");
+        _client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
+        _client.DefaultRequestHeaders.Add("accept-language", _currentSystemLanguage);
+        var requestBody = new StringContent($"{{\"pfns\":null,\"titleIds\":[\"{NewSpoofingId}\"]}}");
+        CurrentSpoofingId = NewSpoofingId;
+        _gameInfoResponse = JObject.Parse(await _client
+            .PostAsync(
+                "https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUidOnly +
+                ")/titles/batch/decoration/GamePass,Achievement,Stats", requestBody).Result.Content
+            .ReadAsStringAsync());
+        requestBody = new StringContent($"{{\"arrangebyfield\":\"xuid\",\"xuids\":[\"{HomeViewModel.XUidOnly}\"],\"stats\":[{{\"name\":\"MinutesPlayed\",\"titleId\":\"{NewSpoofingId}\"}}]}}");
+        _gameStatsResponse = JObject.Parse(await _client
+            .PostAsync("https://userstats.xboxlive.com/batch", requestBody).Result.Content
+            .ReadAsStringAsync());
 
-        [ObservableProperty] private string _gameName = "Name: ";
-        [ObservableProperty] private string _gameTitleID = "Title ID: ";
-        [ObservableProperty] private string _gamePFN = "PFN: ";
-        [ObservableProperty] private string _gameType = "Type: ";
-        [ObservableProperty] private string _gameGamepass = "Gamepass: ";
-        [ObservableProperty] private string _gameDevices = "Devices: ";
-        [ObservableProperty] private string _gameGamerscore = "Gamerscore: ?/?";
-        [ObservableProperty] private string _gameImage = "pack://application:,,,/Assets/cirno.png";
-        [ObservableProperty] private string _gameTime = "Time Played: ";
-        [ObservableProperty] private bool _isInitialized = false;
-        [ObservableProperty] private string _currentSpoofingID = "";
-        [ObservableProperty] private string _newSpoofingID = "";
-        [ObservableProperty] private string _spoofingText = "Spoofing Not Started";
-        [ObservableProperty] private string _spoofingButtonText = "Start Spoofing";
-        private bool SpoofingUpdate = false;
-        private bool CurrentlySpoofing = false;
-        private dynamic GameInfoResponse;
-        private dynamic GameStatsResponse;
-
-        [RelayCommand]
-        public void SpooferButtonClicked()
+        try
         {
-            if (CurrentlySpoofing)
+            GameName = "Name: " + _gameInfoResponse.titles[0].name.ToString();
+            GameImage = _gameInfoResponse.titles[0].displayImage.ToString();
+            GameTitleId = "Title ID: " + _gameInfoResponse.titles[0].titleId.ToString();
+            GamePfn = "PFN: " + _gameInfoResponse.titles[0].pfn.ToString();
+            GameType = "Type: " + _gameInfoResponse.titles[0].type.ToString();
+            GameGamePass = "GamePass: " + _gameInfoResponse.titles[0].gamePass.isGamePass.ToString();
+            GameDevices = "Devices: ";
+            foreach (var device in _gameInfoResponse.titles[0].devices)
             {
-                SpoofingUpdate = true;
-                CurrentlySpoofing = false;
-                SpoofingText = "Spoofing Not Started";
-                SpoofingButtonText = "Start Spoofing";
-                //reset game info
-                GameName = "Name: ";
-                GameTitleID = "Title ID: ";
-                GamePFN = "PFN: ";
-                GameType = "Type: ";
-                GameGamepass = "Gamepass: ";
-                GameDevices = "Devices: ";
-                GameGamerscore = "Gamerscore: ?/?";
-                GameImage = "pack://application:,,,/Assets/cirno.png";
-                GameTime = "Time Played: ";
-                HomeViewModel.SpoofingStatus = 0;
-                return;
+                GameDevices += device.ToString() + ", ";
             }
-            HomeViewModel.SpoofedTitleID = NewSpoofingID;
 
-            if (HomeViewModel.SpoofingStatus == 2)
-            {
-                HomeViewModel.SpoofingStatus = 1;
-                AchievementsViewModel.SpoofingUpdate = true;
-            }
-            HomeViewModel.SpoofingStatus = 1;
-            SpoofGame();
-        }
-
-        public async void SpoofGame()
-        {
-
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            StringContent requestbody = new StringContent($"{{\"pfns\":null,\"titleIds\":[\"{NewSpoofingID}\"]}}");
-            CurrentSpoofingID = NewSpoofingID;
-            GameInfoResponse = (dynamic)JObject.Parse(await client
-                .PostAsync(
-                    "https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
-                    ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content
-                .ReadAsStringAsync());
-            requestbody =
-                new StringContent($"{{\"arrangebyfield\":\"xuid\",\"xuids\":[\"{HomeViewModel.XUIDOnly}\"],\"stats\":[{{\"name\":\"MinutesPlayed\",\"titleId\":\"{NewSpoofingID}\"}}]}}");
-            GameStatsResponse = (dynamic)JObject.Parse(await client
-                .PostAsync("https://userstats.xboxlive.com/batch", requestbody).Result.Content
-                .ReadAsStringAsync());
-
+            GameDevices = GameDevices.Remove(GameDevices.Length - 2);
+            GameGamerScore = "GamerScore: " + _gameInfoResponse.titles[0].achievement.currentGamerscore.ToString() +
+                             "/" + _gameInfoResponse.titles[0].achievement.totalGamerscore.ToString();
             try
             {
-                GameName = "Name: " + GameInfoResponse.titles[0].name.ToString();
-                GameImage = GameInfoResponse.titles[0].displayImage.ToString();
-                GameTitleID = "Title ID: " + GameInfoResponse.titles[0].titleId.ToString();
-                GamePFN = "PFN: " + GameInfoResponse.titles[0].pfn.ToString();
-                GameType = "Type: " + GameInfoResponse.titles[0].type.ToString();
-                GameGamepass = "Gamepass: " + GameInfoResponse.titles[0].gamePass.isGamePass.ToString();
-                GameDevices = "Devices: ";
-                foreach (var device in GameInfoResponse.titles[0].devices)
-                {
-                    GameDevices += device.ToString() + ", ";
-                }
-
-                GameDevices = GameDevices.Remove(GameDevices.Length - 2);
-                GameGamerscore = "Gamerscore: " + GameInfoResponse.titles[0].achievement.currentGamerscore.ToString() +
-                                 "/" + GameInfoResponse.titles[0].achievement.totalGamerscore.ToString();
-                try
-                {
-                    GameTime = "Time Played: " + TimeSpan.FromMinutes(Convert.ToDouble(GameStatsResponse.statlistscollection[0].stats[0].value)).ToString(@"hh\:mm");
-                }
-                catch
-                {
-                    GameTime = "Time Played: Unknown";
-                }
+                GameTime = "Time Played: " + TimeSpan.FromMinutes(Convert.ToDouble(_gameStatsResponse.statlistscollection[0].stats[0].value)).ToString(@"hh\:mm");
+            }
+            catch
+            {
+                GameTime = "Time Played: Unknown";
+            }
                
-            }
-            catch
-            {
-                GameName = "Name: ";
-                _snackbarService.Show("Error: Invalid TitleID",
-                    $"The TitleID entered is invalid or does not return information from the API",
-                    ControlAppearance.Danger,
-                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                return;
-            }
-
-            SpoofingUpdate = true;
-            CurrentlySpoofing = true;
-            SpoofingButtonText = "Stop Spoofing";
-            SpoofingText = $"Spoofing {GameInfoResponse.titles[0].name.ToString()}";
-            Task.Run(() => Spoofing());
-
+        }
+        catch
+        {
+            GameName = "Name: ";
+            _snackBarService.Show("Error: Invalid TitleID",
+                "The TitleID entered is invalid or does not return information from the API",
+                ControlAppearance.Danger,
+                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackBarDuration);
+            return;
         }
 
-        public async Task Spoofing()
+        _spoofingUpdate = true;
+        _currentlySpoofing = true;
+        SpoofingButtonText = "Stop Spoofing";
+        SpoofingText = $"Spoofing {_gameInfoResponse.titles[0].name.ToString()}";
+        await Task.Run(() => Spoofing());
+    }
+
+    private async Task Spoofing()
+    {
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+        var spoofingTime = stopwatch.Elapsed;
+        SpoofingText = $@"Spoofing {GameName} For: {spoofingTime:hh\:mm\:ss}";
+        _client.DefaultRequestHeaders.Clear();
+        _client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
+        _client.DefaultRequestHeaders.Add("accept", "application/json");
+        _client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
+        var requestBody =
+            new StringContent(
+                "{\"titles\":[{\"expiration\":600,\"id\":" + CurrentSpoofingId +
+                ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, "application/json");
+        await _client.PostAsync(
+            "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUidOnly + ")/devices/current",
+            requestBody);
+        var i = 0;
+        Thread.Sleep(1000);
+        _spoofingUpdate = false;
+        while (!_spoofingUpdate)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            TimeSpan spoofingTime = stopwatch.Elapsed;
-            SpoofingText = $"Spoofing {GameName} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-            var requestbody =
-                new StringContent(
-                    "{\"titles\":[{\"expiration\":600,\"id\":" + CurrentSpoofingID +
-                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, "application/json");
-            await client.PostAsync(
-                "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current",
-                requestbody);
-            var i = 0;
-            Thread.Sleep(1000);
-            SpoofingUpdate = false;
-            while (!SpoofingUpdate)
+            if (i == 300)
             {
-                if (i == 300)
-                {
-                    await client.PostAsync(
-                        "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
-                        ")/devices/current", requestbody);
-                    i = 0;
-                }
-                else
-                {
-                    if (SpoofingUpdate)
-                    {
-                        HomeViewModel.SpoofingStatus = 0;
-                        HomeViewModel.SpoofedTitleID = "0";
-                        break;
-                    }
-                    spoofingTime = stopwatch.Elapsed;
-                    SpoofingText = $"Spoofing {GameInfoResponse.titles[0].name.ToString()} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
-                    i++;
-                }
-                Thread.Sleep(1000);
-            }
-        }
-
-        #endregion
-
-
-        #region GameSearch
-        [ObservableProperty] private List<string> _tSearchGameLinks = new List<string>();
-        [ObservableProperty] private string _tSearchText = "";
-        [ObservableProperty] private List<string> _tSearchGameNames = new List<string>();
-        [ObservableProperty] private string _tSearchGameImage = "pack://application:,,,/Assets/cirno.png";
-        [ObservableProperty] private string _tSearchGameName = "Name: ";
-        [ObservableProperty] private string _tSearchGameTitleID = "";
-        [RelayCommand]
-        public async void SearchGame()
-        {
-            client.DefaultRequestHeaders.Clear();
-            var SearchQuerytext = Uri.EscapeDataString(TSearchText);
-            SearchQuerytext = SearchQuerytext.Replace("%20", "+");
-            var response = await client.GetAsync($"https://www.trueachievements.com/searchresults.aspx?search={SearchQuerytext}");
-            var html = await response.Content.ReadAsStringAsync();
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-
-            var table = doc.DocumentNode.Descendants("table").FirstOrDefault(x => x.HasClass("maintable"));
-            var templinks = new List<string>();
-            try
-            {
-                templinks = table.Descendants("a").Select(a => a.GetAttributeValue("href", null)).Where(h => !string.IsNullOrEmpty(h)).ToList();
-            }
-            catch
-            {
-                _snackbarService.Show("Error: No Results",$"No results were found for {TSearchText}",
-                    ControlAppearance.Danger,
-                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                return;
-            }
-            
-            var tempnames = table.Descendants("td")
-                .Where(td => td.HasClass("gamerwide"))
-                .Select(td => td.InnerText.Trim())
-                .ToList();
-            templinks.RemoveAt(0);
-            templinks.RemoveAt(0);
-            for (var i = 0; i < templinks.Count; i++)
-            {
-                templinks[i] = "https://www.trueachievements.com" + templinks[i];
-                templinks[i] = templinks[i].Replace("/achievements", "/price");
-                if (i >0)
-                {
-                    if (templinks[i - 1] == templinks[i])
-                    {
-                        templinks.RemoveAt(i);
-                        i--;
-                        continue;
-                    }
-                    
-                }
-                if (!templinks[i].Contains("/game/"))
-                {
-                    templinks.RemoveAt(i);
-                    templinks.RemoveAt(i);
-                    tempnames.RemoveAt(i);
-                    i--;
-                }
-            }
-            TSearchGameLinks = templinks;
-            TSearchGameNames = tempnames;
-        }
-
-        public async void DisplayGameInfo(int index)
-        {
-            var response = await client.GetAsync(TSearchGameLinks[index]);
-            var html = await response.Content.ReadAsStringAsync();
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            var ProductID = "";
-            try
-            {
-                ProductID = doc.DocumentNode.SelectSingleNode("//a[@class='price']").Attributes["href"].Value;
-            }
-            catch
-            {
-                _snackbarService.Show("Error: No Store Page",
-                    $"This Game does not have a store page listed.",
-                    ControlAppearance.Danger,
-                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                return;
-            }
-
-            ProductID = ProductID.Replace("/ext?u=", "");
-            ProductID = System.Web.HttpUtility.UrlDecode(ProductID);
-            ProductID = ProductID.Substring(0, ProductID.LastIndexOf('&'));
-            ProductID = ProductID.Split('/').Last();
-            if (ProductID.Contains("-"))
-            {
-                TSearchGameName = "Name: " + TSearchGameNames[index];
-                TSearchGameTitleID = Convert.ToInt32(ProductID.Substring(ProductID.Length - 8), 16).ToString();
+                await _client.PostAsync(
+                    "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUidOnly +
+                    ")/devices/current", requestBody);
+                i = 0;
             }
             else
             {
-                client.DefaultRequestHeaders.Clear();
-                var ProductIDsConverted = new StringContent("{\"Products\":[\"" +ProductID+ "\"]}");
-                var TitleIDsResponse = await client.PostAsync(
-                    "https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome",
-                    ProductIDsConverted);
-                var TitleIDsContent = await TitleIDsResponse.Content.ReadAsStringAsync();
-                var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
-                var xboxTitleId = JsonTitleIDs.Products[$"{ProductID}"].XboxTitleId;
-                //here is some super dumb shit to handle bundles
-                if (xboxTitleId == null)
+                if (_spoofingUpdate)
                 {
-                    foreach (var Product in JsonTitleIDs.Products)
-                    {
-                        foreach (var Title in Product)
-                        {
-                            if (Title.ToString().Contains("\"ProductType\": \"Game\",") && Title.XboxTitleId != null)
-                            {
-                                xboxTitleId = Title.XboxTitleId;
-                                break;
-                            }
-                        }
-                    }
+                    HomeViewModel.SpoofingStatus = 0;
+                    HomeViewModel.SpoofedTitleId = "0";
+                    break;
                 }
+                spoofingTime = stopwatch.Elapsed;
+                SpoofingText = $@"Spoofing {_gameInfoResponse?.titles[0].name.ToString()} For: {spoofingTime:hh\:mm\:ss}";
+                i++;
+            }
+            Thread.Sleep(1000);
+        }
+    }
 
-                TSearchGameName = "Name: " + TSearchGameNames[index];
-                TSearchGameTitleID = xboxTitleId;
+    #endregion
+
+
+    #region GameSearch
+    [ObservableProperty] private List<string>? _tSearchGameLinks = new();
+    [ObservableProperty] private string _tSearchText = "";
+    [ObservableProperty] private List<string>? _tSearchGameNames = new();
+    [ObservableProperty] private string _tSearchGameImage = "pack://application:,,,/Assets/cirno.png";
+    [ObservableProperty] private string _tSearchGameName = "Name: ";
+    [ObservableProperty] private string _tSearchGameTitleId = "";
+    
+    [RelayCommand]
+    private async Task SearchGame()
+    {
+        _client.DefaultRequestHeaders.Clear();
+        var searchQueryText = Uri.EscapeDataString(TSearchText);
+        searchQueryText = searchQueryText.Replace("%20", "+");
+        var response = await _client.GetAsync($"https://www.trueachievements.com/searchresults.aspx?search={searchQueryText}");
+        var html = await response.Content.ReadAsStringAsync();
+        var doc = new HtmlDocument();
+        doc.LoadHtml(html);
+
+        var table = doc.DocumentNode.Descendants("table").FirstOrDefault(x => x.HasClass("maintable"));
+        List<string> tempLinks;
+        try
+        {
+            tempLinks = table!.Descendants("a").Select(a => a.GetAttributeValue("href", null)).Where(h => !string.IsNullOrEmpty(h)).ToList();
+        }
+        catch
+        {
+            _snackBarService.Show("Error: No Results",$"No results were found for {TSearchText}",
+                ControlAppearance.Danger,
+                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackBarDuration);
+            return;
+        }
+            
+        var tempNames = table.Descendants("td")
+            .Where(td => td.HasClass("gamerwide"))
+            .Select(td => td.InnerText.Trim())
+            .ToList();
+        tempLinks.RemoveAt(0);
+        tempLinks.RemoveAt(0);
+        for (var i = 0; i < tempLinks.Count; i++)
+        {
+            tempLinks[i] = "https://www.trueachievements.com" + tempLinks[i];
+            tempLinks[i] = tempLinks[i].Replace("/achievements", "/price");
+            if (i >0)
+            {
+                if (tempLinks[i - 1] == tempLinks[i])
+                {
+                    tempLinks.RemoveAt(i);
+                    i--;
+                    continue;
+                }
+                    
             }
 
+            if (tempLinks[i].Contains("/game/")) continue;
+            
+            tempLinks.RemoveAt(i);
+            tempLinks.RemoveAt(i);
+            tempNames?.RemoveAt(i);
+            i--;
         }
-        #endregion
+        TSearchGameLinks = tempLinks;
+        TSearchGameNames = tempNames;
+    }
 
-        #region GamertagSearch
+    public async void DisplayGameInfo(int index)
+    {
+        var response = await _client.GetAsync(TSearchGameLinks?[index]);
+        var html = await response.Content.ReadAsStringAsync();
+        var doc = new HtmlDocument();
+        doc.LoadHtml(html);
+        string productId;
+        try
+        {
+            productId = doc.DocumentNode.SelectSingleNode("//a[@class='price']").Attributes["href"].Value;
+        }
+        catch
+        {
+            _snackBarService.Show("Error: No Store Page",
+                "This Game does not have a store page listed.",
+                ControlAppearance.Danger,
+                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackBarDuration);
+            return;
+        }
 
+        productId = productId.Replace("/ext?u=", "");
+        productId = System.Web.HttpUtility.UrlDecode(productId);
+        productId = productId[..productId.LastIndexOf('&')];
+        productId = productId.Split('/').Last();
+        if (productId.Contains('-'))
+        {
+            TSearchGameName = "Name: " + TSearchGameNames?[index];
+            TSearchGameTitleId = Convert.ToInt32(productId[^8..], 16).ToString();
+        }
+        else
+        {
+            _client.DefaultRequestHeaders.Clear();
+            var productIDsConverted = new StringContent("{\"Products\":[\"" +productId+ "\"]}");
+            var titleIDsResponse = await _client.PostAsync(
+                "https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome",
+                productIDsConverted);
+            var titleIDsContent = await titleIDsResponse.Content.ReadAsStringAsync();
+            var jsonTitleIDs = (dynamic)JObject.Parse(titleIDsContent);
+            var xboxTitleId = jsonTitleIDs.Products[$"{productId}"].XboxTitleId;
+            
+            //here is some super dumb shit to handle bundles
+            if (xboxTitleId == null)
+            {
+                foreach (var product in jsonTitleIDs.Products)
+                {
+                    foreach (var title in product)
+                    {
+                        if (!title.ToString().Contains("\"ProductType\": \"Game\",") || title.XboxTitleId == null)
+                            continue;
+                        xboxTitleId = title.XboxTitleId;
+                        break;
+                    }
+                }
+            }
 
-        #endregion
+            TSearchGameName = "Name: " + TSearchGameNames?[index];
+            if (xboxTitleId != null) TSearchGameTitleId = xboxTitleId;
+        }
 
     }
+    #endregion
+
 }

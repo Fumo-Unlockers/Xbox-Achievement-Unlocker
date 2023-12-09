@@ -57,8 +57,5 @@
             TextWrapping="Wrap"
             Text="I just like to code ;)"/>
 
-
-
-
     </StackPanel>
 </Page>

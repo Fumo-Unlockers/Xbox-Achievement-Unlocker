@@ -47,7 +47,7 @@
             VerticalAlignment="Top"
             Padding="0, 170, 0, 0"
             FontSize="20"
-            Text="{Binding ViewModel.Xuid, Mode=OneWay}"
+            Text="{Binding ViewModel.XUid, Mode=OneWay}"
         ></ui:TextBlock>
         <ui:TextBlock
             HorizontalAlignment="Left"
@@ -124,7 +124,7 @@
             VerticalAlignment="Top"
             Padding="0, 330, 0, 0"
             FontSize="20"
-            Text="{Binding ViewModel.Gamepass, Mode=OneWay}"
+            Text="{Binding ViewModel.GamePass, Mode=OneWay}"
         ></ui:TextBlock>
         <ui:TextBlock
             HorizontalAlignment="Left"

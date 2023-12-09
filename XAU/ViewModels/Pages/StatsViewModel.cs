@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Wpf.Ui.Controls;
+﻿using Wpf.Ui.Controls;
 
-namespace XAU.ViewModels.Pages
+namespace XAU.ViewModels.Pages;
+
+public class StatsViewModel : ObservableObject, INavigationAware
 {
-    public partial class StatsViewModel : ObservableObject, INavigationAware
+    private bool _isInitialized;
+    
+    public void OnNavigatedTo()
     {
-        private bool _isInitialized = false;
-        public void OnNavigatedTo()
-        {
-            if (!_isInitialized)
-                InitializeViewModel();
-        }
-        public void OnNavigatedFrom() { }
+        if (_isInitialized) return;
+        InitializeViewModel();
+    }
+    public void OnNavigatedFrom() { }
 
-        private void InitializeViewModel()
-        {
-            _isInitialized = true;
-        }
+    private void InitializeViewModel()
+    {
+        _isInitialized = true;
     }
 }
