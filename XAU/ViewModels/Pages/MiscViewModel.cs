@@ -51,7 +51,8 @@ namespace XAU.ViewModels.Pages
                 currentSystemLanguage = "en-GB";
             IsInitialized = true;
         }
-#region Spoofer
+
+        #region Spoofer
 
         [ObservableProperty] private string _gameName = "Name: ";
         [ObservableProperty] private string _gameTitleID = "Title ID: ";
@@ -146,7 +147,9 @@ namespace XAU.ViewModels.Pages
                                  "/" + GameInfoResponse.titles[0].achievement.totalGamerscore.ToString();
                 try
                 {
-                    GameTime = "Time Played: " + TimeSpan.FromMinutes(Convert.ToDouble(GameStatsResponse.statlistscollection[0].stats[0].value)).ToString(@"hh\:mm");
+                    var timePlayed = TimeSpan.FromMinutes(Convert.ToDouble(GameStatsResponse.statlistscollection[0].stats[0].value));
+                    var formattedTime = $"{timePlayed.Days} Days, {timePlayed.Hours} Hours and {timePlayed.Minutes} minutes";
+                    GameTime = "Time Played: " + formattedTime;
                 }
                 catch
                 {
@@ -218,7 +221,6 @@ namespace XAU.ViewModels.Pages
         }
 
         #endregion
-
 
         #region GameSearch
         [ObservableProperty] private List<string> _tSearchGameLinks = new List<string>();
