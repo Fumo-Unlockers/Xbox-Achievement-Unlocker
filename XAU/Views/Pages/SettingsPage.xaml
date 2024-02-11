@@ -77,8 +77,8 @@
             Margin="5,0,5,0"
             VerticalAlignment="Center"
             Content="Force English"
-            IsChecked="{Binding ViewModel.UseAcrylic, Mode=TwoWay}"
-            Command="{Binding ViewModel.RegionOverride}"
+            IsChecked="{Binding ViewModel.RegionOverride, Mode=TwoWay}"
+            Command="{Binding ViewModel.SaveSettingsCommand}"
             IsEnabled="True"></CheckBox>
     </Grid>
 </Page>

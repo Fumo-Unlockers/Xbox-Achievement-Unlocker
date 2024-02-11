@@ -592,6 +592,7 @@ namespace XAU.ViewModels.Pages
                         achievement.DateUnlocked = unlocktime;
                     }
                 }
+                CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             }
             catch 
             {
