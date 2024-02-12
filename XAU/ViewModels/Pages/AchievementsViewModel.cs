@@ -208,6 +208,10 @@ public partial class AchievementsViewModel : ObservableObject, INavigationAware
         {
             if (i == 300)
             {
+                _client.DefaultRequestHeaders.Clear();
+                _client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
+                _client.DefaultRequestHeaders.Add("accept", "application/json");
+                _client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
                 await _client.PostAsync(
                     "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUidOnly +
                     ")/devices/current", requestBody);
@@ -472,8 +476,7 @@ public partial class AchievementsViewModel : ObservableObject, INavigationAware
     
     public async void UnlockAchievement(int achievementIndex)
     {
-            
-        var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + _achievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" + _achievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" + HomeViewModel.XUidOnly + "\",\"achievements\":[{\"id\":\"" + DGAchievements[achievementIndex].Id + "\",\"percentComplete\":\"100\"}]}";
+        var requestBody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + _achievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" + _achievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" + HomeViewModel.XUidOnly + "\",\"achievements\":[{\"id\":\"" + DGAchievements[achievementIndex].Id + "\",\"percentComplete\":\"100\"}]}";
         _client.DefaultRequestHeaders.Clear();
         _client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
         _client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
@@ -485,22 +488,20 @@ public partial class AchievementsViewModel : ObservableObject, INavigationAware
         _client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
         if (HomeViewModel.Settings.FakeSignatureEnabled)
             _client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
-        var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/json");
+        var convertedBody = new StringContent(requestBody, Encoding.UTF8, "application/json");
         try
         {
             await _client.PostAsync(
                 "https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUidOnly + ")/achievements/" +
-                _achievementResponse.achievements[0].serviceConfigId + "/update", bodyconverted);
+                _achievementResponse.achievements[0].serviceConfigId + "/update", convertedBody);
             _snackBarService.Show("Achievement Unlocked", $"{DGAchievements[achievementIndex].Name} has been unlocked",
                 ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackBarDuration);
             DGAchievements[achievementIndex].IsUnlockAble = false;
             DGAchievements[achievementIndex].ProgressState = "Achieved";
             DGAchievements[achievementIndex].DateUnlocked = DateTime.Now;
             CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
-
-
         }
-        catch (HttpRequestException ex)
+        catch (HttpRequestException)
         {
             _snackBarService.Show("Error: Achievement Not Unlocked",
                 $"{DGAchievements[achievementIndex].Name} was not unlocked", ControlAppearance.Danger,
@@ -553,6 +554,7 @@ public partial class AchievementsViewModel : ObservableObject, INavigationAware
                 achievement.ProgressState = "Achieved";
                 achievement.DateUnlocked = DateTime.Now;
             }
+            CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
         }
         catch 
         {

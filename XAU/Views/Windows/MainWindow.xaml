@@ -9,6 +9,8 @@
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="1212"
     Height="700"
+    MinWidth="1212"
+    MinHeight="700"
     d:DataContext="{d:DesignInstance local:MainWindow,
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="450"
@@ -21,7 +23,6 @@
     WindowCornerPreference="Round"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <!--1212 is picked because it just barely fits the amount of items when sidebar is collapsed-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

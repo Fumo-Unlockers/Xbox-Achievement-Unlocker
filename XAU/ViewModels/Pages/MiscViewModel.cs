@@ -176,8 +176,9 @@ public partial class MiscViewModel : ObservableObject, INavigationAware
                              "/" + _gameInfoResponse.titles[0].achievement.totalGamerscore.ToString();
             try
             {
-                GameTime = "Time Played: " + TimeSpan.FromMinutes(Convert.ToDouble(_gameStatsResponse.statlistscollection[0].stats[0].value)).ToString(@"hh\:mm");
-            }
+                var timePlayed = TimeSpan.FromMinutes(Convert.ToDouble(_gameStatsResponse.statlistscollection[0].stats[0].value));
+                var formattedTime = $"{timePlayed.Days} Days, {timePlayed.Hours} Hours and {timePlayed.Minutes} minutes";
+                GameTime = "Time Played: " + formattedTime;}
             catch
             {
                 GameTime = "Time Played: Unknown";
@@ -247,7 +248,6 @@ public partial class MiscViewModel : ObservableObject, INavigationAware
     }
 
     #endregion
-
 
     #region GameSearch
     [ObservableProperty] private List<string>? _tSearchGameLinks = new();

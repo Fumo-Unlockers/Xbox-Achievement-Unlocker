@@ -21,64 +21,57 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <CheckBox
-            Grid.Column="0"
-            Margin="5,0,5,0"
-            VerticalAlignment="Center"
-            Content="Enable Unlock All"
-            IsChecked="{Binding ViewModel.UnlockAllEnabled, Mode=TwoWay}"
-            Command="{Binding ViewModel.SaveSettingsCommand}"></CheckBox>
-        <CheckBox
-            Grid.Column="1"
-            Margin="5,0,5,0"
-            VerticalAlignment="Center"
-            Content="Enable Auto Spoofer"
-            IsChecked="{Binding ViewModel.AutoSpooferEnabled, Mode=TwoWay}"
-            Command="{Binding ViewModel.SaveSettingsCommand}"></CheckBox>
-        <CheckBox
-            Grid.Column="2"
-            Margin="5,0,5,0"
-            VerticalAlignment="Center"
-            Content="Auto Launch Xbox App"
-            IsChecked="{Binding ViewModel.AutoLaunchXboxAppEnabled, Mode=TwoWay}"
-            Command="{Binding ViewModel.SaveSettingsCommand}"></CheckBox>
-        <CheckBox
-            Grid.Column="3"
-            Margin="5,0,5,0"
-            VerticalAlignment="Center"
-            Content="Use Fake Signature"
-            IsChecked="{Binding ViewModel.FakeSignatureEnabled, Mode=TwoWay}"
-            Command="{Binding ViewModel.SaveSettingsCommand}"></CheckBox>
-        <CheckBox
-            Grid.Row="1"
-            Margin="5,0,5,0"
-            VerticalAlignment="Center"
-            Content="Enable Privacy Mode"
-            IsChecked="{Binding ViewModel.PrivacyMode, Mode=TwoWay}"
-            Command="{Binding ViewModel.SaveSettingsCommand}"></CheckBox>
-        <CheckBox
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="5,0,5,0"
-            VerticalAlignment="Center"
-            Content="Use Acrylic Background"
-            IsChecked="{Binding ViewModel.UseAcrylic, Mode=TwoWay}"
-            Command="{Binding ViewModel.SaveSettingsCommand}"
-            IsEnabled="False"></CheckBox>
-        <CheckBox
-            Grid.Row="1"
-            Grid.Column="2"
-            Margin="5,0,5,0"
-            VerticalAlignment="Center"
-            Content="Force English"
-            IsChecked="{Binding ViewModel.UseAcrylic, Mode=TwoWay}"
-            Command="{Binding ViewModel.RegionOverride}"
-            IsEnabled="True"></CheckBox>
+        
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0 10">
+            
+            <ui:ToggleSwitch Content="Enable Unlock All"
+                             Margin="0 0 5 0"
+                             IsChecked="{Binding ViewModel.UnlockAllEnabled, Mode=TwoWay}"
+                             Command="{Binding ViewModel.SaveSettingsCommand}"/>
+            
+            <ui:ToggleSwitch Content="Enable Auto Spoofing"
+                             Margin="5 0"
+                             IsChecked="{Binding ViewModel.AutoSpooferEnabled, Mode=TwoWay}"
+                             Command="{Binding ViewModel.SaveSettingsCommand}"/>
+            
+            <ui:ToggleSwitch Content="Auto Launch Xbox App"
+                             Margin="5 0"
+                             IsChecked="{Binding ViewModel.AutoLaunchXboxAppEnabled, Mode=TwoWay}"
+                             Command="{Binding ViewModel.SaveSettingsCommand}"/>
+            
+            <ui:ToggleSwitch Content="Use Fake Signature"
+                             Margin="5 0 0 0"
+                             IsChecked="{Binding ViewModel.FakeSignatureEnabled, Mode=TwoWay}"
+                             Command="{Binding ViewModel.SaveSettingsCommand}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            
+            <ui:ToggleSwitch Content="Enable Privacy Mode"
+                             Margin="0 0 5 0"
+                             IsChecked="{Binding ViewModel.PrivacyMode, Mode=TwoWay}"
+                             Command="{Binding ViewModel.SaveSettingsCommand}"/>
+            
+            <ui:ToggleSwitch Content="Use Acrylic Background"
+                             Margin="5 0"
+                             IsChecked="{Binding ViewModel.UseAcrylic, Mode=TwoWay}"
+                             Command="{Binding ViewModel.SaveSettingsCommand}"
+                             IsEnabled="False"/>
+            
+            <ui:ToggleSwitch Content="Force English"
+                             Margin="5 0 0 0"
+                             IsChecked="{Binding ViewModel.RegionOverride, Mode=TwoWay}"
+                             Command="{Binding ViewModel.SaveSettingsCommand}"
+                             IsEnabled="True"/>
+            
+        </StackPanel>
+        
     </Grid>
 </Page>
