@@ -238,6 +238,10 @@ namespace XAU.ViewModels.Pages
             {
                 if (i == 300)
                 {
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
+                    client.DefaultRequestHeaders.Add("accept", "application/json");
+                    client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
                     await client.PostAsync(
                         "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
                         ")/devices/current", requestbody);
