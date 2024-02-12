@@ -1,263 +1,246 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using static Memory.Imps;
 
-namespace Memory
+namespace Memory;
+
+public partial class Mem
 {
-    public partial class Mem
+    public Task<IEnumerable<nuint>> AoBScan(long start, long end, string search, bool writable = false, bool executable = true, bool mapped = false)
     {
-        /// <summary>
-        /// Array of byte scan.
-        /// </summary>
-        /// <param name="search">array of bytes to search for, OR your ini code label.</param>
-        /// <param name="writable">Include writable addresses in scan</param>
-        /// <param name="executable">Include executable addresses in scan</param>
-        /// <param name="file">ini file (OPTIONAL)</param>
-        /// <returns>IEnumerable of all addresses found.</returns>
-        public Task<IEnumerable<long>> AoBScan(string search, bool writable = false, bool executable = true, string file = "")
-        {
-            return AoBScan(0, long.MaxValue, search, writable, executable, false, file);
-        }
+        return AoBScan(start, end, search, false, writable, executable, mapped);
+    }
 
+    public Task<IEnumerable<nuint>> AoBScan(string search, bool writable = false, bool executable = true, bool mapped = false)
+    {
+        return AoBScan(0, long.MaxValue, search, false, writable, executable, mapped);
+    }
 
-        /// <summary>
-        /// Array of Byte scan.
-        /// </summary>
-        /// <param name="start">Your starting address.</param>
-        /// <param name="end">ending address</param>
-        /// <param name="search">array of bytes to search for, OR your ini code label.</param>
-        /// <param name="file">ini file (OPTIONAL)</param>
-        /// <param name="writable">Include writable addresses in scan</param>
-        /// <param name="executable">Include executable addresses in scan</param>
-        /// <param name="mapped">Include mapped addresses in scan</param>
-        /// <returns>IEnumerable of all addresses found.</returns>
-        public Task<IEnumerable<long>> AoBScan(long start, long end, string search, bool writable = false, bool executable = true, bool mapped = false, string file = "")
+    public Task<IEnumerable<nuint>> AoBScan(long start, long end, string search, bool readable, bool writable, bool executable, bool mapped)
+    {
+        return Task.Run(() =>
         {
-            // Not including read only memory was scan behavior prior.
-            return AoBScan(start, end, search, false, writable, executable, mapped, file);
-        }
+            List<MemoryRegionResult> memRegionList = [];
+            var aobPattern = Utils.ParseSig(search, out var mask);
+            GetSystemInfo(out var sysInfo);
 
-        /// <summary>
-        /// Array of Byte scan.
-        /// </summary>
-        /// <param name="start">Your starting address.</param>
-        /// <param name="end">ending address</param>
-        /// <param name="search">array of bytes to search for, OR your ini code label.</param>
-        /// <param name="file">ini file (OPTIONAL)</param>
-        /// <param name="readable">Include readable addresses in scan</param>
-        /// <param name="writable">Include writable addresses in scan</param>
-        /// <param name="executable">Include executable addresses in scan</param>
-        /// <param name="mapped">Include mapped addresses in scan</param>
-        /// <returns>IEnumerable of all addresses found.</returns>
-        public Task<IEnumerable<long>> AoBScan(long start, long end, string search, bool readable, bool writable, bool executable, bool mapped, string file = "")
-        {
-            return Task.Run(() =>
+            var procMinAddress = sysInfo.MinimumApplicationAddress;
+            var procMaxAddress = sysInfo.MaximumApplicationAddress;
+
+            if (start < (long)procMinAddress.ToUInt64())
             {
-                var memRegionList = new List<MemoryRegionResult>();
+                start = (long)procMinAddress.ToUInt64();
+            }
 
-                string memCode = LoadCode(search, file);
+            if (end > (long)procMaxAddress.ToUInt64())
+            {
+                end = (long)procMaxAddress.ToUInt64();
+            }
 
-                string[] stringByteArray = memCode.Split(' ');
+            var currentBaseAddress = (nuint)start;
 
-                byte[] aobPattern = new byte[stringByteArray.Length];
-                byte[] mask = new byte[stringByteArray.Length];
-
-                for (var i = 0; i < stringByteArray.Length; i++)
+            while (VirtualQueryEx(MProc.Handle, currentBaseAddress, out var memInfo).ToUInt64() != 0 &&
+                   currentBaseAddress.ToUInt64() < (ulong)end &&
+                   currentBaseAddress.ToUInt64() + (ulong)memInfo.RegionSize >
+                   currentBaseAddress.ToUInt64())
+            {
+                var isValid = memInfo.State == MemCommit;
+                isValid &= memInfo.BaseAddress.ToUInt64() < procMaxAddress.ToUInt64();
+                isValid &= (memInfo.Protect & Guard) == 0;
+                isValid &= (memInfo.Protect & NoAccess) == 0;
+                isValid &= memInfo.Type is MemPrivate or MemImage;
+                if (mapped)
                 {
-                    string ba = stringByteArray[i];
-
-                    if (ba == "??" || (ba.Length == 1 && ba == "?"))
-                    {
-                        mask[i] = 0x00;
-                        stringByteArray[i] = "0x00";
-                    }
-                    else if (Char.IsLetterOrDigit(ba[0]) && ba[1] == '?')
-                    {
-                        mask[i] = 0xF0;
-                        stringByteArray[i] = ba[0] + "0";
-                    }
-                    else if (Char.IsLetterOrDigit(ba[1]) && ba[0] == '?')
-                    {
-                        mask[i] = 0x0F;
-                        stringByteArray[i] = "0" + ba[1];
-                    }
-                    else
-                        mask[i] = 0xFF;
+                    isValid &= memInfo.Type == MemMapped;
                 }
 
-
-                for (int i = 0; i < stringByteArray.Length; i++)
-                    aobPattern[i] = (byte)(Convert.ToByte(stringByteArray[i], 16) & mask[i]);
-
-                SYSTEM_INFO sys_info = new SYSTEM_INFO();
-                GetSystemInfo(out sys_info);
-
-                UIntPtr proc_min_address = sys_info.minimumApplicationAddress;
-                UIntPtr proc_max_address = sys_info.maximumApplicationAddress;
-
-                if (start < (long)proc_min_address.ToUInt64())
-                    start = (long)proc_min_address.ToUInt64();
-
-                if (end > (long)proc_max_address.ToUInt64())
-                    end = (long)proc_max_address.ToUInt64();
-
-                Debug.WriteLine("[DEBUG] memory scan starting... (start:0x" + start.ToString(MSize()) + " end:0x" + end.ToString(MSize()) + " time:" + DateTime.Now.ToString("h:mm:ss tt") + ")");
-                UIntPtr currentBaseAddress = new UIntPtr((ulong)start);
-
-                MEMORY_BASIC_INFORMATION memInfo = new MEMORY_BASIC_INFORMATION();
-
-            //Debug.WriteLine("[DEBUG] start:0x" + start.ToString("X8") + " curBase:0x" + currentBaseAddress.ToUInt64().ToString("X8") + " end:0x" + end.ToString("X8") + " size:0x" + memInfo.RegionSize.ToString("X8") + " vAloc:" + VirtualQueryEx(mProc.Handle, currentBaseAddress, out memInfo).ToUInt64().ToString());
-
-            while (VirtualQueryEx(mProc.Handle, currentBaseAddress, out memInfo).ToUInt64() != 0 &&
-                       currentBaseAddress.ToUInt64() < (ulong)end &&
-                       currentBaseAddress.ToUInt64() + (ulong)memInfo.RegionSize >
-                       currentBaseAddress.ToUInt64())
+                if (isValid)
                 {
-                    bool isValid = memInfo.State == MEM_COMMIT;
-                    isValid &= memInfo.BaseAddress.ToUInt64() < (ulong)proc_max_address.ToUInt64();
-                    isValid &= ((memInfo.Protect & PAGE_GUARD) == 0);
-                    isValid &= ((memInfo.Protect & PAGE_NOACCESS) == 0);
-                    isValid &= (memInfo.Type == MEM_PRIVATE) || (memInfo.Type == MEM_IMAGE);
-                    if (mapped)
-                        isValid &= (memInfo.Type == MEM_MAPPED);
+                    var isReadable = (memInfo.Protect & Readonly) > 0;
 
-                    if (isValid)
-                    {
-                        bool isReadable = (memInfo.Protect & PAGE_READONLY) > 0;
+                    var isWritable = (memInfo.Protect & Readwrite) > 0 ||
+                                     (memInfo.Protect & WriteCopy) > 0 ||
+                                     (memInfo.Protect & ExecuteReadwrite) > 0 ||
+                                     (memInfo.Protect & ExecuteWriteCopy) > 0;
 
-                        bool isWritable = ((memInfo.Protect & PAGE_READWRITE) > 0) ||
-                                          ((memInfo.Protect & PAGE_WRITECOPY) > 0) ||
-                                          ((memInfo.Protect & PAGE_EXECUTE_READWRITE) > 0) ||
-                                          ((memInfo.Protect & PAGE_EXECUTE_WRITECOPY) > 0);
+                    var isExecutable = (memInfo.Protect & Execute) > 0 ||
+                                       (memInfo.Protect & ExecuteRead) > 0 ||
+                                       (memInfo.Protect & ExecuteReadwrite) > 0 ||
+                                       (memInfo.Protect & ExecuteWriteCopy) > 0;
 
-                        bool isExecutable = ((memInfo.Protect & PAGE_EXECUTE) > 0) ||
-                                            ((memInfo.Protect & PAGE_EXECUTE_READ) > 0) ||
-                                            ((memInfo.Protect & PAGE_EXECUTE_READWRITE) > 0) ||
-                                            ((memInfo.Protect & PAGE_EXECUTE_WRITECOPY) > 0);
+                    isReadable &= readable;
+                    isWritable &= writable;
+                    isExecutable &= executable;
 
-                        isReadable &= readable;
-                        isWritable &= writable;
-                        isExecutable &= executable;
+                    isValid &= isReadable || isWritable || isExecutable;
+                }
 
-                        isValid &= isReadable || isWritable || isExecutable;
-                    }
-
-                    if (!isValid)
-                    {
-                        currentBaseAddress = new UIntPtr(memInfo.BaseAddress.ToUInt64() + (ulong)memInfo.RegionSize);
-                        continue;
-                    }
-
-                    MemoryRegionResult memRegion = new MemoryRegionResult
-                    {
-                        CurrentBaseAddress = currentBaseAddress,
-                        RegionSize = memInfo.RegionSize,
-                        RegionBase = memInfo.BaseAddress
-                    };
-
+                if (!isValid)
+                {
                     currentBaseAddress = new UIntPtr(memInfo.BaseAddress.ToUInt64() + (ulong)memInfo.RegionSize);
+                    continue;
+                }
 
-                //Console.WriteLine("SCAN start:" + memRegion.RegionBase.ToString() + " end:" + currentBaseAddress.ToString());
+                MemoryRegionResult memRegion = new()
+                {
+                    CurrentBaseAddress = currentBaseAddress,
+                    RegionSize = memInfo.RegionSize,
+                    RegionBase = memInfo.BaseAddress
+                };
+
+                currentBaseAddress = new UIntPtr(memInfo.BaseAddress.ToUInt64() + (ulong)memInfo.RegionSize);
 
                 if (memRegionList.Count > 0)
+                {
+                    var previousRegion = memRegionList[^1];
+
+                    if ((long)previousRegion.RegionBase + previousRegion.RegionSize == (long)memInfo.BaseAddress)
                     {
-                        var previousRegion = memRegionList[memRegionList.Count - 1];
+                        memRegionList[^1] = previousRegion with { RegionSize = previousRegion.RegionSize + memInfo.RegionSize };
 
-                        if ((long)previousRegion.RegionBase + previousRegion.RegionSize == (long)memInfo.BaseAddress)
-                        {
-                            memRegionList[memRegionList.Count - 1] = new MemoryRegionResult
-                            {
-                                CurrentBaseAddress = previousRegion.CurrentBaseAddress,
-                                RegionBase = previousRegion.RegionBase,
-                                RegionSize = previousRegion.RegionSize + memInfo.RegionSize
-                            };
-
-                            continue;
-                        }
+                        continue;
                     }
-
-                    memRegionList.Add(memRegion);
                 }
 
-                ConcurrentBag<long> bagResult = new ConcurrentBag<long>();
-
-                Parallel.ForEach(memRegionList,
-                                 (item, parallelLoopState, index) =>
-                                 {
-                                     long[] compareResults = CompareScan(item, aobPattern, mask);
-
-                                     foreach (long result in compareResults)
-                                         bagResult.Add(result);
-                                 });
-
-                Debug.WriteLine("[DEBUG] memory scan completed. (time:" + DateTime.Now.ToString("h:mm:ss tt") + ")");
-
-                return bagResult.ToList().OrderBy(c => c).AsEnumerable();
-            });
-        }
-
-        private long[] CompareScan(MemoryRegionResult item, byte[] aobPattern, byte[] mask)
-        {
-            if (mask.Length != aobPattern.Length)
-                throw new ArgumentException($"{nameof(aobPattern)}.Length != {nameof(mask)}.Length");
-
-            IntPtr buffer = Marshal.AllocHGlobal((int)item.RegionSize);
-
-            ReadProcessMemory(mProc.Handle, item.CurrentBaseAddress, buffer, (UIntPtr)item.RegionSize, out ulong bytesRead);
-
-            int result = 0 - aobPattern.Length;
-            List<long> ret = new List<long>();
-            unsafe
-            {
-                do
-                {
-
-                    result = FindPattern((byte*)buffer.ToPointer(), (int)bytesRead, aobPattern, mask, result + aobPattern.Length);
-
-                    if (result >= 0)
-                        ret.Add((long)item.CurrentBaseAddress + result);
-
-                } while (result != -1);
+                memRegionList.Add(memRegion);
             }
 
-            Marshal.FreeHGlobal(buffer);
+            ConcurrentBag<nuint> bagResult = [];
 
-            return ret.ToArray();
-        }
-
-        private unsafe int FindPattern(byte* body, int bodyLength, byte[] pattern, byte[] masks, int start = 0)
-        {
-            int foundIndex = -1;
-
-            if (bodyLength <= 0 || pattern.Length <= 0 || start > bodyLength - pattern.Length ||
-                pattern.Length > bodyLength) return foundIndex;
-
-            for (int index = start; index <= bodyLength - pattern.Length; index++)
-            {
-                if (((body[index] & masks[0]) == (pattern[0] & masks[0])))
+            Parallel.ForEach(memRegionList,
+                (item, _, _) =>
                 {
-                    var match = true;
-                    for (int index2 = pattern.Length - 1; index2 >= 1; index2--)
+                    var compareResults = CompareScan(item, aobPattern, mask);
+
+                    foreach (var result in compareResults)
                     {
-                        if ((body[index + index2] & masks[index2]) == (pattern[index2] & masks[index2])) continue;
-                        match = false;
-                        break;
-
+                        bagResult.Add(result);
                     }
+                });
 
-                    if (!match) continue;
+            return bagResult.ToList().OrderBy(c => c).AsEnumerable();
+        });
+    }
+    
+    public async Task<nuint[]> SmartAobScan(string search)
+    {
+        var result = new List<nuint>();
+        GetSystemInfo(out var info);
+        UIntPtr address = 0;
+        
+        Native_VirtualQueryEx(MProc.Handle, address, out MemoryBasicInformation64 memInfo, info.PageSize);
+        address = memInfo.BaseAddress + (UIntPtr)memInfo.RegionSize;
 
-                    foundIndex = index;
-                    break;
-                }
+        var scanStartAddr = 0xFFFFFFFFFF;
+        while (address < 0x3FFFFFFFFFF)
+        {
+            Native_VirtualQueryEx(MProc.Handle, address, out memInfo, info.PageSize);
+            if (address == memInfo.BaseAddress + memInfo.RegionSize)
+            {
+                break;
             }
 
+            var scanEndAddr = (long)memInfo.BaseAddress + (long)memInfo.RegionSize;
+
+            nuint retAddress;
+            if (scanEndAddr - scanStartAddr > 500000000)
+            {
+                retAddress = await ScanRange(search, scanStartAddr, scanEndAddr);
+            }
+            else
+            {
+                retAddress = (await AoBScan(scanStartAddr, scanEndAddr, search, true)).FirstOrDefault();
+            }
+
+            if (retAddress != 0)
+            {
+                result.Add(retAddress);
+            }
+
+            scanStartAddr = scanEndAddr;
+            address = memInfo.BaseAddress + (UIntPtr)memInfo.RegionSize;
+        }
+
+        return result.ToArray();
+    }
+    
+    
+    private async Task<nuint> ScanRange(string search, long startAddr, long endAddr)
+    {
+        for (var i = 1; i < 2; i++)
+        {
+            var end = startAddr + (endAddr - startAddr) / 2 * i;
+            var retAddress = (await AoBScan(startAddr, end, search, true)).FirstOrDefault();
+            if (retAddress != 0)
+            {
+                return retAddress;
+            }
+        }
+        return 0;
+    }
+
+    private IEnumerable<nuint> CompareScan(MemoryRegionResult item, byte[] aobPattern, byte[] mask)
+    {
+        if (mask.Length != aobPattern.Length)
+        {
+            throw new ArgumentException(null, $"{nameof(aobPattern)}.Length != {nameof(mask)}.Length");
+        }
+
+        var buffer = Marshal.AllocHGlobal((int)item.RegionSize);
+
+        ReadProcessMemory(MProc.Handle, item.CurrentBaseAddress, buffer, (nuint)item.RegionSize, out var bytesRead);
+
+        var result = 0 - aobPattern.Length;
+        List<nuint> ret = [];
+        unsafe
+        {
+            do
+            {
+                result = FindPattern((byte*)buffer.ToPointer(), (int)bytesRead, aobPattern, mask, result + aobPattern.Length);
+
+                if (result >= 0)
+                    ret.Add(item.CurrentBaseAddress + (uint)result);
+
+            } while (result != -1);
+        }
+
+        Marshal.FreeHGlobal(buffer);
+
+        return ret.ToArray();
+    }
+
+    private static unsafe int FindPattern(byte* body, int bodyLength, IReadOnlyList<byte> pattern, IReadOnlyList<byte> masks, int start = 0)
+    {
+        var foundIndex = -1;
+
+        if (bodyLength <= 0 || pattern.Count <= 0 || start > bodyLength - pattern.Count || pattern.Count > bodyLength)
+        {
             return foundIndex;
         }
+
+        for (var index = start; index <= bodyLength - pattern.Count; index++)
+        {
+            if ((body[index] & masks[0]) != (pattern[0] & masks[0])) continue;
+
+            var match = true;
+
+            for (var index2 = pattern.Count - 1; index2 >= 1; index2--)
+            {
+                if ((body[index + index2] & masks[index2]) == (pattern[index2] & masks[index2])) continue;
+
+                match = false;
+                break;
+            }
+
+            if (!match)
+            {
+                continue;
+            }
+
+            foundIndex = index;
+            break;
+        }
+
+        return foundIndex;
     }
 }

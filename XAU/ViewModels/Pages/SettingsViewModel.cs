@@ -41,7 +41,6 @@ public partial class SettingsViewModel : ObservableObject, INavigationAware
     [ObservableProperty] 
     private bool _privacyMode;
 
-
     [RelayCommand]
     private void SaveSettings()
     {

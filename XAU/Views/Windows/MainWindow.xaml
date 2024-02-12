@@ -40,8 +40,7 @@
             MenuItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
             PaneDisplayMode="Left">
             <ui:NavigationView.Header>
-                <!--leaving this so I can have 20px top padding-->
-                <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="0,20,0,0" HorizontalAlignment="Center" />
+                <ui:BreadcrumbBar Margin="0,20,0,0" HorizontalAlignment="Center" />
             </ui:NavigationView.Header>
             <ui:NavigationView.ContentOverlay>
                 <Grid>
@@ -56,7 +55,6 @@
             Grid.RowSpan="2" />
 
         <ui:TitleBar
-            x:Name="TitleBar"
             Title="{Binding ViewModel.ApplicationTitle}"
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="True">

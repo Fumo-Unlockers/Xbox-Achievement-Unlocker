@@ -10,16 +10,16 @@ using static Wpf.Ui.Controls.ControlAppearance;
 
 namespace XAU.ViewModels.Pages;
 
-public partial class GamesViewModel : ObservableObject, INavigationAware
+public partial class GamesViewModel(ISnackbarService snackBarService) : ObservableObject, INavigationAware
 {
     [ObservableProperty] 
     private string? _xUidOverride = "0";
     
     [ObservableProperty] 
-    private ObservableCollection<Game> _games = new();
+    private ObservableCollection<Game> _games = [];
     
     [ObservableProperty] 
-    private ObservableCollection<Game> _gamesPaged = new();
+    private ObservableCollection<Game> _gamesPaged = [];
     
     [ObservableProperty] 
     private string _searchLabel = "Search 0 Games";
@@ -37,7 +37,7 @@ public partial class GamesViewModel : ObservableObject, INavigationAware
     private string _searchText = "";
     
     [ObservableProperty] 
-    private List<string> _filterOptions = new() { "All", "Xbox One/Series", "PC", "Xbox 360", "Win32"};
+    private List<string> _filterOptions = ["All", "Xbox One/Series", "PC", "Xbox 360", "Win32"];
     
     [ObservableProperty] 
     private int _filterIndex;
@@ -46,7 +46,7 @@ public partial class GamesViewModel : ObservableObject, INavigationAware
     private int _numPages;
     
     [ObservableProperty] 
-    private ObservableCollection<string> _pageOptions = new();
+    private ObservableCollection<string> _pageOptions = [];
     
     [ObservableProperty] 
     private int _currentPage;
@@ -65,12 +65,6 @@ public partial class GamesViewModel : ObservableObject, INavigationAware
     private dynamic _gamesResponse = new JObject();
     private bool _pageReset = true;
 
-    public GamesViewModel(ISnackbarService snackBarService)
-    {
-        _snackBarService = snackBarService;
-    }
-
-    private readonly ISnackbarService _snackBarService;
     private readonly TimeSpan _snackBarDuration = TimeSpan.FromSeconds(2);
 
     public void OnNavigatedTo()
@@ -151,7 +145,7 @@ public partial class GamesViewModel : ObservableObject, INavigationAware
         
         if (SearchText.Length == 0)
         {
-            _snackBarService.Show("Error", "Please Enter Query Text", Danger, new SymbolIcon(ErrorCircle24), _snackBarDuration);
+            snackBarService.Show("Error", "Please Enter Query Text", Danger, new SymbolIcon(ErrorCircle24), _snackBarDuration);
             return;
         }
 
@@ -234,7 +228,7 @@ public partial class GamesViewModel : ObservableObject, INavigationAware
         SearchLabel = $"Search {_gamesResponse.titles.Count.ToString()} Games";
         if (!Games.Any())
         {
-            _snackBarService.Show("Error", "No Games Found", Danger, new SymbolIcon(ErrorCircle24), _snackBarDuration);
+            snackBarService.Show("Error", "No Games Found", Danger, new SymbolIcon(ErrorCircle24), _snackBarDuration);
             NumPages = 0;
             return;
         }
@@ -346,6 +340,6 @@ public partial class GamesViewModel : ObservableObject, INavigationAware
         var titleId = _gamesResponse.titles[int.Parse(index)].titleId.ToString();
         var title = _gamesResponse.titles[int.Parse(index)].name.ToString();
         Clipboard.SetDataObject(_gamesResponse.titles[int.Parse(index)].titleId.ToString());
-        _snackBarService.Show("TitleID Copied", $"Copied the title ID of {title.ToString()} to clipboard\nTitleID: {titleId.ToString()}", Success, new SymbolIcon(ClipboardCheckmark24), _snackBarDuration);
+        snackBarService.Show("TitleID Copied", $"Copied the title ID of {title.ToString()} to clipboard\nTitleID: {titleId.ToString()}", Success, new SymbolIcon(ClipboardCheckmark24), _snackBarDuration);
     }
 }

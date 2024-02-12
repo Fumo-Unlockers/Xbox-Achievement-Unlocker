@@ -13,7 +13,7 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace XAU.ViewModels.Pages;
 
-public partial class HomeViewModel : ObservableObject, INavigationAware
+public partial class HomeViewModel(ISnackbarService snackBarService, IContentDialogService contentDialogService) : ObservableObject, INavigationAware
 {
     public const string ToolVersion = "EmptyDevToolVersion";
 
@@ -53,15 +53,7 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
     public static string SpoofedTitleId { get; set; } = "0";
     public static string AutoSpoofedTitleId { get; set; } = "0";
 
-    //SnackBar
-    public HomeViewModel(ISnackbarService snackBarService, IContentDialogService contentDialogService)
-    {
-        _snackBarService = snackBarService;
-        _contentDialogService = contentDialogService;
-    }
-    private readonly ISnackbarService _snackBarService;
     private readonly TimeSpan _snackBarDuration = TimeSpan.FromSeconds(2);
-    private readonly IContentDialogService _contentDialogService;
 
     [RelayCommand]
     private void RefreshProfile()
@@ -119,7 +111,7 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
     
         if (latestVersion == ToolVersion) return;
     
-        var result = await _contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
+        var result = await contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
         {
             Title = $"Version {latestVersion} available to download",
             Content = "Would you like to update to this version?",
@@ -129,7 +121,7 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
     
         if (result != ContentDialogResult.Primary) return;
     
-        _snackBarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackBarDuration);
+        snackBarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackBarDuration);
     
         string sourceFile = ToolVersion.Contains("DEV") ? jsonResponse.DownloadURL.ToString() : jsonResponse[0].assets[0].browser_download_url.ToString();
         const string destFile = "XAU-new.exe";
@@ -225,15 +217,14 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
     {
         while (true)
         {
-            if (!_m.OpenProcess("XboxPcApp"))
+            Task.Delay(_isAttached ? 1000 : 500).Wait();
+            if (_m.OpenProcess("XboxPcApp") != Mem.OpenProcessResults.Success)
             {
                 _isAttached = false;
-                Task.Delay(1000).Wait();
                 continue;
             }
 
             _isAttached = true;
-            Task.Delay(1000).Wait();
             _xAuthWorker.ReportProgress(0);
         }
         // ReSharper disable once FunctionNeverReturns
@@ -243,7 +234,7 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
     {
         if (_isAttached)
         {
-            Attached = $"Attached to xbox app ({_m.GetProcIdFromName("XboxPCApp").ToString()})";
+            Attached = $"Attached to xbox app ({Mem.GetProcIdFromName("XboxPCApp")})";
             AttachedColor = new SolidColorBrush(Colors.Green);
             if (IsLoggedIn)
             {
@@ -262,26 +253,26 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
             }
         }
 
-        if (_m.GetProcIdFromName("XboxPCApp") != 0) return;
+        if (Mem.GetProcIdFromName("XboxPCApp") != 0) return;
         Attached = "Not Attached";
         AttachedColor = new SolidColorBrush(Colors.Red);
     }
 
     private void XAuthWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
-        if (!_xAuthWorker.IsBusy)
-            _xAuthWorker.RunWorkerAsync();
+        if (_xAuthWorker.IsBusy) return;
+        _xAuthWorker.RunWorkerAsync();
     }
     
     private async void GetXAuth()
     {
         var xAuthScanList = await _m.AoBScan("58 42 4C 33 2E 30 20 78 3D", true);
-        var authScanList = xAuthScanList as long[] ?? xAuthScanList.ToArray();
+        var authScanList = xAuthScanList as UIntPtr[] ?? xAuthScanList.ToArray();
         var xAuthStrings = new string[authScanList.Length];
         var i = 0;
         foreach (var address in authScanList)
         {
-            xAuthStrings[i] = _m.ReadString(address.ToString("X"), length: 10000);
+            xAuthStrings[i] = _m.ReadStringMemory(address, length: 10000);
             i++;
         }
 
@@ -332,8 +323,7 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
         {
             var responseString =
                 await _client.GetStringAsync("https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag");
-            var Jsonresponse = (dynamic)(new JObject());
-            Jsonresponse = (dynamic)JObject.Parse(responseString);
+            dynamic jsonResponse = JObject.Parse(responseString);
             if (Settings.PrivacyMode)
             {
                 GamerTag = "Gamertag: Hidden";
@@ -341,11 +331,11 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
             }
             else
             {
-                GamerTag = $"Gamertag: {Jsonresponse.profileUsers[0].settings[0].value}";
-                XUid = $"XUID: {Jsonresponse.profileUsers[0].id}";
+                GamerTag = $"Gamertag: {jsonResponse.profileUsers[0].settings[0].value}";
+                XUid = $"XUID: {jsonResponse.profileUsers[0].id}";
             }
                 
-            XUidOnly = Jsonresponse.profileUsers[0].id;
+            XUidOnly = jsonResponse.profileUsers[0].id;
             IsLoggedIn = true;
             _xAuthTested= true;
             InitComplete = true;
@@ -410,9 +400,9 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
                     _client.DefaultRequestHeaders.Add("accept", "application/json");
                     _client.DefaultRequestHeaders.Add("Authorization", XAuth);
                     _client.DefaultRequestHeaders.Add("accept-language", _currentSystemLanguage);
-                    StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + jsonResponse.people[0].presenceDetails[0].TitleId + "\"]}");
-                    var GameTitleResponse = (dynamic)JObject.Parse(await _client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUidOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
-                    CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({jsonResponse.people[0].presenceDetails[0].TitleId})";
+                    var requestBody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + jsonResponse.people[0].presenceDetails[0].TitleId + "\"]}");
+                    var gameTitleResponse = (dynamic)JObject.Parse(await _client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUidOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestBody).Result.Content.ReadAsStringAsync());
+                    CurrentlyPlaying = $"Currently Playing: {gameTitleResponse.titles[0].name} ({jsonResponse.people[0].presenceDetails[0].TitleId})";
                 }
                 catch
                 {
@@ -429,21 +419,21 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
                 Bio = $"Bio: {jsonResponse.people[0].detail.bio}";
             }
             _grabbedProfile = true;
-            _snackBarService.Show("Success", "Profile information grabbed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackBarDuration);
+            snackBarService.Show("Success", "Profile information grabbed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackBarDuration);
         }
         catch (HttpRequestException ex)
         {
             if ((int)ex.StatusCode! != 401) return;
             IsLoggedIn = false;
             _xAuthTested = false;
-            _snackBarService.Show("401 Unauthorised", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackBarDuration);
+            snackBarService.Show("401 Unauthorised", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackBarDuration);
         }
     }
     #endregion
         
     #region Settings
 
-    public class SettingsList
+    public struct SettingsList
     {
         public string? SettingsVersion { get; set; }
         public string? AppVersion { get; set; }
@@ -455,7 +445,8 @@ public partial class HomeViewModel : ObservableObject, INavigationAware
         public bool UseAcrylic { get; set; }
         public bool PrivacyMode { get; set; }
     }
-    public static readonly SettingsList Settings = new();
+
+    public static SettingsList Settings;
 
     private void LoadSettings()
     {

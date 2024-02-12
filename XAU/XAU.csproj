@@ -14,6 +14,7 @@
     <Version>2.1.0</Version>
     <Copyright>Made By Draff ;)</Copyright>
     <Platforms>AnyCPU;x64</Platforms>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
