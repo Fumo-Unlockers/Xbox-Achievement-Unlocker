@@ -7,7 +7,7 @@ namespace XAU.Views.Windows
     public partial class MainWindow
     {
         public MainWindowViewModel ViewModel { get; }
-        public static INavigationService MainNavigationService;
+        public static INavigationService MainNavigationService = null!;
         public MainWindow(
             MainWindowViewModel viewModel,
             INavigationService navigationService,

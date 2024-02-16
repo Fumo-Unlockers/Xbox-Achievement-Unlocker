@@ -1,15 +1,8 @@
-﻿using System;
+﻿namespace Memory;
 
-namespace Memory
+internal struct MemoryRegionResult
 {
-    /// <summary>
-    /// AoB scan information.
-    /// </summary>
-    struct MemoryRegionResult
-    {
-        public UIntPtr CurrentBaseAddress { get; set; }
-        public long RegionSize { get; set; }
-        public UIntPtr RegionBase { get; set; }
-
-    }
+    public nuint CurrentBaseAddress { get; init; }
+    public long RegionSize { get; init; }
+    public nuint RegionBase { get; init; }
 }

@@ -151,7 +151,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" Margin="5,5,5,7">
-                            <Button MinHeight="170" MinWidth="170" Click="ButtonBase_OnClick" MouseRightButtonDown="ButtonBase_RightClick" Content="{Binding Index}">
+                            <Button Cursor="Hand" MinHeight="170" MinWidth="170" Click="ButtonBase_OnClick" MouseRightButtonDown="ButtonBase_RightClick" Content="{Binding Index}">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <ui:Image Source="{Binding Image, IsAsync=true}" Width="170" Height="170" CornerRadius="10" Margin="0,0,0,0" Background="White"/>
@@ -170,14 +170,15 @@
                                     <ui:Image Source="pack://application:,,,/Assets/G.png" Height="17" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </Grid>
-                            <ui:TextBox 
-                                TextAlignment="Center"
-                                ClearButtonEnabled="False"
-                                MaxWidth="170"
-                                IsReadOnly="True"
-                                IsReadOnlyCaretVisible="True"
-                                Padding="10,4,8,7"
-                                Text="{Binding Title}"/>
+                            <Border MaxWidth="170"
+                                    Padding="5"
+                                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                                    CornerRadius="5">
+                                <TextBlock Text="{Binding Title, Mode=OneWay}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
