@@ -170,15 +170,14 @@
                                     <ui:Image Source="pack://application:,,,/Assets/G.png" Height="17" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </Grid>
-                            <Border MaxWidth="170"
-                                    Padding="5"
-                                    Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                    BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
-                                    CornerRadius="5">
-                                <TextBlock Text="{Binding Title, Mode=OneWay}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
-                            </Border>
+                            <ui:TextBox 
+                                TextAlignment="Center"
+                                ClearButtonEnabled="False"
+                                MaxWidth="170"
+                                IsReadOnly="True"
+                                IsReadOnlyCaretVisible="True"
+                                Padding="10,4,8,7"
+                                Text="{Binding Title}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
