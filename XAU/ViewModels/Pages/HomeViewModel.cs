@@ -462,7 +462,7 @@ namespace XAU.ViewModels.Pages
                     Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
 
                     var watermarks_names = String.Join(",", Jsonresponse.people[0].detail.watermarks.ToObject<string[]>());
-                    Watermarks = $@"Watermarks (Coming Soon): {watermarks_names}";
+                    Watermarks = $@"Watermarks (Coming Soon): {watermarks_names}"; // watermark images get downloaded to C:\Users\<user>\AppData\Local\Packages\Microsoft.GamingApp_8wekyb3d8bbwe\AC\INetCache\* with a name matching the string
                 }
                 GrabbedProfile = true;
                 _snackbarService.Show("Success", "Profile information grabbed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
