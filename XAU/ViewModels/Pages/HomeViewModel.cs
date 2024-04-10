@@ -22,7 +22,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private Brush _loggedInColor = new SolidColorBrush(Colors.Red);
 
         //profile vars
-        [ObservableProperty] private String _gamerPic = "pack://application:,,,/Assets/cirno.png";
+        [ObservableProperty] private string _gamerPic = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _gamerTag = "Gamertag: Unknown   ";
         [ObservableProperty] private string _xuid = "XUID: Unknown";
         [ObservableProperty] private string _gamerScore = "Gamerscore: Unknown";
@@ -39,6 +39,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _bio = "Bio: Unknown";
         [ObservableProperty] public static bool _isLoggedIn = false;
         [ObservableProperty] public static bool _updateAvaliable = false;
+        [ObservableProperty] public static string _watermarks = "";
 
         public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
         public static string SpoofedTitleID = "0";
@@ -408,6 +409,7 @@ namespace XAU.ViewModels.Pages
                     Followers = $"Followers: Hidden";
                     Gamepass = $"Gamepass: Hidden";
                     Bio = $"Bio: Hidden";
+                    Watermarks = $"Badges: Hidden";
 
                 }
                 else
@@ -434,6 +436,22 @@ namespace XAU.ViewModels.Pages
                     {
                         CurrentlyPlaying = $"Currently Playing: Unknown ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
                     }
+
+                    // GPU details
+                    try
+                    {
+                        client.DefaultRequestHeaders.Clear();
+                        client.DefaultRequestHeaders.Add("accept", "application/json");
+                        client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+                        client.DefaultRequestHeaders.Add("Authorization", XAUTH);
+                        client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+                        var gpu = (dynamic)JObject.Parse(await client.GetAsync("https://xgrant.xboxlive.com/users/xuid(" + XUIDOnly + ")/programInfo?filter=profile,activities,catalog").Result.Content.ReadAsStringAsync());
+                        Gamepass = $"Gamepass: {gpu.gamePassMembership}";
+                    }
+                    catch
+                    {
+                        Gamepass = $"Gamepass: Unknown";
+                    }
                     
                     ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
                     IsVerified = $"Verified: {Jsonresponse.people[0].detail.isVerified}";
@@ -441,12 +459,10 @@ namespace XAU.ViewModels.Pages
                     Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
                     Following = $"Following: {Jsonresponse.people[0].detail.followingCount}";
                     Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
-                    
-                    // 'hasGamepass' appears to be deprecated in favor of AccountTier since Xbox Live Gold doesn't exist anymore.
-                    // Gold: Indicates Gamepass ownership (unable to distinguish what type yet). Silver indicates no XBL gamepass ownership.
-                    // Need someone with fam account to verify the other tier/account type
-                    Gamepass = (Jsonresponse.people[0].detail.accountTier != "Silver") ? "Gamepass: True" : "Gamepass: False";
                     Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
+
+                    var watermarks_names = String.Join(",", Jsonresponse.people[0].detail.watermarks.ToObject<string[]>());
+                    Watermarks = $@"Watermarks (Coming Soon): {watermarks_names}";
                 }
                 GrabbedProfile = true;
                 _snackbarService.Show("Success", "Profile information grabbed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
