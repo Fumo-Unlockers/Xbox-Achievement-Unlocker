@@ -69,11 +69,11 @@ namespace XAU.ViewModels.Pages
         public static string XUIDOnly;
         public static bool InitComplete = false;
         private bool _isInitialized = false;
-        string SettingsFilePath = Path.Combine((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU")), "settings.json");
+        string SettingsFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "settings.json");
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         static HttpClientHandler handler = new HttpClientHandler()
         {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
         };
         HttpClient client = new HttpClient(handler);
 
@@ -218,9 +218,11 @@ namespace XAU.ViewModels.Pages
             if (Settings.AutoLaunchXboxAppEnabled)
             {
                 Process p = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.UseShellExecute = true;
-                startInfo.FileName = startInfo.FileName = @"shell:appsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App";
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = @"shell:appsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
+                };
                 p.StartInfo = startInfo;
                 p.Start();
             }
@@ -422,10 +424,10 @@ namespace XAU.ViewModels.Pages
                         client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
                         client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
                         client.DefaultRequestHeaders.Add("accept", "application/json");
-                        client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+                        client.DefaultRequestHeaders.Add("Authorization", XAUTH);
                         client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
                         StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + Jsonresponse.people[0].presenceDetails[0].TitleId + "\"]}");
-                        var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
+                        var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
                         CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
                     }
                     catch
@@ -439,7 +441,11 @@ namespace XAU.ViewModels.Pages
                     Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
                     Following = $"Following: {Jsonresponse.people[0].detail.followingCount}";
                     Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
-                    Gamepass = $"Gamepass: {Jsonresponse.people[0].detail.hasGamePass}";
+                    
+                    // 'hasGamepass' appears to be deprecated in favor of AccountTier since Xbox Live Gold doesn't exist anymore.
+                    // Gold: Indicates Gamepass ownership (unable to distinguish what type yet). Silver indicates no XBL gamepass ownership.
+                    // Need someone with fam account to verify the other tier/account type
+                    Gamepass = (Jsonresponse.people[0].detail.accountTier != "Silver") ? "Gamepass: True" : "Gamepass: False";
                     Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
                 }
                 GrabbedProfile = true;
@@ -447,11 +453,11 @@ namespace XAU.ViewModels.Pages
             }
             catch (HttpRequestException ex)
             {
-                if ((int)ex.StatusCode == 401)
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     IsLoggedIn = false;
                     XAUTHTested = false;
-                    _snackbarService.Show("401 Unauthorised", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    _snackbarService.Show("401 Unauthorized", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 }
                 
             }
