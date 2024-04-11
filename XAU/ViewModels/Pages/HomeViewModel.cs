@@ -9,9 +9,16 @@ using Newtonsoft.Json.Linq;
 using Wpf.Ui.Common;
 using Newtonsoft.Json;
 using System.Net;
+using System.Collections.ObjectModel;
 
 namespace XAU.ViewModels.Pages
 {
+    public partial class ImageItem : ObservableObject
+    {
+        [ObservableProperty]
+        private string _imageUrl;
+    }
+
     public partial class HomeViewModel : ObservableObject, INavigationAware
     {
         public static string ToolVersion = "EmptyDevToolVersion";
@@ -39,11 +46,13 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _bio = "Bio: Unknown";
         [ObservableProperty] public static bool _isLoggedIn = false;
         [ObservableProperty] public static bool _updateAvaliable = false;
-        [ObservableProperty] public static string _watermarks = "";
+        [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
 
         public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
         public static string SpoofedTitleID = "0";
         public static string AutoSpoofedTitleID = "0";
+
+        private const string WatermarksUrl = "https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/";
 
         //SnackBar
         public HomeViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
@@ -409,8 +418,6 @@ namespace XAU.ViewModels.Pages
                     Followers = $"Followers: Hidden";
                     Gamepass = $"Gamepass: Hidden";
                     Bio = $"Bio: Hidden";
-                    Watermarks = $"Badges: Hidden";
-
                 }
                 else
                 {
@@ -461,8 +468,19 @@ namespace XAU.ViewModels.Pages
                     Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
                     Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
 
-                    var watermarks_names = String.Join(",", Jsonresponse.people[0].detail.watermarks.ToObject<string[]>());
-                    Watermarks = $@"Watermarks (Coming Soon): {watermarks_names}"; // watermark images get downloaded to C:\Users\<user>\AppData\Local\Packages\Microsoft.GamingApp_8wekyb3d8bbwe\AC\INetCache\* with a name matching the string
+                    Watermarks.Clear();
+
+                    // Tenure image format, 01..05..10
+                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
+                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
+                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
+                    var tenureBadge = Jsonresponse.people[0].detail.tenure.ToString("D2");
+                    Watermarks.Add(new ImageItem {ImageUrl = $@"{WatermarksUrl}tenure/{tenureBadge}.png"});
+                    string[] watermarkNames = Jsonresponse.people[0].detail.watermarks.ToObject<string[]>();
+                    foreach (var watermark in watermarkNames) 
+                    {
+                        Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}launch/{watermark}.png" });
+                    }
                 }
                 GrabbedProfile = true;
                 _snackbarService.Show("Success", "Profile information grabbed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
