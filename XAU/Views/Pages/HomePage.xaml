@@ -148,7 +148,7 @@
             TextWrapping="Wrap"
             Text="Badges: "
         ></ui:TextBlock>
-        <ItemsControl ItemsSource="{Binding ViewModel.Watermarks, PresentationTraceSources.TraceLevel=High}"
+        <ItemsControl ItemsSource="{Binding ViewModel.Watermarks}"
         HorizontalAlignment="Left"
         VerticalAlignment="Top"
         Padding="0, 440, 0, 0"
@@ -161,7 +161,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
               <DataTemplate>
-                  <Image Source="{Binding ImageUrl, PresentationTraceSources.TraceLevel=High}" Width="128" Height="128" Stretch="Uniform" />
+                  <Image Source="{Binding ImageUrl}" Width="128" Height="128" Stretch="Uniform" />
               </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

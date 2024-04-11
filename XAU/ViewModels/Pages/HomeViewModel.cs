@@ -479,7 +479,7 @@ namespace XAU.ViewModels.Pages
                     string[] watermarkNames = Jsonresponse.people[0].detail.watermarks.ToObject<string[]>();
                     foreach (var watermark in watermarkNames) 
                     {
-                        Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}launch/{watermark}.png" });
+                        Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}launch/{watermark.ToLower()}.png" });
                     }
                 }
                 GrabbedProfile = true;
