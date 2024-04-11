@@ -140,6 +140,31 @@
             Content="Refresh"
             IsEnabled="{Binding ViewModel.IsLoggedIn, Mode=OneWay}"
             Command="{Binding ViewModel.RefreshProfileCommand, Mode=OneWay}"/>
+        <ui:TextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Padding="0, 410, 0, 0"
+            FontSize="20"
+            TextWrapping="Wrap"
+            Text="Badges: "
+        ></ui:TextBlock>
+        <ItemsControl ItemsSource="{Binding ViewModel.Watermarks, PresentationTraceSources.TraceLevel=High}"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Padding="0, 440, 0, 0"
+        FontSize="20">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                  <!-- Use a StackPanel with Horizontal orientation as the ItemsPanel -->
+                  <StackPanel Orientation="Horizontal" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                  <Image Source="{Binding ImageUrl, PresentationTraceSources.TraceLevel=High}" Width="128" Height="128" Stretch="Uniform" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 
 </Page>
