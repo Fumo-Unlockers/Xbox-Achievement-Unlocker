@@ -9,9 +9,16 @@ using Newtonsoft.Json.Linq;
 using Wpf.Ui.Common;
 using Newtonsoft.Json;
 using System.Net;
+using System.Collections.ObjectModel;
 
 namespace XAU.ViewModels.Pages
 {
+    public partial class ImageItem : ObservableObject
+    {
+        [ObservableProperty]
+        private string _imageUrl;
+    }
+
     public partial class HomeViewModel : ObservableObject, INavigationAware
     {
         public static string ToolVersion = "EmptyDevToolVersion";
@@ -22,7 +29,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private Brush _loggedInColor = new SolidColorBrush(Colors.Red);
 
         //profile vars
-        [ObservableProperty] private String _gamerPic = "pack://application:,,,/Assets/cirno.png";
+        [ObservableProperty] private string _gamerPic = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _gamerTag = "Gamertag: Unknown   ";
         [ObservableProperty] private string _xuid = "XUID: Unknown";
         [ObservableProperty] private string _gamerScore = "Gamerscore: Unknown";
@@ -39,10 +46,13 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _bio = "Bio: Unknown";
         [ObservableProperty] public static bool _isLoggedIn = false;
         [ObservableProperty] public static bool _updateAvaliable = false;
+        [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
 
         public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
         public static string SpoofedTitleID = "0";
         public static string AutoSpoofedTitleID = "0";
+
+        private const string WatermarksUrl = "https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/";
 
         //SnackBar
         public HomeViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
@@ -69,11 +79,11 @@ namespace XAU.ViewModels.Pages
         public static string XUIDOnly;
         public static bool InitComplete = false;
         private bool _isInitialized = false;
-        string SettingsFilePath = Path.Combine((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU")), "settings.json");
+        string SettingsFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "settings.json");
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         static HttpClientHandler handler = new HttpClientHandler()
         {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
         };
         HttpClient client = new HttpClient(handler);
 
@@ -218,9 +228,11 @@ namespace XAU.ViewModels.Pages
             if (Settings.AutoLaunchXboxAppEnabled)
             {
                 Process p = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.UseShellExecute = true;
-                startInfo.FileName = startInfo.FileName = @"shell:appsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App";
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = @"shell:appsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
+                };
                 p.StartInfo = startInfo;
                 p.Start();
             }
@@ -410,7 +422,6 @@ namespace XAU.ViewModels.Pages
                     Followers = $"Followers: Hidden";
                     Gamepass = $"Gamepass: Hidden";
                     Bio = $"Bio: Hidden";
-
                 }
                 else
                 {
@@ -426,15 +437,31 @@ namespace XAU.ViewModels.Pages
                         client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
                         client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
                         client.DefaultRequestHeaders.Add("accept", "application/json");
-                        client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+                        client.DefaultRequestHeaders.Add("Authorization", XAUTH);
                         client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
                         StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + Jsonresponse.people[0].presenceDetails[0].TitleId + "\"]}");
-                        var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
+                        var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
                         CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
                     }
                     catch
                     {
                         CurrentlyPlaying = $"Currently Playing: Unknown ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
+                    }
+
+                    // GPU details
+                    try
+                    {
+                        client.DefaultRequestHeaders.Clear();
+                        client.DefaultRequestHeaders.Add("accept", "application/json");
+                        client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+                        client.DefaultRequestHeaders.Add("Authorization", XAUTH);
+                        client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+                        var gpu = (dynamic)JObject.Parse(await client.GetAsync("https://xgrant.xboxlive.com/users/xuid(" + XUIDOnly + ")/programInfo?filter=profile,activities,catalog").Result.Content.ReadAsStringAsync());
+                        Gamepass = $"Gamepass: {gpu.gamePassMembership}";
+                    }
+                    catch
+                    {
+                        Gamepass = $"Gamepass: Unknown";
                     }
                     
                     ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
@@ -443,19 +470,32 @@ namespace XAU.ViewModels.Pages
                     Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
                     Following = $"Following: {Jsonresponse.people[0].detail.followingCount}";
                     Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
-                    Gamepass = $"Gamepass: {Jsonresponse.people[0].detail.hasGamePass}";
                     Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
+
+                    Watermarks.Clear();
+
+                    // Tenure image format, 01..05..10
+                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
+                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
+                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
+                    var tenureBadge = Jsonresponse.people[0].detail.tenure.ToString("D2");
+                    Watermarks.Add(new ImageItem {ImageUrl = $@"{WatermarksUrl}tenure/{tenureBadge}.png"});
+                    string[] watermarkNames = Jsonresponse.people[0].detail.watermarks.ToObject<string[]>();
+                    foreach (var watermark in watermarkNames) 
+                    {
+                        Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}launch/{watermark.ToLower()}.png" });
+                    }
                 }
                 GrabbedProfile = true;
                 _snackbarService.Show("Success", "Profile information grabbed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
             }
             catch (HttpRequestException ex)
             {
-                if ((int)ex.StatusCode == 401)
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     IsLoggedIn = false;
                     XAUTHTested = false;
-                    _snackbarService.Show("401 Unauthorised", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    _snackbarService.Show("401 Unauthorized", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 }
                 
             }
