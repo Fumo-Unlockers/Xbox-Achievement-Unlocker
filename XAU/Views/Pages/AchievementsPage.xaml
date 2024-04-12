@@ -32,6 +32,8 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ui:TextBox
@@ -48,41 +50,88 @@
             <ui:Button
                 Grid.Row="1"
                 Grid.Column="0"
-                x:Name="RefreshButton"
+                x:Name="TitleIDRefreshButton"
                 IsEnabled="{Binding ViewModel.TitleIDEnabled}"
                 Padding="10,5,8,5"
                 Margin="10,0,5,0"
                 Content=""
                 HorizontalAlignment="Right"
                 Icon="{ui:SymbolIcon ArrowRepeatAll24}"
-                Command="{Binding ViewModel.RefreshAchievementsCommand}"
-            />
+                Command="{Binding ViewModel.RefreshAchievementsCommand}"/>
             <Label 
                 Grid.Row="0" 
                 Grid.Column="0"
-                Margin="00,0,54,0"
-                Target="{Binding ElementName=TitleIDBox}"
+                Margin="27,0,27,0"
                 Content="TitleID Override"
                 VerticalAlignment="Center"
-                HorizontalAlignment="left"/>
+                HorizontalAlignment="Center"/>
 
+
+            <ui:TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                x:Name="SearchBox"
+                IsEnabled="{Binding ViewModel.TitleIDEnabled}"
+                Padding="10,4,8,7"
+                Margin="0,0,44,0"
+                Text="{Binding ViewModel.SearchText, Mode=TwoWay}"
+                TextAlignment="Center"
+                ClearButtonEnabled="False" 
+                KeyDown="SearchBox_OnKeyDown"
+            ></ui:TextBox>
+            <ui:Button
+                Grid.Row="1"
+                Grid.Column="1"
+                x:Name="SearchButton"
+                IsEnabled="{Binding ViewModel.TitleIDEnabled}"
+                Padding="10,5,8,5"
+                Margin="10,0,5,0"
+                Content=""
+                HorizontalAlignment="Right"
+                Icon="{ui:SymbolIcon Search24}"
+                Command="{Binding ViewModel.SearchAndFilterAchievementsCommand}"/>
             <Label 
                 Grid.Row="0" 
                 Grid.Column="1"
+                Margin="00,0,0,0"
+                Content="Search"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+
+            <Label 
+                Grid.Row="0" 
+                Grid.Column="3"
                 Margin="10,0,10,0"
-                Target="{Binding ElementName=TitleIDBox}"
                 Content="{Binding ViewModel.GameInfo}"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Left"/>
+                HorizontalAlignment="Center"/>
+            <Label 
+                Grid.Row="1" 
+                Grid.Column="3"
+                Margin="10,0,10,0"
+                Content="{Binding ViewModel.GameName}"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
             <ui:Button
                 Grid.Row="0"
-                Grid.Column="2"
+                Grid.Column="4"
                 x:Name="UnlockAllButton"
                 IsEnabled="{Binding ViewModel.IsUnlockAllEnabled}"
                 Padding="10,5,8,5"
-                Margin="10,0,5,0"
+                Margin="10,0,5,2"
                 Content="Unlock All"
                 HorizontalAlignment="Right"
+                Command="{Binding ViewModel.UnlockAllCommand}"
+            />
+            <ui:Button
+                Grid.Row="1"
+                Grid.Column="4"
+                x:Name="RefreshButton"
+                Padding="10,5,8,5"
+                Margin="10,2,5,0"
+                Content="Refresh"
+                HorizontalAlignment="Stretch"
+
                 Command="{Binding ViewModel.UnlockAllCommand}"
             />
         </Grid>

@@ -26,6 +26,8 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private bool _regionOverride;
         [ObservableProperty] private bool _useAcrylic;
         [ObservableProperty] private bool _privacyMode;
+        [ObservableProperty] private string _xauth;
+        public static bool ManualXauth = false;
 
 
         [RelayCommand]
@@ -86,6 +88,7 @@ namespace XAU.ViewModels.Pages
             RegionOverride = HomeViewModel.Settings.RegionOverride;
             UseAcrylic = HomeViewModel.Settings.UseAcrylic;
             PrivacyMode = HomeViewModel.Settings.PrivacyMode;
+            Xauth = HomeViewModel.XAUTH;
         }
         private string GetAssemblyVersion()
         {
