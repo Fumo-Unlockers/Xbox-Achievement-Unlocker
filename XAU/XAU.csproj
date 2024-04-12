@@ -11,7 +11,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
     <Copyright>Made By Draff ;)</Copyright>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
