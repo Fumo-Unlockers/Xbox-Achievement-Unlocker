@@ -154,15 +154,14 @@
         Padding="0, 440, 0, 0"
         FontSize="20">
             <ItemsControl.ItemsPanel>
-              <ItemsPanelTemplate>
-                  <!-- Use a StackPanel with Horizontal orientation as the ItemsPanel -->
-                  <StackPanel Orientation="Horizontal" />
-              </ItemsPanelTemplate>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-              <DataTemplate>
-                  <Image Source="{Binding ImageUrl}" Width="128" Height="128" Stretch="Uniform" />
-              </DataTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding ImageUrl}" Width="128" Height="128" Stretch="Uniform" />
+                </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </Grid>
