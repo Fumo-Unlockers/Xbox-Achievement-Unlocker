@@ -402,7 +402,7 @@ namespace XAU.ViewModels.Pages
             try
             {
                 var responseString = await client.GetStringAsync(
-                    $"https://peoplehub.xboxlive.com/users/me/people/xuids({XUIDOnly})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
+                    $"https://peoplehub.xboxlive.com/users/me/people/xuids(2706851026034373)/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
                 var Jsonresponse = (dynamic)(new JObject());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
                 if (Settings.PrivacyMode)
@@ -478,8 +478,12 @@ namespace XAU.ViewModels.Pages
                     // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
                     // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
                     // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
-                    var tenureBadge = Jsonresponse.people[0].detail.tenure.ToString("D2");
-                    Watermarks.Add(new ImageItem {ImageUrl = $@"{WatermarksUrl}tenure/{tenureBadge}.png"});
+                    if (Jsonresponse.people[0].detail.tenure != "0")
+                    {
+                        var tenureBadge = Jsonresponse.people[0].detail.tenure.ToString("D2");
+                        Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}tenure/{tenureBadge}.png" });
+                    }
+                    
                     string[] watermarkNames = Jsonresponse.people[0].detail.watermarks.ToObject<string[]>();
                     foreach (var watermark in watermarkNames) 
                     {
