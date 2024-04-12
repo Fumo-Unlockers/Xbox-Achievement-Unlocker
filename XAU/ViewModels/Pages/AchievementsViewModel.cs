@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Net.Http;
 using System.Printing;
@@ -26,7 +27,9 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private ObservableCollection<Achievement> _achievements = new ObservableCollection<Achievement>();
         [ObservableProperty] private ObservableCollection<DGAchievement> _dGAchievements = new ObservableCollection<DGAchievement>();
         [ObservableProperty] public string _gameInfo = "";
+        [ObservableProperty] private string _gameName = "";
         [ObservableProperty] private bool _isUnlockAllEnabled = false;
+        [ObservableProperty] private string _searchText = "";
         public static bool SpooferEnabled = HomeViewModel.Settings.AutoSpooferEnabled;
         public static string TitleID="0";
         private bool IsTitleIDValid = false;
@@ -36,6 +39,7 @@ namespace XAU.ViewModels.Pages
         private dynamic GameInfoResponse = (dynamic)(new JObject());
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         public static bool SpoofingUpdate = false;
+        private bool IsFiltered = false;
 
         static HttpClientHandler handler = new HttpClientHandler()
         {
@@ -118,9 +122,16 @@ namespace XAU.ViewModels.Pages
                 if (HomeViewModel.SpoofingStatus == 1 && !(GameInfo == ""))
                 {
                     if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
-                        GameInfo = $"Manually Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+                    {
+                        GameInfo = "Manually Spoofing";
+                        GameName = GameInfoResponse.titles[0].name.ToString();
+                    }
                     else
-                        GameInfo = $"Not Spoofing {GameInfoResponse.titles[0].name.ToString()} (Manually Spoofing a different game)";
+                    {
+                        GameInfo = "Spoofing Another Game";
+                        GameName = GameInfoResponse.titles[0].name.ToString();
+                    }
+                        
                 }
                 else if (HomeViewModel.SpoofingStatus == 0 && !(GameInfo == ""))
                 {
@@ -195,22 +206,35 @@ namespace XAU.ViewModels.Pages
             if (HomeViewModel.SpoofingStatus == 1)
             {
                 if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
-                    GameInfo = $"Manually Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+                {
+                    GameInfo = "Manually Spoofing";
+                    GameName = GameInfoResponse.titles[0].name.ToString();
+                }
                 else
-                    GameInfo = $"Not Spoofing {GameInfoResponse.titles[0].name.ToString()} (Manually Spoofing a different game)";
+                {
+                    GameInfo = "Spoofing Another Game";
+                    GameName = GameInfoResponse.titles[0].name.ToString();
+                }
             }
             else
             {
                 HomeViewModel.AutoSpoofedTitleID = TitleIDOverride;
                 HomeViewModel.SpoofingStatus = 2;
-                GameInfo = $"Auto Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+                GameInfo = "Auto Spoofing";
+                GameName = GameInfoResponse.titles[0].name.ToString();
                 await Task.Run(() => Spoofing());
                 if (HomeViewModel.SpoofingStatus == 1)
                 {
                     if (HomeViewModel.SpoofedTitleID == HomeViewModel.AutoSpoofedTitleID)
-                        GameInfo = $"Manually Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+                    {
+                        GameInfo = "Manually Spoofing";
+                        GameName = GameInfoResponse.titles[0].name.ToString();
+                    }
                     else
-                        GameInfo = $"Not Spoofing {GameInfoResponse.titles[0].name.ToString()} (Manually Spoofing a different game)";
+                    {
+                        GameInfo = "Spoofing Another Game";
+                        GameName = GameInfoResponse.titles[0].name.ToString();
+                    }
                 }
                 HomeViewModel.AutoSpoofedTitleID = "0";
             }
@@ -612,6 +636,127 @@ namespace XAU.ViewModels.Pages
             NewGame = false;
             if (SpooferEnabled)
                 SpoofGame();
+        }
+
+        [RelayCommand]
+        public void SearchAndFilterAchievements()
+        {
+            if (DGAchievements.Count == 0)
+            {
+                _snackbarService.Show("Error", $"No Achievements Loaded", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+            if (SearchText.Length == 0 && IsFiltered == false)
+            {
+                _snackbarService.Show("Error", $"Please Enter Query Text", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+            if (SearchText.Length == 0 && IsFiltered)
+            {
+                DGAchievements.Clear();
+                foreach (var achievement in Achievements)
+                {
+                    if (!IsSelectedGame360)
+                    {
+                        var gamerscore = 0;
+                        if (achievement.rewardstype == "Gamerscore")
+                        {
+                            gamerscore = int.Parse(achievement.rewardsvalue);
+                        }
+                        DGAchievements.Add(new DGAchievement()
+                        {
+                            Index = Achievements.IndexOf(achievement),
+                            ID = int.Parse(achievement.id),
+                            Name = achievement.name,
+                            Description = achievement.description,
+                            IsSecret = achievement.isSecret,
+                            DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                            Gamerscore = gamerscore,
+                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                            RarityCategory = achievement.raritycurrentCategory,
+                            ProgressState = achievement.progressState,
+                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                        });
+                    }
+                    else
+                    {
+                        var gamerscore = 0;
+                        if (achievement.rewardstype == "Gamerscore")
+                        {
+                            gamerscore = int.Parse(achievement.rewardsvalue);
+                        }
+                        DGAchievements.Add(new DGAchievement()
+                        {
+                            Index = Achievements.IndexOf(achievement),
+                            ID = int.Parse(achievement.id),
+                            Name = achievement.name,
+                            Description = achievement.description,
+                            IsSecret = achievement.isSecret,
+                            DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                            Gamerscore = gamerscore,
+                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                            RarityCategory = achievement.raritycurrentCategory,
+                            ProgressState = achievement.progressState,
+                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                        });
+                    }
+                }
+                IsFiltered = false;
+                return;
+            }
+            DGAchievements.Clear();
+            foreach (var achievement in Achievements)
+            {
+                if (achievement.name.ToLower().Contains(SearchText.ToLower()) || achievement.description.ToLower().Contains(SearchText.ToLower()))
+                {
+                    if (!IsSelectedGame360)
+                    {
+                        var gamerscore = 0;
+                        if (achievement.rewardstype == "Gamerscore")
+                        {
+                            gamerscore = int.Parse(achievement.rewardsvalue);
+                        }
+                        DGAchievements.Add(new DGAchievement()
+                        {
+                            Index = Achievements.IndexOf(achievement),
+                            ID = int.Parse(achievement.id),
+                            Name = achievement.name,
+                            Description = achievement.description,
+                            IsSecret = achievement.isSecret,
+                            DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                            Gamerscore = gamerscore,
+                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                            RarityCategory = achievement.raritycurrentCategory,
+                            ProgressState = achievement.progressState,
+                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                        });
+                    }
+                    else
+                    {
+                        var gamerscore = 0;
+                        if (achievement.rewardstype == "Gamerscore")
+                        {
+                            gamerscore = int.Parse(achievement.rewardsvalue);
+                        }
+                        DGAchievements.Add(new DGAchievement()
+                        {
+                            Index = Achievements.IndexOf(achievement),
+                            ID = int.Parse(achievement.id),
+                            Name = achievement.name,
+                            Description = achievement.description,
+                            IsSecret = achievement.isSecret,
+                            DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                            Gamerscore = gamerscore,
+                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                            RarityCategory = achievement.raritycurrentCategory,
+                            ProgressState = achievement.progressState,
+                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                        });
+                    }
+                }
+            }
+            IsFiltered = true;
+            CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
         }
     }
 }

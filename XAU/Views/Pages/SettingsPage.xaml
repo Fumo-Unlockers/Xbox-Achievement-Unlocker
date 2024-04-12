@@ -19,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -80,5 +81,12 @@
             IsChecked="{Binding ViewModel.RegionOverride, Mode=TwoWay}"
             Command="{Binding ViewModel.SaveSettingsCommand}"
             IsEnabled="True"></CheckBox>
+        <ui:TextBox
+            x:Name="XauthTextBox"
+            Grid.Column="3"
+            Grid.Row="1"
+            Text="{Binding ViewModel.Xauth, Mode=TwoWay}"
+            TextChanged="XauthTextBox_OnTextChanged"
+            PlaceholderText="XAUTH Token"></ui:TextBox>
     </Grid>
 </Page>

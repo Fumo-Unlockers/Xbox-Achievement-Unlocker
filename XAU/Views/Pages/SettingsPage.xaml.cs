@@ -1,4 +1,5 @@
-﻿using Wpf.Ui.Controls;
+﻿using System.Windows.Controls;
+using Wpf.Ui.Controls;
 using XAU.ViewModels.Pages;
 
 namespace XAU.Views.Pages
@@ -13,6 +14,12 @@ namespace XAU.Views.Pages
             DataContext = this;
 
             InitializeComponent();
+        }
+
+        private void XauthTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            HomeViewModel.XAUTH = XauthTextBox.Text;
+            SettingsViewModel.ManualXauth = true;
         }
     }
 }

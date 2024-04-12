@@ -250,7 +250,7 @@ namespace XAU.ViewModels.Pages
         }
         public void XauthWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if (IsAttached)
+            if (IsAttached || XAUTH.Length > 0)
             {
                 Attached = $"Attached to xbox app ({m.GetProcIdFromName("XboxPCApp").ToString()})";
                 AttachedColor = new SolidColorBrush(Colors.Green);
@@ -263,7 +263,11 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
-                    GetXAUTH();
+                    if (!SettingsViewModel.ManualXauth)
+                    {
+                        GetXAUTH();
+                        SettingsViewModel.ManualXauth = false;
+                    }
                     LoggedIn = "Not Logged In";
                     LoggedInColor = new SolidColorBrush(Colors.Red);
                     if (!XAUTHTested && XAUTH.Length>0)
