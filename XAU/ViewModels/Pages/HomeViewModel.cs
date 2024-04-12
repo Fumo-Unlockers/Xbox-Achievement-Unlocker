@@ -402,7 +402,7 @@ namespace XAU.ViewModels.Pages
             try
             {
                 var responseString = await client.GetStringAsync(
-                    $"https://peoplehub.xboxlive.com/users/me/people/xuids(2706851026034373)/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
+                    $"https://peoplehub.xboxlive.com/users/me/people/xuids({XUIDOnly})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
                 var Jsonresponse = (dynamic)(new JObject());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
                 if (Settings.PrivacyMode)
