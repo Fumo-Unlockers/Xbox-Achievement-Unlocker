@@ -131,8 +131,7 @@
                 Margin="10,2,5,0"
                 Content="Refresh"
                 HorizontalAlignment="Stretch"
-
-                Command="{Binding ViewModel.UnlockAllCommand}"
+                Command="{Binding ViewModel.RefreshAchievementsCommand}"
             />
         </Grid>
         <DataGrid Grid.Row="1"  
@@ -174,7 +173,7 @@
                 <DataGridTemplateColumn Header="Unlock" Width="0.13*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Margin="5,5,5,5" Click="UnlockButton" Tag="{Binding Index}"
+                            <Button Margin="5,5,5,5" Click="UnlockButton" Tag="{Binding Index, Mode=TwoWay}"
                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                     IsEnabled="{Binding IsUnlockable}">Unlock</Button>
                         </DataTemplate>

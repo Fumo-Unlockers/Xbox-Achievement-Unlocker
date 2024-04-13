@@ -426,9 +426,6 @@ namespace XAU.ViewModels.Pages
                         IsUnlockable = achievement.progressState != "Achieved" && Unlockable
                     });
                 }
-
-                
-
             }
             else
             {
@@ -665,7 +662,7 @@ namespace XAU.ViewModels.Pages
                         }
                         DGAchievements.Add(new DGAchievement()
                         {
-                            Index = Achievements.IndexOf(achievement),
+                            Index = DGAchievements.Count,
                             ID = int.Parse(achievement.id),
                             Name = achievement.name,
                             Description = achievement.description,
@@ -687,7 +684,7 @@ namespace XAU.ViewModels.Pages
                         }
                         DGAchievements.Add(new DGAchievement()
                         {
-                            Index = Achievements.IndexOf(achievement),
+                            Index = DGAchievements.Count,
                             ID = int.Parse(achievement.id),
                             Name = achievement.name,
                             Description = achievement.description,
@@ -718,7 +715,7 @@ namespace XAU.ViewModels.Pages
                         }
                         DGAchievements.Add(new DGAchievement()
                         {
-                            Index = Achievements.IndexOf(achievement),
+                            Index = DGAchievements.Count,
                             ID = int.Parse(achievement.id),
                             Name = achievement.name,
                             Description = achievement.description,
@@ -740,7 +737,7 @@ namespace XAU.ViewModels.Pages
                         }
                         DGAchievements.Add(new DGAchievement()
                         {
-                            Index = Achievements.IndexOf(achievement),
+                            Index = DGAchievements.Count,
                             ID = int.Parse(achievement.id),
                             Name = achievement.name,
                             Description = achievement.description,
@@ -756,7 +753,6 @@ namespace XAU.ViewModels.Pages
                 }
             }
             IsFiltered = true;
-            CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
         }
     }
 }
