@@ -5,7 +5,7 @@ on:
     branches: [ Main ]
     paths-ignore:
       -'**.md'
-      -'.github/ISSUE_TEMPLATE/**'
+      -'**/ISSUE_TEMPLATE/**'
       -'**.json'
       -'.gitignore'
       -'.gitattributes'
