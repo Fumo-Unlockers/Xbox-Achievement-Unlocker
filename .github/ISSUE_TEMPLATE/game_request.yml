@@ -1,0 +1,42 @@
+name: Game Request
+description: Request support for an event-based game
+title: "[Game]: "
+labels: ["Game"]
+body:
+  - type: markdown
+    attributes:
+      value: "Please fill in each section accurately."
+  - type: checkboxes
+    id: duplicate
+    attributes:
+      label: Confirmation
+      description: Confirm before submitting
+      options:
+        - label: I have verified that this is not a duplicate request.
+          required: true
+  - type: input
+    id: GameLink
+    attributes:
+      label: Game Link
+      description: Provide a True Achievements or Xbox store link for the game you want supported.
+      placeholder: e.g., https://www.trueachievements.com/game/Forza-Horizon-3/achievements
+    validations:
+      required: true
+  - type: dropdown
+    id: Tool-Section
+    attributes:
+      label: Game Platform
+      description: Specify the platforms on which the Xbox version of this game is available.
+      options:
+        - Console only
+        - Console and PC
+        - PC only
+    validations:
+      required: true
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: Additional Game Information
+      description: Provide any additional information about the game or specific achievements you want supported.
+    validations:
+      required: true
