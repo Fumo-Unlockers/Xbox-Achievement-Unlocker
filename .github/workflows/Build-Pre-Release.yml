@@ -3,10 +3,16 @@ name: .NET 7 Build
 on:
   push:
     branches: [ Main ]
+    paths-ignore:
+      -'**.md'
+      -'.github/ISSUE_TEMPLATE/**'
+      -'**.json'
+      -'.gitignore'
+      -'.gitattributes'
+      
 
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:

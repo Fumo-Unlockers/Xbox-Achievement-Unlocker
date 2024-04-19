@@ -1,0 +1,26 @@
+name: Feature/Improvement request
+description: Make a request for a new feature or an improvement to an existing feature
+title: "[Enhancement]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Make sure you fill in every section correctly and with as much detail as possible.
+  - type: dropdown
+    id: RequestSelection
+    attributes:
+      label: Request Selection
+      description: Are you asking for an improvement or a new feature?
+      options:
+        - New Feature
+        - Improvement
+    validations:
+      required: true
+  - type: textarea
+    id: RequestDescription
+    attributes:
+      label: What is your request?
+      description: What do you want? Where do you want it? What do you want it to do?
+    validations:
+      required: true
