@@ -1,0 +1,38 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Make sure you fill in every section correctly and with as much detail as possible.
+  - type: input
+    id: XAU-Ver
+    attributes:
+      label: What version of the Xbox Achievement Unlocker were you using (you can see this in the settings page)?
+      placeholder: 2.x
+    validations:
+      required: true
+  - type: dropdown
+    id: Tool-Section
+    attributes:
+      label: Tool Section
+      description: What area of the tool did the issue occur?
+      options:
+        - Home
+        - Games
+        - Achievements
+        - Misc- Spoofer
+        - Misc- Search
+        - Settings
+        - Other- Please put more information in the box below
+    validations:
+      required: true
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: What is the bug?
+      description: What did you expect to happen and what actually happened? If the error dialog popped up paste the error message into this box (include images/video where applicable)
+    validations:
+      required: true
