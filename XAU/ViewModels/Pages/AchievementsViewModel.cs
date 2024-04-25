@@ -3,18 +3,25 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using XAU.ViewModels.Windows;
 using XAU.Views.Windows;
 using static XAU.ViewModels.Pages.AchievementsViewModel;
+using System.Text.RegularExpressions;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
+using System.Runtime.InteropServices;
+using System.Text.Unicode;
 
 namespace XAU.ViewModels.Pages
 {
@@ -40,12 +47,16 @@ namespace XAU.ViewModels.Pages
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         public static bool SpoofingUpdate = false;
         private bool IsFiltered = false;
+        private bool IsEventBased = false;
+        private dynamic EventsData = (dynamic)(new JObject());
+        public static string EventsToken;
 
         static HttpClientHandler handler = new HttpClientHandler()
         {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
-        };
-
+            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
+            //This is an absolutely terrible idea but the stupid fucking events API just cries about SSL errors
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    };
         HttpClient client = new HttpClient(handler);
 
 
@@ -332,10 +343,12 @@ namespace XAU.ViewModels.Pages
                             "00000000-0000-0000-0000-000000000000")
                         {
                             Unlockable = false;
+                            IsEventBased = true;
                         }
                         else
                         {
                             Unlockable = true;
+                            IsEventBased = false;
                         }
                     }
                     var rewardnameplaceholder = "";
@@ -423,7 +436,7 @@ namespace XAU.ViewModels.Pages
                         RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                         RarityCategory = achievement.raritycurrentCategory,
                         ProgressState = achievement.progressState,
-                        IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                        IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
                     });
                 }
             }
@@ -522,13 +535,44 @@ namespace XAU.ViewModels.Pages
                 _snackbarService.Show("Warning: Unsupported Game", $"This tool does not support Xbox 360 titles", ControlAppearance.Caution,
                     new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
             }
-            else if (!Unlockable)
+
+            if (IsEventBased)
             {
-                _snackbarService.Show("Warning: Unsupported Game", $"This tool does not support Event Based titles", ControlAppearance.Caution,
+                //Event based logic
+                string DataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\XAU\\Events\\Data.json";
+                var data = JObject.Parse(File.ReadAllText(DataPath));
+                JArray SupportedGamesJ = (JArray)data["SupportedTitleIDs"];
+                List<int> SupportedGames = SupportedGamesJ.ToObject<List<int>>();
+                if (SupportedGames.Contains(int.Parse(TitleIDOverride)))
+                {
+                    Unlockable = true;
+                    EventsData = (dynamic)(JObject)data[TitleIDOverride];
+
+                }
+                foreach (var achievement in DGAchievements)
+                {
+                    if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                    {
+                        achievement.IsUnlockable = true;
+                    }
+                }
+                CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
+            }
+            
+
+
+            if (!Unlockable)
+            {
+                _snackbarService.Show("Warning: Unsupported Game", $"This tool does not support this Event Based title", ControlAppearance.Caution,
                     new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
             }
+            else if (IsEventBased && EventsData.FullySupported == false)
+            {
+                _snackbarService.Show("Warning: Partially Unsupported Game", $"This tool does not fully support this title. Not all achievements are unlockable", ControlAppearance.Caution,
+                                       new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+            }
 
-            if (HomeViewModel.Settings.UnlockAllEnabled && Unlockable)
+            if (HomeViewModel.Settings.UnlockAllEnabled && Unlockable && !IsEventBased)
                 IsUnlockAllEnabled = Unlockable;
             else
                 IsUnlockAllEnabled = false;
@@ -536,40 +580,134 @@ namespace XAU.ViewModels.Pages
 
         public async void UnlockAchievement(int AchievementIndex)
         {
+            if (!IsEventBased)
+            {
+                var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + AchievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" + AchievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" + HomeViewModel.XUIDOnly + "\",\"achievements\":[{\"id\":\"" + DGAchievements[AchievementIndex].ID + "\",\"percentComplete\":\"100\"}]}";
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+                client.DefaultRequestHeaders.Add("accept", "application/json");
+                client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+                client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
+                client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+                client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
+                if (HomeViewModel.Settings.FakeSignatureEnabled)
+                    client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
+                var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/json");
+                try
+                {
+                    await client.PostAsync(
+                        "https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements/" +
+                        AchievementResponse.achievements[0].serviceConfigId + "/update", bodyconverted);
+                    _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
+                        ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                    DGAchievements[AchievementIndex].IsUnlockable = false;
+                    DGAchievements[AchievementIndex].ProgressState = "Achieved";
+                    DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
+                    CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
+
+
+                }
+                catch (HttpRequestException ex)
+                {
+                    _snackbarService.Show("Error: Achievement Not Unlocked",
+                        $"{DGAchievements[AchievementIndex].Name} was not unlocked", ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                }
+            }
+            else
+            {
+                if (EventsToken == null)
+                {
+                    _snackbarService.Show("Error: No Events Token", "No events token was set", ControlAppearance.Danger,
+                                               new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+                var authxtoken = HomeViewModel.XAUTH;
+                authxtoken = Regex.Replace(authxtoken, @"XBL3\.0 x=\d+;", "XBL3.0 x=-;");
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("user-agent", "MSDW");
+                client.DefaultRequestHeaders.Add("cache-control","no-cache");
+                client.DefaultRequestHeaders.Add("accept", "application/json");
+                client.DefaultRequestHeaders.Add("accept-encoding","gzip, deflate");
+                client.DefaultRequestHeaders.Add("reliability-mode","standard");
+                client.DefaultRequestHeaders.Add("client-version","EUTC-Windows-C++-no-10.0.22621.3296.amd64fre.ni_release.220506-1250-no");
+                client.DefaultRequestHeaders.Add("apikey","0890af88a9ed4cc886a14f5e174a2827-9de66c5e-f867-43a8-a7b8-e0ddd481cca4-7548,95c1f21d6cb047a09e7b423c1cb2222e-9965f07b-54fa-498e-9727-9e8d24dec39e-7027");
+                client.DefaultRequestHeaders.Add("authxtoken", authxtoken);
+                client.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{EventsToken}\"");
+                client.DefaultRequestHeaders.Add("Client-Id", "NO_AUTH");
+                client.DefaultRequestHeaders.Add("Host", "v20.events.data.microsoft.com");
+                client.DefaultRequestHeaders.Add("Connection", "close"); 
+                var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
+                DateTime timestamp = DateTime.UtcNow;
+                foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()])
+                {
+                    var ReplacementData = i.Value;
+                    switch (ReplacementData.ReplacementType.ToString())
+                    {
+                        case "Replace":
+                        {
+                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
+                            break;
+                        }
+                        case "RangeInt":
+                        {
+                            int min = ReplacementData.Min;
+                            int max = ReplacementData.Max;
+                            Random random = new Random();
+                            int randomint = random.Next(min, max);
+                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomint.ToString());
+                            break;
+                        }
+                        case "RangeFloat":
+                        {
+                            float min = ReplacementData.Min;
+                            float max = ReplacementData.Max;
+                            Random random = new Random();
+                            float randomfloat = (float)random.NextDouble() * (max - min) + min;
+                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomfloat.ToString());
+                            break;
+                        }
+                        case "StupidFuckingLDAPTimestamp":
+                        {
+                            long ldapTimestamp = DateTime.Now.ToFileTime();
+                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ldapTimestamp.ToString());
+                            break;
+                        }
+                        default:
+                        {
+                            _snackbarService.Show("Error: Bad Achievement Data", "Something went wrong with the achievement data", ControlAppearance.Danger,
+                                                                              new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                            return;
+                        }
+                            
+                    }
+                }
+                requestbody = requestbody.Replace("REPLACETIME", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
+                requestbody = requestbody.Replace("REPLACESEQ", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
+                requestbody = requestbody.Replace("REPLACEXUID", HomeViewModel.XUIDOnly);
+                requestbody = JObject.Parse(requestbody).ToString(Formatting.None);
+                var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
+                try
+                {
+                    await client.PostAsync(@"https://v20.events.data.microsoft.com/OneCollector/1.0/", bodyconverted);
+                    _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
+                        ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                    DGAchievements[AchievementIndex].IsUnlockable = false;
+                    DGAchievements[AchievementIndex].ProgressState = "Achieved";
+                    DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
+                    CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
+                }
+                catch
+                {
+                    _snackbarService.Show("Error: Achievement Not Unlocked",
+                        $"{DGAchievements[AchievementIndex].Name} was not unlocked", ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                }
+
+            }
             
-            var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + AchievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" + AchievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" + HomeViewModel.XUIDOnly + "\",\"achievements\":[{\"id\":\"" + DGAchievements[AchievementIndex].ID + "\",\"percentComplete\":\"100\"}]}";
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
-            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-            client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
-            if (HomeViewModel.Settings.FakeSignatureEnabled)
-                client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
-            var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/json");
-            try
-            {
-                await client.PostAsync(
-                    "https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements/" +
-                    AchievementResponse.achievements[0].serviceConfigId + "/update", bodyconverted);
-                _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
-                    ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                DGAchievements[AchievementIndex].IsUnlockable = false;
-                DGAchievements[AchievementIndex].ProgressState = "Achieved";
-                DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
-                CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
-
-
-            }
-            catch (HttpRequestException ex)
-            {
-                _snackbarService.Show("Error: Achievement Not Unlocked",
-                    $"{DGAchievements[AchievementIndex].Name} was not unlocked", ControlAppearance.Danger,
-                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-            }
         }
 
         [RelayCommand]
@@ -638,6 +776,21 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public void SearchAndFilterAchievements()
         {
+            if (IsEventBased)
+            {
+                string DataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\XAU\\Events\\Data.json";
+                var data = JObject.Parse(File.ReadAllText(DataPath));
+                JArray SupportedGamesJ = (JArray)data["SupportedTitleIDs"];
+                List<int> SupportedGames = SupportedGamesJ.ToObject<List<int>>();
+                if (SupportedGames.Contains(int.Parse(TitleIDOverride)))
+                {
+                    Unlockable = true;
+                    EventsData = (dynamic)(JObject)data[TitleIDOverride];
+
+                }
+            }
+            
+            CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             if (DGAchievements.Count == 0)
             {
                 _snackbarService.Show("Error", $"No Achievements Loaded", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
@@ -672,7 +825,7 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
                         });
                     }
                     else
@@ -694,9 +847,20 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
                         });
                     }
+                }
+                if (IsEventBased)
+                {
+                    foreach (var achievement in DGAchievements)
+                    {
+                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                        {
+                            achievement.IsUnlockable = true;
+                        }
+                    }
+                    CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
                 }
                 IsFiltered = false;
                 return;
@@ -725,7 +889,7 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
                         });
                     }
                     else
@@ -747,10 +911,22 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
                         });
                     }
                 }
+            }
+
+            if (IsEventBased)
+            {
+                foreach (var achievement in DGAchievements)
+                {
+                    if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                    {
+                        achievement.IsUnlockable = true;
+                    }
+                }
+                CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             }
             IsFiltered = true;
         }

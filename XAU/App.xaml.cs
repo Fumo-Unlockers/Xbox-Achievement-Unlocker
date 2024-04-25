@@ -4,18 +4,20 @@ using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Reflection;
 using System.Windows.Threading;
+using Wpf.Ui.Controls;
 using XAU.Services;
 using XAU.ViewModels.Pages;
 using XAU.ViewModels.Windows;
 using XAU.Views.Pages;
 using XAU.Views.Windows;
 
+
 namespace XAU
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App
+    public partial class App 
     {
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -70,6 +72,7 @@ namespace XAU
         private void OnStartup(object sender, StartupEventArgs e)
         {
             _host.Start();
+            SetupExceptionHandling();
         }
 
         /// <summary>
@@ -85,9 +88,28 @@ namespace XAU
         /// <summary>
         /// Occurs when an exception is thrown by an application but not handled.
         /// </summary>
-        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void SetupExceptionHandling()
         {
-            // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
+            AppDomain.CurrentDomain.UnhandledException += (_, e) =>
+                ReportException((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
+            DispatcherUnhandledException += (_, e) =>
+            {
+                ReportException(e.Exception, "Application.Current.DispatcherUnhandledException");
+                e.Handled = true;
+            };
+            TaskScheduler.UnobservedTaskException += (_, e) =>
+            {
+                ReportException(e.Exception, "TaskScheduler.UnobservedTaskException");
+                e.SetObserved();
+            };
+        }
+        private async void ReportException(Exception exception, string source)
+        {
+            var mainWindowViewModel = GetService<MainWindowViewModel>();
+            if (mainWindowViewModel != null)
+            {
+                mainWindowViewModel.ShowErrorDialog(exception);
+            }
         }
     }
 }

@@ -88,5 +88,11 @@
             Text="{Binding ViewModel.Xauth, Mode=TwoWay}"
             TextChanged="XauthTextBox_OnTextChanged"
             PlaceholderText="XAUTH Token"></ui:TextBox>
+        <ui:TextBox
+            x:Name="EventsTokenBox"
+            Grid.Column="0"
+            Grid.Row="2"
+            TextChanged="EventsToken_OnTextChanged"
+            PlaceholderText="Events Token"></ui:TextBox>
     </Grid>
 </Page>

@@ -21,5 +21,10 @@ namespace XAU.Views.Pages
             HomeViewModel.XAUTH = XauthTextBox.Text;
             SettingsViewModel.ManualXauth = true;
         }
+
+        private void EventsToken_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            AchievementsViewModel.EventsToken = EventsTokenBox.Text;
+        }
     }
 }

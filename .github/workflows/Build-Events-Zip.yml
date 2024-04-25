@@ -1,0 +1,47 @@
+name: Update Events Data
+
+on:
+  push:
+    paths:
+      - 'Events/**'
+    branches:
+      - Main
+
+jobs:
+  zip-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install zip
+        run: sudo apt-get install zip
+
+      - name: Zip Events folder
+        run: zip -r Events.zip Events
+
+      - name: Create meta.json
+        run: |
+            echo '{
+              "Timestamp": '$(date +%s)',
+              "DataVersion": "1.0"
+            }' > meta.json
+
+      - name: Setup Git
+        run: |
+            git config --global user.email "38233332+ItsLogic@users.noreply.github.com"
+            git config --global user.name "Events Data Action"
+
+      - name: Create and switch to new branch
+        run: |
+            git checkout --orphan Events-Data
+            git rm --cached -r .
+
+      - name: Add files to new branch
+        run: |
+            git add Events.zip meta.json
+            git commit -m "Update events data: $(date -u +'%Y-%m-%d %H:%M:%S')"
+
+      - name: Force Push to new branch
+        run: git push --force origin Events-Data
