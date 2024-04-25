@@ -55,6 +55,12 @@ Feel free to join our [Discord server][discord-invite] for updates and discussio
 ## License
 The UI for this program was built on top of the WPF-UI Fluent template as of [this commit](https://github.com/lepoco/wpfui/tree/c8cd75f6f82414a52a94d2a55fe2a21dd5db83d7) which is MIT licensed. Any and all modifications and/or additions to this template are GNU GPL licensed. You can find a copy of the licenses [here][LICENSE] and [here][MIT-LICENSE].
 
+## Sponsors
+Thanks very much to all of my sponsors. Below are messages included as one of the sponsorship rewards
+### ziqnr
+"I have brain damage" - [ziqnr](https://github.com/ziqnr) 2024
+
+
 [contributors-badge]: https://img.shields.io/github/contributors/ItsLogic/Xbox-Achievement-Unlocker?style=for-the-badge
 [contributors-url]: https://github.com/ItsLogic/Xbox-Achievement-Unlocker/graphs/contributors
 [forks-badge]: https://img.shields.io/github/forks/ItsLogic/Xbox-Achievement-Unlocker?style=for-the-badge
