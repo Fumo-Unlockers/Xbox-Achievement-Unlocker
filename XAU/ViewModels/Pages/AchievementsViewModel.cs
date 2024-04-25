@@ -547,13 +547,12 @@ namespace XAU.ViewModels.Pages
                 {
                     Unlockable = true;
                     EventsData = (dynamic)(JObject)data[TitleIDOverride];
-
-                }
-                foreach (var achievement in DGAchievements)
-                {
-                    if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                    foreach (var achievement in DGAchievements)
                     {
-                        achievement.IsUnlockable = true;
+                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                        {
+                            achievement.IsUnlockable = true;
+                        }
                     }
                 }
                 CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
