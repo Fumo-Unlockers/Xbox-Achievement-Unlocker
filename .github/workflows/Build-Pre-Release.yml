@@ -16,7 +16,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
@@ -44,10 +44,6 @@ jobs:
         New-Item -ItemType Directory -Force -Path "${{github.workspace}}/../temp"
         Copy-Item -Path "./publish/XAU.exe" -Destination "${{github.workspace}}/../temp/"
 
-    - name: Checkout Pre-Release branch
-      uses: actions/checkout@v2
-      with:
-        ref: 'Pre-Release'
     - name: Copy .exe file to workspace
       run: |
         Remove-Item -Path "${{github.workspace}}/XAU.exe" -ErrorAction Ignore
@@ -57,10 +53,20 @@ jobs:
       run: |
         echo "{ `"DownloadURL`": `"https://github.com/${{ github.repository }}/raw/Pre-Release/XAU.exe`", `"LatestBuildVersion`": `"${{ steps.get-hash.outputs.hash }}`" }" | Out-File -FilePath info.json
 
-    - name: Commit and push
+    - name: Create and switch to new branch
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Actions"
-        git add info.json XAU.exe
-        git commit -m "Update pre-release version"
-        git push
+          git checkout --orphan Pre-Release
+          git rm -f --cached -r .
+
+    - name: Setup Git
+      run: |
+          git config --global user.email "38233332+ItsLogic@users.noreply.github.com"
+          git config --global user.name "Pre Release Action"    
+
+    - name: Add files to new branch
+      run: |
+          git add XAU.exe info.json
+          git commit -m "Update pre-release version: $(date -u +'%Y-%m-%d %H:%M:%S')"
+      
+    - name: Force Push to new branch
+      run: git push --force origin Pre-Release

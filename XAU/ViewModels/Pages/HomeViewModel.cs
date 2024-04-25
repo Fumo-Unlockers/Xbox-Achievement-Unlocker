@@ -10,6 +10,7 @@ using Wpf.Ui.Common;
 using Newtonsoft.Json;
 using System.Net;
 using System.Collections.ObjectModel;
+using System.IO.Compression;
 
 namespace XAU.ViewModels.Pages
 {
@@ -22,6 +23,7 @@ namespace XAU.ViewModels.Pages
     public partial class HomeViewModel : ObservableObject, INavigationAware
     {
         public static string ToolVersion = "EmptyDevToolVersion";
+        public static string EventsVersion = "EmptyDevEventsVersion";
         //attach vars
         [ObservableProperty] private string _attached = "Not Attached";
         [ObservableProperty] private Brush _attachedColor = new SolidColorBrush(Colors.Red);
@@ -80,6 +82,7 @@ namespace XAU.ViewModels.Pages
         public static bool InitComplete = false;
         private bool _isInitialized = false;
         string SettingsFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "settings.json");
+        string EventsMetaFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "Events", "meta.json");
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         static HttpClientHandler handler = new HttpClientHandler()
         {
@@ -95,7 +98,7 @@ namespace XAU.ViewModels.Pages
         public void OnNavigatedFrom() { }
 
 #region Update
-        private async void CheckForUpdates()
+        private async void CheckForToolUpdates()
         {
             if (ToolVersion == "EmptyDevToolVersion")
                 return;
@@ -109,7 +112,7 @@ namespace XAU.ViewModels.Pages
             {
                 client.DefaultRequestHeaders.Add("Host", "raw.githubusercontent.com");
                 var responseString =
-                    await client.GetStringAsync("https://raw.githubusercontent.com/ItsLogic/Xbox-Achievement-Unlocker/Pre-Release/info.json");
+                    await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Pre-Release/info.json");
                 var Jsonresponse = (dynamic)(new JArray());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
 
@@ -130,7 +133,7 @@ namespace XAU.ViewModels.Pages
                         string sourceFile = Jsonresponse.DownloadURL.ToString();
                         string destFile = @"XAU-new.exe";
                         WebClient webClient = new WebClient();
-                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Update);
+                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(UpdateTool);
                         webClient.DownloadFileAsync(new Uri(sourceFile), destFile);
                     }
                 }
@@ -139,7 +142,7 @@ namespace XAU.ViewModels.Pages
             {
                 client.DefaultRequestHeaders.Add("Host", "api.github.com");
                 var responseString =
-                    await client.GetStringAsync("https://api.github.com/repos/ItsLogic/Xbox-Achievement-unlocker/releases");
+                    await client.GetStringAsync("https://api.github.com/repos/Fumo-Unlockers/Xbox-Achievement-unlocker/releases");
                 var Jsonresponse = (dynamic)(new JArray());
                 Jsonresponse = (dynamic)JArray.Parse(responseString);
                 if (Jsonresponse[0].tag_name.ToString() != ToolVersion)
@@ -159,15 +162,44 @@ namespace XAU.ViewModels.Pages
                         string sourceFile = Jsonresponse[0].assets[0].browser_download_url.ToString();
                         string destFile = @"XAU-new.exe";
                         WebClient webClient = new WebClient();
-                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Update);
+                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(UpdateTool);
                         webClient.DownloadFileAsync(new Uri(sourceFile), destFile);
                     }
                 }
             }
             
         }
+        private async void CheckForEventUpdates()
+        {
+            if (EventsVersion == "EmptyDevEventsVersion")
+                return;
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
+            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
+            client.DefaultRequestHeaders.Add("Accept",
+                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+            client.DefaultRequestHeaders.Add("Host", "raw.githubusercontent.com");
+                var responseString =
+                    await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
+                var Jsonresponse = (dynamic)(new JArray());
+                Jsonresponse = (dynamic)JArray.Parse(responseString);
+                var EventsTimestamp = 0;
+                if (File.Exists(EventsMetaFilePath))
+                {
+                    var metaJson = File.ReadAllText(EventsMetaFilePath);
+                    var meta = JsonConvert.DeserializeObject<dynamic>(metaJson);
+                    EventsTimestamp = meta.Timestamp;
+                }
 
-        private void Update(object sender, AsyncCompletedEventArgs e)
+                if (Jsonresponse.Timestamp > EventsTimestamp && Jsonresponse.DataVersion == EventsVersion)
+                {
+                    _snackbarService.Show("Downloading Events Update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                    UpdateEvents();
+                }
+        }
+
+        private void UpdateTool(object sender, AsyncCompletedEventArgs e)
         {
             var path = Environment.ProcessPath.ToString();
             string[] splitpath = path.Split("\\");
@@ -187,11 +219,46 @@ namespace XAU.ViewModels.Pages
             proc.Start();
             Environment.Exit(0);
         }
+
+        private void UpdateEvents()
+        {
+            string XAUPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU");
+            string backupFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "XAU", "Events", "Backup");
+            Directory.CreateDirectory(backupFolderPath);
+            string eventsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "XAU", "Events");
+            string[] eventFiles = Directory.GetFiles(eventsFolderPath);
+            string[] backupFiles = Directory.GetFiles(backupFolderPath);
+
+            foreach (string file in backupFiles)
+            {
+                File.Delete(file);
+            }
+            foreach (string eventFile in eventFiles)
+            {
+                string fileName = Path.GetFileName(eventFile);
+                string destinationPath = Path.Combine(backupFolderPath, fileName);
+                File.Copy(eventFile, destinationPath, true);
+            }
+
+            string zipUrl = "https://github.com/Fumo-Unlockers/Actions-Test/raw/Events-Data/Events.zip";
+            string zipFilePath = Path.Combine(XAUPath, "Events.zip");
+            string extractPath = XAUPath;
+
+            using (var client = new WebClient())
+            {
+                client.DownloadFile(zipUrl, zipFilePath);
+            }
+            ZipFile.ExtractToDirectory(zipFilePath, extractPath);
+            File.Delete(zipFilePath);
+        }
+
 #endregion
 
         private void InitializeViewModel()
         {
-            CheckForUpdates();
+            CheckForToolUpdates();
             XauthWorker.DoWork += XauthWorker_DoWork;
             XauthWorker.ProgressChanged += XauthWorker_ProgressChanged;
             XauthWorker.RunWorkerCompleted += XauthWorker_RunWorkerCompleted;
@@ -203,6 +270,12 @@ namespace XAU.ViewModels.Pages
                         "XAU")))
                 {
                     Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"));
+                }
+
+                if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        "XAU\\Events")))
+                {
+                    Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU\\Events"));
                 }
                 var defaultSettings = new
                 {
@@ -223,6 +296,7 @@ namespace XAU.ViewModels.Pages
                 }
                 
             }
+            CheckForEventUpdates();
             LoadSettings();
             _isInitialized = true;
             if (Settings.AutoLaunchXboxAppEnabled)
