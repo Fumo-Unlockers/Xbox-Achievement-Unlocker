@@ -182,8 +182,8 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("Host", "raw.githubusercontent.com");
                 var responseString =
                     await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
-                var Jsonresponse = (dynamic)(new JArray());
-                Jsonresponse = (dynamic)JArray.Parse(responseString);
+                var Jsonresponse = (dynamic)(new JObject());
+                Jsonresponse = (dynamic)JObject.Parse(responseString);
                 var EventsTimestamp = 0;
                 if (File.Exists(EventsMetaFilePath))
                 {
@@ -239,10 +239,10 @@ namespace XAU.ViewModels.Pages
             {
                 string fileName = Path.GetFileName(eventFile);
                 string destinationPath = Path.Combine(backupFolderPath, fileName);
-                File.Copy(eventFile, destinationPath, true);
+                File.Move(eventFile, destinationPath, true);
             }
 
-            string zipUrl = "https://github.com/Fumo-Unlockers/Actions-Test/raw/Events-Data/Events.zip";
+            string zipUrl = "https://github.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/raw/Events-Data/Events.zip";
             string zipFilePath = Path.Combine(XAUPath, "Events.zip");
             string extractPath = XAUPath;
 
@@ -252,6 +252,14 @@ namespace XAU.ViewModels.Pages
             }
             ZipFile.ExtractToDirectory(zipFilePath, extractPath);
             File.Delete(zipFilePath);
+            //download and place meta.json in the events folder
+            string MetaURL = "https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json";
+            string MetaFilePath = Path.Combine(eventsFolderPath, "meta.json");
+            using (var client = new WebClient())
+            {
+                client.DownloadFile(MetaURL, MetaFilePath);
+            }
+            _snackbarService.Show("Events Update Complete", "Events have been updated to the latest version.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
         }
 
 #endregion
