@@ -850,7 +850,7 @@ namespace XAU.ViewModels.Pages
                         });
                     }
                 }
-                if (IsEventBased)
+                if (IsEventBased && Unlockable)
                 {
                     foreach (var achievement in DGAchievements)
                     {
@@ -916,7 +916,7 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            if (IsEventBased)
+            if (IsEventBased && Unlockable)
             {
                 foreach (var achievement in DGAchievements)
                 {
