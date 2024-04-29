@@ -4,11 +4,11 @@ on:
   push:
     branches: [ Main ]
     paths-ignore:
-      -'**.md'
-      -'**/ISSUE_TEMPLATE/**'
-      -'**.json'
-      -'.gitignore'
-      -'.gitattributes'
+      - '**.md'
+      - '**/ISSUE_TEMPLATE/**'
+      - '**.json'
+      - '.gitignore'
+      - '.gitattributes'
       
 
 jobs:
