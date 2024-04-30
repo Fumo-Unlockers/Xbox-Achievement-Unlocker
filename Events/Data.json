@@ -6041,7 +6041,7 @@
         }
       },
       "2095867988": {
-        "FullySupported": true,
+        "FullySupported": false,
         "Achievements": {
           "1": {
             "CriteriaReplacement": {
@@ -6542,6 +6542,471 @@
           }
         }
       },
+      "360551610": {
+        "FullySupported": true,
+        "Achievements": {
+          "1": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "1"
+            }
+          },
+          "2": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "2"
+            }
+          },
+          "3": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "3"
+            }
+          },
+          "4": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "4"
+            }
+          },
+          "5": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "5"
+            }
+          },      
+          "6": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "6"
+            }
+          },
+          "7": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "7"
+            }
+          },
+          "8": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "8"
+            }
+          },      
+          "9": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "9"
+            }
+          },
+          "10": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "10"
+            }
+          },
+          "11": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "11"
+            }
+          },
+          "12": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "12"
+            }
+          },
+          "13": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "13"
+            }
+          },
+          "14": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "14"
+            }
+          },
+          "15": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "15"
+            }
+          },
+          "16": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "16"
+            }
+          },
+          "17": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "17"
+            }
+          },
+          "18": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "18"
+            }
+          },
+          "19": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "19"
+            }
+          },
+          "20": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "20"
+            }
+          },
+          "21": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "21"
+            }
+          },
+          "22": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "22"
+            }
+          },
+          "23": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "23"
+            }
+          },
+          "24": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "24"
+            }
+          },
+          "25": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "25"
+            }
+          },
+          "26": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "26"
+            }
+          },
+          "27": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "27"
+            }
+          },
+          "28": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "28"
+            }
+          },
+          "29": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "29"
+            }
+          },
+          "30": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERABTT2",
+              "Replacement": "30"
+            }
+          }
+        }
+      },
+              "513025136": {
+                "FullySupported": true,
+                "Achievements": {
+                  "1": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "1"
+                    }
+                  },
+                  "2": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "2"
+                    }
+                  },
+                  "3": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "3"
+                    }
+                  },
+                  "4": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "4"
+                    }
+                  },
+                  "5": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "5"
+                    }
+                  },      
+                  "6": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "6"
+                    }
+                  },
+                  "7": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "7"
+                    }
+                  },
+                  "8": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "8"
+                    }
+                  },      
+                  "9": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "9"
+                    }
+                  },
+                  "10": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "10"
+                    }
+                  },
+                  "11": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "11"
+                    }
+                  },
+                  "12": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "12"
+                    }
+                  },
+                  "13": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "13"
+                    }
+                  },
+                  "14": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "14"
+                    }
+                  },
+                  "15": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "15"
+                    }
+                  },
+                  "16": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "16"
+                    }
+                  },
+                  "17": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "17"
+                    }
+                  },
+                  "18": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "18"
+                    }
+                  },
+                  "19": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "19"
+                    }
+                  },
+                  "20": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "20"
+                    }
+                  },
+                  "21": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "21"
+                    }
+                  },
+                  "22": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "22"
+                    }
+                  },
+                  "23": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "23"
+                    }
+                  },
+                  "24": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "24"
+                    }
+                  },
+                  "25": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "25"
+                    }
+                  },
+                  "26": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "26"
+                    }
+                  },
+                  "27": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "27"
+                    }
+                  },
+                  "28": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "28"
+                    }
+                  },
+                  "29": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "29"
+                    }
+                  },
+                  "30": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "30"
+                    }
+                  },
+                  "31": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "31"
+                                 }
+                  },
+                  "32": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "32"
+                    }
+                  },
+                  "33": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "33"
+                    }
+                  },
+                  "34": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "34"
+                    }
+                  },
+                  "35": {
+                    "CriteriaReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECRITERAWAUTT",
+                      "Replacement": "35"
+                    }
+                  }
+                }
+              },
 		  
     "SupportedTitleIDs": [
       1144039928,
@@ -6554,6 +7019,8 @@
       832828665,
       1041197334,
       748474487,
-      2095867988
+      2095867988,
+      360551610,
+      513025136
     ]
   }
