@@ -5846,6 +5846,186 @@
           "Replacement": "CityInMotionAchievement"
         }
       },
+      "16": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.CityInMotion2Achievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "CityInMotion2Achievement"
+        }
+      },
+      "17": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.ClimbingTheSocialLadderAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "ClimbingTheSocialLadderAchievement"
+        }
+      },
+      "18": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.UnpopularMayorAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "UnpopularMayorAchievement"
+        }
+      },
+      "19": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.RollingInDoughAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "RollingInDoughAchievement"
+        }
+      },
+      "20": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.FreneticPlayerAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "FreneticPlayerAchievement"
+        }
+      },
+      "21": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.HappyTownAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "HappyTownAchievement"
+        }
+      },
+      "22": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.ToughCityAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "ToughCityAchievement"
+        }
+      },
+      "23": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.FireWatchAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "FireWatchAchievement"
+        }
+      },
+      "24": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.TheSafestTownAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "TheSafestTownAchievement"
+        }
+      },
+      "25": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.ProfessionalDumperAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "ProfessionalDumperAchievement"
+        }
+      },
+      "26": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.EarthlovingCityAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "EarthlovingCityAchievement"
+        }
+      },
+      "27": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.HigherEducationAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "HigherEducationAchievement"
+        }
+      },
+      "28": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.SimulatedCityAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "SimulatedCityAchievement"
+        }
+      },
+      "29": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.SafeCityAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "SafeCityAchievement"
+        }
+      },
+      "30": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.PowerToThePeopleAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "PowerToThePeopleAchievement"
+        }
+      },
       "102": {
         "EventReplacement": {
           "ReplacementType": "Replace",

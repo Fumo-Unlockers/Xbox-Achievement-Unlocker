@@ -9,7 +9,7 @@
             "pgName": "XBOX",
             "flags": 1,
             "epoch": "1",
-            "seq": 1
+            "seq": REPLACESEQ
         },
         "privacy": {
             "dataType": 1,
