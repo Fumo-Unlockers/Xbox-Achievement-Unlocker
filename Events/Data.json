@@ -7007,6 +7007,131 @@
                   }
                 }
               },
+              "927474846": {
+                "FullySupported": false,
+                "Achievements": {
+                  "1": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchDay1Unlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchDay1Unlocked"
+                    }
+                  },
+                  "2": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchDay2Unlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchDay2Unlocked"
+                    }
+                  },
+                  "3": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchDay76Unlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchDay76Unlocked"
+                    }
+                  },
+                  "4": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchDay77Unlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchDay77Unlocked"
+                    }
+                  },
+                  "5": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchDay79Unlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchDay79Unlocked"
+                    }
+                  },
+                  "6": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchCameraUnlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchCameraUnlocked"
+                    }
+                  },
+                  "7": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchProbablyUnlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchProbablyUnlocked"
+                    }
+                  },
+                  "8": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchBeeUnlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchBeeUnlocked"
+                    }
+                  },
+                  "9": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchTurtleUnlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchTurtleUnlocked"
+                    }
+                  },
+                  "10": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchOlShoshoneUnlocked"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "AchOlShoshoneUnlocked"
+                    }
+                  }
+                }
+              },
 		  
     "SupportedTitleIDs": [
       1144039928,
@@ -7021,6 +7146,7 @@
       748474487,
       2095867988,
       360551610,
-      513025136
+      513025136,
+      927474846
     ]
   }
