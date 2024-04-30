@@ -5663,6 +5663,706 @@
               }
             }
           },
+          "748474487": {
+            "FullySupported": false,
+            "Achievements": {  
+              "1": {
+                "EventReplacement": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACCSEEVENT",
+                  "Replacement": "Microsoft.XboxLive.T748474487.PioneerAchievement"
+                },
+                "Replacement1": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACECCSCRITERA",
+                  "Replacement": "PioneerAchievement"
+                }
+              },
+              "2": {
+                "EventReplacement": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACCSEEVENT",
+                  "Replacement": "Microsoft.XboxLive.T748474487.WellInformedAchievement"
+                },
+                "Replacement1": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACECCSCRITERA",
+                  "Replacement": "WellInformedAchievement"
+                }
+              },
+              "3": {
+                "EventReplacement": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACCSEEVENT",
+                  "Replacement": "Microsoft.XboxLive.T748474487.CityPlannerAchievement"
+                },
+                "Replacement1": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACECCSCRITERA",
+                  "Replacement": "CityPlannerAchievement"
+                }
+              },
+              "4": {
+                "EventReplacement": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACCSEEVENT",
+                  "Replacement": "Microsoft.XboxLive.T748474487.LawmakerAchievement"
+                },
+                "Replacement1": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACECCSCRITERA",
+                  "Replacement": "LawmakerAchievement"
+                }
+              },
+              "5": {
+                "EventReplacement": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACCSEEVENT",
+                  "Replacement": "Microsoft.XboxLive.T748474487.PowerAtYourFingertipsAchievement"
+                },
+                "Replacement1": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACECCSCRITERA",
+                  "Replacement": "PowerAtYourFingertipsAchievement"
+                }
+              },
+              "6": {
+                "EventReplacement": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACCSEEVENT",
+                  "Replacement": "Microsoft.XboxLive.T748474487.HeavenlyCityAchievement"
+                },
+                "Replacement1": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACECCSCRITERA",
+                  "Replacement": "HeavenlyCityAchievement"
+                }
+              },
+              "7": {
+                "EventReplacement": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACCSEEVENT",
+                  "Replacement": "Microsoft.XboxLive.T748474487.MedicAchievement"
+                },
+                "Replacement1": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACECCSCRITERA",
+                  "Replacement": "MedicAchievement"
+                }
+              },
+              "8": {
+                "EventReplacement": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACCSEEVENT",
+                  "Replacement": "Microsoft.XboxLive.T748474487.AHugeHadronAchievement"
+                },
+                "Replacement1": {
+                  "ReplacementType": "Replace",
+                  "Target": "REPLACECCSCRITERA",
+                  "Replacement": "AHugeHadronAchievement"
+            }
+          },
+          "9": {
+            "EventReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACCSEEVENT",
+              "Replacement": "Microsoft.XboxLive.T748474487.BeamMeUpAchievement"
+            },
+            "Replacement1": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECCSCRITERA",
+              "Replacement": "BeamMeUpAchievement"
+        }
+      },
+      "10": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.NewEdenAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "NewEdenAchievement"
+        }
+      },
+      "11": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.ShortFuseAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "ShortFuseAchievement"
+        }
+      },
+      "12": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.IWantItAllAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "IWantItAllAchievement"
+        }
+      },
+      "13": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.MetropolisAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "MetropolisAchievement"
+        }
+      },
+      "14": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.DistoryAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "DistoryAchievement"
+        }
+      },
+      "15": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.CityInMotionAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "CityInMotionAchievement"
+        }
+      },
+      "102": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACCSEEVENT",
+          "Replacement": "Microsoft.XboxLive.T748474487.ForForProfitEducationAchievement"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECCSCRITERA",
+          "Replacement": "ForForProfitEducationAchievement"
+            }
+          }
+        }
+      },
+      "2095867988": {
+        "FullySupported": true,
+        "Achievements": {
+          "1": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "1"
+            }
+          },
+          "2": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "2"
+            }
+          },
+          "3": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "3"
+            }
+          },
+          "4": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "4"
+            }
+          },
+          "5": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "5"
+            }
+          },
+                "6": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "6"
+            }
+          },
+		            "7": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "7"
+            }
+          },
+		            "8": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "8"
+            }
+          },
+		            "9": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "9"
+            }
+          },
+		            "10": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "10"
+            }
+          },
+		            "11": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "11"
+            }
+          },
+		            "12": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "12"
+            }
+          },
+		            "13": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "13"
+            }
+          },
+		            "14": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "14"
+            }
+          },
+		            "15": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "15"
+            }
+          },
+          "16": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "16"
+            }
+          },
+		            "17": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "17"
+            }
+          },
+		            "18": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "18"
+            }
+          },
+		            "19": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "19"
+            }
+          },
+		            "20": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "20"
+            }
+          },
+		            "21": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "21"
+            }
+          },
+		            "22": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "22"
+            }
+          },
+		            "23": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "23"
+            }
+          },
+		            "24": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "24"
+            }
+          },
+		            "25": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "25"
+            }
+          },
+          "26": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "26"
+            }
+          },
+		            "27": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "27"
+            }
+          },
+		            "28": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "28"
+            }
+          },
+		            "29": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "29"
+            }
+          },
+		            "30": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "30"
+            }
+          },
+		            "31": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "31"
+            }
+          },
+		            "32": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "32"
+            }
+          },
+		            "33": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "33"
+            }
+          },
+		            "34": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "34"
+            }
+          },
+		            "35": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "35"
+            }
+          },
+          "36": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "36"
+            }
+          },
+		            "37": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "37"
+            }
+          },
+		            "38": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "38"
+            }
+          },
+		            "39": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "39"
+            }
+          },
+		            "40": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "40"
+            }
+          },
+		            "41": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "41"
+            }
+          },
+		            "42": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "42"
+            }
+          },
+		            "43": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "43"
+            }
+          },
+		            "44": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "44"
+            }
+          },
+		            "45": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "45"
+            }
+          },
+          "46": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "46"
+            }
+          },
+		            "47": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "47"
+            }
+          },
+		            "48": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "48"
+            }
+          },
+		            "49": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "49"
+            }
+          },
+		            "50": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "50"
+            }
+          },
+		            "51": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "51"
+            }
+          },
+		            "52": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "52"
+            }
+          },
+		            "53": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "53"
+            }
+          },
+		            "54": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "54"
+            }
+          },
+		            "55": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "55"
+            }
+          },
+          "56": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "56"
+            }
+          },
+		            "57": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "57"
+            }
+          },
+		            "58": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "58"
+            }
+          },
+		            "59": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "59"
+            }
+          },
+		            "60": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "60"
+            }
+          },
+		            "61": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "61"
+            }
+          },
+		            "62": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "62"
+            }
+          },
+		            "63": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "63"
+            }
+          },
+		            "64": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "64"
+            }
+          },
+		            "65": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "65"
+            }
+          },
+          "66": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "66"
+            }
+          },
+		            "67": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "67"
+            }
+          },
+		            "68": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "68"
+            }
+          },
+		            "69": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "69"
+            }
+          },
+		            "70": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "70"
+            }
+          },
+		            "71": {
+            "CriteriaReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACECRITERAEW1",
+              "Replacement": "71"
+            }
+          }
+        }
+      },
+		  
     "SupportedTitleIDs": [
       1144039928,
       552499398,
@@ -5672,7 +6372,8 @@
       849609009,
       148376670,
       832828665,
-      1041197334
-
+      1041197334,
+      748474487,
+      2095867988
     ]
   }
