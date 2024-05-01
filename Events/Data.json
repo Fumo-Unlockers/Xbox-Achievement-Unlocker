@@ -8910,7 +8910,7 @@
       }
     },  
     "651668093": {
-    "FullySupported": false,
+    "FullySupported": true,
     "Achievements": {
     "2": {
     "EventReplacement": {
@@ -9356,19 +9356,258 @@
     "Replacement": "Achievement_37"
   }
   },
-  "48": {
+  "42": {
     "EventReplacement": {
     "ReplacementType": "Replace",
     "Target": "REPLACEEVENTRE7",
-    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_48"
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_01"
   },
     "Replacement1": {
     "ReplacementType": "Replace",
     "Target": "REPLACECCRITERARE7Ach",
-    "Replacement": "Achievement_48"
+    "Replacement": "Achievement_chp7_01"
+  }
+  },
+  "43": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_02"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_02"
+  }
+  },
+  "44": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_03"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_03"
+  }
+  },
+  "45": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_04"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_04"
+  }
+  },
+  "46": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_05"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_05"
+  }
+  },
+  "47": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_06"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_06"
+  }
+  },
+  "48": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_07"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_07"
+  }
+  },
+  "49": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_08"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_08"
+  }
+  },
+  "50": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_09"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_09"
+  }
+  },
+  "51": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_10"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_10"
+  }
+  },
+  "52": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_11"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_11"
+  }
+  },
+  "53": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_12"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_12"
+  }
+  },
+  "54": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp7_13"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp7_13"
+  }
+  },  
+  "57": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp9_01"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp9_01"
+  }
+  },
+  "58": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp9_02"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp9_02"
+  }
+  },
+  "60": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp9_03"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp9_03"
+  }
+  },
+  "61": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp9_04"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp9_04"
+  }
+  },
+  "62": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp9_05"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp9_05"
+  }
+  },
+  "63": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp9_06"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp9_06"
+  }
+  },
+  "64": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp8_01"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp8_01"
+  }
+  },
+  "65": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_chp8_02"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_chp8_02"
   }
   }
-  
 }
 },  
     "SupportedTitleIDs": [
