@@ -7086,12 +7086,12 @@
                     "EventReplacement": {
                       "ReplacementType": "Replace",
                       "Target": "REPLACEEVENTFW",
-                      "Replacement": "Microsoft.XboxLive.T927474846.AchProbablyUnlocked"
+                      "Replacement": "Microsoft.XboxLive.T927474846.AchRabiesUnlocked"
                     },
                     "Replacement1": {
                       "ReplacementType": "Replace",
                       "Target": "REPLACECCRITERAFireWat",
-                      "Replacement": "AchProbablyUnlocked"
+                      "Replacement": "AchRabiesUnlocked"
                     }
                   },
                   "8": {
@@ -7132,6 +7132,35 @@
                   }
                 }
               },
+              "651668093": {
+                "FullySupported": false,
+                "Achievements": {
+                  "1": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTFW",
+                      "Replacement": "Microsoft.XboxLive.T651668093.Achievement_01"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERAFireWat",
+                      "Replacement": "Achievement_01"
+                    }
+                  },
+                  "2": {
+                    "EventReplacement": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACEEVENTRE7",
+                      "Replacement": "Microsoft.XboxLive.T651668093.Achievement_02"
+                    },
+                    "Replacement1": {
+                      "ReplacementType": "Replace",
+                      "Target": "REPLACECCRITERARE7Ach",
+                      "Replacement": "Achievement_02"
+                    }
+                  }
+                }
+              },
 		  
     "SupportedTitleIDs": [
       1144039928,
@@ -7147,6 +7176,7 @@
       2095867988,
       360551610,
       513025136,
-      927474846
+      927474846,
+      651668093
     ]
   }
