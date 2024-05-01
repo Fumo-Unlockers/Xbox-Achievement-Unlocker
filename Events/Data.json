@@ -8224,72 +8224,1153 @@
                   }
                 }
               },
-              "651668093": {
-                "FullySupported": false,
+              "2109344129": {
+                "FullySupported": true,
                 "Achievements": {
-                  "2": {
-                    "EventReplacement": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACEEVENTFW",
-                      "Replacement": "Microsoft.XboxLive.T651668093.Achievement_01"
+                    "1": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "1"
+                      }
                     },
-                    "Replacement1": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACECCRITERAFireWat",
-                      "Replacement": "Achievement_01"
-                    }
-                  },
-                  "3": {
-                    "EventReplacement": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACEEVENTRE7",
-                      "Replacement": "Microsoft.XboxLive.T651668093.Achievement_02"
+                    "2": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "2"
+                      }
                     },
-                    "Replacement1": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACECCRITERARE7Ach",
-                      "Replacement": "Achievement_02"
-                    }
-                  },
-                  "4": {
-                    "EventReplacement": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACEEVENTRE7",
-                      "Replacement": "Microsoft.XboxLive.T651668093.Achievement_03"
+                    "3": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "3"
+                      }
                     },
-                    "Replacement1": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACECCRITERARE7Ach",
-                      "Replacement": "Achievement_03"
-                    }
-                  },
-                  "5": {
-                    "EventReplacement": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACEEVENTRE7",
-                      "Replacement": "Microsoft.XboxLive.T651668093.Achievement_04"
+                    "4": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "4"
+                      }
                     },
-                    "Replacement1": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACECCRITERARE7Ach",
-                      "Replacement": "Achievement_04"
-                    }
-                  },
-                  "6": {
-                    "EventReplacement": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACEEVENTRE7",
-                      "Replacement": "Microsoft.XboxLive.T651668093.Achievement_05"
+                    "5": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "5"
+                      }
                     },
-                    "Replacement1": {
-                      "ReplacementType": "Replace",
-                      "Target": "REPLACECCRITERARE7Ach",
-                      "Replacement": "Achievement_05"
+                    "6": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "6"
+                      }
+                    },
+                    "7": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "7"
+                      }
+                    },
+                    "8": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "8"
+                      }
+                    },
+                    "9": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "9"
+                      }
+                    },
+                    "10": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "10"
+                      }
+                    },
+                    "11": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "11"
+                      }
+                    },
+                    "12": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "12"
+                      }
+                    },
+                    "13": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "13"
+                      }
+                    },
+                    "14": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "14"
+                      }
+                    },
+                    "15": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "15"
+                      }
+                    },
+                    "16": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "16"
+                      }
+                    },
+                    "17": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "17"
+                      }
+                    },
+                    "18": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "18"
+                      }
+                    },
+                    "19": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "19"
+                      }
+                    },
+                    "20": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "20"
+                      }
+                    },
+                    "21": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "21"
+                      }
+                    },
+                    "22": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "22"
+                      }
+                    },
+                    "23": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "23"
+                      }
+                    },
+                    "24": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "24"
+                      }
+                    },
+                    "25": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "25"
+                      }
+                    },
+                    "26": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "26"
+                      }
+                    },
+                    "27": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "27"
+                      }
+                    },
+                    "28": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "28"
+                      }
+                    },
+                    "29": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "29"
+                      }
+                    },
+                    "30": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "30"
+                      }
+                    },
+                    "31": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "31"
+                      }
+                    },
+                    "32": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "32"
+                      }
+                    },
+                    "33": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "33"
+                      }
+                    },
+                    "34": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "34"
+                      }
+                    },
+                    "35": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "35"
+                      }
+                    },
+                    "36": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "36"
+                      }
+                    },
+                    "37": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "37"
+                      }
+                    },
+                    "38": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "38"
+                      }
+                    },
+                    "39": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "39"
+                      }
+                    },
+                    "40": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "40"
+                      }
+                    },
+                    "41": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "41"
+                      }
+                    },
+                    "42": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "42"
+                      }
+                    },
+                    "43": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "43"
+                      }
+                    },
+                    "44": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "44"
+                      }
+                    },
+                    "45": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "45"
+                      }
+                    },
+                    "46": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "46"
+                      }
+                    },
+                    "47": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "47"
+                      }
+                    },
+                    "48": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "48"
+                      }
+                    },
+                    "49": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "49"
+                      }
+                    },
+                    "50": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "50"
+                      }
+                    },
+                    "51": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "51"
+                      }
+                    },
+                    "52": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "52"
+                      }
+                    },
+                    "53": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "53"
+                      }
+                    },
+                    "54": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "54"
+                      }
+                    },
+                    "55": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "55"
+                      }
+                    },
+                    "56": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "56"
+                      }
+                    },
+                    "57": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "57"
+                      }
+                    },
+                    "58": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "58"
+                      }
+                    },
+                    "59": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "59"
+                      }
+                    },
+                    "60": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "60"
+                      }
+                    },
+                    "61": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "61"
+                      }
+                    },
+                    "62": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "62"
+                      }
+                    },
+                    "63": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "63"
+                      }
+                    },
+                    "64": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "64"
+                      }
+                    },
+                    "65": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "65"
+                      }
+                    },
+                    "66": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "66"
+                      }
+                    },
+                    "67": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "67"
+                      }
+                    },
+                    "68": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "68"
+                      }
+                    },
+                    "69": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "69"
+                      }
+                    },
+                    "70": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "70"
+                      }
+                    },
+                    "71": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "71"
+                      }
+                    },
+                    "72": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "72"
+                      }
+                    },
+                    "73": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "73"
+                      }
+                    },
+                    "74": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "74"
+                      }
+                    },
+                    "75": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "75"
+                      }
+                    },
+                    "76": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "76"
+                      }
+                    },
+                    "77": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "77"
+                      }
+                    },
+                    "78": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "78"
+                      }
+                    },
+                    "79": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "79"
+                      }
+                    },
+                    "80": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "80"
+                      }
+                    },
+                    "81": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "81"
+                      }
+                    },
+                    "82": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "82"
+                      }
+                    },
+                    "83": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "83"
+                      }
+                    },
+                    "84": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "84"
+                      }
+                    },
+                    "85": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "85"
+                      }
+                    },
+                    "86": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "86"
+                      }
+                    },
+                    "87": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "87"
+                      }
+                    },
+                    "100": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "97"
+                      }
+                    },
+                    "98": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "95"
+                      }
+                    },
+                    "99": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "96"
+                      }
+                    },
+                    "91": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "88"
+                      }
+                    },
+                    "92": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "89"
+                      }
+                    },
+                    "93": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "90"
+                      }
+                    },
+                    "94": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "91"
+                      }
+                    },
+                    "95": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "92"
+                      }
+                    },
+                    "96": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "93"
+                      }
+                    },
+                    "97": {
+                      "CriteriaReplacement": {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECCRITERAFFXV",
+                        "Replacement": "94"
+                      }
                     }
-                  }
-                }
-              },
-		  
+
+      }
+    },  
+    "651668093": {
+    "FullySupported": false,
+    "Achievements": {
+    "2": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_01"
+    },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_01"
+    }
+    },    
+    "3": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_02"
+    },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_02"
+    }
+    },
+    "4": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_03"
+    },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_03"
+    }
+    },
+    "5": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_04"
+    },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_04"
+    }
+    },
+    "6": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_05"
+    },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_05"
+    }
+  },
+    "7": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_06"
+    },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_06"
+    }
+    },
+    "8": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_07"
+    },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_07"
+    }
+    },
+    "9": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_08"
+    },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_08"
+    }
+    },
+    "10": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_09"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_09"
+  }
+  },
+  "11": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_10"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_10"
+  }
+  },
+  "12": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_11"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_11"
+  }
+  },
+  "13": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_12"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_12"
+  }
+  },
+  "14": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_13"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_13"
+  }
+  },
+  "15": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_14"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_14"
+  }
+  },
+  "16": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_15"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_15"
+  }
+  },
+  "17": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_16"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_16"
+  }
+  },
+  "18": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_17"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_17"
+  }
+  },
+  "19": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_18"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_18"
+  }
+  },
+  "20": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_19"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_19"
+  }
+  },
+  "21": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_20"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_20"
+  }
+  },
+  "22": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_21"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_21"
+  }
+  },
+  "23": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_22"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_22"
+  }
+  },
+  "24": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_23"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_23"
+  }
+  },
+  "25": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_24"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_24"
+  }
+  },
+  "26": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_25"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_25"
+  }
+  },
+  "27": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_26"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_26"
+  }
+  },
+  "28": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_27"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_27"
+  }
+  },
+  "29": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_28"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_28"
+  }
+  },
+  "30": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_29"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_29"
+  }
+  },
+  "31": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_30"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_30"
+  }
+  },
+  "32": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_31"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_31"
+  }
+  },
+  "33": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_32"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_32"
+  }
+  },
+  "34": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_33"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_33"
+  }
+  },
+  "35": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_34"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_34"
+  }
+  },
+  "36": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_35"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_35"
+  }
+  },
+  "37": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_36"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_36"
+  }
+  },
+  "38": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_37"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_37"
+  }
+  },
+  "48": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTRE7",
+    "Replacement": "Microsoft.XboxLive.T651668093.Achievement_48"
+  },
+    "Replacement1": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACECCRITERARE7Ach",
+    "Replacement": "Achievement_48"
+  }
+  }
+  
+}
+},  
     "SupportedTitleIDs": [
       1144039928,
       552499398,
@@ -8305,6 +9386,7 @@
       360551610,
       513025136,
       927474846,
-      651668093
+      651668093,
+      2109344129
     ]
   }
