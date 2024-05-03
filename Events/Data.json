@@ -7133,7 +7133,7 @@
         }
       },
 "2095867988": {
-        "FullySupported": false,
+        "FullySupported": true,
         "Achievements": {
           "1": {
             "CriteriaReplacement": {
@@ -10175,6 +10175,2078 @@
     }
   }
 },
+"981972052": {
+  "FullySupported": false,
+"Achievements": {  
+"9": {
+    "EventReplacement": {
+    "ReplacementType": "Replace",
+    "Target": "REPLACEEVENTFMAP",
+    "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "3994"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "670000"
+},
+"Replacement15": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACECCRITERAFMAPSRC",
+  "Replacement": "0"
+},
+ "Replacement16": {
+ "ReplacementType": "Replace",
+ "Target": "REPLACECCRITERAFMAPSLO",
+ "Replacement": "1"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "91.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"26": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "0"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "47"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "50000000"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"27": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "0"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "50"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"14": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "0"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "80468"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "50"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"15": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "0"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "160936"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"16": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "1"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"28": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "5"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"22": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "1"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"21": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "10"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"17": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "30"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"18": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "60"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "1"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "1.653488159179688"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "1"
+}
+},
+"10": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2363"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "3"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "13"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "3"
+}
+},
+"12": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "1651"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "3"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "13"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "3"
+}
+},
+"11": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "1668"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "3"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "13"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "3"
+}
+},
+"19": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "1651"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "9"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "850"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "0"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "13"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "9"
+}
+},
+"13": {
+  "EventReplacement": {
+  "ReplacementType": "Replace",
+  "Target": "REPLACEEVENTFMAP",
+  "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+},
+"Replacement1": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNAME",
+"Replacement": "RaceEnd"
+},
+"Replacement2": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPBRH",
+"Replacement": "0"
+},
+"Replacement3": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCID",
+"Replacement": "2164"
+},
+"Replacement4": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCOH",
+"Replacement": "1"
+},
+"Replacement5": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPCO",
+"Replacement": "0"
+},
+"Replacement6": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDLID",
+"Replacement": "0"
+},
+"Replacement7": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPDL",
+"Replacement": "0"
+},
+"Replacement8": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPESID",
+"Replacement": "0"
+},
+"Replacement9": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPGPMID",
+"Replacement": "3"
+},
+"Replacement10": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPME",
+"Replacement": "0"
+},
+"Replacement11": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPNOO",
+"Replacement": "15"
+},
+"Replacement12": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPPSE",
+"Replacement": "0"
+},
+"Replacement13": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPRP",
+"Replacement": "0"
+},
+"Replacement15": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSRC",
+"Replacement": "0"
+},
+"Replacement16": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSLO",
+"Replacement": "0"
+},
+"Replacement17": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTID",
+"Replacement": "530"
+},
+"Replacement18": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPTKS",
+"Replacement": "2"
+},
+"Replacement19": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPVID",
+"Replacement": "0"
+},
+"Replacement20": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAPSpeed",
+"Replacement": "13"
+},
+"Replacement21": {
+"ReplacementType": "Replace",
+"Target": "REPLACECCRITERAFMAGM",
+"Replacement": "3"
+}
+}
+}
+},
+"2014650813": {
+  "FullySupported": true,
+  "Achievements": {
+    "1": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "1"
+      }
+    },
+    "2": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "2"
+      }
+    },
+    "3": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "3"
+      }
+    },
+    "4": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "4"
+      }
+    },
+    "5": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "5"
+      }
+    },      
+    "6": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "6"
+      }
+    },
+    "7": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "7"
+      }
+    },
+    "8": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "8"
+      }
+    },      
+    "9": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "9"
+      }
+    },
+    "10": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "10"
+      }
+    },
+    "11": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "11"
+      }
+    },
+    "12": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "12"
+      }
+    },
+    "13": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "13"
+      }
+    },
+    "14": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "14"
+      }
+    },
+    "15": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "15"
+      }
+    },
+    "16": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "16"
+      }
+    },
+    "17": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "17"
+      }
+    },
+    "18": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "18"
+      }
+    },
+    "19": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "19"
+      }
+    },
+    "20": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "20"
+      }
+    },
+    "21": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "21"
+      }
+    },
+    "22": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "22"
+      }
+    },
+    "23": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "23"
+      }
+    },
+    "24": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "24"
+      }
+    },
+    "25": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "25"
+      }
+    },
+    "26": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "26"
+      }
+    },
+    "27": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "27"
+      }
+    },
+    "28": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "28"
+      }
+    },
+    "29": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "29"
+      }
+    },
+    "30": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "30"
+      }
+    },
+    "31": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "31"
+      }
+    },
+    "32": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "32"
+      }
+    },
+    "33": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "33"
+      }
+    },
+    "34": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "34"
+      }
+    },
+    "35": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "35"
+      }
+    },
+    "36": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "36"
+      }
+    },
+    "37": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "37"
+      }
+    },
+    "38": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "38"
+      }
+    },
+    "39": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "39"
+      }
+    },
+    "40": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "40"
+      }
+    },
+    "41": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "41"
+      }
+    },
+    "42": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "42"
+      }
+    },
+    "43": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "42"
+      }
+    },
+    "44": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "44"
+      }
+    },
+    "45": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "45"
+      }
+    },
+    "46": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "46"
+      }
+    },
+    "47": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "47"
+      }
+    },      
+    "48": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "48"
+      }
+    },
+    "49": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "49"
+      }
+    },
+    "50": {
+      "CriteriaReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACECRITERAMCTT1XB",
+        "Replacement": "50"
+      }
+    }
+ }
+},
     "SupportedTitleIDs": [
       1144039928,
       552499398,
@@ -10192,6 +12264,7 @@
       927474846,
       651668093,
       2109344129,
-      1627819535
+      1627819535,
+      981972052
     ]
   }
