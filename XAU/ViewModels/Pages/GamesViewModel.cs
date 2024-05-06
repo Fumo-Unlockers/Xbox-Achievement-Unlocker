@@ -1,392 +1,280 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.DirectoryServices;
-using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using XAU.ViewModels.Windows;
+using XAU.Models;
 using XAU.Views.Pages;
-using XAU.Views.Windows;
-using MessageBox = Wpf.Ui.Controls.MessageBox;
 
+namespace XAU.ViewModels.Pages;
 
-namespace XAU.ViewModels.Pages
+public partial class GamesViewModel(ISnackbarService snackbarService, INavigationService navigationService)
+    : ObservableObject, INavigationAware
 {
-    public partial class GamesViewModel : ObservableObject, INavigationAware, INotifyPropertyChanged
+    [ObservableProperty] 
+    private long _xuidOverride;
+    
+    [ObservableProperty] 
+    private ObservableCollection<Game> _games = [];
+    
+    [ObservableProperty] 
+    private string _searchLabel = "Search 0 Games";
+    
+    [ObservableProperty] 
+    private ObservableCollection<string> _searchGameNames = [];
+
+    [ObservableProperty]
+    private bool _isLoadingVisible = true;
+
+    [ObservableProperty] 
+    private string _loadingText = string.Empty;
+    
+    [ObservableProperty]
+    private bool _isGamesListVisible;
+    
+    [ObservableProperty] 
+    private string _searchText = "";
+    
+    [ObservableProperty] 
+    private Dictionary<string, string> _filterOptions = new()
     {
-        [ObservableProperty] private string _xuidOverride = "0";
-        [ObservableProperty] private ObservableCollection<Game> _games = new ObservableCollection<Game>();
-        [ObservableProperty] private ObservableCollection<Game> _gamesPaged = new ObservableCollection<Game>();
-        [ObservableProperty] private string _searchLabel = "Search 0 Games";
-        [ObservableProperty] private GridLength _gamesListHeight = new GridLength(0, GridUnitType.Star);
-        [ObservableProperty] private GridLength _loadingHeight = new GridLength(1, GridUnitType.Star);
-        [ObservableProperty] private double _loadingSize = 200;
-        [ObservableProperty] private string _searchText = "";
-        [ObservableProperty] private List<string> _filterOptions = new List<string>() { "All", "Xbox One/Series", "PC", "Xbox 360", "Win32"};
-        [ObservableProperty] private int _filterIndex = 0;
-        [ObservableProperty] private int _numPages = 0;
-        [ObservableProperty] private ObservableCollection<string> _pageOptions = new ObservableCollection<string>();
-        [ObservableProperty] private int _currentPage = 0;
-        [ObservableProperty] private bool _isInitialized = false;
+        { "All", "all" },
+        { "Xbox One", "xboxone" },
+        { "Xbox Series", "xboxseries" },
+        { "PC", "pc" }, 
+        { "Xbox 360", "xbox360" }, 
+        { "Win32", "win32" }
+    };
+    
+    [ObservableProperty]
+    private int _filterIndex;
+    
+    [ObservableProperty] 
+    private bool _isInitialized;
 
-        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+    private string _currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
 
-        static HttpClientHandler handler = new HttpClientHandler()
+    private static readonly HttpClientHandler Handler = new()
+    {
+        AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
+    };
+
+    private readonly HttpClient _client = new(Handler);
+    private dynamic _gamesResponse = new JObject();
+
+    public void OnNavigatedTo()
+    {
+        if (!IsInitialized && HomeViewModel.InitComplete)
         {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
-        };
-
-        HttpClient client = new HttpClient(handler);
-        dynamic GamesResponse = (dynamic)(new JObject());
-        public bool PageReset = true;
-
-
-        public class Game
-        {
-            public string Title { get; set; }
-            public string Image { get; set; }
-            public string Gamerscore { get; set; }
-            public string CurrentAchievements { get; set; }
-            public string Progress { get; set; }
-            public string Index { get; set; }
-
+            InitializeViewModel();
         }
+    }
 
-        private string XAUTH = HomeViewModel.XAUTH;
+    public void OnNavigatedFrom()
+    {
+    }
+
+    private async void InitializeViewModel()
+    {
+        if (!long.TryParse(HomeViewModel.XUIDOnly, out var parsedResult))
+        {
+            snackbarService.Show(
+                "Error",
+                "Invalid XUID.",
+                ControlAppearance.Danger,
+                new SymbolIcon(SymbolRegular.ErrorCircle24),
+                TimeSpan.FromSeconds(3)
+            );
+            return;
+        }
         
-
-        public GamesViewModel(ISnackbarService snackbarService)
+        XuidOverride = parsedResult;
+        await GetGamesList();
+        IsInitialized = true;
+        if (HomeViewModel.Settings.RegionOverride)
         {
-            _snackbarService = snackbarService;
-            _contentDialogService = new ContentDialogService();
-        }
-
-        private readonly IContentDialogService _contentDialogService;
-        private readonly ISnackbarService _snackbarService;
-        private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
-
-        public void OnNavigatedTo()
-        {
-
-            if (!IsInitialized && HomeViewModel.InitComplete)
-                InitializeViewModel();
-        }
-
-        public void OnNavigatedFrom()
-        {
-        }
-
-        private void InitializeViewModel()
-        {
-            XuidOverride = HomeViewModel.XUIDOnly;
-            GetGamesList();
-            IsInitialized = true;
-            if (HomeViewModel.Settings.RegionOverride)
-                currentSystemLanguage = "en-GB";
-
-        }
-
-        [RelayCommand]
-        private async void GetGamesList()
-        {
-            Games.Clear();
-            GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add("Host", "titlehub.xboxlive.com");
-            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-            var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + XuidOverride + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
-            GamesResponse = (dynamic)JObject.Parse(responseString);
-            LoadGames();
-          }
-
-        private async void LoadGames()
-        {
-            if (SearchText.Length > 0)
-            {
-                SearchAndFilterGames();
-            }
-            else
-            {
-                FilterGames();
-            }
-        }
-        public async void OpenAchievements(string index)
-        {
-            AchievementsViewModel.TitleID = GamesResponse.titles[int.Parse(index)].titleId.ToString();
-            AchievementsViewModel.IsSelectedGame360 = GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Xbox360") || GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Mobile");
-            AchievementsViewModel.NewGame = true;
-            MainWindow.MainNavigationService.Navigate(typeof(AchievementsPage));
-        }
-        [RelayCommand]
-        public async void SearchAndFilterGames()
-        {
-            if (SearchText.Length==0)
-            {
-                _snackbarService.Show("Error", $"Please Enter Query Text", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                return;
-            }
-
-            Games.Clear();
-            GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
-
-            if (FilterIndex != 0)
-            {
-                switch (FilterIndex)
-                {
-                    case 1:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
-                        {
-                            dynamic title = GamesResponse.titles[i];
-                            if (title.devices.ToString().Contains("XboxSeries") || title.devices.ToString().Contains("XboxOne"))
-                            {
-                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            }
-                        }
-                        break;
-                    case 2:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
-                        {
-                            dynamic title = GamesResponse.titles[i];
-                            if (title.devices.ToString().Contains("PC"))
-                            {
-                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            }
-                        }
-                        break;
-                    case 3:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
-                        {
-                            dynamic title = GamesResponse.titles[i];
-                            if (title.devices.ToString().Contains("Xbox360"))
-                            {
-                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            }
-                        }
-                        break;
-                    case 4:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
-                        {
-                            dynamic title = GamesResponse.titles[i];
-                            if (title.devices.ToString().Contains("Win32"))
-                            {
-                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            };
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < GamesResponse.titles.Count; i++)
-                {
-                    dynamic title = GamesResponse.titles[i];
-                    if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
-                        continue;
-                    AddGame(i);
-
-                }
-            }
-
-            await Task.Run(() => LoadingEnd());
-            SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
-            if (Games.Count() == 0)
-            {
-                _snackbarService.Show("Error", $"No Games Found", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                NumPages = 0;
-                return;
-            }
-            NumPages = (int)Math.Ceiling(Games.Count / 252.0);
-            PageReset = true;
-            PageOptions.Clear();
-            for (int i = 1; i <= NumPages; i++)
-            {
-                PageOptions.Add(i.ToString());
-            }
-            PageReset = true;
-            CurrentPage = 0;
-            GamesPaged.Clear();
-            for (int i = ((252 * CurrentPage)); i < (252*(CurrentPage+1)); i++)
-            {
-                if (Games.Count > i)
-                {
-                    GamesPaged.Add(Games[i]);
-                }
-            }
-        }
-
-        [RelayCommand]
-        public async void FilterGames()
-        {
-            if (!_isInitialized)
-            {
-                return;
-            }
-
-            if (SearchText.Length > 0)
-            {
-                SearchAndFilterGames();
-                return;
-            }
-            GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
-            Games.Clear();
-            if (FilterIndex != 0)
-            {
-                switch (FilterIndex)
-                {
-                    case 1:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
-                        {
-                            dynamic title = GamesResponse.titles[i];
-                            if (title.devices.ToString().Contains("XboxSeries") || title.devices.ToString().Contains("XboxOne"))
-                                AddGame(i);
-                        }
-                        break;
-                    case 2:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
-                        {
-                            dynamic title = GamesResponse.titles[i];
-                            if (title.devices.ToString().Contains("PC"))
-                                AddGame(i);
-                        }
-                        break;
-                    case 3:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
-                        {
-                            dynamic title = GamesResponse.titles[i];
-                            if (title.devices.ToString().Contains("Xbox360"))
-                                AddGame(i);
-                        }
-                        break;
-                    case 4:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
-                        {
-                            dynamic title = GamesResponse.titles[i];
-                            if (title.devices.ToString().Contains("Win32"))
-                                AddGame(i);
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < GamesResponse.titles.Count; i++)
-                {
-                    AddGame(i);
-                }
-            }
-
-            await Task.Run(() => LoadingEnd());
-            SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
-            if (Games.Count() == 0)
-            {
-                _snackbarService.Show("Error", $"No Games Found", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                NumPages = 0;
-                return;
-            }
-            NumPages = (int)Math.Ceiling(Games.Count / 252.0);
-            PageReset = true;
-            PageOptions.Clear();
-            for (int i = 1; i <= NumPages; i++)
-            {
-                PageOptions.Add(i.ToString());
-            }
-            PageReset = true;
-            CurrentPage = 0;
-            GamesPaged.Clear();
-            for (int i = ((252 * CurrentPage)); i < (252 * (CurrentPage+1)); i++)
-            {
-                if (Games.Count > i)
-                {
-                    GamesPaged.Add(Games[i]);
-                }
-            }
-        }
-
-        private void AddGame(int index)
-        {
-            dynamic title = GamesResponse.titles[index];
-            var EditedImage = title.displayImage.ToString();
-            if (EditedImage.Contains("store-images.s-microsoft.com"))
-            {
-                EditedImage = EditedImage + "?w=256&h=256&format=jpg";
-            }
-            Games.Add(new Game()
-            {
-                Title = title.name.ToString(),
-                CurrentAchievements = title.achievement.currentAchievements.ToString(),
-                Gamerscore = title.achievement.currentGamerscore.ToString() + "/" +
-                             title.achievement.totalGamerscore.ToString(),
-                Progress = title.achievement.progressPercentage.ToString(),
-                Image = EditedImage, //"pack://application:,,,/Assets/cirno.png", //
-                Index = index.ToString()
-            });
-        }
-
-        [RelayCommand]
-        public async void PageChanged()
-        {
-            if (PageReset)
-            {
-                PageReset = false;
-                return;
-            }
-            GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
-            for (int i = ((252 * (CurrentPage))); i < (252 * (CurrentPage+1)); i++)
-            {
-                if (Games.Count > i)
-                {
-                    GamesPaged.Add(Games[i]);
-                }
-            }
-            await Task.Run(() => LoadingEnd());
-        }
-
-        public async void LoadingStart()
-        {
-            LoadingSize = 200;
-            GamesListHeight = new GridLength(0, GridUnitType.Star);
-            LoadingHeight = new GridLength(1, GridUnitType.Star);
-        }
-
-        public async void LoadingEnd()
-        {
-            GamesListHeight = new GridLength(1, GridUnitType.Star);
-            LoadingHeight = new GridLength(0, GridUnitType.Star);
-            LoadingSize = 0;
-        }
-
-        public void CopyToClipboard(string index)
-        {
-            var titleid = GamesResponse.titles[int.Parse(index)].titleId.ToString();
-            var title = GamesResponse.titles[int.Parse(index)].name.ToString();
-            Clipboard.SetDataObject(GamesResponse.titles[int.Parse(index)].titleId.ToString());
-            _snackbarService.Show("TitleID Copied", $"Copied the title ID of {title.ToString()} to clipboard\nTitleID: {titleid.ToString()}", ControlAppearance.Success, new SymbolIcon(SymbolRegular.ClipboardCheckmark24), _snackbarDuration);
+            _currentSystemLanguage = "en-GB";
         }
     }
     
+    [RelayCommand]
+    private async Task GetGamesList()
+    {
+        Games.Clear();
+        StartLoading();
+        LoadingText = "Parsing games...";
+        _client.DefaultRequestHeaders.Clear();
+        _client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
+        _client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+        _client.DefaultRequestHeaders.Add("accept", "application/json");
+        _client.DefaultRequestHeaders.Add("accept-language", _currentSystemLanguage);
+        _client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
+        _client.DefaultRequestHeaders.Add("Host", "titlehub.xboxlive.com");
+        _client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+        var responseString = await _client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + XuidOverride + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
+        _gamesResponse = JObject.Parse(responseString);
+        LoadingText = "Filtering games...";
+        FilterGames(true);
+    }
+
+    [RelayCommand]
+    public void OpenAchievements(string? index)
+    {
+        AchievementsViewModel.TitleID = _gamesResponse.titles[int.Parse(index)].titleId.ToString();
+        AchievementsViewModel.IsSelectedGame360 = _gamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Xbox360") || _gamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Mobile");
+        AchievementsViewModel.NewGame = true;
+        navigationService.Navigate(typeof(AchievementsPage));
+    }
+    
+    [RelayCommand]
+    public void SearchAndFilterGames()
+    {
+        if (SearchText.Length == 0)
+        {
+            FilterGames();
+            return;
+        }
+
+        Games.Clear();
+        SearchGameNames.Clear();
+        StartLoading();
+
+        for (var i = 0; i < _gamesResponse.titles.Count; i++)
+        {
+            var title = _gamesResponse.titles[i];
+            var type = FilterOptions.ElementAt(FilterIndex).Value;
+            if (!title.devices.ToString().ToLower().Contains(type) && type != "all")
+            {
+                continue;
+            }
+
+            if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
+            {
+                continue;
+            }
+            
+            AddGame(i);
+        }
+
+        SearchLabel = $"Search {Games.Count.ToString()} Games";
+        if (!Games.Any())
+        {
+            snackbarService.Show(
+                "Error",
+                "No Games Found.",
+                ControlAppearance.Danger,
+                new SymbolIcon(SymbolRegular.ErrorCircle24),
+                TimeSpan.FromSeconds(3)
+            );
+        }
+        
+        EndLoading();
+    }
+
+    [RelayCommand]
+    public void FilterGames(bool skipInitCheck = false)
+    {
+        if (!IsInitialized && !skipInitCheck)
+        {
+            return;
+        }
+        
+        if (SearchText.Length > 0)
+        {
+            SearchAndFilterGames();
+            return;
+        }
+
+        StartLoading();
+        Games.Clear();
+        SearchGameNames.Clear();
+        
+        for (var i = 0; i < _gamesResponse.titles.Count; i++)
+        {
+            var title = _gamesResponse.titles[i];
+            var type = FilterOptions.ElementAt(FilterIndex).Value;
+            if (!title.devices.ToString().ToLower().Contains(type) && type != "all")
+            {
+                continue;
+            }
+            
+            AddGame(i);
+        }
+
+        SearchLabel = $"Search {Games.Count} Games";
+        if (!Games.Any())
+        {
+            snackbarService.Show(
+                "Error",
+                "No Games Found",
+                ControlAppearance.Danger,
+                new SymbolIcon(SymbolRegular.ErrorCircle24),
+                TimeSpan.FromSeconds(3)
+            );
+        }
+        
+        EndLoading();
+    }
+
+    private void AddGame(int index)
+    {
+        var title = _gamesResponse.titles[index];
+        var editedImage = title.displayImage.ToString();
+        if (editedImage.Contains("store-images.s-microsoft.com"))
+        {
+            editedImage += "?w=256&h=256&format=jpg";
+        }
+
+        var gameTitle = title.name.ToString();
+        Games.Add(new Game
+        {
+            Title = gameTitle,
+            CurrentAchievements = title.achievement.currentAchievements.ToString(),
+            GamerScore = $"{title.achievement.currentGamerscore} / {title.achievement.totalGamerscore}",
+            Progress = title.achievement.progressPercentage.ToString(),
+            Image = editedImage,
+            Index = index.ToString()
+        });
+
+        if (gameTitle != null)
+        {
+            SearchGameNames.Add(new string(gameTitle));
+        }
+    }
+    
+    private void StartLoading()
+    {
+        IsLoadingVisible = true;
+        IsGamesListVisible = false;
+    }
+
+    private void EndLoading()
+    {
+        IsLoadingVisible = false;
+        IsGamesListVisible = true;
+    }
+
+    public void CopyToClipboard(string? index)
+    {
+        if (!int.TryParse(index, out var parsedResult))
+        {
+            snackbarService.Show("Error",
+                "Invalid game index.",
+                ControlAppearance.Danger,
+                new SymbolIcon(SymbolRegular.ErrorCircle24),
+                TimeSpan.FromSeconds(3)
+            );
+            return;
+        }
+        
+        var title = _gamesResponse.titles[parsedResult];
+        var titleId = title.titleId.ToString();
+        var titleName = title.name.ToString();
+        Clipboard.SetDataObject(titleId);
+        snackbarService.Show("TitleID Copied",
+            $"Copied the title ID of {titleName.ToString()} to clipboard\nTitleID: {titleId.ToString()}",
+            ControlAppearance.Success,
+            new SymbolIcon(SymbolRegular.ClipboardCheckmark24),
+            TimeSpan.FromSeconds(3)
+        );
+    }
 }

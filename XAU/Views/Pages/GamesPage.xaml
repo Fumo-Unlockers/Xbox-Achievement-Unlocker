@@ -6,8 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       Title="GamesPage"
-      d:DataContext="{d:DesignInstance local:GamesPage,
-                                 IsDesignTimeCreatable=False}"
+      d:DataContext="{d:DesignInstance local:GamesPage,IsDesignTimeCreatable=False}"
       d:DesignHeight="450"
       d:DesignWidth="800"
       ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -15,175 +14,208 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       mc:Ignorable="d">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="{Binding ViewModel.GamesListHeight}"/>
-            <RowDefinition Height="{Binding ViewModel.LoadingHeight}"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <ui:TextBox
-                Grid.Row="1"
-                Grid.Column="0"
-                x:Name="XUIDBox"
-                IsEnabled="{Binding ViewModel.IsInitialized}"
-                Padding="10,4,8,7"
-                Margin="0,0,44,0"
-                Text="{Binding ViewModel.XuidOverride, Mode=TwoWay}"
-                TextAlignment="Center"
-                ClearButtonEnabled="False" 
-            ></ui:TextBox>
-            <ui:Button
-                Grid.Row="1"
-                Grid.Column="0"
-                x:Name="RefreshButton"
-                IsEnabled="{Binding ViewModel.IsInitialized}"
-                Padding="10,5,8,5"
-                Margin="10,0,5,0"
-                Content=""
-                HorizontalAlignment="Right"
-                Icon="{ui:SymbolIcon ArrowRepeatAll24}"
-                Command="{Binding ViewModel.GetGamesListCommand}"
-            />
-            <Label 
-                Grid.Row="0" 
-                Grid.Column="0"
-                Margin="10,0,44,0"
-                Target="{Binding ElementName=XUIDBox}"
-                Content="XUID Override"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"/>
-            <ui:TextBox
-                Grid.Row="1"
-                Grid.Column="1"
-                x:Name="SearchBox"
-                IsEnabled="{Binding ViewModel.IsInitialized}"
-                Padding="10,4,8,7"
-                Margin="10,0,44,0"
-                Text="{Binding ViewModel.SearchText, Mode=TwoWay}"
-                PlaceholderText="Search for a game"
-                TextAlignment="Center"
-                ClearButtonEnabled="False"
-                KeyDown="SearchBox_OnKeyDown"
-            />
-            <ui:Button
-                Grid.Row="1"
-                Grid.Column="1"
-                x:Name="SearchButton"
-                IsEnabled="{Binding ViewModel.IsInitialized}"
-                Padding="10,5,8,5"
-                Margin="10,0,5,0"
-                Content=""
-                HorizontalAlignment="Right"
-                Icon="{ui:SymbolIcon Search24}"
-                Command="{Binding ViewModel.SearchAndFilterGamesCommand}"
-            />
-            <Label
-                Grid.Row="0" 
-                Grid.Column="1"
-                Margin="10,0,44,0"
-                Target="{Binding ElementName=SearchBox}"
-                Content="{Binding ViewModel.SearchLabel}"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"/>
-            <ComboBox
-                Grid.Row="1"
-                Grid.Column="2"
-                x:Name="FilterBox"
-                IsEnabled="{Binding ViewModel.IsInitialized}"
-                Padding="10,4,8,7"
-                Margin="10,0,10,0"
-                ItemsSource="{Binding ViewModel.FilterOptions}"
-                SelectionChanged="FilterBox_OnSelectionChanged"
-                SelectedIndex="{Binding ViewModel.FilterIndex, Mode=TwoWay}"
-            />
-            <Label 
-                Grid.Row="0" 
-                Grid.Column="2"
-                Margin="10,0,10,0"
-                Target="{Binding ElementName=FilterBox}"
-                Content="Game Filter"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"/>
-            <ComboBox
-                Grid.Row="1"
-                Grid.Column="3"
-                x:Name="PageBox"
-                IsEnabled="{Binding ViewModel.IsInitialized}"
-                Padding="10,4,8,7"
-                Margin="10,0,10,0"
-                ItemsSource="{Binding ViewModel.PageOptions, Mode=OneWay}"
-                SelectionChanged="PageBox_OnSelectionChanged"
-                SelectedIndex="{Binding ViewModel.CurrentPage, Mode=TwoWay}"
-            />
-            <Label 
-                Grid.Row="0" 
-                Grid.Column="3"
-                Margin="10,0,10,0"
-                Target="{Binding ElementName=PageBox}"
-                Content="Page"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"/>
+    <Grid Margin="{StaticResource PageMargin}">
+        <Grid Visibility="{Binding ViewModel.IsLoadingVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+               
+                <ProgressBar IsIndeterminate="True"
+                             Width="500"/>
+                
+                <ui:TextBlock Text="{Binding ViewModel.LoadingText}"
+                              HorizontalAlignment="Center"
+                              Margin="0 7.5 0 0"/>
+            </StackPanel>
         </Grid>
-        <ui:ProgressRing IsIndeterminate="True" Grid.Row="2" 
-                         VerticalAlignment="Center" 
-                         HorizontalAlignment="Center" 
-                         Height="{Binding ViewModel.LoadingSize}"
-                         Width="{Binding ViewModel.LoadingSize}"
-                         />
-        <Grid Margin="0,15,0,0" Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding ViewModel.GamesPaged}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+        
+        <Grid Visibility="{Binding ViewModel.IsGamesListVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <ui:TextBlock Grid.Row="0"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              Text="XUID Override"
+                              FontTypography="BodyStrong"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Margin="0 5"/>
+                
+                <ui:NumberBox Grid.Row="1"
+                              Grid.Column="0"
+                              SpinButtonPlacementMode="Hidden"
+                              VerticalAlignment="Stretch"
+                              ValidationMode="InvalidInputOverwritten"
+                              MaxDecimalPlaces="0"
+                              Value="{Binding ViewModel.XuidOverride, Mode=TwoWay}"/>
+                
+                <ui:Button Grid.Row="1"
+                           Grid.Column="1"
+                           VerticalAlignment="Stretch"
+                           Margin="5 0"
+                           Icon="{ui:SymbolIcon ArrowClockwise24}"
+                           Command="{Binding ViewModel.GetGamesListCommand}"/>
+                
+                <ui:TextBlock Grid.Row="0"
+                              Grid.Column="2"
+                              Text="{Binding ViewModel.SearchLabel}"
+                              FontTypography="BodyStrong"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Margin="0 5"/>
+                
+                <ui:AutoSuggestBox Grid.Row="1"
+                                   Grid.Column="2"
+                                   VerticalAlignment="Stretch"
+                                   PlaceholderText="Search for a game..."
+                                   OriginalItemsSource="{Binding ViewModel.SearchGameNames, Mode=OneWay}"
+                                   IsTextSearchEnabled="True"
+                                   UpdateTextOnSelect="True"
+                                   Text="{Binding ViewModel.SearchText, Mode=TwoWay}"
+                                   TextChanged="AutoSuggestBox_OnTextChanged"
+                                   SuggestionChosen="AutoSuggestBox_OnSuggestionChosen"
+                                   QuerySubmitted="AutoSuggestBox_OnQuerySubmitted"/>
+                
+                <ui:TextBlock Grid.Row="0"
+                              Grid.Column="3"
+                              Text="Game Filter"
+                              FontTypography="BodyStrong"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Margin="0 5"/>
+                
+                <ComboBox Grid.Row="1"
+                          Grid.Column="3"
+                          Margin="5 0 0 0"
+                          VerticalAlignment="Stretch"
+                          SelectionChanged="FilterBox_OnSelectionChanged"
+                          ItemsSource="{Binding ViewModel.FilterOptions.Keys}"
+                          SelectedIndex="{Binding ViewModel.FilterIndex, Mode=TwoWay}"/>
+            </Grid>
+            
+            <ui:VirtualizingItemsControl Grid.Row="1"
+                                         ItemsSource="{Binding ViewModel.Games}"
+                                         Margin="-5 0"
+                                         ScrollViewer.CanContentScroll="False">
+                
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" Margin="5,5,5,7">
-                            <Button Cursor="Hand" MinHeight="170" MinWidth="170" Click="ButtonBase_OnClick" MouseRightButtonDown="ButtonBase_RightClick" Content="{Binding Index}">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <ui:Image Source="{Binding Image, IsAsync=true}" Width="170" Height="170" CornerRadius="10" Margin="0,0,0,0" Background="White"/>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                            <Grid Width="170" Height="30" Margin="0,2,0,2">
-                                <ProgressBar Value="{Binding Progress}"
-                                             Height="25"/>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0">
-                                    <ui:SymbolIcon Symbol="Trophy24" HorizontalAlignment="Left" Margin="0,0,3,0"/>
-                                    <Label Content="{Binding CurrentAchievements}" HorizontalAlignment="Left" Margin="0,1,0,0"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0">
-                                    <Label Content="{Binding Gamerscore}" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,2,0,0"/>
-                                    <ui:Image Source="pack://application:,,,/Assets/G.png" Height="17" Margin="5,0,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                            <ui:TextBox 
-                                TextAlignment="Center"
-                                ClearButtonEnabled="False"
-                                MaxWidth="170"
-                                IsReadOnly="True"
-                                IsReadOnlyCaretVisible="True"
-                                Padding="10,4,8,7"
-                                Text="{Binding Title}"/>
-                        </StackPanel>
+                        <ui:CardAction Margin="4"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       IsChevronVisible="False"
+                                       Command="{Binding ViewModel.OpenAchievementsCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GamesPage}}}"
+                                       CommandParameter="{Binding Index}">
+                            
+                            <StackPanel HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                
+                                <ui:Image Source="{Binding Image, IsAsync=true, Mode=OneTime}"
+                                          CornerRadius="5"
+                                          Background="White"
+                                          Width="200"
+                                          Height="200"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Stretch="UniformToFill" 
+                                          Cursor="Hand"/>
+                                
+                                <Border Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                        BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="5"
+                                        Padding="2.5"
+                                        Margin="0 2.5">
+                                    <StackPanel VerticalAlignment="Top">
+                                        <Grid>
+                                            <StackPanel Orientation="Horizontal" 
+                                                        HorizontalAlignment="Left" 
+                                                        VerticalAlignment="Center">
+                                                
+                                                <ui:SymbolIcon Symbol="Trophy24" 
+                                                               HorizontalAlignment="Left"
+                                                               VerticalAlignment="Center"/>
+                                                
+                                                <ui:TextBlock Text="{Binding CurrentAchievements}" 
+                                                              HorizontalAlignment="Left" 
+                                                              VerticalAlignment="Center"
+                                                              Margin="5 0 0 0"/>
+                                                
+                                            </StackPanel>
+                                            
+                                            <StackPanel Orientation="Horizontal" 
+                                                        HorizontalAlignment="Right" 
+                                                        VerticalAlignment="Center">
+                                                
+                                                <ui:TextBlock Text="{Binding GamerScore, Mode=OneTime}" 
+                                                              HorizontalAlignment="Right" 
+                                                              VerticalAlignment="Center"
+                                                              Margin="0 0 5 0"/>
+                                                
+                                                <ui:Image Source="/Assets/G.png"
+                                                          Height="15"
+                                                          Margin="0 1 0 0"
+                                                          VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <ProgressBar Value="{Binding Progress}"/>
+                                    </StackPanel>
+                                </Border>
+                                
+                                <Border Background="{ui:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                        BorderBrush="{ui:ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="5"
+                                        Padding="2.5">
+                                    
+                                    <ui:TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                                  Text="{Binding Title, Mode=OneTime}"
+                                                  Width="200"
+                                                  TextTrimming="CharacterEllipsis"
+                                                  Margin="1.5 0">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="{Binding Title, Mode=OneTime}"/>
+                                        </ToolTipService.ToolTip>
+                                    </ui:TextBlock>
+                                    
+                                </Border>
+                                
+                            </StackPanel>
+                            
+                            <ui:CardAction.ContextMenu>
+                                <ContextMenu>
+                                    <ui:MenuItem Header="Copy TitleID"
+                                                 Click="MenuItem_OnClick"
+                                                 Tag="{Binding Index}"/>
+                                </ContextMenu>                            
+                            </ui:CardAction.ContextMenu>
+                        </ui:CardAction>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            </ItemsControl>
-
-
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ui:VirtualizingWrapPanel IsItemsHost="True"
+                                                  Orientation="Vertical"
+                                                  SpacingMode="Uniform"
+                                                  StretchItems="True" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ui:VirtualizingItemsControl>
         </Grid>
     </Grid>
 </Page>
