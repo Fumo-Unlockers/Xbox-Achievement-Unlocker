@@ -18,7 +18,7 @@ namespace XAU.Views.Pages
 
         private void XauthTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            HomeViewModel.XAUTH = XauthTextBox.Text;
+            HomeViewModel.XAuth = XauthTextBox.Text;
             SettingsViewModel.ManualXauth = true;
         }
 

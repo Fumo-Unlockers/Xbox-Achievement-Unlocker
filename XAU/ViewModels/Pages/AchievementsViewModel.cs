@@ -1,27 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Printing;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using XAU.ViewModels.Windows;
-using XAU.Views.Windows;
-using static XAU.ViewModels.Pages.AchievementsViewModel;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using System.Runtime.InteropServices;
-using System.Text.Unicode;
 
 namespace XAU.ViewModels.Pages
 {
@@ -130,7 +115,7 @@ namespace XAU.ViewModels.Pages
         {
             if (SpooferEnabled)
             {
-                if (HomeViewModel.SpoofingStatus == 1 && !(GameInfo == ""))
+                if (HomeViewModel.SpoofingStatus == HomeViewModel.SpoofingStatusEnum.Spoofing && !(GameInfo == ""))
                 {
                     if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
                     {
@@ -144,7 +129,7 @@ namespace XAU.ViewModels.Pages
                     }
                         
                 }
-                else if (HomeViewModel.SpoofingStatus == 0 && !(GameInfo == ""))
+                else if (HomeViewModel.SpoofingStatus == HomeViewModel.SpoofingStatusEnum.NotSpoofing && !(GameInfo == ""))
                 {
                     SpoofGame();
                 }
@@ -193,7 +178,7 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
             client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + TitleIDOverride + "\"]}");
             GameInfoResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
@@ -214,7 +199,7 @@ namespace XAU.ViewModels.Pages
 
         private async void SpoofGame()
         {
-            if (HomeViewModel.SpoofingStatus == 1)
+            if (HomeViewModel.SpoofingStatus == HomeViewModel.SpoofingStatusEnum.Spoofing)
             {
                 if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
                 {
@@ -230,11 +215,11 @@ namespace XAU.ViewModels.Pages
             else
             {
                 HomeViewModel.AutoSpoofedTitleID = TitleIDOverride;
-                HomeViewModel.SpoofingStatus = 2;
+                HomeViewModel.SpoofingStatus = HomeViewModel.SpoofingStatusEnum.AutoSpoofing;
                 GameInfo = "Auto Spoofing";
                 GameName = GameInfoResponse.titles[0].name.ToString();
                 await Task.Run(() => Spoofing());
-                if (HomeViewModel.SpoofingStatus == 1)
+                if (HomeViewModel.SpoofingStatus == HomeViewModel.SpoofingStatusEnum.Spoofing)
                 {
                     if (HomeViewModel.SpoofedTitleID == HomeViewModel.AutoSpoofedTitleID)
                     {
@@ -258,7 +243,7 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
             var requestbody =
                 new StringContent(
                     "{\"titles\":[{\"expiration\":600,\"id\":" + HomeViewModel.AutoSpoofedTitleID +
@@ -276,7 +261,7 @@ namespace XAU.ViewModels.Pages
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
                     client.DefaultRequestHeaders.Add("accept", "application/json");
-                    client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+                    client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
                     await client.PostAsync(
                         "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
                         ")/devices/current", requestbody);
@@ -309,7 +294,7 @@ namespace XAU.ViewModels.Pages
                 client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
                 client.DefaultRequestHeaders.Add("accept", "application/json");
                 client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
                 client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
                 client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
                 AchievementResponse = (dynamic)JObject.Parse(await client.GetAsync("https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements?titleId=" + TitleIDOverride + "&maxItems=1000").Result.Content.ReadAsStringAsync());
@@ -448,7 +433,7 @@ namespace XAU.ViewModels.Pages
                 client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
                 client.DefaultRequestHeaders.Add("accept", "application/json");
                 client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
                 client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
                 client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
                 AchievementResponse = (dynamic)JObject.Parse(await client.GetAsync("https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titleachievements?titleId=" + TitleIDOverride + "&maxItems=1000").Result.Content.ReadAsStringAsync());
@@ -587,7 +572,7 @@ namespace XAU.ViewModels.Pages
                 client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
                 client.DefaultRequestHeaders.Add("accept", "application/json");
                 client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
                 client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
                 client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
                 client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
@@ -623,7 +608,7 @@ namespace XAU.ViewModels.Pages
                                                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
-                var authxtoken = HomeViewModel.XAUTH;
+                var authxtoken = HomeViewModel.XAuth;
                 authxtoken = Regex.Replace(authxtoken, @"XBL3\.0 x=\d+;", "XBL3.0 x=-;");
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add("user-agent", "MSDW");
@@ -721,7 +706,7 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
             client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
             client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");

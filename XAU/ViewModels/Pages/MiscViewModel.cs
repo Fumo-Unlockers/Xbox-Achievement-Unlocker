@@ -1,16 +1,8 @@
-﻿using HtmlAgilityPack;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
-using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using XAU.Views.Windows;
 
 
 namespace XAU.ViewModels.Pages
@@ -92,17 +84,17 @@ namespace XAU.ViewModels.Pages
                 GameGamerscore = "Gamerscore: ?/?";
                 GameImage = "pack://application:,,,/Assets/cirno.png";
                 GameTime = "Time Played: ";
-                HomeViewModel.SpoofingStatus = 0;
+                HomeViewModel.SpoofingStatus = HomeViewModel.SpoofingStatusEnum.NotSpoofing;
                 return;
             }
             HomeViewModel.SpoofedTitleID = NewSpoofingID;
 
-            if (HomeViewModel.SpoofingStatus == 2)
+            if (HomeViewModel.SpoofingStatus == HomeViewModel.SpoofingStatusEnum.AutoSpoofing)
             {
-                HomeViewModel.SpoofingStatus = 1;
+                HomeViewModel.SpoofingStatus = HomeViewModel.SpoofingStatusEnum.Spoofing;
                 AchievementsViewModel.SpoofingUpdate = true;
             }
-            HomeViewModel.SpoofingStatus = 1;
+            HomeViewModel.SpoofingStatus = HomeViewModel.SpoofingStatusEnum.Spoofing;
             SpoofGame();
         }
 
@@ -113,7 +105,7 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
             client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
             StringContent requestbody = new StringContent($"{{\"pfns\":null,\"titleIds\":[\"{NewSpoofingID}\"]}}");
             CurrentSpoofingID = NewSpoofingID;
@@ -184,7 +176,7 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
             client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAuth);
             var requestbody =
                 new StringContent(
                     "{\"titles\":[{\"expiration\":600,\"id\":" + CurrentSpoofingID +
@@ -208,7 +200,7 @@ namespace XAU.ViewModels.Pages
                 {
                     if (SpoofingUpdate)
                     {
-                        HomeViewModel.SpoofingStatus = 0;
+                        HomeViewModel.SpoofingStatus = HomeViewModel.SpoofingStatusEnum.NotSpoofing;
                         HomeViewModel.SpoofedTitleID = "0";
                         break;
                     }
@@ -232,7 +224,7 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public async void SearchGame()
         {
-            client.DefaultRequestHeaders.Clear();
+            /*client.DefaultRequestHeaders.Clear();
             var SearchQuerytext = Uri.EscapeDataString(TSearchText);
             SearchQuerytext = SearchQuerytext.Replace("%20", "+");
             var response = await client.GetAsync($"https://www.trueachievements.com/searchresults.aspx?search={SearchQuerytext}");
@@ -283,12 +275,12 @@ namespace XAU.ViewModels.Pages
                 }
             }
             TSearchGameLinks = templinks;
-            TSearchGameNames = tempnames;
+            TSearchGameNames = tempnames;*/
         }
 
         public async void DisplayGameInfo(int index)
         {
-            var response = await client.GetAsync(TSearchGameLinks[index]);
+            /*var response = await client.GetAsync(TSearchGameLinks[index]);
             var html = await response.Content.ReadAsStringAsync();
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
@@ -343,7 +335,7 @@ namespace XAU.ViewModels.Pages
 
                 TSearchGameName = "Name: " + TSearchGameNames[index];
                 TSearchGameTitleID = xboxTitleId;
-            }
+            }*/
 
         }
         #endregion

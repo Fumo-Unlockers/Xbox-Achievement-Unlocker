@@ -6,9 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       Title="AchievementsPage"
-      x:Name="AchievementsPagen"
-      d:DataContext="{d:DesignInstance local:AchievementsPage,
-                                 IsDesignTimeCreatable=False}"
+      d:DataContext="{d:DesignInstance local:AchievementsPage,IsDesignTimeCreatable=False}"
       d:DesignHeight="450"
       d:DesignWidth="800"
       ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -16,10 +14,7 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       mc:Ignorable="d">
 
-
-    <Grid
-          Height="{Binding ElementName=AchievementsPagen, Path=ActualHeight}"
-          Width="{Binding ElementName=AchievementsPagen, Path=ActualWidth}">
+    <Grid Margin="{StaticResource PageMargin}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -134,7 +129,7 @@
                 Command="{Binding ViewModel.RefreshAchievementsCommand}"
             />
         </Grid>
-        <DataGrid Grid.Row="1"  
+        <DataGrid Grid.Row="1" 
                   VerticalScrollBarVisibility="Visible" 
                   HorizontalScrollBarVisibility="Visible"
                   Margin="0,5,0,5" 
@@ -144,10 +139,9 @@
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   CanUserReorderColumns="False"
-                  CanUserResizeColumns="True"
+                  CanUserResizeColumns="false"
                   CanUserResizeRows="False"
-                  CanUserSortColumns="True"
-        >
+                  CanUserSortColumns="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="0.05*" />
                 <DataGridTextColumn Header="Achievement" Binding="{Binding Name}" Width="0.2*" >

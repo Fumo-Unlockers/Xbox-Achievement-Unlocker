@@ -17,9 +17,7 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <Grid
-        Height="{Binding ElementName=MiscPagen, Path=ActualHeight}"
-        Width="{Binding ElementName=MiscPagen, Path=ActualWidth}">
+    <Grid Margin="{StaticResource PageMargin}">
         <TabControl Margin="0,0,0,0">
             <TabItem IsSelected="True">
                 <TabItem.Header>

@@ -11,9 +11,6 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty]
         private string _appVersion = String.Empty;
 
-        [ObservableProperty]
-        private Wpf.Ui.Appearance.ThemeType _currentTheme = Wpf.Ui.Appearance.ThemeType.Unknown;
-
         static string ProgramFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU");
         string SettingsFilePath = Path.Combine(ProgramFolderPath, "settings.json");
         //settings
@@ -70,7 +67,6 @@ namespace XAU.ViewModels.Pages
 
         private void InitializeViewModel()
         {
-            CurrentTheme = Wpf.Ui.Appearance.Theme.GetAppTheme();
             LoadSettings();
             ToolVersion = $"XAU - {GetAssemblyVersion()}";
             SettingsVersion = "1";
@@ -88,7 +84,7 @@ namespace XAU.ViewModels.Pages
             RegionOverride = HomeViewModel.Settings.RegionOverride;
             UseAcrylic = HomeViewModel.Settings.UseAcrylic;
             PrivacyMode = HomeViewModel.Settings.PrivacyMode;
-            Xauth = HomeViewModel.XAUTH;
+            Xauth = HomeViewModel.XAuth;
         }
         private string GetAssemblyVersion()
         {
