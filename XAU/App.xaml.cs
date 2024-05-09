@@ -52,6 +52,8 @@ namespace XAU
                 services.AddSingleton<MiscViewModel>();
                 services.AddSingleton<InfoPage>();
                 services.AddSingleton<InfoViewModel>();
+                services.AddSingleton<DebugPage>();
+                services.AddSingleton<DebugViewModel>();
 
             }).Build();
 
