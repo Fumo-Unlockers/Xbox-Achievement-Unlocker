@@ -632,7 +632,7 @@ Knowing that AchievementId is our only important value we can set up the templat
             "userId": "REPLACEXUID",
             "ver": 1,
             "properties": {
-                "AchievementID": REPLACECRITERA1,
+                "AchievementID": REPLACECRITERIA1,
                 "MatchId": "11111111-1111-1111-1111-111111111111",
                 "MatchJoinId": 0
             },
@@ -676,7 +676,7 @@ We know that 4 matches up with achievement id 70 so we will add this
       "70": {
         "CriteriaReplacement": {
           "ReplacementType": "Replace",
-          "Target": "REPLACECRITERA1",
+          "Target": "REPLACECRITERIA1",
           "Replacement": "4"
         }
       }
