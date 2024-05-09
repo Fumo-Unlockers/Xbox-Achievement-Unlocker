@@ -46,19 +46,20 @@ namespace XAU.ViewModels.Pages
             string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "Events", "Data.json");
             var data = JObject.Parse(File.ReadAllText(DataPath));
             JArray SupportedGamesJ = (JArray)data["SupportedTitleIDs"];
-            string AchievementID = "";
+            string Achievement = "";
             DateTime timestamp = DateTime.UtcNow;
             foreach (var game in SupportedGamesJ)
             {
-                try
+                var requestbody = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "Events", $"{game}.json"));
+
+                var EventsData = (dynamic)(JObject)data[game.ToString()];
+                foreach (var i in EventsData.Achievements)
                 {
-                    var requestbody = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "Events", $"{game}.json"));
-                    var EventsData = (dynamic)(JObject)data[game.ToString()];
-                    foreach (var i in EventsData.Achievements)
+                    try
                     {
                         foreach (var j in i)
                         {
-                            AchievementID = i.Name.ToString();
+                            Achievement = i.Name.ToString();
                             foreach (var k in j)
                             {
                                 var ReplacementData = k.Value;
@@ -111,12 +112,13 @@ namespace XAU.ViewModels.Pages
                         var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
                         successfulAchievements++;
                     }
+                    catch (Exception ex)
+                    {
+                        failedAchievements++;
+                        errors.Add($"Game: {game}, Achievement:{Achievement}, Error: {ex.Message}");
+                    }
                 }
-                catch (Exception ex)
-                {
-                    failedAchievements++;
-                    errors.Add($"Game ID: {game}, Achievement ID:{AchievementID}, Error: {ex.Message}");
-                }
+
             }
 
             // Write errors to a file
