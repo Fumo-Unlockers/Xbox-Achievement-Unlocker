@@ -1,0 +1,78 @@
+{
+    "ver": "4.0",
+    "name": "Microsoft.XboxLive.T568182861.AchievementProgress",
+    "time": "REPLACETIME",
+    "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
+    "ext": {
+        "utc": {
+            "eventFlags": 1,
+            "pgName": "XBOX",
+            "flags": 1,
+            "epoch": "1",
+            "seq": REPLACESEQ
+        },
+        "privacy": {
+            "isRequired": false
+        },
+        "metadata": {
+            "f": {
+                "baseData": {
+                    "f": {
+                        "measurements": {
+                            "f": {
+                                "PercentComplete": 2
+                            }
+                        }
+                    }
+                }
+            },
+            "policies": 0
+        },
+        "os": {
+            "bootId": 1,
+            "name": "Windows",
+            "ver": "1",
+            "expId": "1"
+        },
+        "app": {
+            "id": "U:SystemEraSoftworks.29415440E1269_1.30.12.0_x64__ftk5pbg2rayv2!ASTRONEER",
+            "ver": "1.30.12.0_x64_!2024/02/27:02:00:05!5122A85!astro-uwp64-shipping.exe",
+            "is1P": 1,
+            "asId": 1
+        },
+        "device": {
+            "localId": "s:11111111-1111-1111-1111-111111111111",
+            "deviceClass": "Windows.Desktop"
+        },
+        "protocol": {
+            "devMake": "1",
+            "devModel": "1",
+            "ticketKeys": [
+                "1"
+            ]
+        },
+        "user": {
+            "localId": "w:11111111-1111-1111-1111-111111111111"
+        },
+        "loc": {
+            "tz": "00:00"
+        }
+    },
+    "data": {
+        "baseType": "Microsoft.XboxLive.InGame",
+        "baseData": {
+            "name": "AchievementProgress",
+            "serviceConfigId": "6c0b0100-b103-45c3-b55a-a1c421ddc84d",
+            "playerSessionId": "11111111-1111-1111-1111-111111111111",
+            "titleId": "568182861",
+            "userId": "REPLACEXUID",
+            "ver": 1,
+            "properties": {
+                "AchievementId": "REPLACECRITERIASTRO"
+            },
+            "measurements": {
+                "PercentComplete": 100
+            }
+        }
+    }
+}
