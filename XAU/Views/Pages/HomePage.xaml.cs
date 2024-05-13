@@ -1,9 +1,5 @@
-﻿using System.ComponentModel;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Wpf.Ui.Controls;
+﻿using Wpf.Ui.Controls;
 using XAU.ViewModels.Pages;
-using MessageBox = System.Windows.MessageBox;
 
 namespace XAU.Views.Pages
 {

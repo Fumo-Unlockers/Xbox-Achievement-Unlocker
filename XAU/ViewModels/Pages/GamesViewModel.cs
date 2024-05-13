@@ -1,21 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.DirectoryServices;
-using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using XAU.ViewModels.Windows;
 using XAU.Views.Pages;
 using XAU.Views.Windows;
-using MessageBox = Wpf.Ui.Controls.MessageBox;
 
 
 namespace XAU.ViewModels.Pages

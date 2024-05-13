@@ -1,27 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Printing;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using XAU.ViewModels.Windows;
-using XAU.Views.Windows;
-using static XAU.ViewModels.Pages.AchievementsViewModel;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using System.Runtime.InteropServices;
-using System.Text.Unicode;
 
 namespace XAU.ViewModels.Pages
 {
