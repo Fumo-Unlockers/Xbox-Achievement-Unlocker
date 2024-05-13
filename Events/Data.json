@@ -12803,7 +12803,7 @@
       }
     }
   },
-     "922226657": {
+  "922226657": {
     "FullySupported": false,
     "Achievements": {
       "1": {
@@ -13358,13 +13358,13 @@
           "Replacement": "42"
         }
       }
-	}
+    }
   },
-     "559544937": {
+  "559544937": {
     "FullySupported": false,
     "Achievements": {
-	  "1": {
-		  "EventReplacement": {
+      "1": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CompletePrologue"
@@ -13375,8 +13375,8 @@
           "Replacement": "Award_CompletePrologue"
         }
       },
-	  "2": {
-		  "EventReplacement": {
+      "2": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_ReachSpiritTree"
@@ -13387,8 +13387,8 @@
           "Replacement": "Award_ReachSpiritTree"
         }
       },
-	  "3": {
-		  "EventReplacement": {
+      "3": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_MeetGumo"
@@ -13399,8 +13399,8 @@
           "Replacement": "Award_MeetGumo"
         }
       },
-	  "4": {
-		  "EventReplacement": {
+      "4": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_RetrieveWaterVein"
@@ -13411,8 +13411,8 @@
           "Replacement": "Award_RetrieveWaterVein"
         }
       },
-	  "5": {
-		  "EventReplacement": {
+      "5": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_EnterGinsoTree"
@@ -13423,8 +13423,8 @@
           "Replacement": "Award_EnterGinsoTree"
         }
       },
-	  "6": {
-		  "EventReplacement": {
+      "6": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_RessurectedGinsoHeart"
@@ -13435,8 +13435,8 @@
           "Replacement": "Award_RessurectedGinsoHeart"
         }
       },
-	  "7": {
-		  "EventReplacement": {
+      "7": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_EscapeGinsoTree"
@@ -13447,8 +13447,8 @@
           "Replacement": "Award_EscapeGinsoTree"
         }
       },
-	  "8": {
-		  "EventReplacement": {
+      "8": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_ClearMistyWoods"
@@ -13459,8 +13459,8 @@
           "Replacement": "Award_ClearMistyWoods"
         }
       },
-	  "9": {
-		  "EventReplacement": {
+      "9": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_RestoreWind"
@@ -13471,8 +13471,8 @@
           "Replacement": "Award_RestoreWind"
         }
       },
-	  "10": {
-		  "EventReplacement": {
+      "10": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_EscapedKuro"
@@ -13483,8 +13483,8 @@
           "Replacement": "Award_EscapedKuro"
         }
       },
-	  "11": {
-		  "EventReplacement": {
+      "11": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_RecoverSunstone"
@@ -13495,8 +13495,8 @@
           "Replacement": "Award_RecoverSunstone"
         }
       },
-	  "12": {
-		  "EventReplacement": {
+      "12": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_EnterMountHoru"
@@ -13507,8 +13507,8 @@
           "Replacement": "Award_EnterMountHoru"
         }
       },
-	  "13": {
-		  "EventReplacement": {
+      "13": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_RestoreFire"
@@ -13519,8 +13519,8 @@
           "Replacement": "Award_RestoreFire"
         }
       },
-	  "14": {
-		  "EventReplacement": {
+      "14": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_NaruReunion"
@@ -13531,8 +13531,8 @@
           "Replacement": "Award_NaruReunion"
         }
       },
-	  "15": {
-		  "EventReplacement": {
+      "15": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CompleteGame"
@@ -13543,8 +13543,8 @@
           "Replacement": "Award_CompleteGame"
         }
       },
-	  "16": {
-		  "EventReplacement": {
+      "16": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CreateLotsOfSoulLinks"
@@ -13555,8 +13555,8 @@
           "Replacement": "Award_CreateLotsOfSoulLinks"
         }
       },
-	  "17": {
-		  "EventReplacement": {
+      "17": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_KillManyWithChargeFlame"
@@ -13567,8 +13567,8 @@
           "Replacement": "Award_KillManyWithChargeFlame"
         }
       },
-	  "18": {
-		  "EventReplacement": {
+      "18": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_KillManyWithBashRedirect"
@@ -13579,8 +13579,8 @@
           "Replacement": "Award_KillManyWithBashRedirect"
         }
       },
-	  "19": {
-		  "EventReplacement": {
+      "19": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_OpenShortcutsWithChargeFlame"
@@ -13591,8 +13591,8 @@
           "Replacement": "Award_OpenShortcutsWithChargeFlame"
         }
       },
-	  "20": {
-		  "EventReplacement": {
+      "20": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_ActivateFirstSkill"
@@ -13603,8 +13603,8 @@
           "Replacement": "Award_ActivateFirstSkill"
         }
       },
-	  "21": {
-		  "EventReplacement": {
+      "21": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_ChargeJumpIntoManyEnemies"
@@ -13615,8 +13615,8 @@
           "Replacement": "Award_ChargeJumpIntoManyEnemies"
         }
       },
-	  "22": {
-		  "EventReplacement": {
+      "22": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_FindAllSecrets"
@@ -13627,8 +13627,8 @@
           "Replacement": "Award_FindAllSecrets"
         }
       },
-	  "23": {
-		  "EventReplacement": {
+      "23": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_FindAllSecrets"
@@ -13639,8 +13639,8 @@
           "Replacement": "Award_FindAllSecrets"
         }
       },
-	  "24": {
-		  "EventReplacement": {
+      "24": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_FindAllSecrets"
@@ -13651,8 +13651,8 @@
           "Replacement": "Award_FindAllSecrets"
         }
       },
-	  "25": {
-		  "EventReplacement": {
+      "25": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_FindAllMapStones"
@@ -13663,8 +13663,8 @@
           "Replacement": "Award_FindAllMapStones"
         }
       },
-	  "26": {
-		  "EventReplacement": {
+      "26": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_FindAllMapStones"
@@ -13675,8 +13675,8 @@
           "Replacement": "Award_FindAllMapStones"
         }
       },
-	  "27": {
-		  "EventReplacement": {
+      "27": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_FindAllMapStones"
@@ -13687,8 +13687,8 @@
           "Replacement": "Award_FindAllMapStones"
         }
       },
-	  "28": {
-		  "EventReplacement": {
+      "28": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_FindLostCorridor"
@@ -13699,8 +13699,8 @@
           "Replacement": "Award_FindLostCorridor"
         }
       },
-	  "29": {
-		  "EventReplacement": {
+      "29": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_UseEverySavePedestal"
@@ -13711,8 +13711,8 @@
           "Replacement": "Award_UseEverySavePedestal"
         }
       },
-	  "30": {
-		  "EventReplacement": {
+      "30": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_DiscoverAllMap"
@@ -13723,8 +13723,8 @@
           "Replacement": "Award_DiscoverAllMap"
         }
       },
-	  "31": {
-		  "EventReplacement": {
+      "31": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CollectLotsOfEnergy"
@@ -13735,8 +13735,8 @@
           "Replacement": "Award_CollectLotsOfEnergy"
         }
       },
-	  "32": {
-		  "EventReplacement": {
+      "32": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CollectBranchOneSkills"
@@ -13747,8 +13747,8 @@
           "Replacement": "Award_CollectBranchOneSkills"
         }
       },
-	  "33": {
-		  "EventReplacement": {
+      "33": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CollectBranchTwoSkills"
@@ -13759,8 +13759,8 @@
           "Replacement": "Award_CollectBranchTwoSkills"
         }
       },
-	  "34": {
-		  "EventReplacement": {
+      "34": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CollectBranchThreeSkills"
@@ -13771,8 +13771,8 @@
           "Replacement": "Award_CollectBranchThreeSkills"
         }
       },
-	  "35": {
-		  "EventReplacement": {
+      "35": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CollectAllSkills"
@@ -13783,8 +13783,8 @@
           "Replacement": "Award_CollectAllSkills"
         }
       },
-	  "36": {
-		  "EventReplacement": {
+      "36": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CollectAllEnergyCells"
@@ -13795,8 +13795,8 @@
           "Replacement": "Award_CollectAllEnergyCells"
         }
       },
-	  "37": {
-		  "EventReplacement": {
+      "37": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CollectAllHealthCells"
@@ -13807,8 +13807,8 @@
           "Replacement": "Award_CollectAllHealthCells"
         }
       },
-	  "38": {
-		  "EventReplacement": {
+      "38": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_JuggleRock"
@@ -13819,8 +13819,8 @@
           "Replacement": "Award_JuggleRock"
         }
       },
-	  "39": {
-		  "EventReplacement": {
+      "39": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_BashEnemyALotInARow"
@@ -13831,8 +13831,8 @@
           "Replacement": "Award_BashEnemyALotInARow"
         }
       },
-	  "40": {
-		  "EventReplacement": {
+      "40": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_TrickEnemiesToKillEachOther"
@@ -13843,8 +13843,8 @@
           "Replacement": "Award_TrickEnemiesToKillEachOther"
         }
       },
-	  "41": {
-		  "EventReplacement": {
+      "41": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_KillEnemiesWithoutTouchingGround"
@@ -13855,8 +13855,8 @@
           "Replacement": "Award_KillEnemiesWithoutTouchingGround"
         }
       },
-	  "42": {
-		  "EventReplacement": {
+      "42": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_TrickEnemyIntoKillingItself"
@@ -13867,8 +13867,8 @@
           "Replacement": "Award_TrickEnemyIntoKillingItself"
         }
       },
-	  "43": {
-		  "EventReplacement": {
+      "43": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CrushRamWithStomper"
@@ -13879,8 +13879,8 @@
           "Replacement": "Award_CrushRamWithStomper"
         }
       },
-	  "44": {
-		  "EventReplacement": {
+      "44": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_StompFiftyEnemies"
@@ -13891,8 +13891,8 @@
           "Replacement": "Award_StompFiftyEnemies"
         }
       },
-	  "45": {
-		  "EventReplacement": {
+      "45": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_ChargeFlameHundredEnemies"
@@ -13903,8 +13903,8 @@
           "Replacement": "Award_ChargeFlameHundredEnemies"
         }
       },
-	  "46": {
-		  "EventReplacement": {
+      "46": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_SpiritFlameFiveHundredEnemies"
@@ -13915,8 +13915,8 @@
           "Replacement": "Award_SpiritFlameFiveHundredEnemies"
         }
       },
-	  "47": {
-		  "EventReplacement": {
+      "47": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_FinishWholeGameFast"
@@ -13927,8 +13927,8 @@
           "Replacement": "Award_FinishWholeGameFast"
         }
       },
-	  "48": {
-		  "EventReplacement": {
+      "48": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_DoubleJumpConsecutively"
@@ -13939,8 +13939,8 @@
           "Replacement": "Award_DoubleJumpConsecutively"
         }
       },
-	  "49": {
-		  "EventReplacement": {
+      "49": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CompleteGameWithoutDying"
@@ -13951,8 +13951,8 @@
           "Replacement": "Award_CompleteGameWithoutDying"
         }
       },
-	  "50": {
-		  "EventReplacement": {
+      "50": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CompleteGameWithoutUsingAbilityPoint"
@@ -13963,8 +13963,8 @@
           "Replacement": "Award_CompleteGameWithoutUsingAbilityPoint"
         }
       },
-	  "51": {
-		  "EventReplacement": {
+      "51": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_EscapeTheBoulder"
@@ -13975,8 +13975,8 @@
           "Replacement": "Award_EscapeTheBoulder"
         }
       },
-	  "52": {
-		  "EventReplacement": {
+      "52": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_CompleteLostGrove"
@@ -13987,8 +13987,8 @@
           "Replacement": "Award_CompleteLostGrove"
         }
       },
-	  "54": {
-		  "EventReplacement": {
+      "54": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_ChargeDashFiveTimes"
@@ -13999,8 +13999,8 @@
           "Replacement": "Award_ChargeDashFiveTimes"
         }
       },
-	  "55": {
-		  "EventReplacement": {
+      "55": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_ActivateGrenadeSwitches"
@@ -14011,8 +14011,8 @@
           "Replacement": "Award_ActivateGrenadeSwitches"
         }
       },
-	  "56": {
-		  "EventReplacement": {
+      "56": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_Kill50EnemiesWithGrenade"
@@ -14023,8 +14023,8 @@
           "Replacement": "Award_Kill50EnemiesWithGrenade"
         }
       },
-	  "57": {
-		  "EventReplacement": {
+      "57": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_BeatHardMode"
@@ -14035,8 +14035,8 @@
           "Replacement": "Award_BeatHardMode"
         }
       },
-	  "58": {
-		  "EventReplacement": {
+      "58": {
+        "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTORI",
           "Replacement": "Microsoft.XboxLive.T559544937.Award_BeatOneLifeMode"
@@ -14047,7 +14047,362 @@
           "Replacement": "Award_BeatOneLifeMode"
         }
       }
-	}
+    }
+  },
+  "1677025209": {
+    "FullySupported": false,
+    "Achievements": {
+      "1": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 1
+        }
+      },
+      "2": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 2
+        }
+      },
+      "3": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 3
+        }
+      },
+      "4": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 4
+        }
+      },
+      "5": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 5
+        }
+      },
+      "6": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 6
+        }
+      },
+      "7": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 7
+        }
+      },
+      "8": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 8
+        }
+      },
+      "9": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 9
+        }
+      },
+      "10": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 10
+        }
+      },
+      "11": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 11
+        }
+      },
+      "12": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 12
+        }
+      },
+      "13": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 13
+        }
+      },
+      "14": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 14
+        }
+      },
+      "15": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 15
+        }
+      },
+      "16": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 16
+        }
+      },
+      "17": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 17
+        }
+      },
+      "18": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 18
+        }
+      },
+      "19": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 19
+        }
+      },
+      "20": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 20
+        }
+      },
+      "21": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 21
+        }
+      },
+      "22": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 22
+        }
+      },
+      "23": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 23
+        }
+      },
+      "24": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 24
+        }
+      },
+      "25": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 25
+        }
+      },
+      "26": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 26
+        }
+      },
+      "27": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 27
+        }
+      },
+      "28": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 28
+        }
+      },
+      "29": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 29
+        }
+      },
+      "30": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 30
+        }
+      },
+      "31": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 31
+        }
+      },
+      "32": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 32
+        }
+      },
+      "33": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 33
+        }
+      },
+      "34": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 34
+        }
+      },
+      "35": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 35
+        }
+      },
+      "36": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 36
+        }
+      },
+      "37": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 37
+        }
+      },
+      "38": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 38
+        }
+      },
+      "39": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 39
+        }
+      },
+      "40": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 40
+        }
+      },
+      "41": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 41
+        }
+      },
+      "42": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 42
+        }
+      },
+      "43": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 43
+        }
+      },
+      "44": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 44
+        }
+      },
+      "45": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 45
+        }
+      },
+      "46": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 46
+        }
+      },
+      "47": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 47
+        }
+      },
+      "48": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 48
+        }
+      },
+      "49": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 49
+        }
+      },
+      "50": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTNO",
+          "Replacement": 50
+        }
+      }
+    }
   },
   "SupportedTitleIDs": [
     1144039928,
@@ -14056,7 +14411,7 @@
     2146688994,
     2019181131,
     922226657,
-	  559544937,
+    559544937,
     831464817,
     849609009,
     148376670,
@@ -14070,6 +14425,7 @@
     651668093,
     2109344129,
     1627819535,
-    981972052
+    981972052,
+    1677025209
   ]
 }
