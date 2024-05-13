@@ -3,8 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Reflection;
-using System.Windows.Threading;
-using Wpf.Ui.Controls;
 using XAU.Services;
 using XAU.ViewModels.Pages;
 using XAU.ViewModels.Windows;

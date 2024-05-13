@@ -85,7 +85,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        private async void GetGamesList()
+        private async Task GetGamesList()
         {
             Games.Clear();
             GamesPaged.Clear();
@@ -122,7 +122,7 @@ namespace XAU.ViewModels.Pages
             MainWindow.MainNavigationService.Navigate(typeof(AchievementsPage));
         }
         [RelayCommand]
-        public async void SearchAndFilterGames()
+        public async Task SearchAndFilterGames()
         {
             if (SearchText.Length==0)
             {
@@ -228,7 +228,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async void FilterGames()
+        public async Task FilterGames()
         {
             if (!_isInitialized)
             {
@@ -337,7 +337,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async void PageChanged()
+        public async Task PageChanged()
         {
             if (PageReset)
             {

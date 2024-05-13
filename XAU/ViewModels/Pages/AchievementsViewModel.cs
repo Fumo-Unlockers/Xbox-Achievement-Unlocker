@@ -167,7 +167,7 @@ namespace XAU.ViewModels.Pages
         }
 
 
-        private async void LoadGameInfo()
+        private async Task LoadGameInfo()
         {
             if (TitleID != "0")
             {
@@ -281,7 +281,7 @@ namespace XAU.ViewModels.Pages
             }
         }
 
-        private async void LoadAchievements()
+        private async Task LoadAchievements()
         {
             Achievements.Clear();
             DGAchievements.Clear();
@@ -696,7 +696,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async void UnlockAll()
+        public async Task UnlockAll()
         {
             var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" +
                               AchievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" +
@@ -749,10 +749,10 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async void RefreshAchievements()
+        public async Task RefreshAchievements()
         {
-            LoadGameInfo();
-            LoadAchievements();
+            await LoadGameInfo();
+            await LoadAchievements();
             NewGame = false;
             if (SpooferEnabled)
                 SpoofGame();
