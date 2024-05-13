@@ -90,10 +90,10 @@ namespace XAU.ViewModels.Pages
         };
         HttpClient client = new HttpClient(handler);
 
-        public void OnNavigatedTo()
+        public async void OnNavigatedTo()
         {
             if (!_isInitialized)
-                InitializeViewModel();
+                await InitializeViewModel();
         }
         public void OnNavigatedFrom() { }
 

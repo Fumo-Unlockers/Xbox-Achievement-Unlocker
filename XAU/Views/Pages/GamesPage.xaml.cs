@@ -19,12 +19,11 @@ namespace XAU.Views.Pages
             InitializeComponent();
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             ButtonBase selectedGame = sender as ButtonBase;
 
-            // Todo: leh sigh. fix async behavior
-            ViewModel.OpenAchievements(selectedGame.Content.ToString()).RunSynchronously();
+            await ViewModel.OpenAchievements(selectedGame.Content.ToString());
         }
 
         private async void SearchBox_OnKeyDownAsync(object sender, KeyEventArgs e)

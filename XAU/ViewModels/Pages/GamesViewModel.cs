@@ -63,18 +63,17 @@ namespace XAU.ViewModels.Pages
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
 
-        public void OnNavigatedTo()
+        public async void OnNavigatedTo()
         {
-
             if (!IsInitialized && HomeViewModel.InitComplete)
-                InitializeViewModel();
+                await InitializeViewModel();
         }
 
         public void OnNavigatedFrom()
         {
         }
 
-        private async void InitializeViewModel()
+        private async Task InitializeViewModel()
         {
             XuidOverride = HomeViewModel.XUIDOnly;
             await GetGamesList();
