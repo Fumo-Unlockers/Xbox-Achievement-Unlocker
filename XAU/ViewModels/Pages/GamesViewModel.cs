@@ -74,10 +74,10 @@ namespace XAU.ViewModels.Pages
         {
         }
 
-        private void InitializeViewModel()
+        private async void InitializeViewModel()
         {
             XuidOverride = HomeViewModel.XUIDOnly;
-            GetGamesList();
+            await GetGamesList();
             IsInitialized = true;
             if (HomeViewModel.Settings.RegionOverride)
                 currentSystemLanguage = "en-GB";
@@ -89,7 +89,7 @@ namespace XAU.ViewModels.Pages
         {
             Games.Clear();
             GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
+            await LoadingStart();
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
@@ -100,29 +100,30 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + XuidOverride + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
             GamesResponse = (dynamic)JObject.Parse(responseString);
-            LoadGames();
+            await LoadGamesAsync();
           }
 
-        private async void LoadGames()
+        private async Task LoadGamesAsync()
         {
             if (SearchText.Length > 0)
             {
-                SearchAndFilterGames();
+                await SearchAndFilterGamesAsync();
             }
             else
             {
-                FilterGames();
+                await FilterGamesAsync();
             }
         }
-        public async void OpenAchievements(string index)
+        public async Task OpenAchievements(string index)
         {
             AchievementsViewModel.TitleID = GamesResponse.titles[int.Parse(index)].titleId.ToString();
             AchievementsViewModel.IsSelectedGame360 = GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Xbox360") || GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Mobile");
             AchievementsViewModel.NewGame = true;
             MainWindow.MainNavigationService.Navigate(typeof(AchievementsPage));
+            await Task.CompletedTask;
         }
         [RelayCommand]
-        public async Task SearchAndFilterGames()
+        public async Task SearchAndFilterGamesAsync()
         {
             if (SearchText.Length==0)
             {
@@ -132,8 +133,7 @@ namespace XAU.ViewModels.Pages
 
             Games.Clear();
             GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
-
+            await LoadingStart();
             if (FilterIndex != 0)
             {
                 switch (FilterIndex)
@@ -200,7 +200,7 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            await Task.Run(() => LoadingEnd());
+            await LoadingEnd();
             SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
             if (Games.Count() == 0)
             {
@@ -228,7 +228,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async Task FilterGames()
+        public async Task FilterGamesAsync()
         {
             if (!_isInitialized)
             {
@@ -237,11 +237,11 @@ namespace XAU.ViewModels.Pages
 
             if (SearchText.Length > 0)
             {
-                SearchAndFilterGames();
+                await SearchAndFilterGamesAsync();
                 return;
             }
             GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
+            await LoadingStart();
             Games.Clear();
             if (FilterIndex != 0)
             {
@@ -289,7 +289,7 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            await Task.Run(() => LoadingEnd());
+            await LoadingEnd();
             SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
             if (Games.Count() == 0)
             {
@@ -345,7 +345,7 @@ namespace XAU.ViewModels.Pages
                 return;
             }
             GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
+            await LoadingStart();
             for (int i = ((252 * (CurrentPage))); i < (252 * (CurrentPage+1)); i++)
             {
                 if (Games.Count > i)
@@ -353,21 +353,23 @@ namespace XAU.ViewModels.Pages
                     GamesPaged.Add(Games[i]);
                 }
             }
-            await Task.Run(() => LoadingEnd());
+            await LoadingEnd();
         }
 
-        public async void LoadingStart()
+        public async Task LoadingStart()
         {
             LoadingSize = 200;
             GamesListHeight = new GridLength(0, GridUnitType.Star);
             LoadingHeight = new GridLength(1, GridUnitType.Star);
+            await Task.CompletedTask;
         }
 
-        public async void LoadingEnd()
+        public async Task LoadingEnd()
         {
             GamesListHeight = new GridLength(1, GridUnitType.Star);
             LoadingHeight = new GridLength(0, GridUnitType.Star);
             LoadingSize = 0;
+            await Task.CompletedTask;
         }
 
         public void CopyToClipboard(string index)

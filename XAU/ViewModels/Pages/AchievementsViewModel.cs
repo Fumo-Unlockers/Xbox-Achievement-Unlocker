@@ -112,7 +112,7 @@ namespace XAU.ViewModels.Pages
             public string ProgressState { get; set; }
             public bool IsUnlockable { get; set; }
         }
-        public void OnNavigatedTo()
+        public async void OnNavigatedTo()
         {
             if (SpooferEnabled)
             {
@@ -137,7 +137,7 @@ namespace XAU.ViewModels.Pages
             }
             
             if (IsInitialized&&NewGame)
-                RefreshAchievements();
+                await RefreshAchievements();
             if (TitleID != "0")
             {
                 TitleIDOverride = TitleID;
@@ -151,12 +151,12 @@ namespace XAU.ViewModels.Pages
 
         public void OnNavigatedFrom() { }
 
-        private void InitializeViewModel()
+        private async void InitializeViewModel()
         {
             if (IsSelectedGame360)
                 Unlockable = false;
-            LoadGameInfo();
-            LoadAchievements();
+            await LoadGameInfo();
+            await LoadAchievements();
             if (SpooferEnabled)
                 SpoofGame();
             TitleIDEnabled = true;
@@ -219,7 +219,7 @@ namespace XAU.ViewModels.Pages
                 HomeViewModel.SpoofingStatus = 2;
                 GameInfo = "Auto Spoofing";
                 GameName = GameInfoResponse.titles[0].name.ToString();
-                await Task.Run(() => Spoofing());
+                await Spoofing();
                 if (HomeViewModel.SpoofingStatus == 1)
                 {
                     if (HomeViewModel.SpoofedTitleID == HomeViewModel.AutoSpoofedTitleID)
@@ -759,7 +759,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public void SearchAndFilterAchievements()
+        public async Task SearchAndFilterAchievements()
         {
             if (IsEventBased)
             {
@@ -914,6 +914,7 @@ namespace XAU.ViewModels.Pages
                 CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             }
             IsFiltered = true;
+            await Task.CompletedTask;
         }
     }
 }

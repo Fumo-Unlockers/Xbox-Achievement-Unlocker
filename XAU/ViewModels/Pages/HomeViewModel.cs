@@ -262,9 +262,9 @@ namespace XAU.ViewModels.Pages
 
 #endregion
 
-        private void InitializeViewModel()
+        private async Task InitializeViewModel()
         {
-            CheckForToolUpdates();
+            await CheckForToolUpdates();
             XauthWorker.DoWork += XauthWorker_DoWork;
             XauthWorker.ProgressChanged += XauthWorker_ProgressChanged;
             XauthWorker.RunWorkerCompleted += XauthWorker_RunWorkerCompleted;
@@ -321,7 +321,7 @@ namespace XAU.ViewModels.Pages
         }
 
 #region Xauth
-        public async void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
+        public void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
@@ -336,8 +336,6 @@ namespace XAU.ViewModels.Pages
                 }
                 Thread.Sleep(1000);
                 XauthWorker.ReportProgress(0);
-
-
             }
         }
         public void XauthWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -428,7 +426,7 @@ namespace XAU.ViewModels.Pages
             {
                 client.DefaultRequestHeaders.Add("Authorization", XAUTH);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return;
             }
