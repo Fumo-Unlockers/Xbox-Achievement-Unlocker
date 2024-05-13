@@ -16507,6 +16507,361 @@
       }
     }
   },
+  "1909396590": {
+    "FullySupported": true,
+    "Achievements": {
+      "1": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 1
+        }
+      },
+      "2": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 2
+        }
+      },
+      "3": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 3
+        }
+      },
+      "4": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 4
+        }
+      },
+      "5": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 5
+        }
+      },
+      "6": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 6
+        }
+      },
+      "7": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 7
+        }
+      },
+      "8": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 8
+        }
+      },
+      "9": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 9
+        }
+      },
+      "10": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 10
+        }
+      },
+      "11": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 11
+        }
+      },
+      "12": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 12
+        }
+      },
+      "13": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 13
+        }
+      },
+      "14": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 14
+        }
+      },
+      "15": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 15
+        }
+      },
+      "16": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 16
+        }
+      },
+      "17": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 17
+        }
+      },
+      "18": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 18
+        }
+      },
+      "19": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 19
+        }
+      },
+      "20": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 20
+        }
+      },
+      "21": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 21
+        }
+      },
+      "22": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 22
+        }
+      },
+      "23": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 23
+        }
+      },
+      "24": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 24
+        }
+      },
+      "25": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 25
+        }
+      },
+      "26": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 26
+        }
+      },
+      "27": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 27
+        }
+      },
+      "28": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 28
+        }
+      },
+      "29": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 29
+        }
+      },
+      "30": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 30
+        }
+      },
+      "31": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 31
+        }
+      },
+      "32": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 32
+        }
+      },
+      "33": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 33
+        }
+      },
+      "34": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 34
+        }
+      },
+      "35": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 35
+        }
+      },
+      "36": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 36
+        }
+      },
+      "37": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 37
+        }
+      },
+      "38": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 38
+        }
+      },
+      "39": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 39
+        }
+      },
+      "40": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 40
+        }
+      },
+      "41": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 41
+        }
+      },
+      "42": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 42
+        }
+      },
+      "43": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 43
+        }
+      },
+      "44": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 44
+        }
+      },
+      "45": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 45
+        }
+      },
+      "46": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 46
+        }
+      },
+      "47": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 47
+        }
+      },
+      "48": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 48
+        }
+      },
+      "49": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 49
+        }
+      },
+      "50": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIAWTOB",
+          "Replacement": 50
+        }
+      }
+    }
+  },
   "SupportedTitleIDs": [
     1144039928,
     552499398,
@@ -16530,6 +16885,7 @@
     1627819535,
     981972052,
     1677025209,
-    434412541
+    434412541,
+    1909396590
   ]
 }
