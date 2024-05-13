@@ -41,12 +41,12 @@ namespace XAU.ViewModels.Pages
 
         public class Game
         {
-            public string Title { get; set; }
-            public string Image { get; set; }
-            public string Gamerscore { get; set; }
-            public string CurrentAchievements { get; set; }
-            public string Progress { get; set; }
-            public string Index { get; set; }
+            public required string Title { get; set; }
+            public required string Image { get; set; }
+            public required string Gamerscore { get; set; }
+            public required string CurrentAchievements { get; set; }
+            public required string Progress { get; set; }
+            public required string Index { get; set; }
 
         }
 
@@ -76,8 +76,9 @@ namespace XAU.ViewModels.Pages
         private async Task InitializeViewModel()
         {
             XuidOverride = HomeViewModel.XUIDOnly;
-            await GetGamesList();
+            
             IsInitialized = true;
+            await GetGamesList();
             if (HomeViewModel.Settings.RegionOverride)
                 currentSystemLanguage = "en-GB";
 
@@ -229,7 +230,7 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public async Task FilterGamesAsync()
         {
-            if (!_isInitialized)
+            if (!IsInitialized)
             {
                 return;
             }
