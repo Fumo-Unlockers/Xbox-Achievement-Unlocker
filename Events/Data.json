@@ -14050,7 +14050,7 @@
     }
   },
   "1677025209": {
-    "FullySupported": false,
+    "FullySupported": true,
     "Achievements": {
       "1": {
         "CriteriaReplacement": {
