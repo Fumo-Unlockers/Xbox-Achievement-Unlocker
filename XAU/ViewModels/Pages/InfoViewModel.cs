@@ -5,7 +5,7 @@ namespace XAU.ViewModels.Pages
     public partial class InfoViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
-        [ObservableProperty] private string _toolVersion;
+        [ObservableProperty] private string? _toolVersion;
         public void OnNavigatedTo()
         {
             if (!_isInitialized)

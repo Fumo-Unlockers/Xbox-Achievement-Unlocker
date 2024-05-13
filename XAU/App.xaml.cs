@@ -108,7 +108,7 @@ namespace XAU
             var mainWindowViewModel = GetService<MainWindowViewModel>();
             if (mainWindowViewModel != null)
             {
-                mainWindowViewModel.ShowErrorDialog(exception);
+                await mainWindowViewModel.ShowErrorDialog(exception);
             }
         }
     }
