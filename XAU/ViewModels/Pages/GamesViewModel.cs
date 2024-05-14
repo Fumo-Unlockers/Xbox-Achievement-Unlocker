@@ -89,7 +89,7 @@ namespace XAU.ViewModels.Pages
         {
             Games.Clear();
             GamesPaged.Clear();
-            await LoadingStart();
+            LoadingStart();
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
@@ -133,7 +133,7 @@ namespace XAU.ViewModels.Pages
 
             Games.Clear();
             GamesPaged.Clear();
-            await LoadingStart();
+            LoadingStart();
             if (FilterIndex != 0)
             {
                 switch (FilterIndex)
@@ -200,7 +200,7 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            await LoadingEnd();
+            LoadingEnd();
             SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
             if (Games.Count() == 0)
             {
@@ -241,7 +241,7 @@ namespace XAU.ViewModels.Pages
                 return;
             }
             GamesPaged.Clear();
-            await LoadingStart();
+            LoadingStart();
             Games.Clear();
             if (FilterIndex != 0)
             {
@@ -289,7 +289,7 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            await LoadingEnd();
+            LoadingEnd();
             SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
             if (Games.Count() == 0)
             {
@@ -345,7 +345,7 @@ namespace XAU.ViewModels.Pages
                 return;
             }
             GamesPaged.Clear();
-            await LoadingStart();
+            LoadingStart();
             for (int i = ((252 * (CurrentPage))); i < (252 * (CurrentPage+1)); i++)
             {
                 if (Games.Count > i)
@@ -353,23 +353,21 @@ namespace XAU.ViewModels.Pages
                     GamesPaged.Add(Games[i]);
                 }
             }
-            await LoadingEnd();
+            LoadingEnd();
         }
 
-        public async Task LoadingStart()
+        public void LoadingStart()
         {
             LoadingSize = 200;
             GamesListHeight = new GridLength(0, GridUnitType.Star);
             LoadingHeight = new GridLength(1, GridUnitType.Star);
-            await Task.CompletedTask;
         }
 
-        public async Task LoadingEnd()
+        public void LoadingEnd()
         {
             GamesListHeight = new GridLength(1, GridUnitType.Star);
             LoadingHeight = new GridLength(0, GridUnitType.Star);
             LoadingSize = 0;
-            await Task.CompletedTask;
         }
 
         public void CopyToClipboard(string index)
