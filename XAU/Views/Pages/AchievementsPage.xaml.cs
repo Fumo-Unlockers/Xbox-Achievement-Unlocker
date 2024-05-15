@@ -38,8 +38,6 @@ namespace XAU.Views.Pages
             {
                 //for some reason, the search text is not being updated when pressing enter
                 ViewModel.SearchText = SearchBox.Text;
-
-                // TODO: gross
                 await ViewModel.SearchAndFilterAchievementsAsync();
 
             }
