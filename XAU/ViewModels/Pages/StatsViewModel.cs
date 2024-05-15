@@ -1,4 +1,4 @@
-﻿using Wpf.Ui.Controls;
+using Wpf.Ui.Controls;
 
 namespace XAU.ViewModels.Pages
 {

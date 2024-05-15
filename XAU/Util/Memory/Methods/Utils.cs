@@ -1,4 +1,4 @@
-﻿namespace Memory;
+namespace Memory;
 
 public static class Utils
 {

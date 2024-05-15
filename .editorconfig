@@ -10,6 +10,12 @@ root = true
 indent_size = 4
 indent_style = space
 tab_width = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# charset
+charset = utf-8
+end_of_line = lf
 
 #### .NET Coding Conventions ####
 
