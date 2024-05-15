@@ -74,7 +74,7 @@ namespace XAU.ViewModels.Pages
         private dynamic GameStatsResponse;
 
         [RelayCommand]
-        public void SpooferButtonClicked()
+        public async void SpooferButtonClicked()
         {
             if (CurrentlySpoofing)
             {
@@ -93,6 +93,7 @@ namespace XAU.ViewModels.Pages
                 GameImage = "pack://application:,,,/Assets/cirno.png";
                 GameTime = "Time Played: ";
                 HomeViewModel.SpoofingStatus = 0;
+                await client.DeleteAsync("https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current");
                 return;
             }
             HomeViewModel.SpoofedTitleID = NewSpoofingID;
