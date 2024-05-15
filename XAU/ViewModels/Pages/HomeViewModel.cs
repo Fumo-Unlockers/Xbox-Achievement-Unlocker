@@ -538,8 +538,12 @@ namespace XAU.ViewModels.Pages
                         client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
                         client.DefaultRequestHeaders.Add("Authorization", XAUTH);
                         client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-                        var gpu = (dynamic)JObject.Parse(await client.GetAsync("https://xgrant.xboxlive.com/users/xuid(" + XUIDOnly + ")/programInfo?filter=profile,activities,catalog").Result.Content.ReadAsStringAsync());
-                        Gamepass = $"Gamepass: {gpu.gamePassMembership}";
+                        var gpuResponse = (dynamic)JObject.Parse(await client.GetAsync("https://xgrant.xboxlive.com/users/xuid(" + XUIDOnly + ")/programInfo?filter=profile,activities,catalog").Result.Content.ReadAsStringAsync());
+                        if (gpuResponse.ContainsKey("gamePassMembership"))
+                            Gamepass = $"Gamepass: {gpuResponse.gamePassMembership}"; 
+                        else 
+                            Gamepass = $"Gamepass: {gpuResponse.data.gamePassMembership}";
+                       
                     }
                     catch
                     {
