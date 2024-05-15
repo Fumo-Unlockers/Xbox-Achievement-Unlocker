@@ -295,7 +295,7 @@ namespace XAU.ViewModels.Pages
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
                 client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
                 client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, Links.HostUrl);
+                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
                 client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
                 AchievementResponse = (dynamic)JObject.Parse(await client.GetAsync("https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements?titleId=" + TitleIDOverride + "&maxItems=1000").Result.Content.ReadAsStringAsync());
                 try
