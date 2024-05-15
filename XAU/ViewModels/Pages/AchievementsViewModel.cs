@@ -510,7 +510,7 @@ namespace XAU.ViewModels.Pages
                         RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                         RarityCategory = achievement.raritycurrentCategory,
                         ProgressState = achievement.progressState,
-                        IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                        IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable
                     });
                 }
             }
@@ -534,7 +534,7 @@ namespace XAU.ViewModels.Pages
                     EventsData = (dynamic)(JObject)data[TitleIDOverride];
                     foreach (var achievement in DGAchievements)
                     {
-                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != StringConstants.Achieved)
                         {
                             achievement.IsUnlockable = true;
                         }
@@ -587,7 +587,7 @@ namespace XAU.ViewModels.Pages
                     _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
                         ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                     DGAchievements[AchievementIndex].IsUnlockable = false;
-                    DGAchievements[AchievementIndex].ProgressState = "Achieved";
+                    DGAchievements[AchievementIndex].ProgressState = StringConstants.Achieved;
                     DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
                     CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
 
@@ -714,7 +714,7 @@ namespace XAU.ViewModels.Pages
                 client.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
             foreach (Achievement achievement in Achievements)
             {
-                if (achievement.progressState != "Achieved")
+                if (achievement.progressState != StringConstants.Achieved)
                 {
                     requestbody += "{\"id\":\"" + achievement.id + "\",\"percentComplete\":\"100\"},";
                 }
@@ -732,10 +732,10 @@ namespace XAU.ViewModels.Pages
                 foreach (DGAchievement achievement in DGAchievements)
                 {
 
-                    if (achievement.ProgressState != "Achieved")
+                    if (achievement.ProgressState != StringConstants.Achieved)
                     {
                         achievement.IsUnlockable = false;
-                        achievement.ProgressState = "Achieved";
+                        achievement.ProgressState = StringConstants.Achieved;
                         achievement.DateUnlocked = unlocktime;
                     }
                 }
@@ -839,7 +839,7 @@ namespace XAU.ViewModels.Pages
                 {
                     foreach (var achievement in DGAchievements)
                     {
-                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != StringConstants.Achieved)
                         {
                             achievement.IsUnlockable = true;
                         }
