@@ -577,7 +577,7 @@ namespace XAU.ViewModels.Pages
                 client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
                 client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
                 if (HomeViewModel.Settings.FakeSignatureEnabled)
-                    client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
+                    client.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
                 var bodyconverted = new StringContent(requestbody, Encoding.UTF8, HeaderValues.Accept);
                 try
                 {
@@ -711,7 +711,7 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
             client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
             if (HomeViewModel.Settings.FakeSignatureEnabled)
-                client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
+                client.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
             foreach (Achievement achievement in Achievements)
             {
                 if (achievement.progressState != "Achieved")

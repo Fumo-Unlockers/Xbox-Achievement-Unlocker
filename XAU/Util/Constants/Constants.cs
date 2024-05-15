@@ -15,6 +15,8 @@ struct HeaderNames
     public const string AcceptLanguage = "accept-language";
     public const string Host = "Host";
     public const string Connection = "Connection";
+    public const string Signature = "Signature";
+
 }
 
 struct HeaderValues
@@ -26,6 +28,7 @@ struct HeaderValues
     public const string AcceptEncoding = "gzip, deflate";
     public const string Accept = "application/json";
     public const string KeepAlive = "Keep-Alive";
+    public const string Signature = "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==";
 
 }
 
