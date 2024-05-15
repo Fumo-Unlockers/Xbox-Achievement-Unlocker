@@ -11,6 +11,7 @@ These guides will serve as video guides to getting the prerequisites setup. Plea
 [![asutermo/Math/Shodan/etc's Guide](https://img.youtube.com/vi/1UrEZi2p6w4/hqdefault.jpg)](https://youtu.be/1UrEZi2p6w4)
 
 ### Cracked Fisk's Guide
+
 [![Cracked Fisk's Guide](https://img.youtube.com/vi/9-oAuq6zFVg/hqdefault.jpg)](https://www.youtube.com/watch?v=9-oAuq6zFVg)
 
 ## Table of Contents
