@@ -175,11 +175,11 @@ namespace XAU.ViewModels.Pages
             }
             GameInfo = "";
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
             StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + TitleIDOverride + "\"]}");
             GameInfoResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
             try
@@ -241,8 +241,8 @@ namespace XAU.ViewModels.Pages
         public async Task Spoofing()
         {
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
             client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
             var requestbody =
                 new StringContent(
@@ -303,7 +303,7 @@ namespace XAU.ViewModels.Pages
                     if (AchievementResponse.achievements[0].progression.requirements.ToString().Length > 2)
                     {
                         if (AchievementResponse.achievements[0].progression.requirements[0].id !=
-                            "00000000-0000-0000-0000-000000000000")
+                            StringConstants.ZeroUid)
                         {
                             Unlockable = false;
                         }
@@ -325,7 +325,7 @@ namespace XAU.ViewModels.Pages
                     if (AchievementResponse.achievements[i].progression.requirements.ToString().Length > 2)
                     {
                         if (AchievementResponse.achievements[i].progression.requirements[0].id !=
-                            "00000000-0000-0000-0000-000000000000")
+                            StringConstants.ZeroUid)
                         {
                             Unlockable = false;
                             IsEventBased = true;
@@ -405,7 +405,7 @@ namespace XAU.ViewModels.Pages
                 foreach (var achievement in Achievements)
                 {
                     var gamerscore = 0;
-                    if (achievement.rewardstype == "Gamerscore")
+                    if (achievement.rewardstype == StringConstants.Gamerscore)
                     {
                         gamerscore = int.Parse(achievement.rewardsvalue);
                     }
@@ -421,7 +421,7 @@ namespace XAU.ViewModels.Pages
                         RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                         RarityCategory = achievement.raritycurrentCategory,
                         ProgressState = achievement.progressState,
-                        IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                        IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                     });
                 }
             }
@@ -809,13 +809,13 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                            IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                         });
                     }
                     else
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == "Gamerscore")
+                        if (achievement.rewardstype == StringConstants.Gamerscore)
                         {
                             gamerscore = int.Parse(achievement.rewardsvalue);
                         }
@@ -831,7 +831,7 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                            IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                         });
                     }
                 }
@@ -857,7 +857,7 @@ namespace XAU.ViewModels.Pages
                     if (!IsSelectedGame360)
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == "Gamerscore")
+                        if (achievement.rewardstype == StringConstants.Gamerscore)
                         {
                             gamerscore = int.Parse(achievement.rewardsvalue);
                         }
@@ -873,13 +873,13 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                            IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                         });
                     }
                     else
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == "Gamerscore")
+                        if (achievement.rewardstype == StringConstants.Gamerscore)
                         {
                             gamerscore = int.Parse(achievement.rewardsvalue);
                         }
@@ -895,7 +895,7 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                            IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                         });
                     }
                 }
@@ -905,7 +905,7 @@ namespace XAU.ViewModels.Pages
             {
                 foreach (var achievement in DGAchievements)
                 {
-                    if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                    if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != StringConstants.Achieved)
                     {
                         achievement.IsUnlockable = true;
                     }
