@@ -3,8 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Reflection;
-using System.Windows.Threading;
-using Wpf.Ui.Controls;
 using XAU.Services;
 using XAU.ViewModels.Pages;
 using XAU.ViewModels.Windows;
@@ -110,7 +108,7 @@ namespace XAU
             var mainWindowViewModel = GetService<MainWindowViewModel>();
             if (mainWindowViewModel != null)
             {
-                mainWindowViewModel.ShowErrorDialog(exception);
+                await mainWindowViewModel.ShowErrorDialog(exception);
             }
         }
     }

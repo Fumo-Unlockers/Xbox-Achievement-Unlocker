@@ -90,15 +90,15 @@ namespace XAU.ViewModels.Pages
         };
         HttpClient client = new HttpClient(handler);
 
-        public void OnNavigatedTo()
+        public async void OnNavigatedTo()
         {
             if (!_isInitialized)
-                InitializeViewModel();
+                await InitializeViewModel();
         }
         public void OnNavigatedFrom() { }
 
 #region Update
-        private async void CheckForToolUpdates()
+        private async Task CheckForToolUpdates()
         {
             if (ToolVersion == "EmptyDevToolVersion")
                 return;
@@ -132,9 +132,8 @@ namespace XAU.ViewModels.Pages
                         _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                         string sourceFile = Jsonresponse.DownloadURL.ToString();
                         string destFile = @"XAU-new.exe";
-                        WebClient webClient = new WebClient();
-                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(UpdateTool);
-                        webClient.DownloadFileAsync(new Uri(sourceFile), destFile);
+                        var fileDownloader = new FileDownloader();
+                        await fileDownloader.DownloadFileAsync(new Uri(sourceFile).ToString(), destFile, UpdateTool);
                     }
                 }
             }
@@ -161,9 +160,8 @@ namespace XAU.ViewModels.Pages
                         _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                         string sourceFile = Jsonresponse[0].assets[0].browser_download_url.ToString();
                         string destFile = @"XAU-new.exe";
-                        WebClient webClient = new WebClient();
-                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(UpdateTool);
-                        webClient.DownloadFileAsync(new Uri(sourceFile), destFile);
+                        var fileDownloader = new FileDownloader();
+                        await fileDownloader.DownloadFileAsync(sourceFile, destFile, UpdateTool);
                     }
                 }
             }
@@ -220,7 +218,7 @@ namespace XAU.ViewModels.Pages
             Environment.Exit(0);
         }
 
-        private void UpdateEvents()
+        private async void UpdateEvents()
         {
             string XAUPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU");
             string backupFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -246,27 +244,27 @@ namespace XAU.ViewModels.Pages
             string zipFilePath = Path.Combine(XAUPath, "Events.zip");
             string extractPath = XAUPath;
 
-            using (var client = new WebClient())
+            using (var client = new FileDownloader())
             {
-                client.DownloadFile(zipUrl, zipFilePath);
+                await client.DownloadFileAsync(zipUrl, zipFilePath);
             }
             ZipFile.ExtractToDirectory(zipFilePath, extractPath);
             File.Delete(zipFilePath);
             //download and place meta.json in the events folder
             string MetaURL = "https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json";
             string MetaFilePath = Path.Combine(eventsFolderPath, "meta.json");
-            using (var client = new WebClient())
+            using (var client = new FileDownloader())
             {
-                client.DownloadFile(MetaURL, MetaFilePath);
+                await client.DownloadFileAsync(MetaURL, MetaFilePath);
             }
             _snackbarService.Show("Events Update Complete", "Events have been updated to the latest version.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
         }
 
 #endregion
 
-        private void InitializeViewModel()
+        private async Task InitializeViewModel()
         {
-            CheckForToolUpdates();
+            await CheckForToolUpdates();
             XauthWorker.DoWork += XauthWorker_DoWork;
             XauthWorker.ProgressChanged += XauthWorker_ProgressChanged;
             XauthWorker.RunWorkerCompleted += XauthWorker_RunWorkerCompleted;
@@ -323,7 +321,7 @@ namespace XAU.ViewModels.Pages
         }
 
 #region Xauth
-        public async void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
+        public void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
@@ -338,8 +336,6 @@ namespace XAU.ViewModels.Pages
                 }
                 Thread.Sleep(1000);
                 XauthWorker.ReportProgress(0);
-
-
             }
         }
         public void XauthWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -430,7 +426,7 @@ namespace XAU.ViewModels.Pages
             {
                 client.DefaultRequestHeaders.Add("Authorization", XAUTH);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return;
             }

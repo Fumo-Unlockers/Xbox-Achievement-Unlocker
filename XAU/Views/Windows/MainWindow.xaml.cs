@@ -1,5 +1,4 @@
 ﻿using Wpf.Ui.Controls;
-using XAU.ViewModels.Pages;
 using XAU.ViewModels.Windows;
 
 namespace XAU.Views.Windows

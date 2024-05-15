@@ -1,21 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.DirectoryServices;
-using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using XAU.ViewModels.Windows;
 using XAU.Views.Pages;
 using XAU.Views.Windows;
-using MessageBox = Wpf.Ui.Controls.MessageBox;
 
 
 namespace XAU.ViewModels.Pages
@@ -51,12 +41,12 @@ namespace XAU.ViewModels.Pages
 
         public class Game
         {
-            public string Title { get; set; }
-            public string Image { get; set; }
-            public string Gamerscore { get; set; }
-            public string CurrentAchievements { get; set; }
-            public string Progress { get; set; }
-            public string Index { get; set; }
+            public required string Title { get; set; }
+            public required string Image { get; set; }
+            public required string Gamerscore { get; set; }
+            public required string CurrentAchievements { get; set; }
+            public required string Progress { get; set; }
+            public required string Index { get; set; }
 
         }
 
@@ -73,33 +63,33 @@ namespace XAU.ViewModels.Pages
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
 
-        public void OnNavigatedTo()
+        public async void OnNavigatedTo()
         {
-
             if (!IsInitialized && HomeViewModel.InitComplete)
-                InitializeViewModel();
+                await InitializeViewModel();
         }
 
         public void OnNavigatedFrom()
         {
         }
 
-        private void InitializeViewModel()
+        private async Task InitializeViewModel()
         {
             XuidOverride = HomeViewModel.XUIDOnly;
-            GetGamesList();
+            
             IsInitialized = true;
+            await GetGamesList();
             if (HomeViewModel.Settings.RegionOverride)
                 currentSystemLanguage = "en-GB";
 
         }
 
         [RelayCommand]
-        private async void GetGamesList()
+        private async Task GetGamesList()
         {
             Games.Clear();
             GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
+            LoadingStart();
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
             client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
@@ -110,29 +100,30 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + XuidOverride + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
             GamesResponse = (dynamic)JObject.Parse(responseString);
-            LoadGames();
+            await LoadGamesAsync();
           }
 
-        private async void LoadGames()
+        private async Task LoadGamesAsync()
         {
             if (SearchText.Length > 0)
             {
-                SearchAndFilterGames();
+                await SearchAndFilterGamesAsync();
             }
             else
             {
-                FilterGames();
+                await FilterGamesAsync();
             }
         }
-        public async void OpenAchievements(string index)
+        public async Task OpenAchievements(string index)
         {
             AchievementsViewModel.TitleID = GamesResponse.titles[int.Parse(index)].titleId.ToString();
             AchievementsViewModel.IsSelectedGame360 = GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Xbox360") || GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Mobile");
             AchievementsViewModel.NewGame = true;
             MainWindow.MainNavigationService.Navigate(typeof(AchievementsPage));
+            await Task.CompletedTask;
         }
         [RelayCommand]
-        public async void SearchAndFilterGames()
+        public async Task SearchAndFilterGamesAsync()
         {
             if (SearchText.Length==0)
             {
@@ -142,8 +133,7 @@ namespace XAU.ViewModels.Pages
 
             Games.Clear();
             GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
-
+            LoadingStart();
             if (FilterIndex != 0)
             {
                 switch (FilterIndex)
@@ -210,7 +200,7 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            await Task.Run(() => LoadingEnd());
+            LoadingEnd();
             SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
             if (Games.Count() == 0)
             {
@@ -238,20 +228,20 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async void FilterGames()
+        public async Task FilterGamesAsync()
         {
-            if (!_isInitialized)
+            if (!IsInitialized)
             {
                 return;
             }
 
             if (SearchText.Length > 0)
             {
-                SearchAndFilterGames();
+                await SearchAndFilterGamesAsync();
                 return;
             }
             GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
+            LoadingStart();
             Games.Clear();
             if (FilterIndex != 0)
             {
@@ -299,7 +289,7 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            await Task.Run(() => LoadingEnd());
+            LoadingEnd();
             SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
             if (Games.Count() == 0)
             {
@@ -347,7 +337,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async void PageChanged()
+        public async Task PageChanged()
         {
             if (PageReset)
             {
@@ -355,7 +345,7 @@ namespace XAU.ViewModels.Pages
                 return;
             }
             GamesPaged.Clear();
-            await Task.Run(() => LoadingStart());
+            LoadingStart();
             for (int i = ((252 * (CurrentPage))); i < (252 * (CurrentPage+1)); i++)
             {
                 if (Games.Count > i)
@@ -363,17 +353,17 @@ namespace XAU.ViewModels.Pages
                     GamesPaged.Add(Games[i]);
                 }
             }
-            await Task.Run(() => LoadingEnd());
+            LoadingEnd();
         }
 
-        public async void LoadingStart()
+        public void LoadingStart()
         {
             LoadingSize = 200;
             GamesListHeight = new GridLength(0, GridUnitType.Star);
             LoadingHeight = new GridLength(1, GridUnitType.Star);
         }
 
-        public async void LoadingEnd()
+        public void LoadingEnd()
         {
             GamesListHeight = new GridLength(1, GridUnitType.Star);
             LoadingHeight = new GridLength(0, GridUnitType.Star);
