@@ -10,7 +10,8 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Collections.ObjectModel;
 using System.IO.Compression;
-using Wpf.Ui.Extensions;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
 
 namespace XAU.ViewModels.Pages
 {

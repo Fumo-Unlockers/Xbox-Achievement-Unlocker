@@ -3,7 +3,10 @@ using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Services;
 
 
 namespace XAU.ViewModels.Pages

@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Wpf.Ui.Controls;
 using System.Text.RegularExpressions;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Services;
 
 namespace XAU.ViewModels.Pages
 {

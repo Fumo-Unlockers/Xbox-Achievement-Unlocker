@@ -2,6 +2,8 @@ using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
 using XAU.Views.Pages;
 

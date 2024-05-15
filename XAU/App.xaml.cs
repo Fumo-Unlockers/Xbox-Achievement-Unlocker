@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Services;
 using XAU.Services;
 using XAU.ViewModels.Pages;
 using XAU.ViewModels.Windows;

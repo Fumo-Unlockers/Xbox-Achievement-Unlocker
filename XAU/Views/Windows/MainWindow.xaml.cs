@@ -1,3 +1,4 @@
+using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
 using XAU.ViewModels.Windows;
 
@@ -15,7 +16,7 @@ public partial class MainWindow
         IContentDialogService contentDialogService
     )
     {
-        Wpf.Ui.Appearance.SystemThemeWatcher.Watch(this);
+        Wpf.Ui.Appearance.Watcher.Watch(this);
 
         ViewModel = viewModel;
         DataContext = this;
@@ -23,7 +24,7 @@ public partial class MainWindow
         InitializeComponent();
         navigationService.SetNavigationControl(NavigationView);
         snackbarService.SetSnackbarPresenter(SnackbarPresenter);
-        contentDialogService.SetDialogHost(RootContentDialog);
+        contentDialogService.SetContentPresenter(RootContentDialog);
 
         NavigationView.SetServiceProvider(serviceProvider);
     }
