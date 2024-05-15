@@ -8735,12 +8735,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTFW",
-          "Replacement": "Microsoft.XboxLive.T927474846.AchRabiesUnlocked"
+          "Replacement": "Microsoft.XboxLive.T927474846.AchRACCOONATTACKUnlocked"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCRITERAFireWat",
-          "Replacement": "AchRabiesUnlocked"
+          "Replacement": "AchRACCOONATTACKUnlocked"
         }
       },
       "8": {
