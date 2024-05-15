@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 using static Memory.Imps;
@@ -88,11 +88,11 @@ public partial class Mem
         {
             return false;
         }
-        
+
         var runningProcesses = Process.GetProcesses().Select(p => p.Id);
         return runningProcesses.Contains(processId);
     }
-    
+
     public OpenProcessResults OpenProcess(string proc)
     {
         return string.IsNullOrWhiteSpace(proc) ? OpenProcessResults.InvalidArgument : OpenProcess(GetProcIdFromName(proc));
@@ -107,7 +107,7 @@ public partial class Mem
         }
 
         return (from theProcess in processlist
-            where theProcess.ProcessName.Equals(name, StringComparison.CurrentCultureIgnoreCase)
-            select theProcess.Id).FirstOrDefault();
+                where theProcess.ProcessName.Equals(name, StringComparison.CurrentCultureIgnoreCase)
+                select theProcess.Id).FirstOrDefault();
     }
 }

@@ -1,20 +1,22 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Windows.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using System.Text.RegularExpressions;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Services;
 
 namespace XAU.ViewModels.Pages
 {
     public partial class AchievementsViewModel : ObservableObject, INavigationAware
     {
         [ObservableProperty] private bool _isInitialized = false;
-        [ObservableProperty] private string _titleIDOverride ="0";
+        [ObservableProperty] private string _titleIDOverride = "0";
         [ObservableProperty] private bool _unlockable = false;
         [ObservableProperty] private bool _titleIDEnabled = false;
         [ObservableProperty] private ObservableCollection<Achievement> _achievements = new ObservableCollection<Achievement>();
@@ -24,7 +26,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private bool _isUnlockAllEnabled = false;
         [ObservableProperty] private string _searchText = "";
         public static bool SpooferEnabled = HomeViewModel.Settings.AutoSpooferEnabled;
-        public static string TitleID="0";
+        public static string TitleID = "0";
         private bool IsTitleIDValid = false;
         public static bool NewGame = false;
         public static bool IsSelectedGame360;
@@ -42,7 +44,7 @@ namespace XAU.ViewModels.Pages
             AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
             //This is an absolutely terrible idea but the stupid fucking events API just cries about SSL errors
             ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-    };
+        };
         HttpClient client = new HttpClient(handler);
 
 
@@ -128,15 +130,15 @@ namespace XAU.ViewModels.Pages
                         GameInfo = "Spoofing Another Game";
                         GameName = GameInfoResponse.titles[0].name.ToString();
                     }
-                        
+
                 }
                 else if (HomeViewModel.SpoofingStatus == 0 && !(GameInfo == ""))
                 {
                     SpoofGame();
                 }
             }
-            
-            if (IsInitialized&&NewGame)
+
+            if (IsInitialized && NewGame)
                 await RefreshAchievements();
             if (TitleID != "0")
             {
@@ -176,11 +178,11 @@ namespace XAU.ViewModels.Pages
             }
             GameInfo = "";
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
             StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + TitleIDOverride + "\"]}");
             GameInfoResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
             try
@@ -235,20 +237,20 @@ namespace XAU.ViewModels.Pages
                 }
                 HomeViewModel.AutoSpoofedTitleID = "0";
             }
-            
+
 
         }
 
         public async Task Spoofing()
         {
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
             var requestbody =
                 new StringContent(
                     "{\"titles\":[{\"expiration\":600,\"id\":" + HomeViewModel.AutoSpoofedTitleID +
-                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, "application/json");
+                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, HeaderValues.Accept);
             await client.PostAsync(
                 "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current",
                 requestbody);
@@ -260,9 +262,9 @@ namespace XAU.ViewModels.Pages
                 if (i == 300)
                 {
                     client.DefaultRequestHeaders.Clear();
-                    client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
-                    client.DefaultRequestHeaders.Add("accept", "application/json");
-                    client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+                    client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+                    client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+                    client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
                     await client.PostAsync(
                         "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
                         ")/devices/current", requestbody);
@@ -272,7 +274,7 @@ namespace XAU.ViewModels.Pages
                 {
                     if (SpoofingUpdate)
                     {
-                        
+
                         break;
                     }
                     i++;
@@ -289,22 +291,22 @@ namespace XAU.ViewModels.Pages
                 return;
             if (!IsSelectedGame360)
             {
-                Unlockable=true;
+                Unlockable = true;
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("x-xbl-contract-version", "4");
-                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-                client.DefaultRequestHeaders.Add("accept", "application/json");
-                client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-                client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
-                client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+                client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion4);
+                client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+                client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
+                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
+                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
+                client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
                 AchievementResponse = (dynamic)JObject.Parse(await client.GetAsync("https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements?titleId=" + TitleIDOverride + "&maxItems=1000").Result.Content.ReadAsStringAsync());
                 try
                 {
                     if (AchievementResponse.achievements[0].progression.requirements.ToString().Length > 2)
                     {
                         if (AchievementResponse.achievements[0].progression.requirements[0].id !=
-                            "00000000-0000-0000-0000-000000000000")
+                            StringConstants.ZeroUid)
                         {
                             Unlockable = false;
                         }
@@ -326,7 +328,7 @@ namespace XAU.ViewModels.Pages
                     if (AchievementResponse.achievements[i].progression.requirements.ToString().Length > 2)
                     {
                         if (AchievementResponse.achievements[i].progression.requirements[0].id !=
-                            "00000000-0000-0000-0000-000000000000")
+                            StringConstants.ZeroUid)
                         {
                             Unlockable = false;
                             IsEventBased = true;
@@ -362,51 +364,51 @@ namespace XAU.ViewModels.Pages
                         rewardvalueTypeplaceholder = "N/A";
                     }
 
-                    Achievements.Add( new Achievement()
-                        {
-                            id = AchievementResponse.achievements[i].id.ToString(),
-                            serviceConfigId = AchievementResponse.achievements[i].serviceConfigId.ToString(),
-                            name = AchievementResponse.achievements[i].name.ToString(),
-                            titleAssociationsname = AchievementResponse.achievements[i].titleAssociations[0].name.ToString(),
-                            titleAssociationsid = AchievementResponse.achievements[i].titleAssociations[0].id.ToString(),
-                            progressState = AchievementResponse.achievements[i].progressState.ToString(),
-                            //these are strings because im too lazy to handle them properly right now
-                            progressionrequirementsid = "AchievementResponse.achievements[i].progression.requirements[0].id.ToString()",
-                            progressionrequirementscurrent = "AchievementResponse.achievements[i].progression.requirements[0].current.ToString()",
-                            progressionrequirementstarget = "AchievementResponse.achievements[i].progression.requirements[0].target.ToString()",
-                            progressionrequirementsoperationType = "AchievementResponse.achievements[i].progression.requirements[0].operationType.ToString()",
-                            progressionrequirementsvalueType = "AchievementResponse.achievements[i].progression.requirements[0].valueType.ToString()",
-                            progressionrequirementsruleParticipationType = "AchievementResponse.achievements[i].progression.requirements[0].ruleParticipationType.ToString()",
-                            progressiontimeUnlocked = AchievementResponse.achievements[i].progression.timeUnlocked.ToString(),
-                            mediaAssetsname = AchievementResponse.achievements[i].mediaAssets[0].name.ToString(),
-                            mediaAssetstype = AchievementResponse.achievements[i].mediaAssets[0].type.ToString(),
-                            mediaAssetsurl = AchievementResponse.achievements[i].mediaAssets[0].url.ToString(),
-                            platforms = AchievementResponse.achievements[i].platforms.ToObject<List<string>>(),
-                            isSecret = AchievementResponse.achievements[i].isSecret.ToString(),
-                            description = AchievementResponse.achievements[i].description.ToString(),
-                            lockedDescription = AchievementResponse.achievements[i].lockedDescription.ToString(),
-                            productId = AchievementResponse.achievements[i].productId.ToString(),
-                            achievementType = AchievementResponse.achievements[i].achievementType.ToString(),
-                            participationType = AchievementResponse.achievements[i].participationType.ToString(),
-                            timeWindow = AchievementResponse.achievements[i].timeWindow.ToString(),
-                            rewardsname = rewardnameplaceholder,
-                            rewardsdescription = rewarddescriptionplaceholder,
-                            rewardsvalue = rewardvalueplaceholder,
-                            rewardstype = rewardtypeplaceholder,
-                            rewardsmediaAsset = rewardmediaAssetplaceholder,
-                            rewardsvalueType = rewardvalueTypeplaceholder,
-                            estimatedTime = AchievementResponse.achievements[i].estimatedTime.ToString(),
-                            deeplink = AchievementResponse.achievements[i].deeplink.ToString(),
-                            isRevoked = AchievementResponse.achievements[i].isRevoked.ToString(),
-                            raritycurrentCategory = AchievementResponse.achievements[i].rarity.currentCategory.ToString(),
-                            raritycurrentPercentage = AchievementResponse.achievements[i].rarity.currentPercentage.ToString()
-                        }
+                    Achievements.Add(new Achievement()
+                    {
+                        id = AchievementResponse.achievements[i].id.ToString(),
+                        serviceConfigId = AchievementResponse.achievements[i].serviceConfigId.ToString(),
+                        name = AchievementResponse.achievements[i].name.ToString(),
+                        titleAssociationsname = AchievementResponse.achievements[i].titleAssociations[0].name.ToString(),
+                        titleAssociationsid = AchievementResponse.achievements[i].titleAssociations[0].id.ToString(),
+                        progressState = AchievementResponse.achievements[i].progressState.ToString(),
+                        //these are strings because im too lazy to handle them properly right now
+                        progressionrequirementsid = "AchievementResponse.achievements[i].progression.requirements[0].id.ToString()",
+                        progressionrequirementscurrent = "AchievementResponse.achievements[i].progression.requirements[0].current.ToString()",
+                        progressionrequirementstarget = "AchievementResponse.achievements[i].progression.requirements[0].target.ToString()",
+                        progressionrequirementsoperationType = "AchievementResponse.achievements[i].progression.requirements[0].operationType.ToString()",
+                        progressionrequirementsvalueType = "AchievementResponse.achievements[i].progression.requirements[0].valueType.ToString()",
+                        progressionrequirementsruleParticipationType = "AchievementResponse.achievements[i].progression.requirements[0].ruleParticipationType.ToString()",
+                        progressiontimeUnlocked = AchievementResponse.achievements[i].progression.timeUnlocked.ToString(),
+                        mediaAssetsname = AchievementResponse.achievements[i].mediaAssets[0].name.ToString(),
+                        mediaAssetstype = AchievementResponse.achievements[i].mediaAssets[0].type.ToString(),
+                        mediaAssetsurl = AchievementResponse.achievements[i].mediaAssets[0].url.ToString(),
+                        platforms = AchievementResponse.achievements[i].platforms.ToObject<List<string>>(),
+                        isSecret = AchievementResponse.achievements[i].isSecret.ToString(),
+                        description = AchievementResponse.achievements[i].description.ToString(),
+                        lockedDescription = AchievementResponse.achievements[i].lockedDescription.ToString(),
+                        productId = AchievementResponse.achievements[i].productId.ToString(),
+                        achievementType = AchievementResponse.achievements[i].achievementType.ToString(),
+                        participationType = AchievementResponse.achievements[i].participationType.ToString(),
+                        timeWindow = AchievementResponse.achievements[i].timeWindow.ToString(),
+                        rewardsname = rewardnameplaceholder,
+                        rewardsdescription = rewarddescriptionplaceholder,
+                        rewardsvalue = rewardvalueplaceholder,
+                        rewardstype = rewardtypeplaceholder,
+                        rewardsmediaAsset = rewardmediaAssetplaceholder,
+                        rewardsvalueType = rewardvalueTypeplaceholder,
+                        estimatedTime = AchievementResponse.achievements[i].estimatedTime.ToString(),
+                        deeplink = AchievementResponse.achievements[i].deeplink.ToString(),
+                        isRevoked = AchievementResponse.achievements[i].isRevoked.ToString(),
+                        raritycurrentCategory = AchievementResponse.achievements[i].rarity.currentCategory.ToString(),
+                        raritycurrentPercentage = AchievementResponse.achievements[i].rarity.currentPercentage.ToString()
+                    }
                     );
                 }
                 foreach (var achievement in Achievements)
                 {
                     var gamerscore = 0;
-                    if (achievement.rewardstype == "Gamerscore")
+                    if (achievement.rewardstype == StringConstants.Gamerscore)
                     {
                         gamerscore = int.Parse(achievement.rewardsvalue);
                     }
@@ -422,7 +424,7 @@ namespace XAU.ViewModels.Pages
                         RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                         RarityCategory = achievement.raritycurrentCategory,
                         ProgressState = achievement.progressState,
-                        IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                        IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                     });
                 }
             }
@@ -430,13 +432,13 @@ namespace XAU.ViewModels.Pages
             {
                 Unlockable = false;
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
-                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-                client.DefaultRequestHeaders.Add("accept", "application/json");
-                client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-                client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
-                client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+                client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+                client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+                client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
+                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
+                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
+                client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
                 AchievementResponse = (dynamic)JObject.Parse(await client.GetAsync("https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titleachievements?titleId=" + TitleIDOverride + "&maxItems=1000").Result.Content.ReadAsStringAsync());
                 if (AchievementResponse.achievements.Count == 0)
                 {
@@ -511,7 +513,7 @@ namespace XAU.ViewModels.Pages
                         RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                         RarityCategory = achievement.raritycurrentCategory,
                         ProgressState = achievement.progressState,
-                        IsUnlockable = achievement.progressState != "Achieved" && Unlockable
+                        IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable
                     });
                 }
             }
@@ -535,7 +537,7 @@ namespace XAU.ViewModels.Pages
                     EventsData = (dynamic)(JObject)data[TitleIDOverride];
                     foreach (var achievement in DGAchievements)
                     {
-                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != StringConstants.Achieved)
                         {
                             achievement.IsUnlockable = true;
                         }
@@ -543,7 +545,7 @@ namespace XAU.ViewModels.Pages
                 }
                 CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             }
-            
+
 
 
             if (!Unlockable)
@@ -569,17 +571,17 @@ namespace XAU.ViewModels.Pages
             {
                 var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + AchievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" + AchievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" + HomeViewModel.XUIDOnly + "\",\"achievements\":[{\"id\":\"" + DGAchievements[AchievementIndex].ID + "\",\"percentComplete\":\"100\"}]}";
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-                client.DefaultRequestHeaders.Add("accept", "application/json");
-                client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-                client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-                client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
-                client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+                client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+                client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+                client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
+                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
+                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
+                client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
                 client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
                 if (HomeViewModel.Settings.FakeSignatureEnabled)
-                    client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
-                var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/json");
+                    client.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
+                var bodyconverted = new StringContent(requestbody, Encoding.UTF8, HeaderValues.Accept);
                 try
                 {
                     await client.PostAsync(
@@ -588,7 +590,7 @@ namespace XAU.ViewModels.Pages
                     _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
                         ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                     DGAchievements[AchievementIndex].IsUnlockable = false;
-                    DGAchievements[AchievementIndex].ProgressState = "Achieved";
+                    DGAchievements[AchievementIndex].ProgressState = StringConstants.Achieved;
                     DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
                     CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
 
@@ -613,17 +615,17 @@ namespace XAU.ViewModels.Pages
                 authxtoken = Regex.Replace(authxtoken, @"XBL3\.0 x=\d+;", "XBL3.0 x=-;");
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add("user-agent", "MSDW");
-                client.DefaultRequestHeaders.Add("cache-control","no-cache");
-                client.DefaultRequestHeaders.Add("accept", "application/json");
-                client.DefaultRequestHeaders.Add("accept-encoding","gzip, deflate");
-                client.DefaultRequestHeaders.Add("reliability-mode","standard");
-                client.DefaultRequestHeaders.Add("client-version","EUTC-Windows-C++-no-10.0.22621.3296.amd64fre.ni_release.220506-1250-no");
-                client.DefaultRequestHeaders.Add("apikey","0890af88a9ed4cc886a14f5e174a2827-9de66c5e-f867-43a8-a7b8-e0ddd481cca4-7548,95c1f21d6cb047a09e7b423c1cb2222e-9965f07b-54fa-498e-9727-9e8d24dec39e-7027");
+                client.DefaultRequestHeaders.Add("cache-control", "no-cache");
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+                client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+                client.DefaultRequestHeaders.Add("reliability-mode", "standard");
+                client.DefaultRequestHeaders.Add("client-version", "EUTC-Windows-C++-no-10.0.22621.3296.amd64fre.ni_release.220506-1250-no");
+                client.DefaultRequestHeaders.Add("apikey", "0890af88a9ed4cc886a14f5e174a2827-9de66c5e-f867-43a8-a7b8-e0ddd481cca4-7548,95c1f21d6cb047a09e7b423c1cb2222e-9965f07b-54fa-498e-9727-9e8d24dec39e-7027");
                 client.DefaultRequestHeaders.Add("authxtoken", authxtoken);
                 client.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{EventsToken}\"");
                 client.DefaultRequestHeaders.Add("Client-Id", "NO_AUTH");
-                client.DefaultRequestHeaders.Add("Host", "v20.events.data.microsoft.com");
-                client.DefaultRequestHeaders.Add("Connection", "close"); 
+                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Telemetry);
+                client.DefaultRequestHeaders.Add(HeaderNames.Connection, "close");
                 var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
                 DateTime timestamp = DateTime.UtcNow;
                 foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()])
@@ -632,41 +634,41 @@ namespace XAU.ViewModels.Pages
                     switch (ReplacementData.ReplacementType.ToString())
                     {
                         case "Replace":
-                        {
-                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
-                            break;
-                        }
+                            {
+                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
+                                break;
+                            }
                         case "RangeInt":
-                        {
-                            int min = ReplacementData.Min;
-                            int max = ReplacementData.Max;
-                            Random random = new Random();
-                            int randomint = random.Next(min, max);
-                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomint.ToString());
-                            break;
-                        }
+                            {
+                                int min = ReplacementData.Min;
+                                int max = ReplacementData.Max;
+                                Random random = new Random();
+                                int randomint = random.Next(min, max);
+                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomint.ToString());
+                                break;
+                            }
                         case "RangeFloat":
-                        {
-                            float min = ReplacementData.Min;
-                            float max = ReplacementData.Max;
-                            Random random = new Random();
-                            float randomfloat = (float)random.NextDouble() * (max - min) + min;
-                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomfloat.ToString());
-                            break;
-                        }
+                            {
+                                float min = ReplacementData.Min;
+                                float max = ReplacementData.Max;
+                                Random random = new Random();
+                                float randomfloat = (float)random.NextDouble() * (max - min) + min;
+                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomfloat.ToString());
+                                break;
+                            }
                         case "StupidFuckingLDAPTimestamp":
-                        {
-                            long ldapTimestamp = DateTime.Now.ToFileTime();
-                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ldapTimestamp.ToString());
-                            break;
-                        }
+                            {
+                                long ldapTimestamp = DateTime.Now.ToFileTime();
+                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ldapTimestamp.ToString());
+                                break;
+                            }
                         default:
-                        {
-                            _snackbarService.Show("Error: Bad Achievement Data", "Something went wrong with the achievement data", ControlAppearance.Danger,
-                                                                              new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                            return;
-                        }
-                            
+                            {
+                                _snackbarService.Show("Error: Bad Achievement Data", "Something went wrong with the achievement data", ControlAppearance.Danger,
+                                                                                  new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                                return;
+                            }
+
                     }
                 }
                 requestbody = requestbody.Replace("REPLACETIME", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
@@ -692,7 +694,7 @@ namespace XAU.ViewModels.Pages
                 }
 
             }
-            
+
         }
 
         [RelayCommand]
@@ -703,25 +705,25 @@ namespace XAU.ViewModels.Pages
                               AchievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" +
                               HomeViewModel.XUIDOnly + "\",\"achievements\":[";
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add("Host", "achievements.xboxlive.com");
-            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
+            client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
             client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
             if (HomeViewModel.Settings.FakeSignatureEnabled)
-                client.DefaultRequestHeaders.Add("Signature", "RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==");
+                client.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
             foreach (Achievement achievement in Achievements)
             {
-                if (achievement.progressState != "Achieved")
+                if (achievement.progressState != StringConstants.Achieved)
                 {
-                    requestbody += "{\"id\":\"" +achievement.id + "\",\"percentComplete\":\"100\"},";
+                    requestbody += "{\"id\":\"" + achievement.id + "\",\"percentComplete\":\"100\"},";
                 }
             }
-            requestbody = requestbody.Remove(requestbody.Length - 1)+ "]}";
-            var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/json");
+            requestbody = requestbody.Remove(requestbody.Length - 1) + "]}";
+            var bodyconverted = new StringContent(requestbody, Encoding.UTF8, HeaderValues.Accept);
             try
             {
                 await client.PostAsync(
@@ -732,17 +734,17 @@ namespace XAU.ViewModels.Pages
                 var unlocktime = DateTime.Now;
                 foreach (DGAchievement achievement in DGAchievements)
                 {
-                    
-                    if (achievement.ProgressState != "Achieved")
+
+                    if (achievement.ProgressState != StringConstants.Achieved)
                     {
                         achievement.IsUnlockable = false;
-                        achievement.ProgressState = "Achieved";
+                        achievement.ProgressState = StringConstants.Achieved;
                         achievement.DateUnlocked = unlocktime;
                     }
                 }
                 CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             }
-            catch 
+            catch
             {
 
             }
@@ -759,7 +761,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async Task SearchAndFilterAchievements()
+        public async Task SearchAndFilterAchievementsAsync()
         {
             if (IsEventBased)
             {
@@ -774,7 +776,7 @@ namespace XAU.ViewModels.Pages
 
                 }
             }
-            
+
             CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             if (DGAchievements.Count == 0)
             {
@@ -810,13 +812,13 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                            IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                         });
                     }
                     else
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == "Gamerscore")
+                        if (achievement.rewardstype == StringConstants.Gamerscore)
                         {
                             gamerscore = int.Parse(achievement.rewardsvalue);
                         }
@@ -832,7 +834,7 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                            IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                         });
                     }
                 }
@@ -840,7 +842,7 @@ namespace XAU.ViewModels.Pages
                 {
                     foreach (var achievement in DGAchievements)
                     {
-                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != StringConstants.Achieved)
                         {
                             achievement.IsUnlockable = true;
                         }
@@ -858,7 +860,7 @@ namespace XAU.ViewModels.Pages
                     if (!IsSelectedGame360)
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == "Gamerscore")
+                        if (achievement.rewardstype == StringConstants.Gamerscore)
                         {
                             gamerscore = int.Parse(achievement.rewardsvalue);
                         }
@@ -874,13 +876,13 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                            IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                         });
                     }
                     else
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == "Gamerscore")
+                        if (achievement.rewardstype == StringConstants.Gamerscore)
                         {
                             gamerscore = int.Parse(achievement.rewardsvalue);
                         }
@@ -896,7 +898,7 @@ namespace XAU.ViewModels.Pages
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
-                            IsUnlockable = achievement.progressState != "Achieved" && Unlockable && !IsEventBased
+                            IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
                         });
                     }
                 }
@@ -906,7 +908,7 @@ namespace XAU.ViewModels.Pages
             {
                 foreach (var achievement in DGAchievements)
                 {
-                    if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != "Achieved")
+                    if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != StringConstants.Achieved)
                     {
                         achievement.IsUnlockable = true;
                     }

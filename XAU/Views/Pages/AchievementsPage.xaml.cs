@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Wpf.Ui.Controls;
@@ -28,7 +28,7 @@ namespace XAU.Views.Pages
 
         private void FilterBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
 
         }
 
@@ -38,9 +38,7 @@ namespace XAU.Views.Pages
             {
                 //for some reason, the search text is not being updated when pressing enter
                 ViewModel.SearchText = SearchBox.Text;
-                
-                // TODO: gross
-                await ViewModel.SearchAndFilterAchievements();
+                await ViewModel.SearchAndFilterAchievementsAsync();
 
             }
         }

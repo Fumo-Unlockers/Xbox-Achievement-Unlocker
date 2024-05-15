@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using Wpf.Ui.Controls;
 using Newtonsoft.Json;
+using Wpf.Ui.Contracts;
 
 namespace XAU.ViewModels.Pages
 {
