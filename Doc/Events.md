@@ -2,9 +2,17 @@
 
 This guide provides information on how to work with events, set up your system to see events, and how to use events in the tool.
 
+## Video Guide
+
+These guides will serve as video guides to getting the prerequisites setup. Please reference the text guide below for details.
+
+[asutermo/Math/Shodan/etc's Guide](https://youtu.be/1UrEZi2p6w4)
+[Cracked Fisk's Video Guide](https://www.youtube.com/watch?v=9-oAuq6zFVg)
+
 ## Table of Contents
 
 - [Events Guide](#events-guide)
+  - [Video Guide](#video-guide)
   - [Table of Contents](#table-of-contents)
   - [Information](#information)
     - [Events Overview](#events-overview)
