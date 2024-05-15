@@ -90,7 +90,7 @@
                 Content=""
                 HorizontalAlignment="Right"
                 Icon="{ui:SymbolIcon Search24}"
-                Command="{Binding ViewModel.SearchAndFilterAchievementsCommand}"/>
+                Command="{Binding ViewModel.SearchAndFilterAchievementsAsyncCommand}"/>
             <Label 
                 Grid.Row="0" 
                 Grid.Column="1"

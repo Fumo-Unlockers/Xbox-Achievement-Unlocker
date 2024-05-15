@@ -1,10 +1,12 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Services;
 
 
 namespace XAU.ViewModels.Pages
@@ -68,7 +70,7 @@ namespace XAU.ViewModels.Pages
         private dynamic GameStatsResponse;
 
         [RelayCommand]
-        public async void SpooferButtonClicked()
+        public async Task SpooferButtonClickedAsync()
         {
             if (CurrentlySpoofing)
             {
@@ -105,11 +107,11 @@ namespace XAU.ViewModels.Pages
         {
 
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
             StringContent requestbody = new StringContent($"{{\"pfns\":null,\"titleIds\":[\"{NewSpoofingID}\"]}}");
             CurrentSpoofingID = NewSpoofingID;
             GameInfoResponse = (dynamic)JObject.Parse(await client
@@ -150,7 +152,7 @@ namespace XAU.ViewModels.Pages
                 {
                     GameTime = "Time Played: Unknown";
                 }
-               
+
             }
             catch
             {
@@ -177,13 +179,13 @@ namespace XAU.ViewModels.Pages
             TimeSpan spoofingTime = stopwatch.Elapsed;
             SpoofingText = $"Spoofing {GameName} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
             var requestbody =
                 new StringContent(
                     "{\"titles\":[{\"expiration\":600,\"id\":" + CurrentSpoofingID +
-                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, "application/json");
+                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, HeaderValues.Accept);
             await client.PostAsync(
                 "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current",
                 requestbody);
@@ -243,12 +245,12 @@ namespace XAU.ViewModels.Pages
             }
             catch
             {
-                _snackbarService.Show("Error: No Results",$"No results were found for {TSearchText}",
+                _snackbarService.Show("Error: No Results", $"No results were found for {TSearchText}",
                     ControlAppearance.Danger,
                     new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 return;
             }
-            
+
             var tempnames = table.Descendants("td")
                 .Where(td => td.HasClass("gamerwide"))
                 .Select(td => td.InnerText.Trim())
@@ -259,7 +261,7 @@ namespace XAU.ViewModels.Pages
             {
                 templinks[i] = "https://www.trueachievements.com" + templinks[i];
                 templinks[i] = templinks[i].Replace("/achievements", "/price");
-                if (i >0)
+                if (i > 0)
                 {
                     if (templinks[i - 1] == templinks[i])
                     {
@@ -267,7 +269,7 @@ namespace XAU.ViewModels.Pages
                         i--;
                         continue;
                     }
-                    
+
                 }
                 if (!templinks[i].Contains("/game/"))
                 {
@@ -313,7 +315,7 @@ namespace XAU.ViewModels.Pages
             else
             {
                 client.DefaultRequestHeaders.Clear();
-                var ProductIDsConverted = new StringContent("{\"Products\":[\"" +ProductID+ "\"]}");
+                var ProductIDsConverted = new StringContent("{\"Products\":[\"" + ProductID + "\"]}");
                 var TitleIDsResponse = await client.PostAsync(
                     "https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome",
                     ProductIDsConverted);

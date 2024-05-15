@@ -1,5 +1,6 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
 
 namespace XAU.ViewModels.Windows
@@ -16,7 +17,7 @@ namespace XAU.ViewModels.Windows
         public async Task ShowErrorDialog(Exception exception)
         {
             TimeSpan uptime = DateTime.Now - startTime;
-            string OutputString = $"Information\n"+
+            string OutputString = $"Information\n" +
                                   $"=================================\n" +
                                   $"Tool Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}\n" +
                                   $"System Version: {Environment.OSVersion.Version.ToString()}\n" +
@@ -34,7 +35,7 @@ namespace XAU.ViewModels.Windows
                     PrimaryButtonText = "Copy Error",
                     CloseButtonText = "Close",
                 });
-            
+
             switch (result)
             {
                 case ContentDialogResult.Primary:

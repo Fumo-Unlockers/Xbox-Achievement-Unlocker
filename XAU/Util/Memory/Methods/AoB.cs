@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using static Memory.Imps;
 
@@ -121,7 +121,7 @@ public partial class Mem
             return bagResult.ToList().OrderBy(c => c).AsEnumerable();
         });
     }
-    
+
     private IEnumerable<nuint> CompareScan(MemoryRegionResult item, byte[] aobPattern, byte[] mask)
     {
         if (mask.Length != aobPattern.Length)
