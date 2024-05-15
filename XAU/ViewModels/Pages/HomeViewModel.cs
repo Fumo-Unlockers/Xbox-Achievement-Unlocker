@@ -110,7 +110,7 @@ namespace XAU.ViewModels.Pages
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
             if (ToolVersion.Contains("DEV"))
             {
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, "raw.githubusercontent.com");
+                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
                 var responseString =
                     await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Pre-Release/info.json");
                 var Jsonresponse = (dynamic)(new JArray());
@@ -139,7 +139,7 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, "api.github.com");
+                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubApi);
                 var responseString =
                     await client.GetStringAsync("https://api.github.com/repos/Fumo-Unlockers/Xbox-Achievement-unlocker/releases");
                 var Jsonresponse = (dynamic)(new JArray());
@@ -177,7 +177,7 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, "gzip, deflate, br");
             client.DefaultRequestHeaders.Add(HeaderNames.Accept,
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, "raw.githubusercontent.com");
+            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
             var responseString =
                 await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
             var Jsonresponse = (dynamic)(new JObject());
@@ -430,7 +430,7 @@ namespace XAU.ViewModels.Pages
             {
                 return;
             }
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, "profile.xboxlive.com");
+            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Profile);
             client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
             try
             {

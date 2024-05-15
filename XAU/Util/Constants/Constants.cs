@@ -38,8 +38,11 @@ struct Links
 struct Hosts
 {
     public const string Achievements = "achievements.xboxlive.com";
+    public const string Profile = "profile.xboxlive.com";
     public const string PeopleHub = "peoplehub.xboxlive.com";
     public const string TitleHub = "titlehub.xboxlive.com";
     public const string Telemetry = "v20.events.data.microsoft.com";
+    public const string GitHubApi = "api.github.com";
+    public const string GitHubRaw = "raw.githubusercontent.com";
 
 }
