@@ -165,7 +165,7 @@ namespace XAU.ViewModels.Pages
             CurrentlySpoofing = true;
             SpoofingButtonText = "Stop Spoofing";
             SpoofingText = $"Spoofing {GameInfoResponse.titles[0].name.ToString()}";
-            await Spoofing();
+            await Task.Run(() => Spoofing());
 
         }
 

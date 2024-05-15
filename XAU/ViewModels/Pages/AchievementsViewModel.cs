@@ -219,7 +219,7 @@ namespace XAU.ViewModels.Pages
                 HomeViewModel.SpoofingStatus = 2;
                 GameInfo = "Auto Spoofing";
                 GameName = GameInfoResponse.titles[0].name.ToString();
-                await Spoofing();
+                await Task.Run(() => Spoofing());
                 if (HomeViewModel.SpoofingStatus == 1)
                 {
                     if (HomeViewModel.SpoofedTitleID == HomeViewModel.AutoSpoofedTitleID)
