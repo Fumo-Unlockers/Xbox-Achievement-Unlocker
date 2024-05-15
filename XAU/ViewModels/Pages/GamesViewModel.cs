@@ -100,18 +100,18 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
             var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + XuidOverride + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
             GamesResponse = (dynamic)JObject.Parse(responseString);
-            await LoadGamesAsync();
+            LoadGame();
           }
 
-        private async Task LoadGamesAsync()
+        private void LoadGame()
         {
             if (SearchText.Length > 0)
             {
-                await SearchAndFilterGamesAsync();
+                SearchAndFilterGames();
             }
             else
             {
-                await FilterGamesAsync();
+                FilterGames();
             }
         }
         public async Task OpenAchievements(string index)
@@ -123,7 +123,7 @@ namespace XAU.ViewModels.Pages
             await Task.CompletedTask;
         }
         [RelayCommand]
-        public async Task SearchAndFilterGamesAsync()
+        public void SearchAndFilterGames()
         {
             if (SearchText.Length==0)
             {
@@ -228,7 +228,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async Task FilterGamesAsync()
+        public void FilterGames()
         {
             if (!IsInitialized)
             {
@@ -237,7 +237,7 @@ namespace XAU.ViewModels.Pages
 
             if (SearchText.Length > 0)
             {
-                await SearchAndFilterGamesAsync();
+                SearchAndFilterGames();
                 return;
             }
             GamesPaged.Clear();
@@ -337,7 +337,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async Task PageChanged()
+        public void PageChanged()
         {
             if (PageReset)
             {

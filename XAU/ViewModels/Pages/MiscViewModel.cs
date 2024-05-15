@@ -68,7 +68,7 @@ namespace XAU.ViewModels.Pages
         private dynamic GameStatsResponse;
 
         [RelayCommand]
-        public async void SpooferButtonClicked()
+        public async Task SpooferButtonClickedAsync()
         {
             if (CurrentlySpoofing)
             {

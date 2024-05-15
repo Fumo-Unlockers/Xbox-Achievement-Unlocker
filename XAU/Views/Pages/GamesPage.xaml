@@ -75,7 +75,7 @@
                 PlaceholderText="Search for a game"
                 TextAlignment="Center"
                 ClearButtonEnabled="False"
-                KeyDown="SearchBox_OnKeyDownAsync"
+                KeyDown="SearchBox_OnKeyDown"
             />
             <ui:Button
                 Grid.Row="1"

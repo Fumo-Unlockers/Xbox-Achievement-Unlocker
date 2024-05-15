@@ -26,25 +26,25 @@ namespace XAU.Views.Pages
             await ViewModel.OpenAchievements(selectedGame.Content.ToString());
         }
 
-        private async void SearchBox_OnKeyDownAsync(object sender, KeyEventArgs e)
+        private void SearchBox_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key==Key.Enter)
             {
                 //for some reason, the search text is not being updated when pressing enter
                 ViewModel.SearchText = SearchBox.Text;
-                await ViewModel.SearchAndFilterGamesAsync();
+                ViewModel.SearchAndFilterGames();
             }
         }
 
-        private async void FilterBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void FilterBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            await ViewModel.FilterGamesAsync();
+            ViewModel.FilterGames();
 
         }
 
-        private async void PageBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void PageBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            await ViewModel.PageChanged();
+            ViewModel.PageChanged();
 
         }
 

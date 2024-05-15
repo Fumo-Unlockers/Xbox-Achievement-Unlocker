@@ -40,7 +40,7 @@ namespace XAU.Views.Pages
                 ViewModel.SearchText = SearchBox.Text;
                 
                 // TODO: gross
-                await ViewModel.SearchAndFilterAchievements();
+                await ViewModel.SearchAndFilterAchievementsAsync();
 
             }
         }
