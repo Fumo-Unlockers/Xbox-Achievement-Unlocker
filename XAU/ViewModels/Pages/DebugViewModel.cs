@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using Wpf.Ui.Controls;
 using Newtonsoft.Json;
+using Wpf.Ui.Extensions;
 
 namespace XAU.ViewModels.Pages
 {

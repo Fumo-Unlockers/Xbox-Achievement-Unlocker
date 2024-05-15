@@ -6,11 +6,11 @@ using Wpf.Ui.Controls;
 using Memory;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using Wpf.Ui.Common;
 using Newtonsoft.Json;
 using System.Net;
 using System.Collections.ObjectModel;
 using System.IO.Compression;
+using Wpf.Ui.Extensions;
 
 namespace XAU.ViewModels.Pages
 {

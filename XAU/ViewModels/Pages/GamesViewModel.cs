@@ -2,15 +2,12 @@ using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
-using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using XAU.Views.Pages;
-using XAU.Views.Windows;
-
 
 namespace XAU.ViewModels.Pages
 {
-    public partial class GamesViewModel : ObservableObject, INavigationAware, INotifyPropertyChanged
+    public partial class GamesViewModel(ISnackbarService snackbarService, INavigationService navigationService) : ObservableObject, INavigationAware, INotifyPropertyChanged
     {
         [ObservableProperty] private string _xuidOverride = "0";
         [ObservableProperty] private ObservableCollection<Game> _games = new ObservableCollection<Game>();
@@ -51,13 +48,6 @@ namespace XAU.ViewModels.Pages
         }
 
         private string XAUTH = HomeViewModel.XAUTH;
-
-
-        public GamesViewModel(ISnackbarService snackbarService)
-        {
-            _snackbarService = snackbarService;
-            _contentDialogService = new ContentDialogService();
-        }
 
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;
@@ -119,7 +109,7 @@ namespace XAU.ViewModels.Pages
             AchievementsViewModel.TitleID = GamesResponse.titles[int.Parse(index)].titleId.ToString();
             AchievementsViewModel.IsSelectedGame360 = GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Xbox360") || GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Mobile");
             AchievementsViewModel.NewGame = true;
-            MainWindow.MainNavigationService.Navigate(typeof(AchievementsPage));
+            navigationService.Navigate(typeof(AchievementsPage));
             await Task.CompletedTask;
         }
         [RelayCommand]

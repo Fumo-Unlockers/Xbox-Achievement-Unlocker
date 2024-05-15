@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
-using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Extensions;
 
 namespace XAU.ViewModels.Windows
 {
