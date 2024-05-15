@@ -150,7 +150,7 @@ namespace XAU.ViewModels.Pages
                 {
                     GameTime = "Time Played: Unknown";
                 }
-               
+
             }
             catch
             {
@@ -243,12 +243,12 @@ namespace XAU.ViewModels.Pages
             }
             catch
             {
-                _snackbarService.Show("Error: No Results",$"No results were found for {TSearchText}",
+                _snackbarService.Show("Error: No Results", $"No results were found for {TSearchText}",
                     ControlAppearance.Danger,
                     new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 return;
             }
-            
+
             var tempnames = table.Descendants("td")
                 .Where(td => td.HasClass("gamerwide"))
                 .Select(td => td.InnerText.Trim())
@@ -259,7 +259,7 @@ namespace XAU.ViewModels.Pages
             {
                 templinks[i] = "https://www.trueachievements.com" + templinks[i];
                 templinks[i] = templinks[i].Replace("/achievements", "/price");
-                if (i >0)
+                if (i > 0)
                 {
                     if (templinks[i - 1] == templinks[i])
                     {
@@ -267,7 +267,7 @@ namespace XAU.ViewModels.Pages
                         i--;
                         continue;
                     }
-                    
+
                 }
                 if (!templinks[i].Contains("/game/"))
                 {
@@ -313,7 +313,7 @@ namespace XAU.ViewModels.Pages
             else
             {
                 client.DefaultRequestHeaders.Clear();
-                var ProductIDsConverted = new StringContent("{\"Products\":[\"" +ProductID+ "\"]}");
+                var ProductIDsConverted = new StringContent("{\"Products\":[\"" + ProductID + "\"]}");
                 var TitleIDsResponse = await client.PostAsync(
                     "https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome",
                     ProductIDsConverted);

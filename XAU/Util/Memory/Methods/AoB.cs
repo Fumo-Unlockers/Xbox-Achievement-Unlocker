@@ -121,7 +121,7 @@ public partial class Mem
             return bagResult.ToList().OrderBy(c => c).AsEnumerable();
         });
     }
-    
+
     private IEnumerable<nuint> CompareScan(MemoryRegionResult item, byte[] aobPattern, byte[] mask)
     {
         if (mask.Length != aobPattern.Length)

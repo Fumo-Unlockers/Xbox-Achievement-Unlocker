@@ -19,7 +19,7 @@ public static partial class Imps
     [LibraryImport("kernel32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static partial void ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, IntPtr lpBuffer, UIntPtr nSize, out ulong lpNumberOfBytesRead);
-    
+
     [LibraryImport("kernel32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static partial bool ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, byte[] lpBuffer, UIntPtr nSize, IntPtr lpNumberOfBytesRead);
@@ -27,7 +27,7 @@ public static partial class Imps
     [LibraryImport("kernel32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static partial bool IsWow64Process(nint hProcess, [MarshalAs(UnmanagedType.Bool)] out bool lpSystemInfo);
-    
+
     public const uint MemCommit = 0x00001000;
 
     public const uint Readonly = 0x02;
@@ -44,7 +44,7 @@ public static partial class Imps
     public const uint MemPrivate = 0x20000;
     public const uint MemImage = 0x1000000;
     public const uint MemMapped = 0x40000;
-    
+
     public struct SystemInfo
     {
         public ushort ProcessorArchitecture;

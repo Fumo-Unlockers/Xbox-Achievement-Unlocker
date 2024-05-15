@@ -15,7 +15,7 @@ namespace XAU
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App 
+    public partial class App
     {
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host

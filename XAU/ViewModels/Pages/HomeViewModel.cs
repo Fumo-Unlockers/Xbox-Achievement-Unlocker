@@ -77,7 +77,7 @@ namespace XAU.ViewModels.Pages
         bool IsAttached = false;
         bool GrabbedProfile = false;
         bool XAUTHTested = false;
-        public static string XAUTH="";
+        public static string XAUTH = "";
         public static string XUIDOnly;
         public static bool InitComplete = false;
         private bool _isInitialized = false;
@@ -97,7 +97,7 @@ namespace XAU.ViewModels.Pages
         }
         public void OnNavigatedFrom() { }
 
-#region Update
+        #region Update
         private async Task CheckForToolUpdates()
         {
             if (ToolVersion == "EmptyDevToolVersion")
@@ -116,7 +116,7 @@ namespace XAU.ViewModels.Pages
                 var Jsonresponse = (dynamic)(new JArray());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
 
-                if (("DEV-"+Jsonresponse.LatestBuildVersion.ToString()) != ToolVersion)
+                if (("DEV-" + Jsonresponse.LatestBuildVersion.ToString()) != ToolVersion)
                 {
                     var result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
@@ -165,7 +165,7 @@ namespace XAU.ViewModels.Pages
                     }
                 }
             }
-            
+
         }
         private async void CheckForEventUpdates()
         {
@@ -178,23 +178,23 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Add("Accept",
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
             client.DefaultRequestHeaders.Add("Host", "raw.githubusercontent.com");
-                var responseString =
-                    await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
-                var Jsonresponse = (dynamic)(new JObject());
-                Jsonresponse = (dynamic)JObject.Parse(responseString);
-                var EventsTimestamp = 0;
-                if (File.Exists(EventsMetaFilePath))
-                {
-                    var metaJson = File.ReadAllText(EventsMetaFilePath);
-                    var meta = JsonConvert.DeserializeObject<dynamic>(metaJson);
-                    EventsTimestamp = meta.Timestamp;
-                }
+            var responseString =
+                await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
+            var Jsonresponse = (dynamic)(new JObject());
+            Jsonresponse = (dynamic)JObject.Parse(responseString);
+            var EventsTimestamp = 0;
+            if (File.Exists(EventsMetaFilePath))
+            {
+                var metaJson = File.ReadAllText(EventsMetaFilePath);
+                var meta = JsonConvert.DeserializeObject<dynamic>(metaJson);
+                EventsTimestamp = meta.Timestamp;
+            }
 
-                if (Jsonresponse.Timestamp > EventsTimestamp && Jsonresponse.DataVersion == EventsVersion)
-                {
-                    _snackbarService.Show("Downloading Events Update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                    UpdateEvents();
-                }
+            if (Jsonresponse.Timestamp > EventsTimestamp && Jsonresponse.DataVersion == EventsVersion)
+            {
+                _snackbarService.Show("Downloading Events Update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                UpdateEvents();
+            }
         }
 
         private void UpdateTool(object sender, AsyncCompletedEventArgs e)
@@ -260,7 +260,7 @@ namespace XAU.ViewModels.Pages
             _snackbarService.Show("Events Update Complete", "Events have been updated to the latest version.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
         }
 
-#endregion
+        #endregion
 
         private async Task InitializeViewModel()
         {
@@ -300,7 +300,7 @@ namespace XAU.ViewModels.Pages
                 {
                     file.Write(defaultSettingsJson);
                 }
-                
+
             }
             CheckForEventUpdates();
             LoadSettings();
@@ -320,7 +320,7 @@ namespace XAU.ViewModels.Pages
                 currentSystemLanguage = "en-GB";
         }
 
-#region Xauth
+        #region Xauth
         public void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
@@ -360,7 +360,7 @@ namespace XAU.ViewModels.Pages
                     }
                     LoggedIn = "Not Logged In";
                     LoggedInColor = new SolidColorBrush(Colors.Red);
-                    if (!XAUTHTested && XAUTH.Length>0)
+                    if (!XAUTHTested && XAUTH.Length > 0)
                     {
                         TestXAUTH();
                     }
@@ -401,7 +401,7 @@ namespace XAU.ViewModels.Pages
             {
                 return;
             }
-            
+
             var mostCommon = XauthStrings[0];
             var highestFrequency = 0;
             foreach (var pair in frequency.Where(pair => pair.Value > highestFrequency))
@@ -448,10 +448,10 @@ namespace XAU.ViewModels.Pages
                     GamerTag = $"Gamertag: {Jsonresponse.profileUsers[0].settings[0].value}";
                     Xuid = $"XUID: {Jsonresponse.profileUsers[0].id}";
                 }
-                
+
                 XUIDOnly = Jsonresponse.profileUsers[0].id;
                 IsLoggedIn = true;
-                XAUTHTested= true;
+                XAUTHTested = true;
                 InitComplete = true;
             }
             catch (HttpRequestException ex)
@@ -464,9 +464,9 @@ namespace XAU.ViewModels.Pages
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Profile
+        #region Profile
         private async void GrabProfile()
         {
             client.DefaultRequestHeaders.Clear();
@@ -536,16 +536,16 @@ namespace XAU.ViewModels.Pages
                         client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
                         var gpuResponse = (dynamic)JObject.Parse(await client.GetAsync("https://xgrant.xboxlive.com/users/xuid(" + XUIDOnly + ")/programInfo?filter=profile,activities,catalog").Result.Content.ReadAsStringAsync());
                         if (gpuResponse.ContainsKey("gamePassMembership"))
-                            Gamepass = $"Gamepass: {gpuResponse.gamePassMembership}"; 
-                        else 
+                            Gamepass = $"Gamepass: {gpuResponse.gamePassMembership}";
+                        else
                             Gamepass = $"Gamepass: {gpuResponse.data.gamePassMembership}";
-                       
+
                     }
                     catch
                     {
                         Gamepass = $"Gamepass: Unknown";
                     }
-                    
+
                     ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
                     IsVerified = $"Verified: {Jsonresponse.people[0].detail.isVerified}";
                     Location = $"Location: {Jsonresponse.people[0].detail.location}";
@@ -565,9 +565,9 @@ namespace XAU.ViewModels.Pages
                         var tenureBadge = Jsonresponse.people[0].detail.tenure.ToString("D2");
                         Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}tenure/{tenureBadge}.png" });
                     }
-                    
+
                     string[] watermarkNames = Jsonresponse.people[0].detail.watermarks.ToObject<string[]>();
-                    foreach (var watermark in watermarkNames) 
+                    foreach (var watermark in watermarkNames)
                     {
                         Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}launch/{watermark.ToLower()}.png" });
                     }
@@ -583,14 +583,14 @@ namespace XAU.ViewModels.Pages
                     XAUTHTested = false;
                     _snackbarService.Show("401 Unauthorized", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 }
-                
+
             }
-            
-            
+
+
         }
-#endregion
-        
-#region Settings
+        #endregion
+
+        #region Settings
 
         public class SettingsList
         {
@@ -621,6 +621,6 @@ namespace XAU.ViewModels.Pages
             Settings.PrivacyMode = settings.PrivacyMode;
         }
 
-#endregion
+        #endregion
     }
 }

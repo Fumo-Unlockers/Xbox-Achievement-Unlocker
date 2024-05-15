@@ -50,7 +50,7 @@ public static class Utils
             const int hexBase = 16;
             sigPattern[i] = (byte)(Convert.ToByte(stringByteArray[i], hexBase) & mask[i]);
         }
-        
+
         return sigPattern;
     }
 }

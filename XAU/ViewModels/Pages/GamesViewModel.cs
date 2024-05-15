@@ -20,7 +20,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private GridLength _loadingHeight = new GridLength(1, GridUnitType.Star);
         [ObservableProperty] private double _loadingSize = 200;
         [ObservableProperty] private string _searchText = "";
-        [ObservableProperty] private List<string> _filterOptions = new List<string>() { "All", "Xbox One/Series", "PC", "Xbox 360", "Win32"};
+        [ObservableProperty] private List<string> _filterOptions = new List<string>() { "All", "Xbox One/Series", "PC", "Xbox 360", "Win32" };
         [ObservableProperty] private int _filterIndex = 0;
         [ObservableProperty] private int _numPages = 0;
         [ObservableProperty] private ObservableCollection<string> _pageOptions = new ObservableCollection<string>();
@@ -51,7 +51,7 @@ namespace XAU.ViewModels.Pages
         }
 
         private string XAUTH = HomeViewModel.XAUTH;
-        
+
 
         public GamesViewModel(ISnackbarService snackbarService)
         {
@@ -76,7 +76,7 @@ namespace XAU.ViewModels.Pages
         private async Task InitializeViewModel()
         {
             XuidOverride = HomeViewModel.XUIDOnly;
-            
+
             IsInitialized = true;
             await GetGamesList();
             if (HomeViewModel.Settings.RegionOverride)
@@ -101,7 +101,7 @@ namespace XAU.ViewModels.Pages
             var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + XuidOverride + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
             GamesResponse = (dynamic)JObject.Parse(responseString);
             LoadGame();
-          }
+        }
 
         private void LoadGame()
         {
@@ -125,7 +125,7 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public void SearchAndFilterGames()
         {
-            if (SearchText.Length==0)
+            if (SearchText.Length == 0)
             {
                 _snackbarService.Show("Error", $"Please Enter Query Text", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 return;
@@ -218,7 +218,7 @@ namespace XAU.ViewModels.Pages
             PageReset = true;
             CurrentPage = 0;
             GamesPaged.Clear();
-            for (int i = ((252 * CurrentPage)); i < (252*(CurrentPage+1)); i++)
+            for (int i = ((252 * CurrentPage)); i < (252 * (CurrentPage + 1)); i++)
             {
                 if (Games.Count > i)
                 {
@@ -307,7 +307,7 @@ namespace XAU.ViewModels.Pages
             PageReset = true;
             CurrentPage = 0;
             GamesPaged.Clear();
-            for (int i = ((252 * CurrentPage)); i < (252 * (CurrentPage+1)); i++)
+            for (int i = ((252 * CurrentPage)); i < (252 * (CurrentPage + 1)); i++)
             {
                 if (Games.Count > i)
                 {
@@ -346,7 +346,7 @@ namespace XAU.ViewModels.Pages
             }
             GamesPaged.Clear();
             LoadingStart();
-            for (int i = ((252 * (CurrentPage))); i < (252 * (CurrentPage+1)); i++)
+            for (int i = ((252 * (CurrentPage))); i < (252 * (CurrentPage + 1)); i++)
             {
                 if (Games.Count > i)
                 {
@@ -378,5 +378,5 @@ namespace XAU.ViewModels.Pages
             _snackbarService.Show("TitleID Copied", $"Copied the title ID of {title.ToString()} to clipboard\nTitleID: {titleid.ToString()}", ControlAppearance.Success, new SymbolIcon(SymbolRegular.ClipboardCheckmark24), _snackbarDuration);
         }
     }
-    
+
 }

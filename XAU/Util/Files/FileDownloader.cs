@@ -16,7 +16,7 @@ public class FileDownloader : IDisposable
         httpClient.Dispose();
     }
 
-    public async Task DownloadFileAsync(string url, string destinationFilePath, Action<object, AsyncCompletedEventArgs>? updateToolCallback=null)
+    public async Task DownloadFileAsync(string url, string destinationFilePath, Action<object, AsyncCompletedEventArgs>? updateToolCallback = null)
     {
         try
         {

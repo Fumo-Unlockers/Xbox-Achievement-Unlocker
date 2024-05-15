@@ -28,7 +28,7 @@ namespace XAU.Views.Pages
 
         private void SearchBox_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key==Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 //for some reason, the search text is not being updated when pressing enter
                 ViewModel.SearchText = SearchBox.Text;

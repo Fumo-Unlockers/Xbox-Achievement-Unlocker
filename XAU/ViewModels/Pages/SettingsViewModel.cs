@@ -63,7 +63,7 @@ namespace XAU.ViewModels.Pages
         {
             if (!_isInitialized)
                 InitializeViewModel();
-            
+
         }
 
         public void OnNavigatedFrom() { }
