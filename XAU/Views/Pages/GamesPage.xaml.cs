@@ -19,31 +19,33 @@ namespace XAU.Views.Pages
             InitializeComponent();
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             ButtonBase selectedGame = sender as ButtonBase;
-            ViewModel.OpenAchievements(selectedGame.Content.ToString());
+
+            await ViewModel.OpenAchievements(selectedGame.Content.ToString());
         }
 
-        private void SearchBox_OnKeyDown(object sender, KeyEventArgs e)
+        private async void SearchBox_OnKeyDownAsync(object sender, KeyEventArgs e)
         {
             if (e.Key==Key.Enter)
             {
                 //for some reason, the search text is not being updated when pressing enter
                 ViewModel.SearchText = SearchBox.Text;
-                ViewModel.SearchAndFilterGames();
-
+                await ViewModel.SearchAndFilterGamesAsync();
             }
         }
 
-        private void FilterBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void FilterBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ViewModel.FilterGames();
+            await ViewModel.FilterGamesAsync();
+
         }
 
-        private void PageBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void PageBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ViewModel.PageChanged();
+            await ViewModel.PageChanged();
+
         }
 
         private void ButtonBase_RightClick(object sender, MouseButtonEventArgs e)

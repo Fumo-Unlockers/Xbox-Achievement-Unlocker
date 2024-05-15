@@ -1,27 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Printing;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using XAU.ViewModels.Windows;
-using XAU.Views.Windows;
-using static XAU.ViewModels.Pages.AchievementsViewModel;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using System.Runtime.InteropServices;
-using System.Text.Unicode;
 
 namespace XAU.ViewModels.Pages
 {
@@ -126,7 +112,7 @@ namespace XAU.ViewModels.Pages
             public string ProgressState { get; set; }
             public bool IsUnlockable { get; set; }
         }
-        public void OnNavigatedTo()
+        public async void OnNavigatedTo()
         {
             if (SpooferEnabled)
             {
@@ -151,7 +137,7 @@ namespace XAU.ViewModels.Pages
             }
             
             if (IsInitialized&&NewGame)
-                RefreshAchievements();
+                await RefreshAchievements();
             if (TitleID != "0")
             {
                 TitleIDOverride = TitleID;
@@ -165,12 +151,12 @@ namespace XAU.ViewModels.Pages
 
         public void OnNavigatedFrom() { }
 
-        private void InitializeViewModel()
+        private async void InitializeViewModel()
         {
             if (IsSelectedGame360)
                 Unlockable = false;
-            LoadGameInfo();
-            LoadAchievements();
+            await LoadGameInfo();
+            await LoadAchievements();
             if (SpooferEnabled)
                 SpoofGame();
             TitleIDEnabled = true;
@@ -181,7 +167,7 @@ namespace XAU.ViewModels.Pages
         }
 
 
-        private async void LoadGameInfo()
+        private async Task LoadGameInfo()
         {
             if (TitleID != "0")
             {
@@ -295,7 +281,7 @@ namespace XAU.ViewModels.Pages
             }
         }
 
-        private async void LoadAchievements()
+        private async Task LoadAchievements()
         {
             Achievements.Clear();
             DGAchievements.Clear();
@@ -710,7 +696,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async void UnlockAll()
+        public async Task UnlockAll()
         {
             var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" +
                               AchievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" +
@@ -763,17 +749,17 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async void RefreshAchievements()
+        public async Task RefreshAchievements()
         {
-            LoadGameInfo();
-            LoadAchievements();
+            await LoadGameInfo();
+            await LoadAchievements();
             NewGame = false;
             if (SpooferEnabled)
                 SpoofGame();
         }
 
         [RelayCommand]
-        public void SearchAndFilterAchievements()
+        public async Task SearchAndFilterAchievements()
         {
             if (IsEventBased)
             {
@@ -928,6 +914,7 @@ namespace XAU.ViewModels.Pages
                 CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             }
             IsFiltered = true;
+            await Task.CompletedTask;
         }
     }
 }

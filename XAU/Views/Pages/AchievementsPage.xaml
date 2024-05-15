@@ -1,5 +1,6 @@
 ﻿<Page x:Class="XAU.Views.Pages.AchievementsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:XAU.Views.Pages"
@@ -74,10 +75,10 @@
                 IsEnabled="{Binding ViewModel.TitleIDEnabled}"
                 Padding="10,4,8,7"
                 Margin="0,0,44,0"
-                Text="{Binding ViewModel.SearchText, Mode=TwoWay}"
+                Text="{Binding ViewModel.SearchText, Mode=TwoWay, IsAsync=true}"
                 TextAlignment="Center"
                 ClearButtonEnabled="False" 
-                KeyDown="SearchBox_OnKeyDown"
+                KeyDown="SearchBox_OnKeyDownAsync"
             ></ui:TextBox>
             <ui:Button
                 Grid.Row="1"

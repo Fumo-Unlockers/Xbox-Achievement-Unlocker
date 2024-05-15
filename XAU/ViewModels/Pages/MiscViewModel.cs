@@ -1,16 +1,10 @@
 ﻿using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using XAU.Views.Windows;
 
 
 namespace XAU.ViewModels.Pages
@@ -172,7 +166,7 @@ namespace XAU.ViewModels.Pages
             CurrentlySpoofing = true;
             SpoofingButtonText = "Stop Spoofing";
             SpoofingText = $"Spoofing {GameInfoResponse.titles[0].name.ToString()}";
-            Task.Run(() => Spoofing());
+            await Task.Run(() => Spoofing());
 
         }
 
@@ -231,7 +225,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _tSearchGameName = "Name: ";
         [ObservableProperty] private string _tSearchGameTitleID = "";
         [RelayCommand]
-        public async void SearchGame()
+        public async Task SearchGame()
         {
             client.DefaultRequestHeaders.Clear();
             var SearchQuerytext = Uri.EscapeDataString(TSearchText);

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Wpf.Ui.Controls;
+﻿using Wpf.Ui.Controls;
 
 namespace XAU.ViewModels.Pages
 {
     public partial class InfoViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
-        [ObservableProperty] private string _toolVersion;
+        [ObservableProperty] private string? _toolVersion;
         public void OnNavigatedTo()
         {
             if (!_isInitialized)
