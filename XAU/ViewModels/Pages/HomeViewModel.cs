@@ -105,12 +105,12 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("User-Agent",
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-            client.DefaultRequestHeaders.Add("Accept",
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, "gzip, deflate, br");
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept,
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
             if (ToolVersion.Contains("DEV"))
             {
-                client.DefaultRequestHeaders.Add("Host", "raw.githubusercontent.com");
+                client.DefaultRequestHeaders.Add(HeaderNames.Host, "raw.githubusercontent.com");
                 var responseString =
                     await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Pre-Release/info.json");
                 var Jsonresponse = (dynamic)(new JArray());
@@ -139,7 +139,7 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                client.DefaultRequestHeaders.Add("Host", "api.github.com");
+                client.DefaultRequestHeaders.Add(HeaderNames.Host, "api.github.com");
                 var responseString =
                     await client.GetStringAsync("https://api.github.com/repos/Fumo-Unlockers/Xbox-Achievement-unlocker/releases");
                 var Jsonresponse = (dynamic)(new JArray());
@@ -174,10 +174,10 @@ namespace XAU.ViewModels.Pages
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("User-Agent",
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-            client.DefaultRequestHeaders.Add("Accept",
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, "gzip, deflate, br");
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept,
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-            client.DefaultRequestHeaders.Add("Host", "raw.githubusercontent.com");
+            client.DefaultRequestHeaders.Add(HeaderNames.Host, "raw.githubusercontent.com");
             var responseString =
                 await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
             var Jsonresponse = (dynamic)(new JObject());
@@ -418,20 +418,20 @@ namespace XAU.ViewModels.Pages
         private async void TestXAUTH()
         {
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
             try
             {
-                client.DefaultRequestHeaders.Add("Authorization", XAUTH);
+                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
             }
             catch (Exception)
             {
                 return;
             }
-            client.DefaultRequestHeaders.Add("Host", "profile.xboxlive.com");
-            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
+            client.DefaultRequestHeaders.Add(HeaderNames.Host, "profile.xboxlive.com");
+            client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
             try
             {
                 var responseString =
@@ -470,13 +470,13 @@ namespace XAU.ViewModels.Pages
         private async void GrabProfile()
         {
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "5");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
-            client.DefaultRequestHeaders.Add("Host", "peoplehub.xboxlive.com");
-            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-            client.DefaultRequestHeaders.Add("Authorization", XAUTH);
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion5);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
+            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.PeopleHub);
+            client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
             try
             {
                 var responseString = await client.GetStringAsync(
@@ -512,11 +512,11 @@ namespace XAU.ViewModels.Pages
                     try
                     {
                         client.DefaultRequestHeaders.Clear();
-                        client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-                        client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-                        client.DefaultRequestHeaders.Add("accept", "application/json");
-                        client.DefaultRequestHeaders.Add("Authorization", XAUTH);
-                        client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+                        client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+                        client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+                        client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
+                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
                         StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + Jsonresponse.people[0].presenceDetails[0].TitleId + "\"]}");
                         var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
                         CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
@@ -530,10 +530,10 @@ namespace XAU.ViewModels.Pages
                     try
                     {
                         client.DefaultRequestHeaders.Clear();
-                        client.DefaultRequestHeaders.Add("accept", "application/json");
-                        client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-                        client.DefaultRequestHeaders.Add("Authorization", XAUTH);
-                        client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+                        client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+                        client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
+                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
                         var gpuResponse = (dynamic)JObject.Parse(await client.GetAsync("https://xgrant.xboxlive.com/users/xuid(" + XUIDOnly + ")/programInfo?filter=profile,activities,catalog").Result.Content.ReadAsStringAsync());
                         if (gpuResponse.ContainsKey("gamePassMembership"))
                             Gamepass = $"Gamepass: {gpuResponse.gamePassMembership}";

@@ -104,11 +104,11 @@ namespace XAU.ViewModels.Pages
         {
 
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "2");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add("accept-language", currentSystemLanguage);
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
             StringContent requestbody = new StringContent($"{{\"pfns\":null,\"titleIds\":[\"{NewSpoofingID}\"]}}");
             CurrentSpoofingID = NewSpoofingID;
             GameInfoResponse = (dynamic)JObject.Parse(await client
@@ -176,13 +176,13 @@ namespace XAU.ViewModels.Pages
             TimeSpan spoofingTime = stopwatch.Elapsed;
             SpoofingText = $"Spoofing {GameName} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("x-xbl-contract-version", "3");
-            client.DefaultRequestHeaders.Add("accept", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", HomeViewModel.XAUTH);
+            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
             var requestbody =
                 new StringContent(
                     "{\"titles\":[{\"expiration\":600,\"id\":" + CurrentSpoofingID +
-                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, "application/json");
+                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, HeaderValues.Accept);
             await client.PostAsync(
                 "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current",
                 requestbody);

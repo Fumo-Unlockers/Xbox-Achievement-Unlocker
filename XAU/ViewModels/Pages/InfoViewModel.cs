@@ -22,7 +22,7 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public void OpenDiscordUrl(string url)
         {
-            var destinationurl = "https://discord.gg/fCqM7287jG";
+            var destinationurl = Links.Discord;
             var sInfo = new System.Diagnostics.ProcessStartInfo(destinationurl)
             {
                 UseShellExecute = true,
@@ -32,7 +32,7 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public void OpenGithubUserUrl(string url)
         {
-            var destinationurl = "https://github.com/ItsLogic";
+            var destinationurl = Links.GitHubUserUrl;
             var sInfo = new System.Diagnostics.ProcessStartInfo(destinationurl)
             {
                 UseShellExecute = true,
