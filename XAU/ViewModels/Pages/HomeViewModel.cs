@@ -482,8 +482,12 @@ namespace XAU.ViewModels.Pages
             {
                 var responseString = await client.GetStringAsync(
                     $"https://peoplehub.xboxlive.com/users/me/people/xuids({XUIDOnly})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
-                var Jsonresponse = (dynamic)(new JObject());
-                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                var profileResponse = JsonConvert.DeserializeObject<Profile>(responseString);
+                if (profileResponse == null)
+                {
+                    // Todo: error out
+                    return;
+                }
 
                 if (Settings.PrivacyMode)
                 {
@@ -505,12 +509,12 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
-                    GamerTag = $"Gamertag: {Jsonresponse.people[0].gamertag}";
-                    Xuid = $"XUID: {Jsonresponse.people[0].xuid}";
-                    GamerPic = Jsonresponse.people[0].displayPicRaw;
-                    GamerScore = $"Gamerscore: {Jsonresponse.people[0].gamerScore}";
-                    ProfileRep = $"Reputation: {Jsonresponse.people[0].xboxOneRep}";
-                    AccountTier = $"Tier: {Jsonresponse.people[0].detail.accountTier}";
+                    GamerTag = $"Gamertag: {profileResponse.People[0].Gamertag}";
+                    Xuid = $"XUID: {profileResponse.People[0].Xuid}";
+                    GamerPic = profileResponse.People[0].DisplayPicRaw;
+                    GamerScore = $"Gamerscore: {profileResponse.People[0].GamerScore}";
+                    ProfileRep = $"Reputation: {profileResponse.People[0].XboxOneRep}";
+                    AccountTier = $"Tier: {profileResponse.People[0].Detail.AccountTier}";
                     try
                     {
                         client.DefaultRequestHeaders.Clear();
@@ -519,13 +523,13 @@ namespace XAU.ViewModels.Pages
                         client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
                         client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
                         client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-                        StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + Jsonresponse.people[0].presenceDetails[0].TitleId + "\"]}");
+                        StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + profileResponse.People[0].PresenceDetails[0].TitleId + "\"]}");
                         var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
-                        CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
+                        CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({profileResponse.People[0].PresenceDetails[0].TitleId})";
                     }
                     catch
                     {
-                        CurrentlyPlaying = $"Currently Playing: Unknown ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
+                        CurrentlyPlaying = $"Currently Playing: Unknown ({profileResponse.People[0].PresenceDetails[0].TitleId})";
                     }
 
                     // GPU details
@@ -548,13 +552,13 @@ namespace XAU.ViewModels.Pages
                         Gamepass = $"Gamepass: Unknown";
                     }
 
-                    ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
-                    IsVerified = $"Verified: {Jsonresponse.people[0].detail.isVerified}";
-                    Location = $"Location: {Jsonresponse.people[0].detail.location}";
-                    Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
-                    Following = $"Following: {Jsonresponse.people[0].detail.followingCount}";
-                    Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
-                    Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
+                    ActiveDevice = $"Active Device: {profileResponse.People[0].PresenceDetails[0].Device}";
+                    IsVerified = $"Verified: {profileResponse.People[0].Detail.IsVerified}";
+                    Location = $"Location: {profileResponse.People[0].Detail.Location}";
+                    Tenure = $"Tenure: {profileResponse.People[0].Detail.Tenure}";
+                    Following = $"Following: {profileResponse.People[0].Detail.FollowingCount}";
+                    Followers = $"Followers: {profileResponse.People[0].Detail.FollowerCount}";
+                    Bio = $"Bio: { profileResponse.People[0].Detail.Bio}";
 
                     Watermarks.Clear();
 
@@ -562,14 +566,20 @@ namespace XAU.ViewModels.Pages
                     // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
                     // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
                     // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
-                    if (Jsonresponse.people[0].detail.tenure != "0")
+                    var tenureString = profileResponse.People[0].Detail.Tenure;
+                    if (int.TryParse(tenureString, out int tenureInt))
                     {
-                        var tenureBadge = Jsonresponse.people[0].detail.tenure.ToString("D2");
+                        // Format the integer as a two-digit string
+                        string tenureBadge = tenureInt.ToString("D2");
                         Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}tenure/{tenureBadge}.png" });
                     }
+                    else
+                    {
+                        // TODO: log error somewhere
+                        Console.WriteLine("The string is not a valid integer.");
+                    }
 
-                    string[] watermarkNames = Jsonresponse.people[0].detail.watermarks.ToObject<string[]>();
-                    foreach (var watermark in watermarkNames)
+                    foreach (var watermark in profileResponse.People[0].Detail.Watermarks)
                     {
                         Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}launch/{watermark.ToLower()}.png" });
                     }

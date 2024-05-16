@@ -87,7 +87,7 @@ public class Detail
     public bool IsVerified { get; set; }
     public string Location { get; set; }
     public string Tenure { get; set; }
-    public List<string> Watermarks { get; set; }
+    public List<string> Watermarks { get; set; } = new List<string>();
     public bool Blocked { get; set; }
     public bool Mute { get; set; }
     public int FollowerCount { get; set; }
@@ -104,9 +104,9 @@ public class LinkedAccount
     public string Deeplink { get; set; }
 }
 
-public class Root
+public class Profile
 {
-    public List<Person> People { get; set; }
+    public List<Person> People { get; set; } = new List<Person>();
     public object RecommendationSummary { get; set; }
     public object FriendFinderState { get; set; }
     public object AccountLinkDetails { get; set; }
