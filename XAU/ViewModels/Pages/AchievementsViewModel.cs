@@ -34,7 +34,7 @@ namespace XAU.ViewModels.Pages
         private GameTitle GameInfoResponse = new GameTitle();
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         // TODO: this needs to be updated if language changes
-        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH,  System.Globalization.CultureInfo.CurrentCulture.Name));
+        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH, System.Globalization.CultureInfo.CurrentCulture.Name));
 
         public static bool SpoofingUpdate = false;
         private bool IsFiltered = false;

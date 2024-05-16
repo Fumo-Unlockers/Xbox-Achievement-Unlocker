@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
@@ -50,7 +50,7 @@ namespace XAU.ViewModels.Pages
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
 
         // TODO: this needs to be updated if language changes
-        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH,  System.Globalization.CultureInfo.CurrentCulture.Name));
+        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH, System.Globalization.CultureInfo.CurrentCulture.Name));
 
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;

@@ -48,4 +48,13 @@ public class GithubRestApi
         var jsonResponse = (dynamic)JArray.Parse(responseString);
         return jsonResponse;
     }
+
+    public async Task<dynamic> CheckForEventUpdatesAsync()
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
+        var responseString = await _httpClient.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
+        var jsonResponse = (dynamic)JObject.Parse(responseString);
+        return jsonResponse;
+    }
 }

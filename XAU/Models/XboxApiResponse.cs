@@ -174,7 +174,7 @@ public class Gamepass
 {
     // This json response is actually massive, but we don't care
     // TOOD: maybe we want to look at points/stuff later
-    public string GamepassMembership {get; set;}
+    public string GamepassMembership { get; set; }
     public GamepassData Data { get; set; }
 }
 
@@ -220,19 +220,19 @@ public class TitlesList
 
 public class ProfileSettings
 {
-    public string Id {get;set;}
-    public string Value {get;set;}
+    public string Id { get; set; }
+    public string Value { get; set; }
 }
 
 public class ProfileUser
 {
-    public string Id {get; set;}
-    public string HostId {get;set;}
-    public List<ProfileSettings> Settings {get;set;}
-    public string IsSponsoredUser {get;set;}
+    public string Id { get; set; }
+    public string HostId { get; set; }
+    public List<ProfileSettings> Settings { get; set; }
+    public string IsSponsoredUser { get; set; }
 }
 
 public class BasicProfile
 {
-    public List<ProfileUser> ProfileUsers {get; set;}
+    public List<ProfileUser> ProfileUsers { get; set; }
 }

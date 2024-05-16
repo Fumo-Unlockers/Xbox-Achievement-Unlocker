@@ -91,11 +91,6 @@ namespace XAU.ViewModels.Pages
         string SettingsFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "settings.json");
         string EventsMetaFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "Events", "meta.json");
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
-        static HttpClientHandler handler = new HttpClientHandler()
-        {
-            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-        };
-        HttpClient client = new HttpClient(handler);
 
         public async void OnNavigatedTo()
         {
@@ -112,7 +107,7 @@ namespace XAU.ViewModels.Pages
 
             if (ToolVersion.Contains("DEV"))
             {
-                var jsonResponse =await _gitHubRestAPI.Value.GetDevToolVersionAsync();
+                var jsonResponse = await _gitHubRestAPI.Value.GetDevToolVersionAsync();
 
                 if (("DEV-" + jsonResponse.LatestBuildVersion.ToString()) != ToolVersion)
                 {
@@ -166,17 +161,7 @@ namespace XAU.ViewModels.Pages
         {
             if (EventsVersion == "EmptyDevEventsVersion")
                 return;
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, "gzip, deflate, br");
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept,
-                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
-            var responseString =
-                await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
-            var Jsonresponse = (dynamic)(new JObject());
-            Jsonresponse = (dynamic)JObject.Parse(responseString);
+            var jsonResponse = await _gitHubRestAPI.Value.CheckForEventUpdatesAsync();
             var EventsTimestamp = 0;
             if (File.Exists(EventsMetaFilePath))
             {
@@ -185,7 +170,7 @@ namespace XAU.ViewModels.Pages
                 EventsTimestamp = meta.Timestamp;
             }
 
-            if (Jsonresponse.Timestamp > EventsTimestamp && Jsonresponse.DataVersion == EventsVersion)
+            if (jsonResponse.Timestamp > EventsTimestamp && jsonResponse.DataVersion == EventsVersion)
             {
                 _snackbarService.Show("Downloading Events Update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                 UpdateEvents();
