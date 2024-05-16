@@ -52,6 +52,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
 
         private readonly Lazy<XboxRestAPI> _xboxRestAPI;
+        private readonly Lazy<GithubRestApi> _gitHubRestAPI = new Lazy<GithubRestApi>();
 
         public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
         public static string SpoofedTitleID = "0";
@@ -108,26 +109,17 @@ namespace XAU.ViewModels.Pages
         {
             if (ToolVersion == "EmptyDevToolVersion")
                 return;
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, "gzip, deflate, br");
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept,
-                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+
             if (ToolVersion.Contains("DEV"))
             {
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
-                var responseString =
-                    await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Pre-Release/info.json");
-                var Jsonresponse = (dynamic)(new JArray());
-                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                var jsonResponse =await _gitHubRestAPI.Value.GetDevToolVersionAsync();
 
-                if (("DEV-" + Jsonresponse.LatestBuildVersion.ToString()) != ToolVersion)
+                if (("DEV-" + jsonResponse.LatestBuildVersion.ToString()) != ToolVersion)
                 {
                     var result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
                         {
-                            Title = $"Version {Jsonresponse.LatestBuildVersion.ToString()} available to download",
+                            Title = $"Version {jsonResponse.LatestBuildVersion.ToString()} available to download",
                             Content = "Would you like to update to this version?",
                             PrimaryButtonText = "Update",
                             CloseButtonText = "Cancel"
@@ -136,7 +128,7 @@ namespace XAU.ViewModels.Pages
                     if (result == ContentDialogResult.Primary)
                     {
                         _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                        string sourceFile = Jsonresponse.DownloadURL.ToString();
+                        string sourceFile = jsonResponse.DownloadURL.ToString();
                         string destFile = @"XAU-new.exe";
                         var fileDownloader = new FileDownloader();
                         await fileDownloader.DownloadFileAsync(new Uri(sourceFile).ToString(), destFile, UpdateTool);
@@ -145,17 +137,14 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubApi);
-                var responseString =
-                    await client.GetStringAsync("https://api.github.com/repos/Fumo-Unlockers/Xbox-Achievement-unlocker/releases");
-                var Jsonresponse = (dynamic)(new JArray());
-                Jsonresponse = (dynamic)JArray.Parse(responseString);
-                if (Jsonresponse[0].tag_name.ToString() != ToolVersion)
+                var jsonResponse = await _gitHubRestAPI.Value.GetReleaseVersionAsync();
+
+                if (jsonResponse[0].tag_name.ToString() != ToolVersion)
                 {
                     var result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
                         {
-                            Title = $"Version {Jsonresponse[0].tag_name.ToString()} available to download",
+                            Title = $"Version {jsonResponse[0].tag_name.ToString()} available to download",
                             Content = "Would you like to update to this version?",
                             PrimaryButtonText = "Update",
                             CloseButtonText = "Cancel"
@@ -164,7 +153,7 @@ namespace XAU.ViewModels.Pages
                     if (result == ContentDialogResult.Primary)
                     {
                         _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                        string sourceFile = Jsonresponse[0].assets[0].browser_download_url.ToString();
+                        string sourceFile = jsonResponse[0].assets[0].browser_download_url.ToString();
                         string destFile = @"XAU-new.exe";
                         var fileDownloader = new FileDownloader();
                         await fileDownloader.DownloadFileAsync(sourceFile, destFile, UpdateTool);
