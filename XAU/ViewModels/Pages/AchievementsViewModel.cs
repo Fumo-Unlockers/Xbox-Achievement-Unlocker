@@ -239,7 +239,7 @@ namespace XAU.ViewModels.Pages
 
         public async Task Spoofing()
         {
-            await _xboxRestAPI.Value.SpoofAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
+            await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
             var i = 0;
             Thread.Sleep(1000);
             SpoofingUpdate = false;
@@ -247,7 +247,7 @@ namespace XAU.ViewModels.Pages
             {
                 if (i == 300)
                 {
-                    await _xboxRestAPI.Value.SpoofAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
+                    await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
                     i = 0;
                 }
                 else

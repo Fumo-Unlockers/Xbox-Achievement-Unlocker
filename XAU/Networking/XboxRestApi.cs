@@ -84,7 +84,7 @@ public class XboxRestAPI
     }
 
 
-    public async Task SpoofAsync(string xuid, string spoofedTitleId)
+    public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId)
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
