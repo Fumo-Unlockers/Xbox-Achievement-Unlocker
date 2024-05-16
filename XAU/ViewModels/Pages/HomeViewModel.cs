@@ -522,7 +522,7 @@ namespace XAU.ViewModels.Pages
                         // sometimes presence details don't exist.
                         if (Jsonresponse.people[0].presenceDetails.Count == 0)
                         {
-                            CurrentlyPlaying = $"Currently Playing: Unknown. No presence details detected. Play your account!";
+                            CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
                         }
                         else
                         {
@@ -534,7 +534,7 @@ namespace XAU.ViewModels.Pages
                     catch (ArgumentOutOfRangeException)
                     {
                         // User has no presence details
-                        CurrentlyPlaying = $"Currently Playing: Unknown. No presence details detected. Play your account!";
+                        CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
                     }
                     catch
                     {
@@ -561,7 +561,14 @@ namespace XAU.ViewModels.Pages
                         Gamepass = $"Gamepass: Unknown";
                     }
 
-                    ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
+                    if (Jsonresponse.people[0].presenceDetails.Count == 0)
+                    {
+                        ActiveDevice = $"Active Device: Unknown (No Presence)";
+                    }
+                    else
+                    {
+                        ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
+                    }
                     IsVerified = $"Verified: {Jsonresponse.people[0].detail.isVerified}";
                     Location = $"Location: {Jsonresponse.people[0].detail.location}";
                     Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
