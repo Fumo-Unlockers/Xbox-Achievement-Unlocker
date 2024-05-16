@@ -1,8 +1,6 @@
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Text;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
@@ -15,16 +13,11 @@ namespace XAU.ViewModels.Pages
     {
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
 
-        static HttpClientHandler handler = new HttpClientHandler()
-        {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
-        };
-
-        HttpClient client = new HttpClient(handler);
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH, System.Globalization.CultureInfo.CurrentCulture.Name));
+        private Lazy<TrueAchievementRestApi> _taRestApi = new Lazy<TrueAchievementRestApi>();
 
         public MiscViewModel(ISnackbarService snackbarService)
         {
@@ -203,19 +196,11 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public async Task SearchGame()
         {
-            client.DefaultRequestHeaders.Clear();
-            var SearchQuerytext = Uri.EscapeDataString(TSearchText);
-            SearchQuerytext = SearchQuerytext.Replace("%20", "+");
-            var response = await client.GetAsync($"https://www.trueachievements.com/searchresults.aspx?search={SearchQuerytext}");
-            var html = await response.Content.ReadAsStringAsync();
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-
-            var table = doc.DocumentNode.Descendants("table").FirstOrDefault(x => x.HasClass("maintable"));
-            var templinks = new List<string>();
             try
             {
-                templinks = table.Descendants("a").Select(a => a.GetAttributeValue("href", null)).Where(h => !string.IsNullOrEmpty(h)).ToList();
+                var response = await _taRestApi.Value.SearchAsync(TSearchText);
+                TSearchGameNames = response.Item1;
+                TSearchGameLinks = response.Item2;
             }
             catch
             {
@@ -224,37 +209,6 @@ namespace XAU.ViewModels.Pages
                     new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 return;
             }
-
-            var tempnames = table.Descendants("td")
-                .Where(td => td.HasClass("gamerwide"))
-                .Select(td => td.InnerText.Trim())
-                .ToList();
-            templinks.RemoveAt(0);
-            templinks.RemoveAt(0);
-            for (var i = 0; i < templinks.Count; i++)
-            {
-                templinks[i] = "https://www.trueachievements.com" + templinks[i];
-                templinks[i] = templinks[i].Replace("/achievements", "/price");
-                if (i > 0)
-                {
-                    if (templinks[i - 1] == templinks[i])
-                    {
-                        templinks.RemoveAt(i);
-                        i--;
-                        continue;
-                    }
-
-                }
-                if (!templinks[i].Contains("/game/"))
-                {
-                    templinks.RemoveAt(i);
-                    templinks.RemoveAt(i);
-                    tempnames.RemoveAt(i);
-                    i--;
-                }
-            }
-            TSearchGameLinks = templinks;
-            TSearchGameNames = tempnames;
         }
 
         public async void DisplayGameInfo(int index)
