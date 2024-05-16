@@ -1,7 +1,7 @@
 // OpenAPI or Swagger doesn't exist. But let's try and type the things we need to make parsing more readable
 // https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/reference/live/rest/atoc-xboxlivews-reference
 
-// See 'Models.md' for a breakdown of the responses'
+// TODO: check for dupes
 public class Person
 {
     public string Xuid { get; set; }
