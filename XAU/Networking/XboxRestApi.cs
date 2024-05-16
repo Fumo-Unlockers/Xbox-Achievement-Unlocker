@@ -27,13 +27,14 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Clear();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, _xauth);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _currentSystemLanguage);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
     }
 
     public async Task<BasicProfile?> GetBasicProfileAsync()
     {
         SetDefaultHeaders();
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Profile);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
@@ -45,8 +46,6 @@ public class XboxRestAPI
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion5);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.PeopleHub);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
 
@@ -59,8 +58,6 @@ public class XboxRestAPI
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
 
         // TODO: request as a model
         StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + titleId + "\"]}");
@@ -71,9 +68,6 @@ public class XboxRestAPI
     public async Task<Gamepass?> GetGamepassMembershipAsync(string xuid)
     {
         SetDefaultHeaders();
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-
         var gpuResponse = await _httpClient.GetAsync("https://xgrant.xboxlive.com/users/xuid(" + xuid + ")/programInfo?filter=profile,activities,catalog").Result.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<Gamepass>(gpuResponse);
     }
@@ -82,8 +76,6 @@ public class XboxRestAPI
     {
         SetDefaultHeaders(); // TODO: set hosts, and accept probably
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.TitleHub);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
         var responseString = await _httpClient.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + xuid + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
