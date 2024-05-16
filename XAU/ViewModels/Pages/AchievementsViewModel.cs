@@ -239,17 +239,7 @@ namespace XAU.ViewModels.Pages
 
         public async Task Spoofing()
         {
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-            var requestbody =
-                new StringContent(
-                    "{\"titles\":[{\"expiration\":600,\"id\":" + HomeViewModel.AutoSpoofedTitleID +
-                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, HeaderValues.Accept);
-            await client.PostAsync(
-                "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current",
-                requestbody);
+            await _xboxRestAPI.Value.SpoofAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
             var i = 0;
             Thread.Sleep(1000);
             SpoofingUpdate = false;
@@ -257,13 +247,7 @@ namespace XAU.ViewModels.Pages
             {
                 if (i == 300)
                 {
-                    client.DefaultRequestHeaders.Clear();
-                    client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-                    client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-                    client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-                    await client.PostAsync(
-                        "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
-                        ")/devices/current", requestbody);
+                    await _xboxRestAPI.Value.SpoofAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
                     i = 0;
                 }
                 else

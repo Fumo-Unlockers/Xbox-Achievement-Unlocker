@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json;
 
 public class XboxRestAPI
@@ -74,11 +75,25 @@ public class XboxRestAPI
 
     public async Task<TitlesList?> GetGamesListAsync(string xuid)
     {
-        SetDefaultHeaders(); // TODO: set hosts, and accept probably
+        SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.TitleHub);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
         var responseString = await _httpClient.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + xuid + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
         return JsonConvert.DeserializeObject<TitlesList>(responseString);
+    }
+
+
+    public async Task SpoofAsync(string xuid, string spoofedTitleId)
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+        var requestbody =
+            new StringContent(
+                "{\"titles\":[{\"expiration\":600,\"id\":" + spoofedTitleId +
+                ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, HeaderValues.Accept);
+        await _httpClient.PostAsync(
+        "https://presence-heartbeat.xboxlive.com/users/xuid(" + xuid + ")/devices/current",
+        requestbody);
     }
 }
