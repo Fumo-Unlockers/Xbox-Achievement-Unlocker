@@ -559,6 +559,7 @@ namespace XAU.ViewModels.Pages
                     return;
                 }
 
+                // TODO: move this over to the rest api?
                 var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
                 DateTime timestamp = DateTime.UtcNow;
                 foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()])
@@ -611,7 +612,8 @@ namespace XAU.ViewModels.Pages
                 var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
                 try
                 {
-                    await client.PostAsync(@"https://v20.events.data.microsoft.com/OneCollector/1.0/", bodyconverted);
+                    await _xboxRestAPI.Value.UnlockEventBasedAchievement(EventsToken, bodyconverted);
+
                     _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
                         ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                     DGAchievements[AchievementIndex].IsUnlockable = false;

@@ -201,9 +201,10 @@ public class XboxRestAPI
 
     }
 
-    public async Task UnlockEventBasedAchievement(string eventsToken)
+    public async Task UnlockEventBasedAchievement(string eventsToken, StringContent requestBody)
     {
         SetDefaultEventBasedHeaders();
         _httpClient2.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
+        await _httpClient2.PostAsync(@"https://v20.events.data.microsoft.com/OneCollector/1.0/", requestBody);
     }
 }
