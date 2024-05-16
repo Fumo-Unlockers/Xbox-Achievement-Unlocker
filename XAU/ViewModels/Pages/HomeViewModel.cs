@@ -220,22 +220,20 @@ namespace XAU.ViewModels.Pages
                 File.Move(eventFile, destinationPath, true);
             }
 
-            string zipUrl = "https://github.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/raw/Events-Data/Events.zip";
             string zipFilePath = Path.Combine(XAUPath, "Events.zip");
             string extractPath = XAUPath;
 
             using (var client = new FileDownloader())
             {
-                await client.DownloadFileAsync(zipUrl, zipFilePath);
+                await client.DownloadFileAsync(EventsUrls.Zip, zipFilePath);
             }
             ZipFile.ExtractToDirectory(zipFilePath, extractPath);
             File.Delete(zipFilePath);
             //download and place meta.json in the events folder
-            string MetaURL = "https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json";
             string MetaFilePath = Path.Combine(eventsFolderPath, "meta.json");
             using (var client = new FileDownloader())
             {
-                await client.DownloadFileAsync(MetaURL, MetaFilePath);
+                await client.DownloadFileAsync(EventsUrls.MetaUrl, MetaFilePath);
             }
             _snackbarService.Show("Events Update Complete", "Events have been updated to the latest version.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
         }
