@@ -423,27 +423,9 @@ namespace XAU.ViewModels.Pages
         }
         private async void TestXAUTH()
         {
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
             try
             {
-                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
-            }
-            catch (Exception)
-            {
-                return;
-            }
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Profile);
-            client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-            try
-            {
-                var responseString =
-                    await client.GetStringAsync(BasicXboxAPIUris.GamertagUrl);
-                var Jsonresponse = (dynamic)(new JObject());
-                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                var response = await _xboxRestAPI.Value.GetBasicProfileAsync();
                 if (Settings.PrivacyMode)
                 {
                     GamerTag = $"Gamertag: Hidden";
@@ -451,11 +433,11 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
-                    GamerTag = $"Gamertag: {Jsonresponse.profileUsers[0].settings[0].value}";
-                    Xuid = $"XUID: {Jsonresponse.profileUsers[0].id}";
+                    GamerTag = $"Gamertag: {response.ProfileUsers[0].Settings[0].Value}";
+                    Xuid = $"XUID: {response.ProfileUsers[0].Id}";
                 }
 
-                XUIDOnly = Jsonresponse.profileUsers[0].id;
+                XUIDOnly = response.ProfileUsers[0].Id;
                 IsLoggedIn = true;
                 XAUTHTested = true;
                 InitComplete = true;

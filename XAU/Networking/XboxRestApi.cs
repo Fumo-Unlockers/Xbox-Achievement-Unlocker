@@ -29,6 +29,18 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _currentSystemLanguage);
     }
 
+    public async Task<BasicProfile?> GetBasicProfileAsync()
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Profile);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
+        var response = await _httpClient.GetStringAsync(BasicXboxAPIUris.GamertagUrl);
+        return JsonConvert.DeserializeObject<BasicProfile>(response);
+    }
+
     public async Task<Profile?> GetProfileAsync(string xuid)
     {
         SetDefaultHeaders();
@@ -76,6 +88,5 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
         var responseString = await _httpClient.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + xuid + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
         return JsonConvert.DeserializeObject<TitlesList>(responseString);
-
     }
 }

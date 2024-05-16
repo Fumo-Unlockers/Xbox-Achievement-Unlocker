@@ -217,3 +217,22 @@ public class TitlesList
     public string Xuid { get; set; }
     public List<Title> Titles { get; set; }
 }
+
+public class ProfileSettings
+{
+    public string Id {get;set;}
+    public string Value {get;set;}
+}
+
+public class ProfileUser
+{
+    public string Id {get; set;}
+    public string HostId {get;set;}
+    public List<ProfileSettings> Settings {get;set;}
+    public string IsSponsoredUser {get;set;}
+}
+
+public class BasicProfile
+{
+    public List<ProfileUser> ProfileUsers {get; set;}
+}
