@@ -558,21 +558,7 @@ namespace XAU.ViewModels.Pages
                                                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
-                var authxtoken = HomeViewModel.XAUTH;
-                authxtoken = Regex.Replace(authxtoken, @"XBL3\.0 x=\d+;", "XBL3.0 x=-;");
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("user-agent", "MSDW");
-                client.DefaultRequestHeaders.Add("cache-control", "no-cache");
-                client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-                client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-                client.DefaultRequestHeaders.Add("reliability-mode", "standard");
-                client.DefaultRequestHeaders.Add("client-version", "EUTC-Windows-C++-no-10.0.22621.3296.amd64fre.ni_release.220506-1250-no");
-                client.DefaultRequestHeaders.Add("apikey", "0890af88a9ed4cc886a14f5e174a2827-9de66c5e-f867-43a8-a7b8-e0ddd481cca4-7548,95c1f21d6cb047a09e7b423c1cb2222e-9965f07b-54fa-498e-9727-9e8d24dec39e-7027");
-                client.DefaultRequestHeaders.Add("authxtoken", authxtoken);
-                client.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{EventsToken}\"");
-                client.DefaultRequestHeaders.Add("Client-Id", "NO_AUTH");
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Telemetry);
-                client.DefaultRequestHeaders.Add(HeaderNames.Connection, "close");
+
                 var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
                 DateTime timestamp = DateTime.UtcNow;
                 foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()])

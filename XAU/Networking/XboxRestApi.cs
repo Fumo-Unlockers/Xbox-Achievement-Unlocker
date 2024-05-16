@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -41,6 +42,25 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _currentSystemLanguage);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+    }
+
+    private void SetDefaultEventBasedHeaders()
+    {
+        _httpClient2.DefaultRequestHeaders.Clear();
+        _httpClient2.DefaultRequestHeaders.Add("user-agent", "MSDW");
+        _httpClient2.DefaultRequestHeaders.Add("cache-control", "no-cache");
+        _httpClient2.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+        _httpClient2.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+        _httpClient2.DefaultRequestHeaders.Add("reliability-mode", "standard");
+        _httpClient2.DefaultRequestHeaders.Add("client-version", "EUTC-Windows-C++-no-10.0.22621.3296.amd64fre.ni_release.220506-1250-no");
+        _httpClient2.DefaultRequestHeaders.Add("apikey", "0890af88a9ed4cc886a14f5e174a2827-9de66c5e-f867-43a8-a7b8-e0ddd481cca4-7548,95c1f21d6cb047a09e7b423c1cb2222e-9965f07b-54fa-498e-9727-9e8d24dec39e-7027");
+        _httpClient2.DefaultRequestHeaders.Add("Client-Id", "NO_AUTH");
+        _httpClient2.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Telemetry);
+        _httpClient2.DefaultRequestHeaders.Add(HeaderNames.Connection, "close");
+;
+        var authxtoken = Regex.Replace(_xauth, @"XBL3\.0 x=\d+;", "XBL3.0 x=-;");
+        _httpClient2.DefaultRequestHeaders.Add("authxtoken", authxtoken);
+
     }
 
     public async Task<BasicProfile?> GetBasicProfileAsync()
@@ -179,5 +199,11 @@ public class XboxRestAPI
                                 "https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements/" +
                                 serviceConfigId + "/update", bodyconverted);
 
+    }
+
+    public async Task UnlockEventBasedAchievement(string eventsToken)
+    {
+        SetDefaultEventBasedHeaders();
+        _httpClient2.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
     }
 }
