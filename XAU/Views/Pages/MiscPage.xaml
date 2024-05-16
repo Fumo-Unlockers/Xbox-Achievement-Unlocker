@@ -38,7 +38,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Margin="0"  Text="{Binding ViewModel.SpoofingText}"/>
-                    <Button Grid.Row="0" Grid.Column="1" Content="{Binding ViewModel.SpoofingButtonText}" HorizontalAlignment="Stretch" Command="{Binding ViewModel.SpooferButtonClickedAsyncCommand}" IsEnabled="{Binding ViewModel.IsInitialized}"/>
+                    <Button Grid.Row="0" Grid.Column="1" Content="{Binding ViewModel.SpoofingButtonText, IsAsync=true}" HorizontalAlignment="Stretch" Command="{Binding ViewModel.SpooferButtonClickedCommand}" IsEnabled="{Binding ViewModel.IsInitialized}"/>
                     <ui:TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,5,0,0" PlaceholderText="Title ID" Text="{Binding ViewModel.NewSpoofingID, Mode=TwoWay}"/>
                     <ui:Image 
                         Grid.Row="1"
