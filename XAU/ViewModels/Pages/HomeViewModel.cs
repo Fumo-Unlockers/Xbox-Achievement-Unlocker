@@ -51,6 +51,8 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] public static bool _updateAvaliable = false;
         [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
 
+        private readonly Lazy<XboxRestAPI> _xboxRestAPI;
+
         public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
         public static string SpoofedTitleID = "0";
         public static string AutoSpoofedTitleID = "0";
@@ -60,6 +62,9 @@ namespace XAU.ViewModels.Pages
         {
             _snackbarService = snackbarService;
             _contentDialogService = contentDialogService;
+
+            // Assume XAUTH and System Language are set by the time this is actually instantiated
+            _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH, currentSystemLanguage));
         }
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
@@ -470,24 +475,9 @@ namespace XAU.ViewModels.Pages
         #region Profile
         private async void GrabProfile()
         {
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion5);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.PeopleHub);
-            client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
             try
             {
-                var responseString = await client.GetStringAsync(
-                    $"https://peoplehub.xboxlive.com/users/me/people/xuids({XUIDOnly})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
-                var profileResponse = JsonConvert.DeserializeObject<Profile>(responseString);
-                if (profileResponse == null)
-                {
-                    // Todo: error out
-                    return;
-                }
+                var profileResponse = await _xboxRestAPI.Value.GetProfileAsync(XUIDOnly);
 
                 if (Settings.PrivacyMode)
                 {
@@ -558,7 +548,7 @@ namespace XAU.ViewModels.Pages
                     Tenure = $"Tenure: {profileResponse.People[0].Detail.Tenure}";
                     Following = $"Following: {profileResponse.People[0].Detail.FollowingCount}";
                     Followers = $"Followers: {profileResponse.People[0].Detail.FollowerCount}";
-                    Bio = $"Bio: { profileResponse.People[0].Detail.Bio}";
+                    Bio = $"Bio: {profileResponse.People[0].Detail.Bio}";
 
                     Watermarks.Clear();
 
