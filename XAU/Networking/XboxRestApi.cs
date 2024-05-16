@@ -114,6 +114,18 @@ public class XboxRestAPI
         return JsonConvert.DeserializeObject<TitlesList>(responseString);
     }
 
+    public async Task<GameStats?> GetGameStatsAsync(string xuid, string titleId)
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+
+        StringContent requestbody = new StringContent($"{{\"arrangebyfield\":\"xuid\",\"xuids\":[\"{xuid}\"],\"stats\":[{{\"name\":\"MinutesPlayed\",\"titleId\":\"{titleId}\"}}]}}");
+
+        var response = await _httpClient
+                .PostAsync("https://userstats.xboxlive.com/batch", requestbody).Result.Content
+                .ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<GameStats>(response);
+    }
 
     public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId)
     {
@@ -208,6 +220,7 @@ public class XboxRestAPI
 
     }
 
+    // TODO: see if we can handle the actual request body building
     public async Task UnlockEventBasedAchievement(string eventsToken, StringContent requestBody)
     {
         SetDefaultEventBasedHeaders();

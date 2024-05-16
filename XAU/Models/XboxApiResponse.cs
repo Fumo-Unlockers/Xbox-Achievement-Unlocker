@@ -236,3 +236,29 @@ public class BasicProfile
 {
     public List<ProfileUser> ProfileUsers { get; set; }
 }
+
+
+public class Stat
+{
+    public Dictionary<string, object> GroupProperties { get; set; }
+    public string Xuid { get; set; }
+    public string Scid { get; set; }
+    public string TitleId { get; set; }
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public string Value { get; set; }
+    public Dictionary<string, object> Properties { get; set; }
+}
+
+public class StatListCollection
+{
+    public string ArrangeByField { get; set; }
+    public string ArrangeByFieldId { get; set; }
+    public List<Stat> Stats { get; set; }
+}
+
+public class GameStats
+{
+    public List<object> Groups { get; set; }
+    public List<StatListCollection> StatListsCollection { get; set; }
+}
