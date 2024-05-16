@@ -31,8 +31,11 @@ namespace XAU.ViewModels.Pages
         public static bool NewGame = false;
         public static bool IsSelectedGame360;
         private dynamic AchievementResponse = (dynamic)(new JObject());
-        private dynamic GameInfoResponse = (dynamic)(new JObject());
+        private GameTitle GameInfoResponse = new GameTitle();
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+        // TODO: this needs to be updated if language changes
+        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH,  System.Globalization.CultureInfo.CurrentCulture.Name));
+
         public static bool SpoofingUpdate = false;
         private bool IsFiltered = false;
         private bool IsEventBased = false;
@@ -123,12 +126,12 @@ namespace XAU.ViewModels.Pages
                     if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
                     {
                         GameInfo = "Manually Spoofing";
-                        GameName = GameInfoResponse.titles[0].name.ToString();
+                        GameName = GameInfoResponse.Titles[0].Name.ToString();
                     }
                     else
                     {
                         GameInfo = "Spoofing Another Game";
-                        GameName = GameInfoResponse.titles[0].name.ToString();
+                        GameName = GameInfoResponse.Titles[0].Name.ToString();
                     }
 
                 }
@@ -177,18 +180,11 @@ namespace XAU.ViewModels.Pages
                 TitleID = "0";
             }
             GameInfo = "";
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-            StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + TitleIDOverride + "\"]}");
-            GameInfoResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
+            GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
             try
             {
-                IsSelectedGame360 = GameInfoResponse.titles[0].devices.ToString().Contains("Xbox360") || GameInfoResponse.titles[0].devices.ToString().Contains("Mobile");
-                GameInfo = GameInfoResponse.titles[0].name.ToString();
+                IsSelectedGame360 = GameInfoResponse.Titles[0].Devices.ToString().Contains("Xbox360") || GameInfoResponse.Titles[0].Devices.ToString().Contains("Mobile");
+                GameInfo = GameInfoResponse.Titles[0].Name.ToString();
                 IsTitleIDValid = true;
             }
             catch
@@ -207,12 +203,12 @@ namespace XAU.ViewModels.Pages
                 if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
                 {
                     GameInfo = "Manually Spoofing";
-                    GameName = GameInfoResponse.titles[0].name.ToString();
+                    GameName = GameInfoResponse.Titles[0].Name.ToString();
                 }
                 else
                 {
                     GameInfo = "Spoofing Another Game";
-                    GameName = GameInfoResponse.titles[0].name.ToString();
+                    GameName = GameInfoResponse.Titles[0].Name.ToString();
                 }
             }
             else
@@ -220,19 +216,19 @@ namespace XAU.ViewModels.Pages
                 HomeViewModel.AutoSpoofedTitleID = TitleIDOverride;
                 HomeViewModel.SpoofingStatus = 2;
                 GameInfo = "Auto Spoofing";
-                GameName = GameInfoResponse.titles[0].name.ToString();
+                GameName = GameInfoResponse.Titles[0].Name.ToString();
                 await Task.Run(() => Spoofing());
                 if (HomeViewModel.SpoofingStatus == 1)
                 {
                     if (HomeViewModel.SpoofedTitleID == HomeViewModel.AutoSpoofedTitleID)
                     {
                         GameInfo = "Manually Spoofing";
-                        GameName = GameInfoResponse.titles[0].name.ToString();
+                        GameName = GameInfoResponse.Titles[0].Name.ToString();
                     }
                     else
                     {
                         GameInfo = "Spoofing Another Game";
-                        GameName = GameInfoResponse.titles[0].name.ToString();
+                        GameName = GameInfoResponse.Titles[0].Name.ToString();
                     }
                 }
                 HomeViewModel.AutoSpoofedTitleID = "0";
