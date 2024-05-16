@@ -177,3 +177,43 @@ public class Gamepass
     public string GamepassMembership {get; set;}
     public GamepassData Data { get; set; }
 }
+
+public class TitleHistory
+{
+    public DateTime LastTimePlayed { get; set; }
+    public bool Visible { get; set; }
+    public bool CanHide { get; set; }
+}
+
+public class Title
+{
+    public string TitleId { get; set; }
+    public string Pfn { get; set; }
+    public string BingId { get; set; }
+    public string ServiceConfigId { get; set; }
+    public string WindowsPhoneProductId { get; set; }
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public List<string> Devices { get; set; }
+    public string DisplayImage { get; set; }
+    public string MediaItemType { get; set; }
+    public string ModernTitleId { get; set; }
+    public bool IsBundle { get; set; }
+    public Achievement Achievement { get; set; }
+    public object Stats { get; set; }
+    public object GamePass { get; set; }
+    public object Images { get; set; }
+    public TitleHistory TitleHistory { get; set; }
+    public object TitleRecord { get; set; }
+    public object Detail { get; set; }
+    public object FriendsWhoPlayed { get; set; }
+    public object AlternateTitleIds { get; set; }
+    public object ContentBoards { get; set; }
+    public string XboxLiveTier { get; set; }
+}
+
+public class TitlesList
+{
+    public string Xuid { get; set; }
+    public List<Title> Titles { get; set; }
+}

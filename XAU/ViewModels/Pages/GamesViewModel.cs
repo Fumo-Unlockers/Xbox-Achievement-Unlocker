@@ -1,4 +1,4 @@
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
@@ -26,15 +26,13 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private int _currentPage = 0;
         [ObservableProperty] private bool _isInitialized = false;
 
-        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
-
         static HttpClientHandler handler = new HttpClientHandler()
         {
             AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
         };
 
         HttpClient client = new HttpClient(handler);
-        dynamic GamesResponse = (dynamic)(new JObject());
+        TitlesList GamesResponse = new TitlesList();
         public bool PageReset = true;
 
 
@@ -49,7 +47,10 @@ namespace XAU.ViewModels.Pages
 
         }
 
-        private string XAUTH = HomeViewModel.XAUTH;
+        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
+
+        // TODO: this needs to be updated if language changes
+        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH,  System.Globalization.CultureInfo.CurrentCulture.Name));
 
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;
@@ -82,16 +83,7 @@ namespace XAU.ViewModels.Pages
             Games.Clear();
             GamesPaged.Clear();
             LoadingStart();
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.TitleHub);
-            client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-            var responseString = await client.GetStringAsync("https://titlehub.xboxlive.com/users/xuid(" + XuidOverride + ")/titles/titleHistory/decoration/Achievement,scid?maxItems=10000");
-            GamesResponse = (dynamic)JObject.Parse(responseString);
+            GamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(XuidOverride);
             LoadGame();
         }
 
@@ -108,8 +100,8 @@ namespace XAU.ViewModels.Pages
         }
         public async Task OpenAchievements(string index)
         {
-            AchievementsViewModel.TitleID = GamesResponse.titles[int.Parse(index)].titleId.ToString();
-            AchievementsViewModel.IsSelectedGame360 = GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Xbox360") || GamesResponse.titles[int.Parse(index)].devices.ToString().Contains("Mobile");
+            AchievementsViewModel.TitleID = GamesResponse.Titles[int.Parse(index)].TitleId.ToString();
+            AchievementsViewModel.IsSelectedGame360 = GamesResponse.Titles[int.Parse(index)].Devices.ToString().Contains("Xbox360") || GamesResponse.Titles[int.Parse(index)].Devices.ToString().Contains("Mobile");
             AchievementsViewModel.NewGame = true;
             navigationService.Navigate(typeof(AchievementsPage));
             await Task.CompletedTask;
@@ -131,9 +123,9 @@ namespace XAU.ViewModels.Pages
                 switch (FilterIndex)
                 {
                     case 1:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (title.devices.ToString().Contains("XboxSeries") || title.devices.ToString().Contains("XboxOne"))
                             {
                                 if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
@@ -143,9 +135,9 @@ namespace XAU.ViewModels.Pages
                         }
                         break;
                     case 2:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (title.devices.ToString().Contains("PC"))
                             {
                                 if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
@@ -155,9 +147,9 @@ namespace XAU.ViewModels.Pages
                         }
                         break;
                     case 3:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (title.devices.ToString().Contains("Xbox360"))
                             {
                                 if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
@@ -167,9 +159,9 @@ namespace XAU.ViewModels.Pages
                         }
                         break;
                     case 4:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (title.devices.ToString().Contains("Win32"))
                             {
                                 if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
@@ -182,9 +174,9 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                for (int i = 0; i < GamesResponse.titles.Count; i++)
+                for (int i = 0; i < GamesResponse.Titles.Count; i++)
                 {
-                    dynamic title = GamesResponse.titles[i];
+                    dynamic title = GamesResponse.Titles[i];
                     if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
                         continue;
                     AddGame(i);
@@ -193,7 +185,7 @@ namespace XAU.ViewModels.Pages
             }
 
             LoadingEnd();
-            SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
+            SearchLabel = $"Search {GamesResponse.Titles.Count.ToString()} Games";
             if (Games.Count() == 0)
             {
                 _snackbarService.Show("Error", $"No Games Found", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
@@ -240,33 +232,33 @@ namespace XAU.ViewModels.Pages
                 switch (FilterIndex)
                 {
                     case 1:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (title.devices.ToString().Contains("XboxSeries") || title.devices.ToString().Contains("XboxOne"))
                                 AddGame(i);
                         }
                         break;
                     case 2:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (title.devices.ToString().Contains("PC"))
                                 AddGame(i);
                         }
                         break;
                     case 3:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (title.devices.ToString().Contains("Xbox360"))
                                 AddGame(i);
                         }
                         break;
                     case 4:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (title.devices.ToString().Contains("Win32"))
                                 AddGame(i);
                         }
@@ -275,14 +267,14 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                for (int i = 0; i < GamesResponse.titles.Count; i++)
+                for (int i = 0; i < GamesResponse.Titles.Count; i++)
                 {
                     AddGame(i);
                 }
             }
 
             LoadingEnd();
-            SearchLabel = $"Search {GamesResponse.titles.Count.ToString()} Games";
+            SearchLabel = $"Search {GamesResponse.Titles.Count.ToString()} Games";
             if (Games.Count() == 0)
             {
                 _snackbarService.Show("Error", $"No Games Found", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
@@ -310,19 +302,19 @@ namespace XAU.ViewModels.Pages
 
         private void AddGame(int index)
         {
-            dynamic title = GamesResponse.titles[index];
-            var EditedImage = title.displayImage.ToString();
+            var title = GamesResponse.Titles[index];
+            var EditedImage = title.DisplayImage.ToString();
             if (EditedImage.Contains("store-images.s-microsoft.com"))
             {
                 EditedImage = EditedImage + "?w=256&h=256&format=jpg";
             }
             Games.Add(new Game()
             {
-                Title = title.name.ToString(),
-                CurrentAchievements = title.achievement.currentAchievements.ToString(),
-                Gamerscore = title.achievement.currentGamerscore.ToString() + "/" +
-                             title.achievement.totalGamerscore.ToString(),
-                Progress = title.achievement.progressPercentage.ToString(),
+                Title = title.Name.ToString(),
+                CurrentAchievements = title.Achievement.CurrentAchievements.ToString(),
+                Gamerscore = title.Achievement.CurrentGamerscore.ToString() + "/" +
+                             title.Achievement.TotalGamerscore.ToString(),
+                Progress = title.Achievement.ProgressPercentage.ToString(),
                 Image = EditedImage, //"pack://application:,,,/Assets/cirno.png", //
                 Index = index.ToString()
             });
@@ -364,9 +356,9 @@ namespace XAU.ViewModels.Pages
 
         public void CopyToClipboard(string index)
         {
-            var titleid = GamesResponse.titles[int.Parse(index)].titleId.ToString();
-            var title = GamesResponse.titles[int.Parse(index)].name.ToString();
-            Clipboard.SetDataObject(GamesResponse.titles[int.Parse(index)].titleId.ToString());
+            var titleid = GamesResponse.Titles[int.Parse(index)].TitleId.ToString();
+            var title = GamesResponse.Titles[int.Parse(index)].Name.ToString();
+            Clipboard.SetDataObject(GamesResponse.Titles[int.Parse(index)].TitleId.ToString());
             _snackbarService.Show("TitleID Copied", $"Copied the title ID of {title.ToString()} to clipboard\nTitleID: {titleid.ToString()}", ControlAppearance.Success, new SymbolIcon(SymbolRegular.ClipboardCheckmark24), _snackbarDuration);
         }
     }
