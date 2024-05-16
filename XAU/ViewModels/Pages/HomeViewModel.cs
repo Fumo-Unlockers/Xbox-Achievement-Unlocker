@@ -518,9 +518,23 @@ namespace XAU.ViewModels.Pages
                         client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
                         client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
                         client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-                        StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + Jsonresponse.people[0].presenceDetails[0].TitleId + "\"]}");
-                        var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
-                        CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
+
+                        // sometimes presence details don't exist.
+                        if (Jsonresponse.people[0].presenceDetails.Count == 0)
+                        {
+                            CurrentlyPlaying = $"Currently Playing: Unknown. No presence details detected. Play your account!";
+                        }
+                        else
+                        {
+                            StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + Jsonresponse.people[0].presenceDetails[0].TitleId + "\"]}");
+                            var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
+                            CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
+                        }
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        // User has no presence details
+                        CurrentlyPlaying = $"Currently Playing: Unknown. No presence details detected. Play your account!";
                     }
                     catch
                     {
