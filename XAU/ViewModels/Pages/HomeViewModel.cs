@@ -507,8 +507,20 @@ namespace XAU.ViewModels.Pages
                     AccountTier = $"Tier: {profileResponse.People[0].Detail.AccountTier}";
                     try
                     {
-                        var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, profileResponse.People[0].PresenceDetails[0].TitleId);
-                        CurrentlyPlaying = $"Currently Playing: {gameTitle.Titles[0].Name}";
+                        if (profileResponse.People[0].PresenceDetails.Count == 0)
+                        {
+                            CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
+                        }
+                        else
+                        {
+                            var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, profileResponse.People[0].PresenceDetails[0].TitleId);
+                            CurrentlyPlaying = $"Currently Playing: {gameTitle.Titles[0].Name}";
+                        }
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        // User has no presence details
+                        CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
                     }
                     catch
                     {
