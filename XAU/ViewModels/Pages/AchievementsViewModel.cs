@@ -42,6 +42,14 @@ namespace XAU.ViewModels.Pages
         private dynamic EventsData = (dynamic)(new JObject());
         public static string EventsToken;
 
+        static HttpClientHandler insecureEventsHandler = new HttpClientHandler()
+        {
+            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
+            //This is an absolutely terrible idea but the stupid fucking events API just cries about SSL errors
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+        private HttpClient client = new HttpClient(insecureEventsHandler); // Dumb, but needed for events for now
+
         public AchievementsViewModel(ISnackbarService snackbarService)
         {
             _snackbarService = snackbarService;
