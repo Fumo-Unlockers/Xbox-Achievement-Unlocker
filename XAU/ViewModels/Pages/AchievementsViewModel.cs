@@ -532,32 +532,16 @@ namespace XAU.ViewModels.Pages
         {
             if (!IsEventBased)
             {
-                var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + AchievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" + AchievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" + HomeViewModel.XUIDOnly + "\",\"achievements\":[{\"id\":\"" + DGAchievements[AchievementIndex].ID + "\",\"percentComplete\":\"100\"}]}";
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-                client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-                client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-                client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
-                client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-                client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
-                if (HomeViewModel.Settings.FakeSignatureEnabled)
-                    client.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
-                var bodyconverted = new StringContent(requestbody, Encoding.UTF8, HeaderValues.Accept);
                 try
                 {
-                    await client.PostAsync(
-                        "https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements/" +
-                        AchievementResponse.achievements[0].serviceConfigId + "/update", bodyconverted);
+                    await _xboxRestAPI.Value.UnlockTitleBasedAchievementAsync(AchievementResponse.achievements[0].serviceConfigId.ToString(), AchievementResponse.achievements[0].titleAssociations[0].id.ToString(), HomeViewModel.XUIDOnly, DGAchievements[AchievementIndex].ID.ToString(), HomeViewModel.Settings.FakeSignatureEnabled);
+
                     _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
                         ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                     DGAchievements[AchievementIndex].IsUnlockable = false;
                     DGAchievements[AchievementIndex].ProgressState = StringConstants.Achieved;
                     DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
                     CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
-
-
                 }
                 catch (HttpRequestException ex)
                 {

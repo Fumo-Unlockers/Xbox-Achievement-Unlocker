@@ -128,4 +128,26 @@ public class XboxRestAPI
         var response = (dynamic)JObject.Parse(await _httpClient.GetAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + titleId + "&maxItems=1000").Result.Content.ReadAsStringAsync());
         return response;
     }
+
+    public async Task UnlockTitleBasedAchievementAsync(string serviceConfigId, string titleId, string xuid, string achievementId, bool useFakeSignature = false)
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
+
+        if (useFakeSignature)
+        {
+            _httpClient.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
+        }
+
+        var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + serviceConfigId + "\",\"titleId\":\"" + titleId + "\",\"userId\":\"" + xuid + "\",\"achievements\":[{\"id\":\"" + achievementId + "\",\"percentComplete\":\"100\"}]}";
+        var bodyconverted = new StringContent(requestbody, Encoding.UTF8, HeaderValues.Accept);
+
+        await _httpClient.PostAsync(
+                                "https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements/" +
+                                serviceConfigId + "/update", bodyconverted);
+
+    }
 }
