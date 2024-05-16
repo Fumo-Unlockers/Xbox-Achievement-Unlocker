@@ -42,15 +42,6 @@ namespace XAU.ViewModels.Pages
         private dynamic EventsData = (dynamic)(new JObject());
         public static string EventsToken;
 
-        static HttpClientHandler handler = new HttpClientHandler()
-        {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
-            //This is an absolutely terrible idea but the stupid fucking events API just cries about SSL errors
-            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-        };
-        HttpClient client = new HttpClient(handler);
-
-
         public AchievementsViewModel(ISnackbarService snackbarService)
         {
             _snackbarService = snackbarService;
@@ -272,15 +263,7 @@ namespace XAU.ViewModels.Pages
             if (!IsSelectedGame360)
             {
                 Unlockable = true;
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion4);
-                client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-                client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-                client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
-                client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-                AchievementResponse = (dynamic)JObject.Parse(await client.GetAsync("https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements?titleId=" + TitleIDOverride + "&maxItems=1000").Result.Content.ReadAsStringAsync());
+                await _xboxRestAPI.Value.GetAchievementsForTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
                 try
                 {
                     if (AchievementResponse.achievements[0].progression.requirements.ToString().Length > 2)
@@ -411,15 +394,7 @@ namespace XAU.ViewModels.Pages
             else
             {
                 Unlockable = false;
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-                client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-                client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-                client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
-                client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-                AchievementResponse = (dynamic)JObject.Parse(await client.GetAsync("https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/titleachievements?titleId=" + TitleIDOverride + "&maxItems=1000").Result.Content.ReadAsStringAsync());
+                var AchievementResponse = await _xboxRestAPI.Value.GetAchievementsFor360TitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
                 if (AchievementResponse.achievements.Count == 0)
                 {
                     _snackbarService.Show("Error: No Achievements", $"There were no achievements returned from the API", ControlAppearance.Danger,

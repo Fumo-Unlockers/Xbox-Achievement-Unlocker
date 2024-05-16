@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class XboxRestAPI
 {
@@ -105,5 +106,26 @@ public class XboxRestAPI
         await _httpClient.PostAsync(
         "https://presence-heartbeat.xboxlive.com/users/xuid(" + xuid + ")/devices/current",
         requestbody);
+    }
+
+    // TODO actual typing
+    public async Task<dynamic> GetAchievementsForTitleAsync(string xuid, string titleId)
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion4);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
+        var response = (dynamic)JObject.Parse(await _httpClient.GetAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + titleId + "&maxItems=1000").Result.Content.ReadAsStringAsync());
+        return response;
+    }
+
+    public async Task<dynamic> GetAchievementsFor460TitleAsync(string xuid, string titleId)
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion4);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
+        var response = (dynamic)JObject.Parse(await _httpClient.GetAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + titleId + "&maxItems=1000").Result.Content.ReadAsStringAsync());
+        return response;
     }
 }
