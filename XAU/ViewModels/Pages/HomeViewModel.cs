@@ -518,17 +518,15 @@ namespace XAU.ViewModels.Pages
                     // GPU details
                     try
                     {
-                        client.DefaultRequestHeaders.Clear();
-                        client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-                        client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
-                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-                        var gpuResponse = (dynamic)JObject.Parse(await client.GetAsync("https://xgrant.xboxlive.com/users/xuid(" + XUIDOnly + ")/programInfo?filter=profile,activities,catalog").Result.Content.ReadAsStringAsync());
-                        if (gpuResponse.ContainsKey("gamePassMembership"))
-                            Gamepass = $"Gamepass: {gpuResponse.gamePassMembership}";
+                        var gpuResponse = await _xboxRestAPI.Value.GetGamepassMembershipAsync(XUIDOnly);
+                        if (!string.IsNullOrEmpty(gpuResponse.GamepassMembership))
+                        {
+                            Gamepass = $"Gamepass: {gpuResponse.GamepassMembership}";
+                        }
                         else
-                            Gamepass = $"Gamepass: {gpuResponse.data.gamePassMembership}";
-
+                        {
+                            Gamepass = $"Gamepass: {gpuResponse.Data.GamepassMembership}";
+                        }
                     }
                     catch
                     {

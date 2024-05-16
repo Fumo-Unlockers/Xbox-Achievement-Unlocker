@@ -164,3 +164,16 @@ public class GameTitle
     public string Xuid { get; set; }
     public List<XboxTitle> Titles { get; set; }
 }
+
+public class GamepassData
+{
+    public string GamepassMembership { get; set; }
+}
+
+public class Gamepass
+{
+    // This json response is actually massive, but we don't care
+    // TOOD: maybe we want to look at points/stuff later
+    public string GamepassMembership {get; set;}
+    public GamepassData Data { get; set; }
+}
