@@ -7,6 +7,8 @@ public class XboxRestAPI
 {
     private readonly HttpClient _httpClient;
 
+    private readonly HttpClient _httpClient2; // Dumb, but needed for events for now
+
     // User specifics
     private readonly string _xauth;
     private readonly string _currentSystemLanguage;
@@ -21,6 +23,14 @@ public class XboxRestAPI
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
         };
         _httpClient = new HttpClient(handler);
+
+        var insecureEventsHandler = new HttpClientHandler()
+        {
+            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
+            //This is an absolutely terrible idea but the stupid fucking events API just cries about SSL errors
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+        _httpClient2 = new HttpClient(insecureEventsHandler);
     }
 
     private void SetDefaultHeaders()
