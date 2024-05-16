@@ -58,6 +58,14 @@ public struct BasicXboxAPIUris
     public const string WatermarksUrl = " https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/";
 }
 
+public struct InterpolatedXboxAPIUrls
+{
+    public const string GamepassMembershipUrl = "https://xgrant.xboxlive.com/users/xuid({0})/programInfo?filter=profile,activities,catalog";
+    public const string ProfileUrl = "https://peoplehub.xboxlive.com/users/me/people/xuids({0})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary";
+    public const string TitleUrl = "https://titlehub.xboxlive.com/users/xuid({0})/titles/batch/decoration/GamePass,Achievement,Stats";
+    public const string TitlesUrl = "https://titlehub.xboxlive.com/users/xuid({0})/titles/titleHistory/decoration/Achievement,scid?maxItems=10000";
+}
+
 public struct ProcessNames
 {
     public const string XboxPcApp = "XboxPcApp";

@@ -213,6 +213,7 @@ namespace XAU.ViewModels.Pages
 
         public async void DisplayGameInfo(int index)
         {
+            // todo: extract
             var response = await client.GetAsync(TSearchGameLinks[index]);
             var html = await response.Content.ReadAsStringAsync();
             var doc = new HtmlDocument();
