@@ -26,12 +26,6 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private int _currentPage = 0;
         [ObservableProperty] private bool _isInitialized = false;
 
-        static HttpClientHandler handler = new HttpClientHandler()
-        {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
-        };
-
-        HttpClient client = new HttpClient(handler);
         TitlesList GamesResponse = new TitlesList();
         public bool PageReset = true;
 
