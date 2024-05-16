@@ -57,7 +57,7 @@ public class XboxRestAPI
         _httpClient2.DefaultRequestHeaders.Add("Client-Id", "NO_AUTH");
         _httpClient2.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Telemetry);
         _httpClient2.DefaultRequestHeaders.Add(HeaderNames.Connection, "close");
-;
+        ;
         var authxtoken = Regex.Replace(_xauth, @"XBL3\.0 x=\d+;", "XBL3.0 x=-;");
         _httpClient2.DefaultRequestHeaders.Add("authxtoken", authxtoken);
 
@@ -126,6 +126,13 @@ public class XboxRestAPI
         await _httpClient.PostAsync(
         "https://presence-heartbeat.xboxlive.com/users/xuid(" + xuid + ")/devices/current",
         requestbody);
+    }
+
+    public async Task StopHeartbeatAsync(string xuid)
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+        await _httpClient.DeleteAsync("https://presence-heartbeat.xboxlive.com/users/xuid(" + xuid + ")/devices/current");
     }
 
     // TODO actual typing

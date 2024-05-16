@@ -24,6 +24,7 @@ namespace XAU.ViewModels.Pages
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
+        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH, System.Globalization.CultureInfo.CurrentCulture.Name));
 
         public MiscViewModel(ISnackbarService snackbarService)
         {
@@ -89,7 +90,7 @@ namespace XAU.ViewModels.Pages
                 GameImage = "pack://application:,,,/Assets/cirno.png";
                 GameTime = "Time Played: ";
                 HomeViewModel.SpoofingStatus = 0;
-                await client.DeleteAsync("https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current");
+                await _xboxRestAPI.Value.StopHeartbeatAsync(HomeViewModel.XUIDOnly);
                 return;
             }
             HomeViewModel.SpoofedTitleID = NewSpoofingID;
@@ -172,23 +173,14 @@ namespace XAU.ViewModels.Pages
 
         }
 
+        // TODO: this code seems like it's duplicated in AchievementsViewModel.cs too.
         public async Task Spoofing()
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             TimeSpan spoofingTime = stopwatch.Elapsed;
             SpoofingText = $"Spoofing {GameName} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-            var requestbody =
-                new StringContent(
-                    "{\"titles\":[{\"expiration\":600,\"id\":" + CurrentSpoofingID +
-                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, HeaderValues.Accept);
-            await client.PostAsync(
-                "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current",
-                requestbody);
+            await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
             var i = 0;
             Thread.Sleep(1000);
             SpoofingUpdate = false;
@@ -196,9 +188,7 @@ namespace XAU.ViewModels.Pages
             {
                 if (i == 300)
                 {
-                    await client.PostAsync(
-                        "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
-                        ")/devices/current", requestbody);
+                    await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
                     i = 0;
                 }
                 else
