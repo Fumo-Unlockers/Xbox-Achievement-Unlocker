@@ -263,7 +263,7 @@ namespace XAU.ViewModels.Pages
             if (!IsSelectedGame360)
             {
                 Unlockable = true;
-                await _xboxRestAPI.Value.GetAchievementsForTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
+                AchievementResponse = await _xboxRestAPI.Value.GetAchievementsForTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
                 try
                 {
                     if (AchievementResponse.achievements[0].progression.requirements.ToString().Length > 2)
