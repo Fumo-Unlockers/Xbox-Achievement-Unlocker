@@ -484,6 +484,7 @@ namespace XAU.ViewModels.Pages
                     $"https://peoplehub.xboxlive.com/users/me/people/xuids({XUIDOnly})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
                 var Jsonresponse = (dynamic)(new JObject());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
+
                 if (Settings.PrivacyMode)
                 {
                     GamerTag = $"Gamertag: Hidden";
