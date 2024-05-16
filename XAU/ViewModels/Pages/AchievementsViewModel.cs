@@ -647,35 +647,12 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public async Task UnlockAll()
         {
-            var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" +
-                              AchievementResponse.achievements[0].serviceConfigId + "\",\"titleId\":\"" +
-                              AchievementResponse.achievements[0].titleAssociations[0].id + "\",\"userId\":\"" +
-                              HomeViewModel.XUIDOnly + "\",\"achievements\":[";
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
-            client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-            client.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
-            if (HomeViewModel.Settings.FakeSignatureEnabled)
-                client.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
-            foreach (Achievement achievement in Achievements)
-            {
-                if (achievement.progressState != StringConstants.Achieved)
-                {
-                    requestbody += "{\"id\":\"" + achievement.id + "\",\"percentComplete\":\"100\"},";
-                }
-            }
-            requestbody = requestbody.Remove(requestbody.Length - 1) + "]}";
-            var bodyconverted = new StringContent(requestbody, Encoding.UTF8, HeaderValues.Accept);
+            var lockedAchievementIds = Achievements.Where(o => o.progressState != StringConstants.Achieved).Select(o => o.id).ToList();
             try
             {
-                await client.PostAsync(
-                    "https://achievements.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/achievements/" +
-                    AchievementResponse.achievements[0].serviceConfigId + "/update", bodyconverted);
+                await _xboxRestAPI.Value.UnlockAllTitleBasedAchievementAsync(serviceConfigId: AchievementResponse.achievements[0].serviceConfigId,
+                    titleId: AchievementResponse.achievements[0].titleAssociations[0].id, xuid: HomeViewModel.XUIDOnly, achievementIds: lockedAchievementIds, useFakeSignature: HomeViewModel.Settings.FakeSignatureEnabled);
+
                 _snackbarService.Show("All Achievements Unlocked", $"All Achievements for this game have been unlocked",
                     ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                 var unlocktime = DateTime.Now;

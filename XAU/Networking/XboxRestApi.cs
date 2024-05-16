@@ -150,4 +150,34 @@ public class XboxRestAPI
                                 serviceConfigId + "/update", bodyconverted);
 
     }
+
+    public async Task UnlockAllTitleBasedAchievementAsync(string serviceConfigId, string titleId, string xuid, List<string> achievementIds, bool useFakeSignature = false)
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
+
+        if (useFakeSignature)
+        {
+            _httpClient.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
+        }
+
+        var requestbody = "{\"action\":\"progressUpdate\",\"serviceConfigId\":\"" + serviceConfigId + "\",\"titleId\":\"" + titleId + "\",\"userId\":\"" + xuid + "\",\"achievements\":[";
+
+        // TODO: eventually reduce 2n loops (since we do this in the caller too)
+        foreach (string id in achievementIds)
+        {
+            requestbody += "{\"id\":\"" + id + "\",\"percentComplete\":\"100\"},";
+        }
+
+        requestbody = requestbody.Remove(requestbody.Length - 1) + "]}";
+        var bodyconverted = new StringContent(requestbody, Encoding.UTF8, HeaderValues.Accept);
+
+        await _httpClient.PostAsync(
+                                "https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements/" +
+                                serviceConfigId + "/update", bodyconverted);
+
+    }
 }
