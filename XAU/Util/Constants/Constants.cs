@@ -57,3 +57,8 @@ public struct BasicXboxAPIUris
     public const string GamertagUrl = "https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag";
     public const string WatermarksUrl = " https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/";
 }
+
+public struct ProcessNames
+{
+    public const string XboxPcApp = "XboxPcApp";
+}

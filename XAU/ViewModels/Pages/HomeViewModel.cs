@@ -326,7 +326,7 @@ namespace XAU.ViewModels.Pages
         {
             while (true)
             {
-                if (m.OpenProcess("XboxPcApp") != Mem.OpenProcessResults.Success)
+                if (m.OpenProcess(ProcessNames.XboxPcApp) != Mem.OpenProcessResults.Success)
                 {
                     IsAttached = false;
                     Thread.Sleep(1000);
@@ -343,7 +343,7 @@ namespace XAU.ViewModels.Pages
         {
             if (IsAttached || XAUTH.Length > 0)
             {
-                Attached = $"Attached to xbox app ({Mem.GetProcIdFromName("XboxPCApp").ToString()})";
+                Attached = $"Attached to xbox app ({Mem.GetProcIdFromName(ProcessNames.XboxPcApp).ToString()})";
                 AttachedColor = new SolidColorBrush(Colors.Green);
                 if (IsLoggedIn)
                 {
@@ -367,7 +367,7 @@ namespace XAU.ViewModels.Pages
                     }
                 }
             }
-            if (Mem.GetProcIdFromName("XboxPCApp") == 0)
+            if (Mem.GetProcIdFromName(ProcessNames.XboxPcApp) == 0)
             {
                 Attached = "Not Attached";
                 AttachedColor = new SolidColorBrush(Colors.Red);
@@ -457,7 +457,7 @@ namespace XAU.ViewModels.Pages
             }
             catch (HttpRequestException ex)
             {
-                if ((int)ex.StatusCode == 401)
+                if (ex.StatusCode == HttpStatusCode.Forbidden)
                 {
                     IsLoggedIn = false;
                     XAUTHTested = false;
