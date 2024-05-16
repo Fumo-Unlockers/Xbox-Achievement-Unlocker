@@ -111,3 +111,56 @@ public class Profile
     public object FriendFinderState { get; set; }
     public object AccountLinkDetails { get; set; }
 }
+
+
+public class XboxTitle
+{
+    public string TitleId { get; set; }
+    public string Pfn { get; set; }
+    public string BingId { get; set; }
+    public string WindowsPhoneProductId { get; set; }
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public List<string> Devices { get; set; }
+    public string DisplayImage { get; set; }
+    public string MediaItemType { get; set; }
+    public string ModernTitleId { get; set; }
+    public bool IsBundle { get; set; }
+    public Achievement Achievement { get; set; }
+    public Stats Stats { get; set; }
+    public GamePass GamePass { get; set; }
+    public object Images { get; set; }
+    public object TitleHistory { get; set; }
+    public object TitleRecord { get; set; }
+    public object Detail { get; set; }
+    public object FriendsWhoPlayed { get; set; }
+    public object AlternateTitleIds { get; set; }
+    public object ContentBoards { get; set; }
+    public string XboxLiveTier { get; set; }
+}
+
+public class Achievement
+{
+    public int CurrentAchievements { get; set; }
+    public int TotalAchievements { get; set; }
+    public int CurrentGamerscore { get; set; }
+    public int TotalGamerscore { get; set; }
+    public double ProgressPercentage { get; set; }
+    public int SourceVersion { get; set; }
+}
+
+public class Stats
+{
+    public int SourceVersion { get; set; }
+}
+
+public class GamePass
+{
+    public bool IsGamePass { get; set; }
+}
+
+public class GameTitle
+{
+    public string Xuid { get; set; }
+    public List<XboxTitle> Titles { get; set; }
+}

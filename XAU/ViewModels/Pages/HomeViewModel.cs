@@ -507,15 +507,8 @@ namespace XAU.ViewModels.Pages
                     AccountTier = $"Tier: {profileResponse.People[0].Detail.AccountTier}";
                     try
                     {
-                        client.DefaultRequestHeaders.Clear();
-                        client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-                        client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-                        client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
-                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-                        StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + profileResponse.People[0].PresenceDetails[0].TitleId + "\"]}");
-                        var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
-                        CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({profileResponse.People[0].PresenceDetails[0].TitleId})";
+                        var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, profileResponse.People[0].PresenceDetails[0].TitleId);
+                        CurrentlyPlaying = $"Currently Playing: {gameTitle.Titles[0].Name}";
                     }
                     catch
                     {
