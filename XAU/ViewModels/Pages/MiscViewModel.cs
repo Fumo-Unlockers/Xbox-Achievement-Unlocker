@@ -288,12 +288,7 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                client.DefaultRequestHeaders.Clear();
-                var ProductIDsConverted = new StringContent("{\"Products\":[\"" + ProductID + "\"]}");
-                var TitleIDsResponse = await client.PostAsync(
-                    "https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome",
-                    ProductIDsConverted);
-                var TitleIDsContent = await TitleIDsResponse.Content.ReadAsStringAsync();
+                var TitleIDsContent = await _xboxRestAPI.Value.GetTitleIdsFromGamePass(ProductID);
                 var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
                 var xboxTitleId = JsonTitleIDs.Products[$"{ProductID}"].XboxTitleId;
                 //here is some super dumb shit to handle bundles
