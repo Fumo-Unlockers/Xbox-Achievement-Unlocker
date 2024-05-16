@@ -55,8 +55,6 @@ namespace XAU.ViewModels.Pages
         public static string SpoofedTitleID = "0";
         public static string AutoSpoofedTitleID = "0";
 
-        private const string WatermarksUrl = "https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/";
-
         //SnackBar
         public HomeViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
@@ -66,6 +64,8 @@ namespace XAU.ViewModels.Pages
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private readonly IContentDialogService _contentDialogService;
+
+        private const string XAuthScanPattern = "58 42 4C 33 2E 30 20 78 3D";
 
         [RelayCommand]
         private void RefreshProfile()
@@ -380,7 +380,7 @@ namespace XAU.ViewModels.Pages
         }
         private async void GetXAUTH()
         {
-            var XauthScanList = await m.AoBScan("58 42 4C 33 2E 30 20 78 3D", true);
+            var XauthScanList = await m.AoBScan(XAuthScanPattern, true);
             string[] XauthStrings = new string[XauthScanList.Count()];
             var i = 0;
             foreach (var address in XauthScanList)
@@ -436,7 +436,7 @@ namespace XAU.ViewModels.Pages
             try
             {
                 var responseString =
-                    await client.GetStringAsync("https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag");
+                    await client.GetStringAsync(BasicXboxAPIUris.GamertagUrl);
                 var Jsonresponse = (dynamic)(new JObject());
                 Jsonresponse = (dynamic)JObject.Parse(responseString);
                 if (Settings.PrivacyMode)
@@ -564,13 +564,13 @@ namespace XAU.ViewModels.Pages
                     if (Jsonresponse.people[0].detail.tenure != "0")
                     {
                         var tenureBadge = Jsonresponse.people[0].detail.tenure.ToString("D2");
-                        Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}tenure/{tenureBadge}.png" });
+                        Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}tenure/{tenureBadge}.png" });
                     }
 
                     string[] watermarkNames = Jsonresponse.people[0].detail.watermarks.ToObject<string[]>();
                     foreach (var watermark in watermarkNames)
                     {
-                        Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}launch/{watermark.ToLower()}.png" });
+                        Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}launch/{watermark.ToLower()}.png" });
                     }
                 }
                 GrabbedProfile = true;

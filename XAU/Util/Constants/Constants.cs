@@ -32,14 +32,16 @@ struct HeaderValues
 
 }
 
-struct Links
+struct SocialLinks
 {
+    // Hardcoded links to socials
     public const string Discord = "https://discord.gg/fCqM7287jG";
     public const string GitHubUserUrl = "https://github.com/ItsLogic";
 }
 
 struct Hosts
 {
+    // Xbox Live Header Host Values
     public const string Achievements = "achievements.xboxlive.com";
     public const string Profile = "profile.xboxlive.com";
     public const string PeopleHub = "peoplehub.xboxlive.com";
@@ -48,4 +50,10 @@ struct Hosts
     public const string GitHubApi = "api.github.com";
     public const string GitHubRaw = "raw.githubusercontent.com";
 
+}
+
+public struct BasicXboxAPIUris
+{
+    public const string GamertagUrl = "https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag";
+    public const string WatermarksUrl = " https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/";
 }
