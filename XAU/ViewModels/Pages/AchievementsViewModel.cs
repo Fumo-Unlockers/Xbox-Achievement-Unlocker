@@ -606,9 +606,11 @@ namespace XAU.ViewModels.Pages
                 }
                 CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             }
-            catch
+            catch (HttpRequestException hre)
             {
-
+_snackbarService.Show("Error: Achievements Not Unlocked",
+                        $"{hre.Message}", ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
         }
 

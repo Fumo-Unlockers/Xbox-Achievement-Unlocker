@@ -217,9 +217,12 @@ public class XboxRestAPI
 
         var bodyconverted = new StringContent(JsonConvert.SerializeObject(unlockRequest), Encoding.UTF8, HeaderValues.Accept);
 
-        await _httpClient.PostAsync(
+        var response = await _httpClient.PostAsync(
                                 string.Format(InterpolatedXboxAPIUrls.UpdateAchievementsUrl, xuid, serviceConfigId), bodyconverted);
-
+        if (response.StatusCode != HttpStatusCode.OK)
+        {
+            throw new HttpRequestException($"Failed to unlock achievement(s) for title {titleId} with status code {response.StatusCode}");
+        }
     }
 
     // TODO: see if we can handle the actual request body building
