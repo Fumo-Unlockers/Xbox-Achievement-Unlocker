@@ -57,8 +57,8 @@ public struct BasicXboxAPIUris
     public const string GamertagUrl = @"https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag";
     public const string WatermarksUrl = @"https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/";
     public const string GamepassCatalogUrl = @"https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome";
-    public const string TelemetryUrl = "https://v20.events.data.microsoft.com/OneCollector/1.0/";
-    public const string UserStatsUrl = "https://userstats.xboxlive.com/batch";
+    public const string TelemetryUrl = @"https://v20.events.data.microsoft.com/OneCollector/1.0/";
+    public const string UserStatsUrl = @"https://userstats.xboxlive.com/batch";
 
 }
 
@@ -71,6 +71,7 @@ public struct InterpolatedXboxAPIUrls
     public const string TitlesUrl = "https://titlehub.xboxlive.com/users/xuid({0})/titles/titleHistory/decoration/Achievement,scid?maxItems=10000";
     public const string QueryAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements?titleId={1}&maxItems=1000";
     public const string UpdateAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements/{1}/update";
+    public const string HeartbeatUrl = "https://presence-heartbeat.xboxlive.com/users/xuid({0})/devices/current/";
 }
 
 public struct ProcessNames

@@ -94,7 +94,7 @@ public class XboxRestAPI
             Pfns = null,
             TitleIds = new List<string>() { titleId }
         };
-        var gameTitleResponse = await _httpClient.PostAsync(string.Format(InterpolatedXboxAPIUrls.TitleUrl, xuid), new StringContent(JsonConvert.SerializeObject(gameTitleRequest))).Result.Content.ReadAsStringAsync();
+        var gameTitleResponse = await _httpClient.PostAsync(string.Format(InterpolatedXboxAPIUrls.TitleUrl, xuid), new StringContent(JsonConvert.SerializeObject(gameTitleRequest), Encoding.UTF8, HeaderValues.Accept)).Result.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<GameTitle>(gameTitleResponse);
     }
 
@@ -130,7 +130,7 @@ public class XboxRestAPI
             Stats = new List<GameStat>() { stat }
         };
         var response = await _httpClient
-                .PostAsync(BasicXboxAPIUris.UserStatsUrl, new StringContent(JsonConvert.SerializeObject(gameStatsRequest))).Result.Content
+                .PostAsync(BasicXboxAPIUris.UserStatsUrl, new StringContent(JsonConvert.SerializeObject(gameStatsRequest), Encoding.UTF8, HeaderValues.Accept)).Result.Content
                 .ReadAsStringAsync();
         return JsonConvert.DeserializeObject<GameStats>(response);
     }
@@ -139,20 +139,26 @@ public class XboxRestAPI
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-        var requestbody =
-            new StringContent(
-                "{\"titles\":[{\"expiration\":600,\"id\":" + spoofedTitleId +
-                ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, HeaderValues.Accept);
+        var heartbeatRequest = new HeartbeatRequest()
+        {
+            titles = new List<TitleRequest>()
+            {
+                new TitleRequest()
+                {
+                    id = spoofedTitleId
+                }
+            }
+        };
         await _httpClient.PostAsync(
-        "https://presence-heartbeat.xboxlive.com/users/xuid(" + xuid + ")/devices/current",
-        requestbody);
+        string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid),
+        new StringContent(JsonConvert.SerializeObject(heartbeatRequest), Encoding.UTF8, HeaderValues.Accept));
     }
 
     public async Task StopHeartbeatAsync(string xuid)
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-        await _httpClient.DeleteAsync("https://presence-heartbeat.xboxlive.com/users/xuid(" + xuid + ")/devices/current");
+        await _httpClient.DeleteAsync(string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid));
     }
 
     // TODO actual typing

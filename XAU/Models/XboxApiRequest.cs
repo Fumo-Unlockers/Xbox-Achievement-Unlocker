@@ -26,6 +26,7 @@ public class GameStat
     public string Name { get; set; } = "MinutesPlayed";
     public string TitleId { get; set; }
 }
+
 public class GameStatsRequest
 {
     public string ArrangeByField {get; set;} = "xuid";
@@ -41,10 +42,10 @@ public class HeartbeatRequest
 
 public class TitleRequest
 {
-    public int expiration { get; set; }
+    public int expiration { get; set; } = 600;
     public string id { get; set; }
-    public string state { get; set; }
-    public string sandbox { get; set; }
+    public string state { get; set; } = "active";
+    public string sandbox { get; set; } = "RETAIL";
 }
 
 public class GamepassProductsRequest
