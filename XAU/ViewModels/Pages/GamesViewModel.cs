@@ -103,12 +103,6 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public void SearchAndFilterGames()
         {
-            if (SearchText.Length == 0)
-            {
-                _snackbarService.Show("Error", $"Please Enter Query Text", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                return;
-            }
-
             Games.Clear();
             GamesPaged.Clear();
             LoadingStart();
@@ -170,8 +164,8 @@ namespace XAU.ViewModels.Pages
             {
                 for (int i = 0; i < GamesResponse.Titles.Count; i++)
                 {
-                    dynamic title = GamesResponse.Titles[i];
-                    if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
+                    var title = GamesResponse.Titles[i];
+                    if (!title.Name.ToLower().Contains(SearchText.ToLower()))
                         continue;
                     AddGame(i);
 
