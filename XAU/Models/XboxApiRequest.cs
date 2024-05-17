@@ -9,15 +9,15 @@ public class GameTitleRequest
 public class AchievementsArrayEntry
 {
     public string Id { get; set; }
-    public string PercentComplete {get; set; } = "100";
+    public string PercentComplete { get; set; } = "100";
 }
 
 public class UnlockTitleBasedAchievementRequest
 {
     public string Action { get; set; } = @"progressUpdate";
     public string ServiceConfigId { get; set; } = StringConstants.ZeroUid;
-    public string TitleId {get; set;}
-    public string UserId {get; set;}
+    public string TitleId { get; set; }
+    public string UserId { get; set; }
     public List<AchievementsArrayEntry> Achievements { get; set; }
 }
 
@@ -29,9 +29,9 @@ public class GameStat
 
 public class GameStatsRequest
 {
-    public string ArrangeByField {get; set;} = "xuid";
-    public List<string> Xuids {get; set;}
-    public List<GameStat> Stats {get; set;}
+    public string ArrangeByField { get; set; } = "xuid";
+    public List<string> Xuids { get; set; }
+    public List<GameStat> Stats { get; set; }
 }
 
 

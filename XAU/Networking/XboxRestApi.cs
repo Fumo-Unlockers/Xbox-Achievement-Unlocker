@@ -81,7 +81,7 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.PeopleHub);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
 
-        var responseString = await _httpClient.GetStringAsync(string.Format(InterpolatedXboxAPIUrls.ProfileUrl,xuid));
+        var responseString = await _httpClient.GetStringAsync(string.Format(InterpolatedXboxAPIUrls.ProfileUrl, xuid));
         return JsonConvert.DeserializeObject<Profile>(responseString);
     }
 
@@ -207,7 +207,7 @@ public class XboxRestAPI
             TitleId = titleId,
             ServiceConfigId = serviceConfigId,
             UserId = xuid,
-            Achievements = new List<AchievementsArrayEntry>() {}
+            Achievements = new List<AchievementsArrayEntry>() { }
         };
 
         foreach (string id in achievementIds)
