@@ -58,6 +58,7 @@ public struct BasicXboxAPIUris
     public const string WatermarksUrl = @"https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/";
     public const string GamepassCatalogUrl = @"https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome";
     public const string TelemetryUrl = "https://v20.events.data.microsoft.com/OneCollector/1.0/";
+    public const string UserStatsUrl = "https://userstats.xboxlive.com/batch";
 
 }
 

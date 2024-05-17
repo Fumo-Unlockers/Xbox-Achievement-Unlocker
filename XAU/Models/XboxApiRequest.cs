@@ -21,6 +21,18 @@ public class UnlockTitleBasedAchievementRequest
     public List<AchievementsArrayEntry> Achievements { get; set; }
 }
 
+public class GameStat
+{
+    public string Name { get; set; } = "MinutesPlayed";
+    public string TitleId { get; set; }
+}
+public class GameStatsRequest
+{
+    public string ArrangeByField {get; set;} = "xuid";
+    public List<string> Xuids {get; set;}
+    public List<GameStat> Stats {get; set;}
+}
+
 
 public class HeartbeatRequest
 {

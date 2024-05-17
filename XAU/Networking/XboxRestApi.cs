@@ -120,10 +120,17 @@ public class XboxRestAPI
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
 
-        StringContent requestbody = new StringContent($"{{\"arrangebyfield\":\"xuid\",\"xuids\":[\"{xuid}\"],\"stats\":[{{\"name\":\"MinutesPlayed\",\"titleId\":\"{titleId}\"}}]}}");
-
+        var stat = new GameStat()
+        {
+            TitleId = titleId
+        };
+        var gameStatsRequest = new GameStatsRequest()
+        {
+            Xuids = new List<string>() { xuid },
+            Stats = new List<GameStat>() { stat }
+        };
         var response = await _httpClient
-                .PostAsync("https://userstats.xboxlive.com/batch", requestbody).Result.Content
+                .PostAsync(BasicXboxAPIUris.UserStatsUrl, new StringContent(JsonConvert.SerializeObject(gameStatsRequest))).Result.Content
                 .ReadAsStringAsync();
         return JsonConvert.DeserializeObject<GameStats>(response);
     }
