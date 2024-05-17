@@ -2,6 +2,8 @@
 // https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/reference/live/rest/atoc-xboxlivews-reference
 
 // TODO: check for dupes
+using System.Security.Policy;
+
 public class PersonResponse
 {
     public string Xuid { get; set; }
@@ -263,7 +265,7 @@ public class GameStatsResponse
     public List<StatListCollection> StatListsCollection { get; set; }
 }
 
-public class Achievement360Rewards
+public class AchievementRewards
 {
     public string name { get; set; }
     public string description { get; set; }
@@ -273,13 +275,13 @@ public class Achievement360Rewards
     public string valueType { get; set; }
 }
 
-public class Achievement360Rarity
+public class Rarity
 {
     public string currentCategory { get; set; }
     public string currentPercentage { get; set; }
 }
 
-public class Achievement360Gamerscore
+public class Gamerscore
 {
     public string currentGamerscore { get; set; }
     public string totalGamerscore { get; set; }
@@ -319,9 +321,9 @@ public class AchievementEntryResponse
     public List<MediaAssets> mediaAssets { get; set; }
     public List<TitleAssociations> titleAssociations { get; set; }
     public AchievementProgression progression { get; set; }
-    public List<Achievement360Rewards> rewards { get; set; } // only set for 360 achievements
-    public Achievement360Rarity rarity { get; set; } // only set for 360 achievements
-    public Achievement360Gamerscore gamerscore { get; set; } // only set for 360 achievements
+    public List<AchievementRewards> rewards { get; set; }
+    public Rarity rarity { get; set; }
+    public object gamerscore { get; set; }
     public string id { get; set; }
     public string serviceConfigId { get; set; }
     public string name { get; set; }

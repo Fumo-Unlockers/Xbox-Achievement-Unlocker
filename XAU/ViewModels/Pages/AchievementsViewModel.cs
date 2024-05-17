@@ -132,7 +132,7 @@ namespace XAU.ViewModels.Pages
             GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
             try
             {
-                IsSelectedGame360 = GameInfoResponse.Titles[0].Devices.ToString().Contains("Xbox360") || GameInfoResponse.Titles[0].Devices.ToString().Contains("Mobile");
+                IsSelectedGame360 = GameInfoResponse.Titles[0].Devices.Contains("Xbox360") || GameInfoResponse.Titles[0].Devices.Contains("Mobile");
                 GameInfo = GameInfoResponse.Titles[0].Name.ToString();
                 IsTitleIDValid = true;
             }
@@ -352,7 +352,7 @@ namespace XAU.ViewModels.Pages
             else
             {
                 Unlockable = false;
-                var AchievementResponse = await _xboxRestAPI.Value.GetAchievementsFor360TitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
+                AchievementResponse = await _xboxRestAPI.Value.GetAchievementsFor360TitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
                 if (AchievementResponse.achievements.Count == 0)
                 {
                     _snackbarService.Show("Error: No Achievements", $"There were no achievements returned from the API", ControlAppearance.Danger,
