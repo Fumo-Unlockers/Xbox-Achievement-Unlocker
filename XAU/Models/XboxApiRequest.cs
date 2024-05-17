@@ -1,4 +1,4 @@
-using Microsoft.VisualBasic;
+// TODO: Clean up, set names, default fields, minor renames, etc.
 
 public class GameTitleRequest
 {
