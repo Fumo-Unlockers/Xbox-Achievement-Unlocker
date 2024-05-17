@@ -218,6 +218,14 @@ namespace XAU.ViewModels.Pages
                 var titleId = await _taRestApi.Value.GetGameLinkAsync(_xboxRestAPI.Value, TSearchGameLinks[index]);
                 TSearchGameName = "Name: " + TSearchGameNames[index];
                 TSearchGameTitleID = titleId;
+                if (titleId == "-1")
+                {
+                    _snackbarService.Show("Error: TitleID not found",
+                        $"The TitleID for {TSearchGameNames[index]} was not available via TrueAchievement Search",
+                        ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
             }
             catch
             {

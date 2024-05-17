@@ -76,35 +76,43 @@ public class TrueAchievementRestApi
         var html = await response.Content.ReadAsStringAsync();
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
-        var productId = doc.DocumentNode.SelectSingleNode("//a[@class='price']").Attributes["href"].Value;
-        productId = productId.Replace("/ext?u=", "");
-        productId = System.Web.HttpUtility.UrlDecode(productId);
-        productId = productId.Substring(0, productId.LastIndexOf('&'));
-        productId = productId.Split('/').Last();
-        if (productId.Contains("-"))
+
+        var productIds = doc.DocumentNode.SelectNodes("//a[@class='price']");
+
+        // Bundles can be a problem
+        foreach (var pid in productIds)
         {
-            return Convert.ToInt32(productId.Substring(productId.Length - 8), 16).ToString();
-        }
-        else
-        {
-            var TitleIDsContent = await xboxApi.GetTitleIdsFromGamePass(productId);
-            var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
-            var xboxTitleId = JsonTitleIDs.Products[$"{productId}"].XboxTitleId;
-            //here is some super dumb shit to handle bundles
-            if (xboxTitleId == null)
+            var productId = pid.Attributes["href"].Value;
+            productId = productId.Replace("/ext?u=", "");
+            productId = System.Web.HttpUtility.UrlDecode(productId);
+            productId = productId.Substring(0, productId.LastIndexOf('&'));
+            productId = productId.Split('/').Last();
+            if (productId.Contains("-"))
             {
-                foreach (var Product in JsonTitleIDs.Products)
+                return Convert.ToInt32(productId.Substring(productId.Length - 8), 16).ToString();
+            }
+            else
+            {
+                var TitleIDsContent = await xboxApi.GetTitleIdsFromGamePass(productId);
+                var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
+                var xboxTitleId = JsonTitleIDs.Products[$"{productId}"].XboxTitleId;
+                //here is some super dumb shit to handle bundles
+                if (xboxTitleId == null)
                 {
-                    foreach (var Title in Product)
+                    foreach (var Product in JsonTitleIDs.Products)
                     {
-                        if (Title.ToString().Contains("\"ProductType\": \"Game\",") && Title.XboxTitleId != null)
+                        foreach (var Title in Product)
                         {
-                            return Title.XboxTitleId;
+                            if (Title.ToString().Contains("\"ProductType\": \"Game\",") && Title.XboxTitleId != null)
+                            {
+                                return Title.XboxTitleId;
+                            }
                         }
                     }
                 }
             }
         }
-        return "-1"; //TODO: error handle this
+        return "-1";
+
     }
 }
