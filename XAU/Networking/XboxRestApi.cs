@@ -202,26 +202,30 @@ public class XboxRestAPI
             _httpClient.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
         }
 
-        var unlockRequest = new UnlockTitleBasedAchievementRequest
+        // Split the requests into 50 achievements each. Anything over 100 seems to BadRequest. TODO: look into
+        // headers and see if we can send long data or w/e
+        const int chunkSize = 50;
+        for (int i = 0; i < achievementIds.Count; i += chunkSize)
         {
-            TitleId = titleId,
-            ServiceConfigId = serviceConfigId,
-            UserId = xuid,
-            Achievements = new List<AchievementsArrayEntry>() { }
-        };
+            var chunk = achievementIds.Skip(i).Take(chunkSize).ToList();
 
-        foreach (string id in achievementIds)
-        {
-            unlockRequest.Achievements.Add(new AchievementsArrayEntry() { Id = id, PercentComplete = "100" });
-        }
+            var unlockRequest = new UnlockTitleBasedAchievementRequest
+            {
+                titleId = titleId,
+                serviceConfigId = serviceConfigId,
+                userId = xuid,
+                achievements = chunk.Select(id => new AchievementsArrayEntry { id = id, percentComplete = "100" }).ToList()
+            };
 
-        var bodyconverted = new StringContent(JsonConvert.SerializeObject(unlockRequest), Encoding.UTF8, HeaderValues.Accept);
+            var unlockBodyStr = JsonConvert.SerializeObject(unlockRequest);
+            var bodyconverted = new StringContent(unlockBodyStr, Encoding.UTF8, HeaderValues.Accept);
 
-        var response = await _httpClient.PostAsync(
-                                string.Format(InterpolatedXboxAPIUrls.UpdateAchievementsUrl, xuid, serviceConfigId), bodyconverted);
-        if (response.StatusCode != HttpStatusCode.OK)
-        {
-            throw new HttpRequestException($"Failed to unlock achievement(s) for title {titleId} with status code {response.StatusCode}");
+            var response = await _httpClient.PostAsync(
+                string.Format(InterpolatedXboxAPIUrls.UpdateAchievementsUrl, xuid, serviceConfigId), bodyconverted);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new HttpRequestException($"Failed to unlock achievement(s) for title {titleId} with status code {response.StatusCode}");
+            }
         }
     }
 

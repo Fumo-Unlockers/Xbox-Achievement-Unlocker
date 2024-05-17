@@ -8,17 +8,17 @@ public class GameTitleRequest
 
 public class AchievementsArrayEntry
 {
-    public string Id { get; set; }
-    public string PercentComplete { get; set; } = "100";
+    public string id { get; set; }
+    public string percentComplete { get; set; } = "100";
 }
 
 public class UnlockTitleBasedAchievementRequest
 {
-    public string Action { get; set; } = @"progressUpdate";
-    public string ServiceConfigId { get; set; } = StringConstants.ZeroUid;
-    public string TitleId { get; set; }
-    public string UserId { get; set; }
-    public List<AchievementsArrayEntry> Achievements { get; set; }
+    public string action { get; set; } = @"progressUpdate";
+    public string serviceConfigId { get; set; } = StringConstants.ZeroUid;
+    public string titleId { get; set; }
+    public string userId { get; set; }
+    public List<AchievementsArrayEntry> achievements { get; set; }
 }
 
 public class GameStat
