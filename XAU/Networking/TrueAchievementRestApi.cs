@@ -76,20 +76,20 @@ public class TrueAchievementRestApi
         var html = await response.Content.ReadAsStringAsync();
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
-        var ProductID = doc.DocumentNode.SelectSingleNode("//a[@class='price']").Attributes["href"].Value;
-        ProductID = ProductID.Replace("/ext?u=", "");
-        ProductID = System.Web.HttpUtility.UrlDecode(ProductID);
-        ProductID = ProductID.Substring(0, ProductID.LastIndexOf('&'));
-        ProductID = ProductID.Split('/').Last();
-        if (ProductID.Contains("-"))
+        var productId = doc.DocumentNode.SelectSingleNode("//a[@class='price']").Attributes["href"].Value;
+        productId = productId.Replace("/ext?u=", "");
+        productId = System.Web.HttpUtility.UrlDecode(productId);
+        productId = productId.Substring(0, productId.LastIndexOf('&'));
+        productId = productId.Split('/').Last();
+        if (productId.Contains("-"))
         {
-            return Convert.ToInt32(ProductID.Substring(ProductID.Length - 8), 16).ToString();
+            return Convert.ToInt32(productId.Substring(productId.Length - 8), 16).ToString();
         }
         else
         {
-            var TitleIDsContent = await xboxApi.GetTitleIdsFromGamePass(ProductID);
+            var TitleIDsContent = await xboxApi.GetTitleIdsFromGamePass(productId);
             var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
-            var xboxTitleId = JsonTitleIDs.Products[$"{ProductID}"].XboxTitleId;
+            var xboxTitleId = JsonTitleIDs.Products[$"{productId}"].XboxTitleId;
             //here is some super dumb shit to handle bundles
             if (xboxTitleId == null)
             {
