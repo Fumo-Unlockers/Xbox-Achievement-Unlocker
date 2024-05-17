@@ -89,10 +89,12 @@ public class XboxRestAPI
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-
-        // TODO: request as a model
-        StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + titleId + "\"]}");
-        var gameTitleResponse = await _httpClient.PostAsync(string.Format(InterpolatedXboxAPIUrls.TitleUrl, xuid), requestbody).Result.Content.ReadAsStringAsync();
+        var gameTitleRequest = new GameTitleRequest()
+        {
+            Pfns = null,
+            TitleIds = new List<string>() { titleId }
+        };
+        var gameTitleResponse = await _httpClient.PostAsync(string.Format(InterpolatedXboxAPIUrls.TitleUrl, xuid), new StringContent(JsonConvert.SerializeObject(gameTitleRequest))).Result.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<GameTitle>(gameTitleResponse);
     }
 
@@ -231,7 +233,7 @@ public class XboxRestAPI
     public async Task<dynamic> GetTitleIdsFromGamePass(string prodId)
     {
         SetDefaultHeaders();
-        GamepassProducts gamepassProducts = new GamepassProducts()
+        GamepassProductsRequest gamepassProducts = new GamepassProductsRequest()
         {
             Products = new List<string>() { prodId }
         };
