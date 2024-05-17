@@ -224,17 +224,20 @@ public class XboxRestAPI
     {
         SetDefaultEventBasedHeaders();
         _httpClient2.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
-        await _httpClient2.PostAsync(@"https://v20.events.data.microsoft.com/OneCollector/1.0/", requestBody);
+        await _httpClient2.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
     }
 
     // TODO: don't return dynamic....
     public async Task<dynamic> GetTitleIdsFromGamePass(string prodId)
     {
         SetDefaultHeaders();
-        var productIdsConverted = new StringContent("{\"Products\":[\"" + prodId + "\"]}");
+        GamepassProducts gamepassProducts = new GamepassProducts()
+        {
+            Products = new List<string>() { prodId }
+        };
         var titleIDsResponse = await _httpClient.PostAsync(
-                    "https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome",
-                    productIdsConverted).Result.Content.ReadAsStringAsync();
+                    BasicXboxAPIUris.GamepassCatalogUrl,
+                    new StringContent(JsonConvert.SerializeObject(gamepassProducts))).Result.Content.ReadAsStringAsync();
         return titleIDsResponse;
     }
 }

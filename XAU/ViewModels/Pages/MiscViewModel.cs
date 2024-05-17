@@ -213,15 +213,11 @@ namespace XAU.ViewModels.Pages
 
         public async void DisplayGameInfo(int index)
         {
-            // todo: extract
-            var response = await client.GetAsync(TSearchGameLinks[index]);
-            var html = await response.Content.ReadAsStringAsync();
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            var ProductID = "";
             try
             {
-                ProductID = doc.DocumentNode.SelectSingleNode("//a[@class='price']").Attributes["href"].Value;
+                var titleId = await _taRestApi.Value.GetGameLinkAsync(_xboxRestAPI.Value, TSearchGameLinks[index]);
+                TSearchGameName = "Name: " + TSearchGameNames[index];
+                TSearchGameTitleID = titleId;
             }
             catch
             {
@@ -231,41 +227,6 @@ namespace XAU.ViewModels.Pages
                     new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 return;
             }
-
-            ProductID = ProductID.Replace("/ext?u=", "");
-            ProductID = System.Web.HttpUtility.UrlDecode(ProductID);
-            ProductID = ProductID.Substring(0, ProductID.LastIndexOf('&'));
-            ProductID = ProductID.Split('/').Last();
-            if (ProductID.Contains("-"))
-            {
-                TSearchGameName = "Name: " + TSearchGameNames[index];
-                TSearchGameTitleID = Convert.ToInt32(ProductID.Substring(ProductID.Length - 8), 16).ToString();
-            }
-            else
-            {
-                var TitleIDsContent = await _xboxRestAPI.Value.GetTitleIdsFromGamePass(ProductID);
-                var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
-                var xboxTitleId = JsonTitleIDs.Products[$"{ProductID}"].XboxTitleId;
-                //here is some super dumb shit to handle bundles
-                if (xboxTitleId == null)
-                {
-                    foreach (var Product in JsonTitleIDs.Products)
-                    {
-                        foreach (var Title in Product)
-                        {
-                            if (Title.ToString().Contains("\"ProductType\": \"Game\",") && Title.XboxTitleId != null)
-                            {
-                                xboxTitleId = Title.XboxTitleId;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                TSearchGameName = "Name: " + TSearchGameNames[index];
-                TSearchGameTitleID = xboxTitleId;
-            }
-
         }
         #endregion
 

@@ -10,3 +10,7 @@ public class TitleRequest
     public string state { get; set; }
     public string sandbox { get; set; }
 }
+
+public class GamepassProducts {
+    public List<string> Products { get; set; }
+}

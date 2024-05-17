@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http;
 using HtmlAgilityPack;
+using Newtonsoft.Json.Linq;
 
 public class TrueAchievementRestApi
 {
@@ -66,5 +67,44 @@ public class TrueAchievementRestApi
             }
         }
         return new Tuple<List<string>, List<string>>(tempnames, templinks);
+    }
+
+    public async Task<string> GetGameLinkAsync(XboxRestAPI xboxApi, string gameLink)
+    {
+        SetDefaultHeaders();
+        var response = await _httpClient.GetAsync(gameLink);
+        var html = await response.Content.ReadAsStringAsync();
+        var doc = new HtmlDocument();
+        doc.LoadHtml(html);
+        var ProductID = doc.DocumentNode.SelectSingleNode("//a[@class='price']").Attributes["href"].Value;
+        ProductID = ProductID.Replace("/ext?u=", "");
+        ProductID = System.Web.HttpUtility.UrlDecode(ProductID);
+        ProductID = ProductID.Substring(0, ProductID.LastIndexOf('&'));
+        ProductID = ProductID.Split('/').Last();
+        if (ProductID.Contains("-"))
+        {
+            return Convert.ToInt32(ProductID.Substring(ProductID.Length - 8), 16).ToString();
+        }
+        else
+        {
+            var TitleIDsContent = await xboxApi.GetTitleIdsFromGamePass(ProductID);
+            var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
+            var xboxTitleId = JsonTitleIDs.Products[$"{ProductID}"].XboxTitleId;
+            //here is some super dumb shit to handle bundles
+            if (xboxTitleId == null)
+            {
+                foreach (var Product in JsonTitleIDs.Products)
+                {
+                    foreach (var Title in Product)
+                    {
+                        if (Title.ToString().Contains("\"ProductType\": \"Game\",") && Title.XboxTitleId != null)
+                        {
+                            return Title.XboxTitleId;
+                        }
+                    }
+                }
+            }
+        }
+        return "-1"; //TODO: error handle this
     }
 }
