@@ -30,7 +30,7 @@ namespace XAU.ViewModels.Pages
         private bool IsTitleIDValid = false;
         public static bool NewGame = false;
         public static bool IsSelectedGame360;
-        private dynamic AchievementResponse = (dynamic)(new JObject());
+        private AchievementsResponse AchievementResponse = new AchievementsResponse();
         private GameTitle GameInfoResponse = new GameTitle();
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         // TODO: this needs to be updated if language changes
@@ -224,7 +224,7 @@ namespace XAU.ViewModels.Pages
                 AchievementResponse = await _xboxRestAPI.Value.GetAchievementsForTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
                 try
                 {
-                    if (AchievementResponse.achievements[0].progression.requirements.ToString().Length > 2)
+                    if (AchievementResponse.achievements[0].progression.requirements.Any())
                     {
                         if (AchievementResponse.achievements[0].progression.requirements[0].id !=
                             StringConstants.ZeroUid)
@@ -246,7 +246,7 @@ namespace XAU.ViewModels.Pages
                 for (int i = 0; i < AchievementResponse.achievements.Count; i++)
                 {
                     //absolutely fucking dogwater event based check
-                    if (AchievementResponse.achievements[i].progression.requirements.ToString().Length > 2)
+                    if (AchievementResponse.achievements[i].progression.requirements.Any())
                     {
                         if (AchievementResponse.achievements[i].progression.requirements[0].id !=
                             StringConstants.ZeroUid)
@@ -268,12 +268,12 @@ namespace XAU.ViewModels.Pages
                     var rewardvalueTypeplaceholder = "";
                     try
                     {
-                        rewardnameplaceholder = AchievementResponse.achievements[i].rewards[0].name.ToString();
-                        rewarddescriptionplaceholder = AchievementResponse.achievements[i].rewards[0].description.ToString();
-                        rewardvalueplaceholder = AchievementResponse.achievements[i].rewards[0].value.ToString();
-                        rewardtypeplaceholder = AchievementResponse.achievements[i].rewards[0].type.ToString();
-                        rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset.ToString();
-                        rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType.ToString();
+                        rewardnameplaceholder = AchievementResponse.achievements[i].rewards[0].name;
+                        rewarddescriptionplaceholder = AchievementResponse.achievements[i].rewards[0].description;
+                        rewardvalueplaceholder = AchievementResponse.achievements[i].rewards[0].value;
+                        rewardtypeplaceholder = AchievementResponse.achievements[i].rewards[0].type;
+                        rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset;
+                        rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType;
                     }
                     catch
                     {
@@ -287,42 +287,42 @@ namespace XAU.ViewModels.Pages
 
                     Achievements.Add(new AchievementEntryResponse()
                     {
-                        id = AchievementResponse.achievements[i].id.ToString(),
-                        serviceConfigId = AchievementResponse.achievements[i].serviceConfigId.ToString(),
-                        name = AchievementResponse.achievements[i].name.ToString(),
-                        titleAssociationsname = AchievementResponse.achievements[i].titleAssociations[0].name.ToString(),
-                        titleAssociationsid = AchievementResponse.achievements[i].titleAssociations[0].id.ToString(),
-                        progressState = AchievementResponse.achievements[i].progressState.ToString(),
+                        id = AchievementResponse.achievements[i].id,
+                        serviceConfigId = AchievementResponse.achievements[i].serviceConfigId,
+                        name = AchievementResponse.achievements[i].name,
+                        titleAssociationsname = AchievementResponse.achievements[i].titleAssociations[0].name,
+                        titleAssociationsid = AchievementResponse.achievements[i].titleAssociations[0].id,
+                        progressState = AchievementResponse.achievements[i].progressState,
                         //these are strings because im too lazy to handle them properly right now
-                        progressionrequirementsid = "AchievementResponse.achievements[i].progression.requirements[0].id.ToString()",
-                        progressionrequirementscurrent = "AchievementResponse.achievements[i].progression.requirements[0].current.ToString()",
-                        progressionrequirementstarget = "AchievementResponse.achievements[i].progression.requirements[0].target.ToString()",
-                        progressionrequirementsoperationType = "AchievementResponse.achievements[i].progression.requirements[0].operationType.ToString()",
-                        progressionrequirementsvalueType = "AchievementResponse.achievements[i].progression.requirements[0].valueType.ToString()",
-                        progressionrequirementsruleParticipationType = "AchievementResponse.achievements[i].progression.requirements[0].ruleParticipationType.ToString()",
-                        progressiontimeUnlocked = AchievementResponse.achievements[i].progression.timeUnlocked.ToString(),
-                        mediaAssetsname = AchievementResponse.achievements[i].mediaAssets[0].name.ToString(),
-                        mediaAssetstype = AchievementResponse.achievements[i].mediaAssets[0].type.ToString(),
-                        mediaAssetsurl = AchievementResponse.achievements[i].mediaAssets[0].url.ToString(),
-                        platforms = AchievementResponse.achievements[i].platforms.ToObject<List<string>>(),
-                        isSecret = AchievementResponse.achievements[i].isSecret.ToString(),
-                        description = AchievementResponse.achievements[i].description.ToString(),
-                        lockedDescription = AchievementResponse.achievements[i].lockedDescription.ToString(),
-                        productId = AchievementResponse.achievements[i].productId.ToString(),
-                        achievementType = AchievementResponse.achievements[i].achievementType.ToString(),
-                        participationType = AchievementResponse.achievements[i].participationType.ToString(),
-                        timeWindow = AchievementResponse.achievements[i].timeWindow.ToString(),
+                        progressionrequirementsid = "AchievementResponse.achievements[i].progression.requirements[0].id",
+                        progressionrequirementscurrent = "AchievementResponse.achievements[i].progression.requirements[0].current",
+                        progressionrequirementstarget = "AchievementResponse.achievements[i].progression.requirements[0].target",
+                        progressionrequirementsoperationType = "AchievementResponse.achievements[i].progression.requirements[0].operationType",
+                        progressionrequirementsvalueType = "AchievementResponse.achievements[i].progression.requirements[0].valueType",
+                        progressionrequirementsruleParticipationType = "AchievementResponse.achievements[i].progression.requirements[0].ruleParticipationType",
+                        progressiontimeUnlocked = AchievementResponse.achievements[i].progression.timeUnlocked,
+                        mediaAssetsname = AchievementResponse.achievements[i].mediaAssets[0].name,
+                        mediaAssetstype = AchievementResponse.achievements[i].mediaAssets[0].type,
+                        mediaAssetsurl = AchievementResponse.achievements[i].mediaAssets[0].url,
+                        platforms = AchievementResponse.achievements[i].platforms,
+                        isSecret = AchievementResponse.achievements[i].isSecret,
+                        description = AchievementResponse.achievements[i].description,
+                        lockedDescription = AchievementResponse.achievements[i].lockedDescription,
+                        productId = AchievementResponse.achievements[i].productId,
+                        achievementType = AchievementResponse.achievements[i].achievementType,
+                        participationType = AchievementResponse.achievements[i].participationType,
+                        timeWindow = AchievementResponse.achievements[i].timeWindow,
                         rewardsname = rewardnameplaceholder,
                         rewardsdescription = rewarddescriptionplaceholder,
                         rewardsvalue = rewardvalueplaceholder,
                         rewardstype = rewardtypeplaceholder,
                         rewardsmediaAsset = rewardmediaAssetplaceholder,
                         rewardsvalueType = rewardvalueTypeplaceholder,
-                        estimatedTime = AchievementResponse.achievements[i].estimatedTime.ToString(),
-                        deeplink = AchievementResponse.achievements[i].deeplink.ToString(),
-                        isRevoked = AchievementResponse.achievements[i].isRevoked.ToString(),
-                        raritycurrentCategory = AchievementResponse.achievements[i].rarity.currentCategory.ToString(),
-                        raritycurrentPercentage = AchievementResponse.achievements[i].rarity.currentPercentage.ToString()
+                        estimatedTime = AchievementResponse.achievements[i].estimatedTime,
+                        deeplink = AchievementResponse.achievements[i].deeplink,
+                        isRevoked = AchievementResponse.achievements[i].isRevoked,
+                        raritycurrentCategory = AchievementResponse.achievements[i].rarity.currentCategory,
+                        raritycurrentPercentage = AchievementResponse.achievements[i].rarity.currentPercentage
                     }
                     );
                 }
@@ -370,12 +370,12 @@ namespace XAU.ViewModels.Pages
                     var rewardvalueTypeplaceholder = "";
                     try
                     {
-                        rewardnameplaceholder = AchievementResponse.achievements[i].rewards[0].name.ToString();
-                        rewarddescriptionplaceholder = AchievementResponse.achievements[i].rewards[0].description.ToString();
-                        rewardvalueplaceholder = AchievementResponse.achievements[i].rewards[0].value.ToString();
-                        rewardtypeplaceholder = AchievementResponse.achievements[i].rewards[0].type.ToString();
-                        rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset.ToString();
-                        rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType.ToString();
+                        rewardnameplaceholder = AchievementResponse.achievements[i].rewards[0].name;
+                        rewarddescriptionplaceholder = AchievementResponse.achievements[i].rewards[0].description;
+                        rewardvalueplaceholder = AchievementResponse.achievements[i].rewards[0].value;
+                        rewardtypeplaceholder = AchievementResponse.achievements[i].rewards[0].type;
+                        rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset;
+                        rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType;
                     }
                     catch
                     {
@@ -389,21 +389,21 @@ namespace XAU.ViewModels.Pages
 
                     Achievements.Add(new AchievementEntryResponse()
                     {
-                        id = AchievementResponse.achievements[i].id.ToString(),
+                        id = AchievementResponse.achievements[i].id,
                         serviceConfigId = "Null",
-                        name = AchievementResponse.achievements[i].name.ToString(),
+                        name = AchievementResponse.achievements[i].name,
                         progressState = "Null",
                         progressiontimeUnlocked = "0001-01-01T00:00:00.0000000Z",
-                        isSecret = AchievementResponse.achievements[i].isSecret.ToString(),
-                        description = AchievementResponse.achievements[i].description.ToString(),
+                        isSecret = AchievementResponse.achievements[i].isSecret,
+                        description = AchievementResponse.achievements[i].description,
                         rewardsname = "Null",
                         rewardsdescription = "Null",
                         rewardsvalue = AchievementResponse.achievements[i].gamerscore.ToString(),
                         rewardstype = "Gamerscore",
                         rewardsmediaAsset = "Null",
                         rewardsvalueType = rewardvalueTypeplaceholder,
-                        raritycurrentCategory = AchievementResponse.achievements[i].rarity.currentCategory.ToString(),
-                        raritycurrentPercentage = AchievementResponse.achievements[i].rarity.currentPercentage.ToString()
+                        raritycurrentCategory = AchievementResponse.achievements[i].rarity.currentCategory,
+                        raritycurrentPercentage = AchievementResponse.achievements[i].rarity.currentPercentage
                     }
                     );
                 }

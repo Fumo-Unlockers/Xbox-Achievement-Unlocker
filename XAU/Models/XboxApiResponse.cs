@@ -285,8 +285,40 @@ public class Achievement360Gamerscore
     public string totalGamerscore { get; set; }
 }
 
+public class AchievementRequirements
+{
+    public string id { get; set; }
+    public string current { get; set; }
+    public string target { get; set; }
+    public string operationType { get; set; }
+    public string valueType { get; set; }
+    public string ruleParticipationType { get; set; }
+}
+
+public class AchievementProgression
+{
+    public List<AchievementRequirements> requirements { get; set; }
+    public string timeUnlocked { get; set; }
+}
+
+public class TitleAssociations
+{
+    public string name { get; set; }
+    public string id { get; set; }
+}
+
+public class MediaAssets
+{
+    public string name { get; set; }
+    public string type { get; set; }
+    public string url { get; set; }
+}
+
 public class AchievementEntryResponse
 {
+    public List<MediaAssets> mediaAssets { get; set; }
+    public List<TitleAssociations> titleAssociations { get; set; }
+    public AchievementProgression progression { get; set; }
     public List<Achievement360Rewards> rewards { get; set; } // only set for 360 achievements
     public Achievement360Rarity rarity { get; set; } // only set for 360 achievements
     public Achievement360Gamerscore gamerscore { get; set; } // only set for 360 achievements
@@ -331,4 +363,45 @@ public class AchievementEntryResponse
 public class AchievementsResponse
 {
     public List<AchievementEntryResponse> achievements { get; set; }
+}
+
+
+public class DraffAchievement
+{
+    public string id { get; set; }
+    public string serviceConfigId { get; set; }
+    public string name { get; set; }
+    public string titleAssociationsname { get; set; }
+    public string titleAssociationsid { get; set; }
+    public string progressState { get; set; }
+    public string progressionrequirementsid { get; set; }
+    public string progressionrequirementscurrent { get; set; }
+    public string progressionrequirementstarget { get; set; }
+    public string progressionrequirementsoperationType { get; set; }
+    public string progressionrequirementsvalueType { get; set; }
+    public string progressionrequirementsruleParticipationType { get; set; }
+    public string progressiontimeUnlocked { get; set; }
+    public string mediaAssetsname { get; set; }
+    public string mediaAssetstype { get; set; }
+    public string mediaAssetsurl { get; set; }
+    public List<string> platforms { get; set; }
+    public string isSecret { get; set; }
+    public string description { get; set; }
+    public string lockedDescription { get; set; }
+    public string productId { get; set; }
+    public string achievementType { get; set; }
+    public string participationType { get; set; }
+    public string timeWindow { get; set; }
+    public string rewardsname { get; set; }
+    public string rewardsdescription { get; set; }
+    public string rewardsvalue { get; set; }
+    public string rewardstype { get; set; }
+    public string rewardsmediaAsset { get; set; }
+    public string rewardsvalueType { get; set; }
+    public string estimatedTime { get; set; }
+    public string deeplink { get; set; }
+    public string isRevoked { get; set; }
+    public string raritycurrentCategory { get; set; }
+    public string raritycurrentPercentage { get; set; }
+
 }
