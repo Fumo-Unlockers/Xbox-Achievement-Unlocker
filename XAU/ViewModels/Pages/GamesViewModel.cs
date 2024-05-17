@@ -47,7 +47,7 @@ namespace XAU.ViewModels.Pages
         private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH, System.Globalization.CultureInfo.CurrentCulture.Name));
 
         private readonly IContentDialogService _contentDialogService;
-        private readonly ISnackbarService _snackbarService;
+        private readonly ISnackbarService _snackbarService = snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
 
         public async void OnNavigatedTo()
