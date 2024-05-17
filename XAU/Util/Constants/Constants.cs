@@ -68,6 +68,8 @@ public struct InterpolatedXboxAPIUrls
     public const string ProfileUrl = "https://peoplehub.xboxlive.com/users/me/people/xuids({0})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary";
     public const string TitleUrl = "https://titlehub.xboxlive.com/users/xuid({0})/titles/batch/decoration/GamePass,Achievement,Stats";
     public const string TitlesUrl = "https://titlehub.xboxlive.com/users/xuid({0})/titles/titleHistory/decoration/Achievement,scid?maxItems=10000";
+    public const string QueryAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements?titleId={1}&maxItems=1000";
+    public const string UpdateAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements/{1}/update";
 }
 
 public struct ProcessNames

@@ -155,7 +155,7 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion4);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-        var response = (dynamic)JObject.Parse(await _httpClient.GetAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + titleId + "&maxItems=1000").Result.Content.ReadAsStringAsync());
+        var response = (dynamic)JObject.Parse(await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId)).Result.Content.ReadAsStringAsync());
         return response;
     }
 
@@ -165,7 +165,7 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-        var response = (dynamic)JObject.Parse(await _httpClient.GetAsync("https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements?titleId=" + titleId + "&maxItems=1000").Result.Content.ReadAsStringAsync());
+        var response = (dynamic)JObject.Parse(await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId)).Result.Content.ReadAsStringAsync());
         return response;
     }
 
@@ -187,7 +187,6 @@ public class XboxRestAPI
             _httpClient.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
         }
 
-
         var unlockRequest = new UnlockTitleBasedAchievementRequest
         {
             TitleId = titleId,
@@ -204,8 +203,7 @@ public class XboxRestAPI
         var bodyconverted = new StringContent(JsonConvert.SerializeObject(unlockRequest), Encoding.UTF8, HeaderValues.Accept);
 
         await _httpClient.PostAsync(
-                                "https://achievements.xboxlive.com/users/xuid(" + xuid + ")/achievements/" +
-                                serviceConfigId + "/update", bodyconverted);
+                                string.Format(InterpolatedXboxAPIUrls.UpdateAchievementsUrl, xuid, serviceConfigId), bodyconverted);
 
     }
 
