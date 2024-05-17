@@ -19,7 +19,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _titleIDOverride = "0";
         [ObservableProperty] private bool _unlockable = false;
         [ObservableProperty] private bool _titleIDEnabled = false;
-        [ObservableProperty] private ObservableCollection<Achievement> _achievements = new ObservableCollection<Achievement>();
+        [ObservableProperty] private ObservableCollection<AchievementEntryResponse> _achievements = new ObservableCollection<AchievementEntryResponse>();
         [ObservableProperty] private ObservableCollection<DGAchievement> _dGAchievements = new ObservableCollection<DGAchievement>();
         [ObservableProperty] public string _gameInfo = "";
         [ObservableProperty] private string _gameName = "";
@@ -51,48 +51,6 @@ namespace XAU.ViewModels.Pages
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
-
-
-
-        public class Achievement
-        {
-            public string id { get; set; }
-            public string serviceConfigId { get; set; }
-            public string name { get; set; }
-            public string titleAssociationsname { get; set; }
-            public string titleAssociationsid { get; set; }
-            public string progressState { get; set; }
-            public string progressionrequirementsid { get; set; }
-            public string progressionrequirementscurrent { get; set; }
-            public string progressionrequirementstarget { get; set; }
-            public string progressionrequirementsoperationType { get; set; }
-            public string progressionrequirementsvalueType { get; set; }
-            public string progressionrequirementsruleParticipationType { get; set; }
-            public string progressiontimeUnlocked { get; set; }
-            public string mediaAssetsname { get; set; }
-            public string mediaAssetstype { get; set; }
-            public string mediaAssetsurl { get; set; }
-            public List<string> platforms { get; set; }
-            public string isSecret { get; set; }
-            public string description { get; set; }
-            public string lockedDescription { get; set; }
-            public string productId { get; set; }
-            public string achievementType { get; set; }
-            public string participationType { get; set; }
-            public string timeWindow { get; set; }
-            public string rewardsname { get; set; }
-            public string rewardsdescription { get; set; }
-            public string rewardsvalue { get; set; }
-            public string rewardstype { get; set; }
-            public string rewardsmediaAsset { get; set; }
-            public string rewardsvalueType { get; set; }
-            public string estimatedTime { get; set; }
-            public string deeplink { get; set; }
-            public string isRevoked { get; set; }
-            public string raritycurrentCategory { get; set; }
-            public string raritycurrentPercentage { get; set; }
-
-        }
 
         public class DGAchievement
         {
@@ -327,7 +285,7 @@ namespace XAU.ViewModels.Pages
                         rewardvalueTypeplaceholder = "N/A";
                     }
 
-                    Achievements.Add(new Achievement()
+                    Achievements.Add(new AchievementEntryResponse()
                     {
                         id = AchievementResponse.achievements[i].id.ToString(),
                         serviceConfigId = AchievementResponse.achievements[i].serviceConfigId.ToString(),
@@ -429,7 +387,7 @@ namespace XAU.ViewModels.Pages
                         rewardvalueTypeplaceholder = "N/A";
                     }
 
-                    Achievements.Add(new Achievement()
+                    Achievements.Add(new AchievementEntryResponse()
                     {
                         id = AchievementResponse.achievements[i].id.ToString(),
                         serviceConfigId = "Null",

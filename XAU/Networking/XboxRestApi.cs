@@ -115,7 +115,7 @@ public class XboxRestAPI
         return JsonConvert.DeserializeObject<TitlesList>(responseString);
     }
 
-    public async Task<GameStats?> GetGameStatsAsync(string xuid, string titleId)
+    public async Task<GameStatsResponse?> GetGameStatsAsync(string xuid, string titleId)
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
@@ -132,7 +132,7 @@ public class XboxRestAPI
         var response = await _httpClient
                 .PostAsync(BasicXboxAPIUris.UserStatsUrl, new StringContent(JsonConvert.SerializeObject(gameStatsRequest), Encoding.UTF8, HeaderValues.Accept)).Result.Content
                 .ReadAsStringAsync();
-        return JsonConvert.DeserializeObject<GameStats>(response);
+        return JsonConvert.DeserializeObject<GameStatsResponse>(response);
     }
 
     public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId)
@@ -161,25 +161,27 @@ public class XboxRestAPI
         await _httpClient.DeleteAsync(string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid));
     }
 
-    // TODO actual typing
-    public async Task<dynamic> GetAchievementsForTitleAsync(string xuid, string titleId)
+    public async Task<AchievementsResponse?> GetAchievementsForTitleAsync(string xuid, string titleId)
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion4);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-        var response = (dynamic)JObject.Parse(await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId)).Result.Content.ReadAsStringAsync());
-        return response;
+
+        var response = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId)).Result.Content.ReadAsStringAsync();
+        var achievements = JsonConvert.DeserializeObject<AchievementsResponse>(response);
+        return achievements;
     }
 
-    public async Task<dynamic> GetAchievementsFor360TitleAsync(string xuid, string titleId)
+    public async Task<AchievementsResponse?> GetAchievementsFor360TitleAsync(string xuid, string titleId)
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-        var response = (dynamic)JObject.Parse(await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId)).Result.Content.ReadAsStringAsync());
-        return response;
+        var response = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId)).Result.Content.ReadAsStringAsync();
+        var achievements = JsonConvert.DeserializeObject<AchievementsResponse>(response);
+        return achievements;
     }
 
     public async Task UnlockTitleBasedAchievementAsync(string serviceConfigId, string titleId, string xuid, string achievementId, bool useFakeSignature = false)

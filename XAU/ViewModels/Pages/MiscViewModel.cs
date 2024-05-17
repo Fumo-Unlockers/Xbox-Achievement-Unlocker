@@ -61,7 +61,7 @@ namespace XAU.ViewModels.Pages
         private bool SpoofingUpdate = false;
         private bool CurrentlySpoofing = false;
         private GameTitle GameInfoResponse;
-        private GameStats GameStatsResponse;
+        private GameStatsResponse GameStatsResponse;
 
         [RelayCommand]
         public async Task SpooferButtonClicked()

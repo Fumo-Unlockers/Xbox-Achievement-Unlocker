@@ -2,7 +2,7 @@
 // https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/reference/live/rest/atoc-xboxlivews-reference
 
 // TODO: check for dupes
-public class Person
+public class PersonResponse
 {
     public string Xuid { get; set; }
     public bool IsFavorite { get; set; }
@@ -106,7 +106,7 @@ public class LinkedAccount
 
 public class Profile
 {
-    public List<Person> People { get; set; } = new List<Person>();
+    public List<PersonResponse> People { get; set; } = new List<PersonResponse>();
     public object RecommendationSummary { get; set; }
     public object FriendFinderState { get; set; }
     public object AccountLinkDetails { get; set; }
@@ -126,7 +126,7 @@ public class XboxTitle
     public string MediaItemType { get; set; }
     public string ModernTitleId { get; set; }
     public bool IsBundle { get; set; }
-    public Achievement Achievement { get; set; }
+    public BasicAchievementDetails Achievement { get; set; }
     public Stats Stats { get; set; }
     public GamePass GamePass { get; set; }
     public object Images { get; set; }
@@ -139,7 +139,7 @@ public class XboxTitle
     public string XboxLiveTier { get; set; }
 }
 
-public class Achievement
+public class BasicAchievementDetails
 {
     public int CurrentAchievements { get; set; }
     public int TotalAchievements { get; set; }
@@ -199,7 +199,7 @@ public class Title
     public string MediaItemType { get; set; }
     public string ModernTitleId { get; set; }
     public bool IsBundle { get; set; }
-    public Achievement Achievement { get; set; }
+    public BasicAchievementDetails Achievement { get; set; }
     public object Stats { get; set; }
     public object GamePass { get; set; }
     public object Images { get; set; }
@@ -257,8 +257,78 @@ public class StatListCollection
     public List<Stat> Stats { get; set; }
 }
 
-public class GameStats
+public class GameStatsResponse
 {
     public List<object> Groups { get; set; }
     public List<StatListCollection> StatListsCollection { get; set; }
+}
+
+public class Achievement360Rewards
+{
+    public string name { get; set; }
+    public string description { get; set; }
+    public string value { get; set; }
+    public string type { get; set; }
+    public string mediaAsset { get; set; }
+    public string valueType { get; set; }
+}
+
+public class Achievement360Rarity
+{
+    public string currentCategory { get; set; }
+    public string currentPercentage { get; set; }
+}
+
+public class Achievement360Gamerscore
+{
+    public string currentGamerscore { get; set; }
+    public string totalGamerscore { get; set; }
+}
+
+public class AchievementEntryResponse
+{
+    public List<Achievement360Rewards> rewards { get; set; } // only set for 360 achievements
+    public Achievement360Rarity rarity { get; set; } // only set for 360 achievements
+    public Achievement360Gamerscore gamerscore { get; set; } // only set for 360 achievements
+    public string id { get; set; }
+    public string serviceConfigId { get; set; }
+    public string name { get; set; }
+    public string titleAssociationsname { get; set; }
+    public string titleAssociationsid { get; set; }
+    public string progressState { get; set; }
+    public string progressionrequirementsid { get; set; }
+    public string progressionrequirementscurrent { get; set; }
+    public string progressionrequirementstarget { get; set; }
+    public string progressionrequirementsoperationType { get; set; }
+    public string progressionrequirementsvalueType { get; set; }
+    public string progressionrequirementsruleParticipationType { get; set; }
+    public string progressiontimeUnlocked { get; set; }
+    public string mediaAssetsname { get; set; }
+    public string mediaAssetstype { get; set; }
+    public string mediaAssetsurl { get; set; }
+    public List<string> platforms { get; set; }
+    public string isSecret { get; set; }
+    public string description { get; set; }
+    public string lockedDescription { get; set; }
+    public string productId { get; set; }
+    public string achievementType { get; set; }
+    public string participationType { get; set; }
+    public string timeWindow { get; set; }
+    public string rewardsname { get; set; }
+    public string rewardsdescription { get; set; }
+    public string rewardsvalue { get; set; }
+    public string rewardstype { get; set; }
+    public string rewardsmediaAsset { get; set; }
+    public string rewardsvalueType { get; set; }
+    public string estimatedTime { get; set; }
+    public string deeplink { get; set; }
+    public string isRevoked { get; set; }
+    public string raritycurrentCategory { get; set; }
+    public string raritycurrentPercentage { get; set; }
+
+}
+
+public class AchievementsResponse
+{
+    public List<AchievementEntryResponse> achievements { get; set; }
 }
