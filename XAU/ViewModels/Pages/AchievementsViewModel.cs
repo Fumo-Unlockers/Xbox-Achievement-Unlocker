@@ -623,7 +623,7 @@ namespace XAU.ViewModels.Pages
         }
 
         [RelayCommand]
-        public async Task SearchAndFilterAchievementsAsync()
+        public async Task SearchAndFilterAchievements()
         {
             if (IsEventBased)
             {
