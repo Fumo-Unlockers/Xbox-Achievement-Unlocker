@@ -51,21 +51,27 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] public static bool _updateAvaliable = false;
         [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
 
+        private readonly Lazy<XboxRestAPI> _xboxRestAPI;
+        private readonly Lazy<GithubRestApi> _gitHubRestAPI = new Lazy<GithubRestApi>();
+
         public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
         public static string SpoofedTitleID = "0";
         public static string AutoSpoofedTitleID = "0";
-
-        private const string WatermarksUrl = "https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/";
 
         //SnackBar
         public HomeViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
             _snackbarService = snackbarService;
             _contentDialogService = contentDialogService;
+
+            // Assume XAUTH and System Language are set by the time this is actually instantiated
+            _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH, currentSystemLanguage));
         }
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private readonly IContentDialogService _contentDialogService;
+
+        private const string XAuthScanPattern = "58 42 4C 33 2E 30 20 78 3D";
 
         [RelayCommand]
         private void RefreshProfile()
@@ -85,11 +91,6 @@ namespace XAU.ViewModels.Pages
         string SettingsFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "settings.json");
         string EventsMetaFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "Events", "meta.json");
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
-        static HttpClientHandler handler = new HttpClientHandler()
-        {
-            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-        };
-        HttpClient client = new HttpClient(handler);
 
         public async void OnNavigatedTo()
         {
@@ -103,26 +104,17 @@ namespace XAU.ViewModels.Pages
         {
             if (ToolVersion == "EmptyDevToolVersion")
                 return;
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, "gzip, deflate, br");
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept,
-                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+
             if (ToolVersion.Contains("DEV"))
             {
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
-                var responseString =
-                    await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Pre-Release/info.json");
-                var Jsonresponse = (dynamic)(new JArray());
-                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                var jsonResponse = await _gitHubRestAPI.Value.GetDevToolVersionAsync();
 
-                if (("DEV-" + Jsonresponse.LatestBuildVersion.ToString()) != ToolVersion)
+                if (("DEV-" + jsonResponse.LatestBuildVersion.ToString()) != ToolVersion)
                 {
                     var result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
                         {
-                            Title = $"Version {Jsonresponse.LatestBuildVersion.ToString()} available to download",
+                            Title = $"Version {jsonResponse.LatestBuildVersion.ToString()} available to download",
                             Content = "Would you like to update to this version?",
                             PrimaryButtonText = "Update",
                             CloseButtonText = "Cancel"
@@ -131,7 +123,7 @@ namespace XAU.ViewModels.Pages
                     if (result == ContentDialogResult.Primary)
                     {
                         _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                        string sourceFile = Jsonresponse.DownloadURL.ToString();
+                        string sourceFile = jsonResponse.DownloadURL.ToString();
                         string destFile = @"XAU-new.exe";
                         var fileDownloader = new FileDownloader();
                         await fileDownloader.DownloadFileAsync(new Uri(sourceFile).ToString(), destFile, UpdateTool);
@@ -140,17 +132,14 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubApi);
-                var responseString =
-                    await client.GetStringAsync("https://api.github.com/repos/Fumo-Unlockers/Xbox-Achievement-unlocker/releases");
-                var Jsonresponse = (dynamic)(new JArray());
-                Jsonresponse = (dynamic)JArray.Parse(responseString);
-                if (Jsonresponse[0].tag_name.ToString() != ToolVersion)
+                var jsonResponse = await _gitHubRestAPI.Value.GetReleaseVersionAsync();
+
+                if (jsonResponse[0].tag_name.ToString() != ToolVersion)
                 {
                     var result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
                         {
-                            Title = $"Version {Jsonresponse[0].tag_name.ToString()} available to download",
+                            Title = $"Version {jsonResponse[0].tag_name.ToString()} available to download",
                             Content = "Would you like to update to this version?",
                             PrimaryButtonText = "Update",
                             CloseButtonText = "Cancel"
@@ -159,7 +148,7 @@ namespace XAU.ViewModels.Pages
                     if (result == ContentDialogResult.Primary)
                     {
                         _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                        string sourceFile = Jsonresponse[0].assets[0].browser_download_url.ToString();
+                        string sourceFile = jsonResponse[0].assets[0].browser_download_url.ToString();
                         string destFile = @"XAU-new.exe";
                         var fileDownloader = new FileDownloader();
                         await fileDownloader.DownloadFileAsync(sourceFile, destFile, UpdateTool);
@@ -172,17 +161,7 @@ namespace XAU.ViewModels.Pages
         {
             if (EventsVersion == "EmptyDevEventsVersion")
                 return;
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0");
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, "gzip, deflate, br");
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept,
-                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
-            var responseString =
-                await client.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
-            var Jsonresponse = (dynamic)(new JObject());
-            Jsonresponse = (dynamic)JObject.Parse(responseString);
+            var jsonResponse = await _gitHubRestAPI.Value.CheckForEventUpdatesAsync();
             var EventsTimestamp = 0;
             if (File.Exists(EventsMetaFilePath))
             {
@@ -191,7 +170,7 @@ namespace XAU.ViewModels.Pages
                 EventsTimestamp = meta.Timestamp;
             }
 
-            if (Jsonresponse.Timestamp > EventsTimestamp && Jsonresponse.DataVersion == EventsVersion)
+            if (jsonResponse.Timestamp > EventsTimestamp && jsonResponse.DataVersion == EventsVersion)
             {
                 _snackbarService.Show("Downloading Events Update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                 UpdateEvents();
@@ -241,22 +220,20 @@ namespace XAU.ViewModels.Pages
                 File.Move(eventFile, destinationPath, true);
             }
 
-            string zipUrl = "https://github.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/raw/Events-Data/Events.zip";
             string zipFilePath = Path.Combine(XAUPath, "Events.zip");
             string extractPath = XAUPath;
 
             using (var client = new FileDownloader())
             {
-                await client.DownloadFileAsync(zipUrl, zipFilePath);
+                await client.DownloadFileAsync(EventsUrls.Zip, zipFilePath);
             }
             ZipFile.ExtractToDirectory(zipFilePath, extractPath);
             File.Delete(zipFilePath);
             //download and place meta.json in the events folder
-            string MetaURL = "https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json";
             string MetaFilePath = Path.Combine(eventsFolderPath, "meta.json");
             using (var client = new FileDownloader())
             {
-                await client.DownloadFileAsync(MetaURL, MetaFilePath);
+                await client.DownloadFileAsync(EventsUrls.MetaUrl, MetaFilePath);
             }
             _snackbarService.Show("Events Update Complete", "Events have been updated to the latest version.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
         }
@@ -326,7 +303,7 @@ namespace XAU.ViewModels.Pages
         {
             while (true)
             {
-                if (m.OpenProcess("XboxPcApp") != Mem.OpenProcessResults.Success)
+                if (m.OpenProcess(ProcessNames.XboxPcApp) != Mem.OpenProcessResults.Success)
                 {
                     IsAttached = false;
                     Thread.Sleep(1000);
@@ -343,7 +320,7 @@ namespace XAU.ViewModels.Pages
         {
             if (IsAttached || XAUTH.Length > 0)
             {
-                Attached = $"Attached to xbox app ({Mem.GetProcIdFromName("XboxPCApp").ToString()})";
+                Attached = $"Attached to xbox app ({Mem.GetProcIdFromName(ProcessNames.XboxPcApp).ToString()})";
                 AttachedColor = new SolidColorBrush(Colors.Green);
                 if (IsLoggedIn)
                 {
@@ -367,7 +344,7 @@ namespace XAU.ViewModels.Pages
                     }
                 }
             }
-            if (Mem.GetProcIdFromName("XboxPCApp") == 0)
+            if (Mem.GetProcIdFromName(ProcessNames.XboxPcApp) == 0)
             {
                 Attached = "Not Attached";
                 AttachedColor = new SolidColorBrush(Colors.Red);
@@ -380,7 +357,7 @@ namespace XAU.ViewModels.Pages
         }
         private async void GetXAUTH()
         {
-            var XauthScanList = await m.AoBScan("58 42 4C 33 2E 30 20 78 3D", true);
+            var XauthScanList = await m.AoBScan(XAuthScanPattern, true);
             string[] XauthStrings = new string[XauthScanList.Count()];
             var i = 0;
             foreach (var address in XauthScanList)
@@ -418,27 +395,9 @@ namespace XAU.ViewModels.Pages
         }
         private async void TestXAUTH()
         {
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
             try
             {
-                client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
-            }
-            catch (Exception)
-            {
-                return;
-            }
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Profile);
-            client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-            try
-            {
-                var responseString =
-                    await client.GetStringAsync("https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag");
-                var Jsonresponse = (dynamic)(new JObject());
-                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                var response = await _xboxRestAPI.Value.GetBasicProfileAsync();
                 if (Settings.PrivacyMode)
                 {
                     GamerTag = $"Gamertag: Hidden";
@@ -446,18 +405,18 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
-                    GamerTag = $"Gamertag: {Jsonresponse.profileUsers[0].settings[0].value}";
-                    Xuid = $"XUID: {Jsonresponse.profileUsers[0].id}";
+                    GamerTag = $"Gamertag: {response.ProfileUsers[0].Settings[0].Value}";
+                    Xuid = $"XUID: {response.ProfileUsers[0].Id}";
                 }
 
-                XUIDOnly = Jsonresponse.profileUsers[0].id;
+                XUIDOnly = response.ProfileUsers[0].Id;
                 IsLoggedIn = true;
                 XAUTHTested = true;
                 InitComplete = true;
             }
             catch (HttpRequestException ex)
             {
-                if ((int)ex.StatusCode == 401)
+                if (ex.StatusCode == HttpStatusCode.Forbidden)
                 {
                     IsLoggedIn = false;
                     XAUTHTested = false;
@@ -470,20 +429,10 @@ namespace XAU.ViewModels.Pages
         #region Profile
         private async void GrabProfile()
         {
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion5);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-            client.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.PeopleHub);
-            client.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
             try
             {
-                var responseString = await client.GetStringAsync(
-                    $"https://peoplehub.xboxlive.com/users/me/people/xuids({XUIDOnly})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary");
-                var Jsonresponse = (dynamic)(new JObject());
-                Jsonresponse = (dynamic)JObject.Parse(responseString);
+                var profileResponse = await _xboxRestAPI.Value.GetProfileAsync(XUIDOnly);
+
                 if (Settings.PrivacyMode)
                 {
                     GamerTag = $"Gamertag: Hidden";
@@ -504,31 +453,22 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
-                    GamerTag = $"Gamertag: {Jsonresponse.people[0].gamertag}";
-                    Xuid = $"XUID: {Jsonresponse.people[0].xuid}";
-                    GamerPic = Jsonresponse.people[0].displayPicRaw;
-                    GamerScore = $"Gamerscore: {Jsonresponse.people[0].gamerScore}";
-                    ProfileRep = $"Reputation: {Jsonresponse.people[0].xboxOneRep}";
-                    AccountTier = $"Tier: {Jsonresponse.people[0].detail.accountTier}";
+                    GamerTag = $"Gamertag: {profileResponse.People[0].Gamertag}";
+                    Xuid = $"XUID: {profileResponse.People[0].Xuid}";
+                    GamerPic = profileResponse.People[0].DisplayPicRaw;
+                    GamerScore = $"Gamerscore: {profileResponse.People[0].GamerScore}";
+                    ProfileRep = $"Reputation: {profileResponse.People[0].XboxOneRep}";
+                    AccountTier = $"Tier: {profileResponse.People[0].Detail.AccountTier}";
                     try
                     {
-                        client.DefaultRequestHeaders.Clear();
-                        client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-                        client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-                        client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
-                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-
-                        // sometimes presence details don't exist.
-                        if (Jsonresponse.people[0].presenceDetails.Count == 0)
+                        if (profileResponse.People[0].PresenceDetails.Count == 0)
                         {
                             CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
                         }
                         else
                         {
-                            StringContent requestbody = new StringContent("{\"pfns\":null,\"titleIds\":[\"" + Jsonresponse.people[0].presenceDetails[0].TitleId + "\"]}");
-                            var GameTitleResponse = (dynamic)JObject.Parse(await client.PostAsync("https://titlehub.xboxlive.com/users/xuid(" + XUIDOnly + ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content.ReadAsStringAsync());
-                            CurrentlyPlaying = $"Currently Playing: {GameTitleResponse.titles[0].name} ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
+                            var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, profileResponse.People[0].PresenceDetails[0].TitleId);
+                            CurrentlyPlaying = $"Currently Playing: {gameTitle.Titles[0].Name}";
                         }
                     }
                     catch (ArgumentOutOfRangeException)
@@ -538,43 +478,34 @@ namespace XAU.ViewModels.Pages
                     }
                     catch
                     {
-                        CurrentlyPlaying = $"Currently Playing: Unknown ({Jsonresponse.people[0].presenceDetails[0].TitleId})";
+                        CurrentlyPlaying = $"Currently Playing: Unknown ({profileResponse.People[0].PresenceDetails[0].TitleId})";
                     }
 
                     // GPU details
                     try
                     {
-                        client.DefaultRequestHeaders.Clear();
-                        client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-                        client.DefaultRequestHeaders.Add(HeaderNames.Authorization, XAUTH);
-                        client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-                        var gpuResponse = (dynamic)JObject.Parse(await client.GetAsync("https://xgrant.xboxlive.com/users/xuid(" + XUIDOnly + ")/programInfo?filter=profile,activities,catalog").Result.Content.ReadAsStringAsync());
-                        if (gpuResponse.ContainsKey("gamePassMembership"))
-                            Gamepass = $"Gamepass: {gpuResponse.gamePassMembership}";
+                        var gpuResponse = await _xboxRestAPI.Value.GetGamepassMembershipAsync(XUIDOnly);
+                        if (!string.IsNullOrEmpty(gpuResponse.GamepassMembership))
+                        {
+                            Gamepass = $"Gamepass: {gpuResponse.GamepassMembership}";
+                        }
                         else
-                            Gamepass = $"Gamepass: {gpuResponse.data.gamePassMembership}";
-
+                        {
+                            Gamepass = $"Gamepass: {gpuResponse.Data.GamepassMembership}";
+                        }
                     }
                     catch
                     {
                         Gamepass = $"Gamepass: Unknown";
                     }
 
-                    if (Jsonresponse.people[0].presenceDetails.Count == 0)
-                    {
-                        ActiveDevice = $"Active Device: Unknown (No Presence)";
-                    }
-                    else
-                    {
-                        ActiveDevice = $"Active Device: {Jsonresponse.people[0].presenceDetails[0].Device}";
-                    }
-                    IsVerified = $"Verified: {Jsonresponse.people[0].detail.isVerified}";
-                    Location = $"Location: {Jsonresponse.people[0].detail.location}";
-                    Tenure = $"Tenure: {Jsonresponse.people[0].detail.tenure}";
-                    Following = $"Following: {Jsonresponse.people[0].detail.followingCount}";
-                    Followers = $"Followers: {Jsonresponse.people[0].detail.followerCount}";
-                    Bio = $"Bio: {Jsonresponse.people[0].detail.bio}";
+                    ActiveDevice = $"Active Device: {profileResponse.People[0].PresenceDetails[0].Device}";
+                    IsVerified = $"Verified: {profileResponse.People[0].Detail.IsVerified}";
+                    Location = $"Location: {profileResponse.People[0].Detail.Location}";
+                    Tenure = $"Tenure: {profileResponse.People[0].Detail.Tenure}";
+                    Following = $"Following: {profileResponse.People[0].Detail.FollowingCount}";
+                    Followers = $"Followers: {profileResponse.People[0].Detail.FollowerCount}";
+                    Bio = $"Bio: {profileResponse.People[0].Detail.Bio}";
 
                     Watermarks.Clear();
 
@@ -582,16 +513,22 @@ namespace XAU.ViewModels.Pages
                     // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
                     // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
                     // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
-                    if (Jsonresponse.people[0].detail.tenure != "0")
+                    var tenureString = profileResponse.People[0].Detail.Tenure;
+                    if (int.TryParse(tenureString, out int tenureInt))
                     {
-                        var tenureBadge = Jsonresponse.people[0].detail.tenure.ToString("D2");
-                        Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}tenure/{tenureBadge}.png" });
+                        // Format the integer as a two-digit string
+                        string tenureBadge = tenureInt.ToString("D2");
+                        Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}tenure/{tenureBadge}.png" });
+                    }
+                    else
+                    {
+                        // TODO: log error somewhere
+                        Console.WriteLine("The string is not a valid integer.");
                     }
 
-                    string[] watermarkNames = Jsonresponse.people[0].detail.watermarks.ToObject<string[]>();
-                    foreach (var watermark in watermarkNames)
+                    foreach (var watermark in profileResponse.People[0].Detail.Watermarks)
                     {
-                        Watermarks.Add(new ImageItem { ImageUrl = $@"{WatermarksUrl}launch/{watermark.ToLower()}.png" });
+                        Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}launch/{watermark.ToLower()}.png" });
                     }
                 }
                 GrabbedProfile = true;
