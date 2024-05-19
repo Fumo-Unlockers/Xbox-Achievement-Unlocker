@@ -19,7 +19,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private GridLength _loadingHeight = new GridLength(1, GridUnitType.Star);
         [ObservableProperty] private double _loadingSize = 200;
         [ObservableProperty] private string _searchText = "";
-        [ObservableProperty] private List<string> _filterOptions = new List<string>() { "All", "Xbox One/Series", "PC", "Xbox 360", "Win32" };
+        [ObservableProperty] private List<string> _filterOptions = new List<string>() { "All", "Xbox One/Series", "PC", "Xbox 360", "Win32", "Incomplete Games" };
         [ObservableProperty] private int _filterIndex = 0;
         [ObservableProperty] private int _numPages = 0;
         [ObservableProperty] private ObservableCollection<string> _pageOptions = new ObservableCollection<string>();
@@ -158,6 +158,14 @@ namespace XAU.ViewModels.Pages
                             };
                         }
                         break;
+                    case 5:
+                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        {
+                            dynamic title = GamesResponse.titles[i];
+                            if (double.TryParse(title.achievement.progressPercentage.ToString(), out double progress) && progress < 100)
+                                AddGame(i);
+                        }
+                        break;
                 }
             }
             else
@@ -249,6 +257,18 @@ namespace XAU.ViewModels.Pages
                             dynamic title = GamesResponse.Titles[i];
                             if (title.devices.ToString().Contains("Win32"))
                                 AddGame(i);
+                        }
+                        break;
+                    case 5:
+                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        {
+                            dynamic title = GamesResponse.titles[i];
+                            if (double.TryParse(title.achievement.progressPercentage.ToString(), out double progress) && progress < 100)
+                            {
+                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                    continue;
+                                AddGame(i);
+                            }
                         }
                         break;
                 }
