@@ -263,9 +263,9 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (double.TryParse(title.achievement.progressPercentage.ToString(), out double progress) && progress < 100)
+                            if (double.TryParse(title.Achievement.ProgressPercentage.ToString(), out double progress) && progress < 100)
                             {
-                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
