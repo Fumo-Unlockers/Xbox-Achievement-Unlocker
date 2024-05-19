@@ -1,8 +1,6 @@
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Text;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
@@ -15,15 +13,11 @@ namespace XAU.ViewModels.Pages
     {
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
 
-        static HttpClientHandler handler = new HttpClientHandler()
-        {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
-        };
-
-        HttpClient client = new HttpClient(handler);
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
+        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH, System.Globalization.CultureInfo.CurrentCulture.Name));
+        private Lazy<TrueAchievementRestApi> _taRestApi = new Lazy<TrueAchievementRestApi>();
 
         public MiscViewModel(ISnackbarService snackbarService)
         {
@@ -66,8 +60,8 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _spoofingButtonText = "Start Spoofing";
         private bool SpoofingUpdate = false;
         private bool CurrentlySpoofing = false;
-        private dynamic GameInfoResponse;
-        private dynamic GameStatsResponse;
+        private GameTitle GameInfoResponse;
+        private GameStatsResponse GameStatsResponse;
 
         [RelayCommand]
         public async Task SpooferButtonClicked()
@@ -89,7 +83,7 @@ namespace XAU.ViewModels.Pages
                 GameImage = "pack://application:,,,/Assets/cirno.png";
                 GameTime = "Time Played: ";
                 HomeViewModel.SpoofingStatus = 0;
-                await client.DeleteAsync("https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current");
+                await _xboxRestAPI.Value.StopHeartbeatAsync(HomeViewModel.XUIDOnly);
                 return;
             }
             HomeViewModel.SpoofedTitleID = NewSpoofingID;
@@ -105,46 +99,30 @@ namespace XAU.ViewModels.Pages
 
         public async void SpoofGame()
         {
-
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-            client.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, currentSystemLanguage);
-            StringContent requestbody = new StringContent($"{{\"pfns\":null,\"titleIds\":[\"{NewSpoofingID}\"]}}");
             CurrentSpoofingID = NewSpoofingID;
-            GameInfoResponse = (dynamic)JObject.Parse(await client
-                .PostAsync(
-                    "https://titlehub.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
-                    ")/titles/batch/decoration/GamePass,Achievement,Stats", requestbody).Result.Content
-                .ReadAsStringAsync());
-            requestbody =
-                new StringContent($"{{\"arrangebyfield\":\"xuid\",\"xuids\":[\"{HomeViewModel.XUIDOnly}\"],\"stats\":[{{\"name\":\"MinutesPlayed\",\"titleId\":\"{NewSpoofingID}\"}}]}}");
-            GameStatsResponse = (dynamic)JObject.Parse(await client
-                .PostAsync("https://userstats.xboxlive.com/batch", requestbody).Result.Content
-                .ReadAsStringAsync());
+            GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
+            GameStatsResponse = await _xboxRestAPI.Value.GetGameStatsAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
 
             try
             {
-                GameName = "Name: " + GameInfoResponse.titles[0].name.ToString();
-                GameImage = GameInfoResponse.titles[0].displayImage.ToString();
-                GameTitleID = "Title ID: " + GameInfoResponse.titles[0].titleId.ToString();
-                GamePFN = "PFN: " + GameInfoResponse.titles[0].pfn.ToString();
-                GameType = "Type: " + GameInfoResponse.titles[0].type.ToString();
-                GameGamepass = "Gamepass: " + GameInfoResponse.titles[0].gamePass.isGamePass.ToString();
+                GameName = "Name: " + GameInfoResponse.Titles[0].Name.ToString();
+                GameImage = GameInfoResponse.Titles[0].DisplayImage.ToString();
+                GameTitleID = "Title ID: " + GameInfoResponse.Titles[0].TitleId.ToString();
+                GamePFN = "PFN: " + GameInfoResponse.Titles[0].Pfn.ToString();
+                GameType = "Type: " + GameInfoResponse.Titles[0].Type.ToString();
+                GameGamepass = "Gamepass: " + GameInfoResponse.Titles[0].GamePass.IsGamePass.ToString();
                 GameDevices = "Devices: ";
-                foreach (var device in GameInfoResponse.titles[0].devices)
+                foreach (var device in GameInfoResponse.Titles[0].Devices)
                 {
                     GameDevices += device.ToString() + ", ";
                 }
 
                 GameDevices = GameDevices.Remove(GameDevices.Length - 2);
-                GameGamerscore = "Gamerscore: " + GameInfoResponse.titles[0].achievement.currentGamerscore.ToString() +
-                                 "/" + GameInfoResponse.titles[0].achievement.totalGamerscore.ToString();
+                GameGamerscore = "Gamerscore: " + GameInfoResponse.Titles[0].Achievement.CurrentGamerscore.ToString() +
+                                 "/" + GameInfoResponse.Titles[0].Achievement.TotalGamerscore.ToString();
                 try
                 {
-                    var timePlayed = TimeSpan.FromMinutes(Convert.ToDouble(GameStatsResponse.statlistscollection[0].stats[0].value));
+                    var timePlayed = TimeSpan.FromMinutes(Convert.ToDouble(GameStatsResponse.StatListsCollection[0].Stats[0].Value));
                     var formattedTime = $"{timePlayed.Days} Days, {timePlayed.Hours} Hours and {timePlayed.Minutes} minutes";
                     GameTime = "Time Played: " + formattedTime;
                 }
@@ -167,28 +145,19 @@ namespace XAU.ViewModels.Pages
             SpoofingUpdate = true;
             CurrentlySpoofing = true;
             SpoofingButtonText = "Stop Spoofing";
-            SpoofingText = $"Spoofing {GameInfoResponse.titles[0].name.ToString()}";
+            SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name.ToString()}";
             await Task.Run(() => Spoofing());
 
         }
 
+        // TODO: this code seems like it's duplicated in AchievementsViewModel.cs too.
         public async Task Spoofing()
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             TimeSpan spoofingTime = stopwatch.Elapsed;
             SpoofingText = $"Spoofing {GameName} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-            client.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-            client.DefaultRequestHeaders.Add(HeaderNames.Authorization, HomeViewModel.XAUTH);
-            var requestbody =
-                new StringContent(
-                    "{\"titles\":[{\"expiration\":600,\"id\":" + CurrentSpoofingID +
-                    ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}", encoding: Encoding.UTF8, HeaderValues.Accept);
-            await client.PostAsync(
-                "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly + ")/devices/current",
-                requestbody);
+            await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
             var i = 0;
             Thread.Sleep(1000);
             SpoofingUpdate = false;
@@ -196,9 +165,7 @@ namespace XAU.ViewModels.Pages
             {
                 if (i == 300)
                 {
-                    await client.PostAsync(
-                        "https://presence-heartbeat.xboxlive.com/users/xuid(" + HomeViewModel.XUIDOnly +
-                        ")/devices/current", requestbody);
+                    await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
                     i = 0;
                 }
                 else
@@ -210,7 +177,7 @@ namespace XAU.ViewModels.Pages
                         break;
                     }
                     spoofingTime = stopwatch.Elapsed;
-                    SpoofingText = $"Spoofing {GameInfoResponse.titles[0].name.ToString()} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
+                    SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name.ToString()} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
                     i++;
                 }
                 Thread.Sleep(1000);
@@ -229,19 +196,11 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public async Task SearchGame()
         {
-            client.DefaultRequestHeaders.Clear();
-            var SearchQuerytext = Uri.EscapeDataString(TSearchText);
-            SearchQuerytext = SearchQuerytext.Replace("%20", "+");
-            var response = await client.GetAsync($"https://www.trueachievements.com/searchresults.aspx?search={SearchQuerytext}");
-            var html = await response.Content.ReadAsStringAsync();
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-
-            var table = doc.DocumentNode.Descendants("table").FirstOrDefault(x => x.HasClass("maintable"));
-            var templinks = new List<string>();
             try
             {
-                templinks = table.Descendants("a").Select(a => a.GetAttributeValue("href", null)).Where(h => !string.IsNullOrEmpty(h)).ToList();
+                var response = await _taRestApi.Value.SearchAsync(TSearchText);
+                TSearchGameNames = response.Item1;
+                TSearchGameLinks = response.Item2;
             }
             catch
             {
@@ -250,49 +209,23 @@ namespace XAU.ViewModels.Pages
                     new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 return;
             }
-
-            var tempnames = table.Descendants("td")
-                .Where(td => td.HasClass("gamerwide"))
-                .Select(td => td.InnerText.Trim())
-                .ToList();
-            templinks.RemoveAt(0);
-            templinks.RemoveAt(0);
-            for (var i = 0; i < templinks.Count; i++)
-            {
-                templinks[i] = "https://www.trueachievements.com" + templinks[i];
-                templinks[i] = templinks[i].Replace("/achievements", "/price");
-                if (i > 0)
-                {
-                    if (templinks[i - 1] == templinks[i])
-                    {
-                        templinks.RemoveAt(i);
-                        i--;
-                        continue;
-                    }
-
-                }
-                if (!templinks[i].Contains("/game/"))
-                {
-                    templinks.RemoveAt(i);
-                    templinks.RemoveAt(i);
-                    tempnames.RemoveAt(i);
-                    i--;
-                }
-            }
-            TSearchGameLinks = templinks;
-            TSearchGameNames = tempnames;
         }
 
         public async void DisplayGameInfo(int index)
         {
-            var response = await client.GetAsync(TSearchGameLinks[index]);
-            var html = await response.Content.ReadAsStringAsync();
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            var ProductID = "";
             try
             {
-                ProductID = doc.DocumentNode.SelectSingleNode("//a[@class='price']").Attributes["href"].Value;
+                var titleId = await _taRestApi.Value.GetGameLinkAsync(_xboxRestAPI.Value, TSearchGameLinks[index]);
+                TSearchGameName = "Name: " + TSearchGameNames[index];
+                TSearchGameTitleID = titleId;
+                if (titleId == "-1")
+                {
+                    _snackbarService.Show("Error: TitleID not found",
+                        $"The TitleID for {TSearchGameNames[index]} was not available via TrueAchievement Search",
+                        ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
             }
             catch
             {
@@ -302,46 +235,6 @@ namespace XAU.ViewModels.Pages
                     new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 return;
             }
-
-            ProductID = ProductID.Replace("/ext?u=", "");
-            ProductID = System.Web.HttpUtility.UrlDecode(ProductID);
-            ProductID = ProductID.Substring(0, ProductID.LastIndexOf('&'));
-            ProductID = ProductID.Split('/').Last();
-            if (ProductID.Contains("-"))
-            {
-                TSearchGameName = "Name: " + TSearchGameNames[index];
-                TSearchGameTitleID = Convert.ToInt32(ProductID.Substring(ProductID.Length - 8), 16).ToString();
-            }
-            else
-            {
-                client.DefaultRequestHeaders.Clear();
-                var ProductIDsConverted = new StringContent("{\"Products\":[\"" + ProductID + "\"]}");
-                var TitleIDsResponse = await client.PostAsync(
-                    "https://catalog.gamepass.com/products?market=GB&language=en-GB&hydration=PCHome",
-                    ProductIDsConverted);
-                var TitleIDsContent = await TitleIDsResponse.Content.ReadAsStringAsync();
-                var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
-                var xboxTitleId = JsonTitleIDs.Products[$"{ProductID}"].XboxTitleId;
-                //here is some super dumb shit to handle bundles
-                if (xboxTitleId == null)
-                {
-                    foreach (var Product in JsonTitleIDs.Products)
-                    {
-                        foreach (var Title in Product)
-                        {
-                            if (Title.ToString().Contains("\"ProductType\": \"Game\",") && Title.XboxTitleId != null)
-                            {
-                                xboxTitleId = Title.XboxTitleId;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                TSearchGameName = "Name: " + TSearchGameNames[index];
-                TSearchGameTitleID = xboxTitleId;
-            }
-
         }
         #endregion
 
