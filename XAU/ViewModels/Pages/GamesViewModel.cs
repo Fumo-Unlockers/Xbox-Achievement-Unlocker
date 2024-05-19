@@ -159,9 +159,9 @@ namespace XAU.ViewModels.Pages
                         }
                         break;
                     case 5:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (double.TryParse(title.achievement.progressPercentage.ToString(), out double progress) && progress < 100)
                                 AddGame(i);
                         }
@@ -260,9 +260,9 @@ namespace XAU.ViewModels.Pages
                         }
                         break;
                     case 5:
-                        for (int i = 0; i < GamesResponse.titles.Count; i++)
+                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.titles[i];
+                            dynamic title = GamesResponse.Titles[i];
                             if (double.TryParse(title.achievement.progressPercentage.ToString(), out double progress) && progress < 100)
                             {
                                 if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
