@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -6,7 +7,6 @@ using System.Windows.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Wpf.Ui.Controls;
-using System.Text.RegularExpressions;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Services;
@@ -342,7 +342,7 @@ namespace XAU.ViewModels.Pages
                         IsSecret = achievement.isSecret,
                         DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
                         Gamerscore = gamerscore,
-                        RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                        RarityPercentage = float.Parse(achievement.raritycurrentPercentage, CultureInfo.InvariantCulture),
                         RarityCategory = achievement.raritycurrentCategory,
                         ProgressState = achievement.progressState,
                         IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
@@ -423,7 +423,7 @@ namespace XAU.ViewModels.Pages
                         IsSecret = achievement.isSecret,
                         DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
                         Gamerscore = gamerscore,
-                        RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                        RarityPercentage = float.Parse(achievement.raritycurrentPercentage, CultureInfo.InvariantCulture),
                         RarityCategory = achievement.raritycurrentCategory,
                         ProgressState = achievement.progressState,
                         IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable
@@ -673,7 +673,7 @@ namespace XAU.ViewModels.Pages
                             IsSecret = achievement.isSecret,
                             DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
                             Gamerscore = gamerscore,
-                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage, CultureInfo.InvariantCulture),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
                             IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
@@ -695,7 +695,7 @@ namespace XAU.ViewModels.Pages
                             IsSecret = achievement.isSecret,
                             DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
                             Gamerscore = gamerscore,
-                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage, CultureInfo.InvariantCulture),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
                             IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
@@ -737,7 +737,7 @@ namespace XAU.ViewModels.Pages
                             IsSecret = achievement.isSecret,
                             DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
                             Gamerscore = gamerscore,
-                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage, CultureInfo.InvariantCulture),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
                             IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
@@ -759,7 +759,7 @@ namespace XAU.ViewModels.Pages
                             IsSecret = achievement.isSecret,
                             DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
                             Gamerscore = gamerscore,
-                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
+                            RarityPercentage = float.Parse(achievement.raritycurrentPercentage, CultureInfo.InvariantCulture),
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
                             IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
