@@ -18,7 +18,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _titleIDOverride = "0";
         [ObservableProperty] private bool _unlockable = false;
         [ObservableProperty] private bool _titleIDEnabled = false;
-        [ObservableProperty] private ObservableCollection<AchievementEntryResponse> _achievements = new ObservableCollection<AchievementEntryResponse>();
+        [ObservableProperty] private ObservableCollection<OneCoreAchievementResponse> _achievements = new ObservableCollection<OneCoreAchievementResponse>();
         [ObservableProperty] private ObservableCollection<DGAchievement> _dGAchievements = new ObservableCollection<DGAchievement>();
         [ObservableProperty] public string _gameInfo = "";
         [ObservableProperty] private string _gameName = "";
@@ -30,6 +30,8 @@ namespace XAU.ViewModels.Pages
         public static bool NewGame = false;
         public static bool IsSelectedGame360;
         private AchievementsResponse AchievementResponse = new AchievementsResponse();
+        private Xbox360AchievementResponse Xbox360AchievementResponse = new Xbox360AchievementResponse();
+
         private GameTitle GameInfoResponse = new GameTitle();
         string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         // TODO: this needs to be updated if language changes
@@ -57,7 +59,7 @@ namespace XAU.ViewModels.Pages
             public int ID { get; set; }
             public string? Name { get; set; }
             public string? Description { get; set; }
-            public string? IsSecret { get; set; }
+            public bool IsSecret { get; set; }
             public DateTime DateUnlocked { get; set; }
             public int Gamerscore { get; set; }
             public float RarityPercentage { get; set; }
@@ -213,6 +215,7 @@ namespace XAU.ViewModels.Pages
 
         private async Task LoadAchievements()
         {
+
             Achievements.Clear();
             DGAchievements.Clear();
             if (!IsTitleIDValid)
@@ -284,19 +287,40 @@ namespace XAU.ViewModels.Pages
                         rewardvalueTypeplaceholder = "N/A";
                     }
 
-                    Achievements.Add(new AchievementEntryResponse()
+                    var mediaAsset = new MediaAsset{
+                        name = AchievementResponse.achievements[i].mediaAssets[0].name,
+                        type = AchievementResponse.achievements[i].mediaAssets[0].type,
+                        url = AchievementResponse.achievements[i].mediaAssets[0].url
+                    };
+                    var titleAssociation = new TitleAssociation
+                    {
+                        name = AchievementResponse.achievements[i].titleAssociations[0].name,
+                        id = AchievementResponse.achievements[i].titleAssociations[0].id
+                    };
+                    var progression = new AchievementProgression
+                    {
+                        timeUnlocked = AchievementResponse.achievements[i].progression.timeUnlocked
+                    };
+                    var rewards = new AchievementRewards
+                    {
+                        name = rewardnameplaceholder,
+                        description = rewarddescriptionplaceholder,
+                        value = rewardvalueplaceholder,
+                        type = rewardtypeplaceholder,
+                        mediaAsset = mediaAsset,
+                        valueType = rewardvalueTypeplaceholder
+                    };
+
+
+                    Achievements.Add(new OneCoreAchievementResponse()
                     {
                         id = AchievementResponse.achievements[i].id,
                         serviceConfigId = AchievementResponse.achievements[i].serviceConfigId,
                         name = AchievementResponse.achievements[i].name,
-                        titleAssociationsname = AchievementResponse.achievements[i].titleAssociations[0].name,
-                        titleAssociationsid = AchievementResponse.achievements[i].titleAssociations[0].id,
+                        titleAssociations = new List<TitleAssociation>() {titleAssociation},
                         progressState = AchievementResponse.achievements[i].progressState,
-
-                        progressiontimeUnlocked = AchievementResponse.achievements[i].progression.timeUnlocked,
-                        mediaAssetsname = AchievementResponse.achievements[i].mediaAssets[0].name,
-                        mediaAssetstype = AchievementResponse.achievements[i].mediaAssets[0].type,
-                        mediaAssetsurl = AchievementResponse.achievements[i].mediaAssets[0].url,
+                        progression = progression,
+                        mediaAssets = new List<MediaAsset>() {mediaAsset},
                         platforms = AchievementResponse.achievements[i].platforms,
                         isSecret = AchievementResponse.achievements[i].isSecret,
                         description = AchievementResponse.achievements[i].description,
@@ -305,12 +329,7 @@ namespace XAU.ViewModels.Pages
                         achievementType = AchievementResponse.achievements[i].achievementType,
                         participationType = AchievementResponse.achievements[i].participationType,
                         timeWindow = AchievementResponse.achievements[i].timeWindow,
-                        rewardsname = rewardnameplaceholder,
-                        rewardsdescription = rewarddescriptionplaceholder,
-                        rewardsvalue = rewardvalueplaceholder,
-                        rewardstype = rewardtypeplaceholder,
-                        rewardsmediaAsset = rewardmediaAssetplaceholder,
-                        rewardsvalueType = rewardvalueTypeplaceholder,
+                        rewards = new List<AchievementRewards>() {rewards},
                         estimatedTime = AchievementResponse.achievements[i].estimatedTime,
                         deeplink = AchievementResponse.achievements[i].deeplink,
                         isRevoked = AchievementResponse.achievements[i].isRevoked,
@@ -322,9 +341,9 @@ namespace XAU.ViewModels.Pages
                 foreach (var achievement in Achievements)
                 {
                     var gamerscore = 0;
-                    if (achievement.rewardstype == StringConstants.Gamerscore)
+                    if (achievement.rewards[0].type == StringConstants.Gamerscore)
                     {
-                        gamerscore = int.Parse(achievement.rewardsvalue);
+                        gamerscore = int.Parse(achievement.rewards[0].value);
                     }
                     DGAchievements.Add(new DGAchievement()
                     {
@@ -333,7 +352,7 @@ namespace XAU.ViewModels.Pages
                         Name = achievement.name,
                         Description = achievement.description,
                         IsSecret = achievement.isSecret,
-                        DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                        DateUnlocked = DateTime.Parse(achievement.progression.timeUnlocked),
                         Gamerscore = gamerscore,
                         RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                         RarityCategory = achievement.raritycurrentCategory,
@@ -345,45 +364,45 @@ namespace XAU.ViewModels.Pages
             else
             {
                 Unlockable = false;
-                AchievementResponse = await _xboxRestAPI.Value.GetAchievementsFor360TitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
-                if (AchievementResponse?.achievements.Count == 0)
+                Xbox360AchievementResponse = await _xboxRestAPI.Value.GetAchievementsFor360TitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
+                if (Xbox360AchievementResponse?.achievements.Count == 0)
                 {
                     _snackbarService.Show("Error: No Achievements", $"There were no achievements returned from the API", ControlAppearance.Danger,
                                                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
                 //cut down version of the code to display minimal information about 360 achievements
-                for (int i = 0; i < AchievementResponse?.achievements.Count; i++)
+                for (int i = 0; i < Xbox360AchievementResponse?.achievements.Count; i++)
                 {
                     string rewardvalueTypeplaceholder;
                     try
                     {
-                        rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType;
+                        rewardvalueTypeplaceholder = Xbox360AchievementResponse.achievements[i].rewards[0].valueType;
                     }
                     catch
                     {
                         rewardvalueTypeplaceholder = "N/A";
                     }
 
-                    Achievements.Add(new AchievementEntryResponse()
+                    Achievements.Add(new OneCoreAchievementResponse()
                     {
-                        id = AchievementResponse.achievements[i].id,
-                        name = AchievementResponse.achievements[i].name,
-                        isSecret = AchievementResponse.achievements[i].isSecret,
-                        description = AchievementResponse.achievements[i].description,
-                        rewardsvalue = AchievementResponse.achievements[i].gamerscore.ToString(),
+                        id = Xbox360AchievementResponse.achievements[i].id.ToString(),
+                        name = Xbox360AchievementResponse.achievements[i].name,
+                        isSecret = Xbox360AchievementResponse.achievements[i].isSecret,
+                        description = Xbox360AchievementResponse.achievements[i].description,
+                        rewardsvalue = Xbox360AchievementResponse.achievements[i].gamerscore.ToString(),
                         rewardsvalueType = rewardvalueTypeplaceholder,
-                        raritycurrentCategory = AchievementResponse.achievements[i].rarity.currentCategory,
-                        raritycurrentPercentage = AchievementResponse.achievements[i].rarity.currentPercentage
+                        raritycurrentCategory = Xbox360AchievementResponse.achievements[i].rarity.currentCategory,
+                        raritycurrentPercentage = Xbox360AchievementResponse.achievements[i].rarity.currentPercentage
                     }
                     );
                 }
                 foreach (var achievement in Achievements)
                 {
                     var gamerscore = 0;
-                    if (achievement.rewardstype == "Gamerscore")
+                    if (achievement.rewards[0].type == "Gamerscore")
                     {
-                        gamerscore = int.Parse(achievement.rewardsvalue);
+                        gamerscore = int.Parse(achievement.rewards[0].value);
                     }
                     DGAchievements.Add(new DGAchievement()
                     {
@@ -392,7 +411,7 @@ namespace XAU.ViewModels.Pages
                         Name = achievement.name,
                         Description = achievement.description,
                         IsSecret = achievement.isSecret,
-                        DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                        DateUnlocked = DateTime.Parse(achievement.progression.timeUnlocked),
                         Gamerscore = gamerscore,
                         RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                         RarityCategory = achievement.raritycurrentCategory,

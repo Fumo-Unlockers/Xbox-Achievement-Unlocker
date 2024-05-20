@@ -174,7 +174,7 @@ public class XboxTitle
 
     public string? WindowsPhoneProductId { get; set; }
 
-    public string? Name { get; set; }
+    public required string Name { get; set; }
 
     public string? Type { get; set; }
 
@@ -377,7 +377,7 @@ public class AchievementRewards
 
     public string? type { get; set; }
 
-    public MediaAssets? mediaAsset { get; set; }
+    public MediaAsset? mediaAsset { get; set; }
     public string? valueType { get; set; }
 
 }
@@ -414,7 +414,7 @@ public class AchievementProgression
 
 }
 
-public class TitleAssociations
+public class TitleAssociation
 {
     public string? name { get; set; }
 
@@ -422,7 +422,7 @@ public class TitleAssociations
 
 }
 
-public class MediaAssets
+public class MediaAsset
 {
     public string? name { get; set; }
 
@@ -432,57 +432,57 @@ public class MediaAssets
 
 }
 
-public class AchievementEntryResponse
+
+
+public class OneCoreAchievementResponse // Xbox One Achievements
 {
-    public List<MediaAssets> mediaAssets { get; set; } = new List<MediaAssets>();
-    public List<TitleAssociations> titleAssociations { get; set; } = new List<TitleAssociations>();
-    public AchievementProgression progression { get; set; } = new AchievementProgression();
-    public List<AchievementRewards> rewards { get; set; } = new List<AchievementRewards>();
     public Rarity? rarity { get; set; }
     public object? gamerscore { get; set; }
-    public string? id { get; set; }
+    public required string id { get; set; }
     public string serviceConfigId { get; set; } = StringConstants.ZeroUid;
-    public string? name { get; set; }
-    public string? titleAssociationsname { get; set; }
-    public string? titleAssociationsid { get; set; }
+    public required string name { get; set; }
+    public List<TitleAssociation> titleAssociations { get; set; } = new List<TitleAssociation>();
     public string progressState { get; set; } = "Null";
-    //these are strings because im too lazy to handle them properly right now
-
-    public string progressionrequirementsid { get; set; } =  "AchievementResponse.achievements[i].progression.requirements[0].id";
-    public string progressionrequirementscurrent { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].current";
-    public string progressionrequirementstarget { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].target";
-    public string progressionrequirementsoperationType { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].operationType";
-    public string progressionrequirementsvalueType { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].valueType";
-    public string progressionrequirementsruleParticipationType { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].ruleParticipationType";
-    public string progressiontimeUnlocked { get; set; } = "0001-01-01T00:00:00.0000000Z";
-    public string? mediaAssetsname { get; set; }
-    public string? mediaAssetstype { get; set; }
-    public string? mediaAssetsurl { get; set; }
+    public AchievementProgression? progression { get; set; }
+    public List<MediaAsset> mediaAssets { get; set; } = new List<MediaAsset>();
     public List<string> platforms { get; set; } = new List<string>();
-    public string? isSecret { get; set; }
+    public bool isSecret { get; set; }
     public string? description { get; set; }
     public string? lockedDescription { get; set; }
     public string? productId { get; set; }
     public string? achievementType { get; set; }
     public string? participationType { get; set; }
     public TimeWindow? timeWindow { get; set; }
-    public string? rewardsname { get; set; } = "Null";
-    public string? rewardsdescription { get; set; } = "Null";
-    public string? rewardsvalue { get; set; }
-    public string? rewardstype { get; set; } = "Gamerscore";
-    public string? rewardsmediaAsset { get; set; } = "Null";
-    public string? rewardsvalueType { get; set; }
+    public List<AchievementRewards> rewards { get; set; } = new List<AchievementRewards>();
     public string? estimatedTime { get; set; }
     public string? deeplink { get; set; }
     public string? isRevoked { get; set; }
     public string? raritycurrentCategory { get; set; }
     public string? raritycurrentPercentage { get; set; }
+}
 
+public class Xbox360AchievementEntry
+{
+    public int id {get; set;}
+    public int titleId {get; set;}
+    public string name {get; set;}
+    public int gamerscore {get; set;}
+    public string description {get; set;}
+    public string lockedDescription {get; set;}
+    public string timeUnlocked {get; set;}
+    public bool isSecret {get; set;}
+    public Rarity? rarity {get; set;}
+
+}
+
+public class Xbox360AchievementResponse
+{
+    public List<Xbox360AchievementEntry> achievements {get;set; } = new List<Xbox360AchievementEntry>();
 }
 
 public class AchievementsResponse
 {
-    public List<AchievementEntryResponse> achievements { get; set; } = new List<AchievementEntryResponse>();
+    public List<OneCoreAchievementResponse> achievements { get; set; } = new List<OneCoreAchievementResponse>();
 }
 
 public class TimeWindow

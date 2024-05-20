@@ -184,14 +184,14 @@ public class XboxRestAPI
         return achievements;
     }
 
-    public async Task<AchievementsResponse?> GetAchievementsFor360TitleAsync(string xuid, string titleId)
+    public async Task<Xbox360AchievementResponse?> GetAchievementsFor360TitleAsync(string xuid, string titleId)
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
         var response = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievements360Url, xuid, titleId)).Result.Content.ReadAsStringAsync();
-        var achievements = JsonConvert.DeserializeObject<AchievementsResponse>(response);
+        var achievements = JsonConvert.DeserializeObject<Xbox360AchievementResponse>(response);
         return achievements;
     }
 
