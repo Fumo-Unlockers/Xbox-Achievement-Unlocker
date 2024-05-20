@@ -56,14 +56,14 @@ namespace XAU.ViewModels.Pages
         {
             public int Index { get; set; }
             public int ID { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string IsSecret { get; set; }
+            public string? Name { get; set; }
+            public string? Description { get; set; }
+            public string? IsSecret { get; set; }
             public DateTime DateUnlocked { get; set; }
             public int Gamerscore { get; set; }
             public float RarityPercentage { get; set; }
-            public string RarityCategory { get; set; }
-            public string ProgressState { get; set; }
+            public string? RarityCategory { get; set; }
+            public string? ProgressState { get; set; }
             public bool IsUnlockable { get; set; }
         }
         public async void OnNavigatedTo()

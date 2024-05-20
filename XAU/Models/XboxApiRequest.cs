@@ -43,7 +43,7 @@ public class HeartbeatRequest
 public class TitleRequest
 {
     public int expiration { get; set; } = 600;
-    public string id { get; set; }
+    public string? id { get; set; }
     public string state { get; set; } = "active";
     public string sandbox { get; set; } = "RETAIL";
 }
