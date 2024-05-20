@@ -86,6 +86,7 @@
                         Margin="25,0,0,0"
                         Command="{Binding ViewModel.SearchGameCommand}"></ui:Button>
                     <ui:TextBox
+                        x:Name="TitleIdSearchBox"
                         Grid.Row="0"
                         Grid.Column="0"
                         VerticalAlignment="Top"
@@ -93,7 +94,8 @@
                         ClearButtonEnabled="False"
                         PlaceholderText="Game"
                         MinWidth="200"
-                        Text="{Binding ViewModel.TSearchText, Mode=TwoWay}"></ui:TextBox>
+                        Text="{Binding ViewModel.TSearchText, Mode=TwoWay}"
+                        KeyDown="TitleIDSearch_OnKeyDown"></ui:TextBox>
                     <ListBox
                         Grid.Row="1"
                         Grid.Column="0"
