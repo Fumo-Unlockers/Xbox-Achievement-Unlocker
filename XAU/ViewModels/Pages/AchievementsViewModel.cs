@@ -492,7 +492,7 @@ namespace XAU.ViewModels.Pages
                     DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
                     CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
                 }
-                catch (HttpRequestException)
+                catch (HttpRequestException ex)
                 {
                     _snackbarService.Show("Error: Achievement Not Unlocked",
                         $"{DGAchievements[AchievementIndex].Name} was not unlocked", ControlAppearance.Danger,

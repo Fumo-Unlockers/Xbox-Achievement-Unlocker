@@ -94,7 +94,7 @@ namespace XAU.ViewModels.Pages
         }
         public async Task OpenAchievements(string index)
         {
-            AchievementsViewModel.TitleID = GamesResponse.Titles[int.Parse(index)].TitleId.ToString();
+            AchievementsViewModel.TitleID = GamesResponse.Titles[int.Parse(index)].TitleId;
             AchievementsViewModel.IsSelectedGame360 = GamesResponse.Titles[int.Parse(index)].Devices.Contains("Xbox360") || GamesResponse.Titles[int.Parse(index)].Devices.Contains("Mobile");
             AchievementsViewModel.NewGame = true;
             navigationService.Navigate(typeof(AchievementsPage));
@@ -137,7 +137,7 @@ namespace XAU.ViewModels.Pages
                         {
                             if (GamesResponse.Titles[i].Devices.Contains("Xbox360"))
                             {
-                                if (!GamesResponse.Titles[i].Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
@@ -148,7 +148,7 @@ namespace XAU.ViewModels.Pages
                         {
                             if (GamesResponse.Titles[i].Devices.Contains("Win32"))
                             {
-                                if (!GamesResponse.Titles[i].Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             };
@@ -260,7 +260,7 @@ namespace XAU.ViewModels.Pages
                         {
                             if (double.TryParse(GamesResponse.Titles[i].Achievement.ProgressPercentage.ToString(), out double progress) && progress < 100)
                             {
-                                if (!GamesResponse.Titles[i].Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
