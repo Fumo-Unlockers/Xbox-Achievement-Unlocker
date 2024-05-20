@@ -1,7 +1,7 @@
 public class XAUSettings
 {
-  public string SettingsVersion {get; set;}
-  public string ToolVersion {get; set;}
+  public string? SettingsVersion {get; set;}
+  public string? ToolVersion {get; set;}
   public bool UnlockAllEnabled {get; set;}
   public bool AutoSpooferEnabled {get; set;}
   public bool AutoLaunchXboxAppEnabled {get; set;}
