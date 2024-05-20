@@ -379,6 +379,10 @@ namespace XAU.ViewModels.Pages
                         value = Xbox360AchievementResponse.achievements[i].gamerscore.ToString(),
                         valueType = "N/a"
                     };
+                    var progression = new AchievementProgression
+                    {
+                        timeUnlocked = Xbox360AchievementResponse.achievements[i].timeUnlocked
+                    };
 
                     Achievements.Add(new OneCoreAchievementResponse()
                     {
@@ -388,7 +392,8 @@ namespace XAU.ViewModels.Pages
                         description = Xbox360AchievementResponse.achievements[i].description,
                         rewards = new List<AchievementRewards>()  {rewards},
                         raritycurrentCategory = Xbox360AchievementResponse.achievements[i].rarity.currentCategory,
-                        raritycurrentPercentage = Xbox360AchievementResponse.achievements[i].rarity.currentPercentage
+                        raritycurrentPercentage = Xbox360AchievementResponse.achievements[i].rarity.currentPercentage,
+                        progression = progression
                     }
                     );
                 }

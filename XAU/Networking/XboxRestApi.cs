@@ -78,7 +78,6 @@ public class XboxRestAPI
     public async Task<BasicProfile?> GetBasicProfileAsync()
     {
         SetDefaultHeaders();
-
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Profile);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
