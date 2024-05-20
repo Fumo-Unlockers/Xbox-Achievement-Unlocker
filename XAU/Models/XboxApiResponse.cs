@@ -373,41 +373,41 @@ public class TimeWindow {
 }
 public class DraffAchievement
 {
-    public string id { get; set; }
-    public string serviceConfigId { get; set; }
-    public string name { get; set; }
-    public string titleAssociationsname { get; set; }
-    public string titleAssociationsid { get; set; }
-    public string progressState { get; set; }
-    public string progressionrequirementsid { get; set; }
-    public string progressionrequirementscurrent { get; set; }
-    public string progressionrequirementstarget { get; set; }
-    public string progressionrequirementsoperationType { get; set; }
-    public string progressionrequirementsvalueType { get; set; }
-    public string progressionrequirementsruleParticipationType { get; set; }
-    public string progressiontimeUnlocked { get; set; }
-    public string mediaAssetsname { get; set; }
-    public string mediaAssetstype { get; set; }
-    public string mediaAssetsurl { get; set; }
-    public List<string> platforms { get; set; }
-    public string isSecret { get; set; }
-    public string description { get; set; }
-    public string lockedDescription { get; set; }
-    public string productId { get; set; }
-    public string achievementType { get; set; }
-    public string participationType { get; set; }
-    public TimeWindow timeWindow { get; set; }
-    public string rewardsname { get; set; }
-    public string rewardsdescription { get; set; }
-    public string rewardsvalue { get; set; }
-    public string rewardstype { get; set; }
-    public string rewardsmediaAsset { get; set; }
-    public string rewardsvalueType { get; set; }
-    public string estimatedTime { get; set; }
-    public string deeplink { get; set; }
-    public string isRevoked { get; set; }
-    public string raritycurrentCategory { get; set; }
-    public string raritycurrentPercentage { get; set; }
+    public string? id { get; set; }
+    public string? serviceConfigId { get; set; }
+    public string? name { get; set; }
+    public string? titleAssociationsname { get; set; }
+    public string? titleAssociationsid { get; set; }
+    public string? progressState { get; set; }
+    public string? progressionrequirementsid { get; set; }
+    public string? progressionrequirementscurrent { get; set; }
+    public string? progressionrequirementstarget { get; set; }
+    public string? progressionrequirementsoperationType { get; set; }
+    public string? progressionrequirementsvalueType { get; set; }
+    public string? progressionrequirementsruleParticipationType { get; set; }
+    public string? progressiontimeUnlocked { get; set; }
+    public string? mediaAssetsname { get; set; }
+    public string? mediaAssetstype { get; set; }
+    public string? mediaAssetsurl { get; set; }
+    public List<string> platforms { get; set; } = new List<string>();
+    public string? isSecret { get; set; }
+    public string? description { get; set; }
+    public string? lockedDescription { get; set; }
+    public string? productId { get; set; }
+    public string? achievementType { get; set; }
+    public string? participationType { get; set; }
+    public TimeWindow? timeWindow { get; set; }
+    public string? rewardsname { get; set; }
+    public string? rewardsdescription { get; set; }
+    public string? rewardsvalue { get; set; }
+    public string? rewardstype { get; set; }
+    public string? rewardsmediaAsset { get; set; }
+    public string? rewardsvalueType { get; set; }
+    public string? estimatedTime { get; set; }
+    public string? deeplink { get; set; }
+    public string? isRevoked { get; set; }
+    public string? raritycurrentCategory { get; set; }
+    public string? raritycurrentPercentage { get; set; }
 
 }
 
@@ -415,37 +415,37 @@ public class DraffAchievement
 
 public class Image
 {
-    public string URI { get; set; }
+    public string? URI { get; set; }
     public int Height { get; set; }
     public int Width { get; set; }
-    public string Caption { get; set; }
+    public string? Caption { get; set; }
 }
 
 public class Product
 {
     public bool PCPlatformPreinstallable { get; set; }
-    public string ProductTitle { get; set; }
-    public string ProductDescription { get; set; }
-    public string ProductDescriptionShort { get; set; }
-    public string PackageFamilyName { get; set; }
-    public string ProductType { get; set; }
-    public object ChildPackageFamilyNames { get; set; }
-    public string XboxTitleId { get; set; }
-    public object ChildXboxTitleIds { get; set; }
+    public string? ProductTitle { get; set; }
+    public string? ProductDescription { get; set; }
+    public string? ProductDescriptionShort { get; set; }
+    public string? PackageFamilyName { get; set; }
+    public string? ProductType { get; set; }
+    public object? ChildPackageFamilyNames { get; set; }
+    public string? XboxTitleId { get; set; }
+    public object? ChildXboxTitleIds { get; set; }
     public int MinimumUserAge { get; set; }
     public List<object> Children { get; set; }
     public List<string> Categories { get; set; }
     public List<object> Attributes { get; set; }
-    public object HeroTrailer { get; set; }
+    public object? HeroTrailer { get; set; }
     public Image ImageBoxArt { get; set; }
     public Image ImageHero { get; set; }
     public object ImageTitledHero { get; set; }
     public Image ImagePoster { get; set; }
-    public object ImageTile { get; set; }
-    public object PCComingSoonDate { get; set; }
-    public object PCExitDate { get; set; }
-    public object UltimateComingSoonDate { get; set; }
-    public object UltimateExitDate { get; set; }
+    public object? ImageTile { get; set; }
+    public object? PCComingSoonDate { get; set; }
+    public object? PCExitDate { get; set; }
+    public object? UltimateComingSoonDate { get; set; }
+    public object? UltimateExitDate { get; set; }
     public bool IsEAPlay { get; set; }
     public List<object> XCloudSupportedInputs { get; set; }
     public object GameCatalogExtensionId { get; set; }
@@ -454,6 +454,6 @@ public class Product
 
 public class GamePassProducts
 {
-    public Dictionary<string, Product> Products { get; set; }
-    public List<object> InvalidIds { get; set; }
+    public Dictionary<string, Product> Products { get; set; } = new Dictionary<string, Product>();
+    public List<object> InvalidIds { get; set; } = new List<object>();
 }
