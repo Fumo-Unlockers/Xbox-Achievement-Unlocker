@@ -99,7 +99,7 @@ public class TrueAchievementRestApi
                 {
                     foreach (var product in titleIDsContent.Products)
                     {
-                        if (product.Value.ProductType == "Game")
+                        if (product.Value.ProductType == "Game" && !string.IsNullOrWhiteSpace(product.Value.XboxTitleId))
                         {
                             return product.Value.XboxTitleId;
                         }
