@@ -432,6 +432,11 @@ namespace XAU.ViewModels.Pages
             try
             {
                 var profileResponse = await _xboxRestAPI.Value.GetProfileAsync(XUIDOnly);
+                if (profileResponse == null || !profileResponse.People.Any())
+                {
+                    _snackbarService.Show("Error", "Failed to grab profile information.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
 
                 if (Settings.PrivacyMode)
                 {
@@ -453,15 +458,16 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
+
                     GamerTag = $"Gamertag: {profileResponse.People[0].Gamertag}";
                     Xuid = $"XUID: {profileResponse.People[0].Xuid}";
                     GamerPic = profileResponse.People[0].DisplayPicRaw;
                     GamerScore = $"Gamerscore: {profileResponse.People[0].GamerScore}";
                     ProfileRep = $"Reputation: {profileResponse.People[0].XboxOneRep}";
-                    AccountTier = $"Tier: {profileResponse.People[0].Detail.AccountTier}";
+                    AccountTier = $"Tier: {profileResponse.People[0].Detail?.AccountTier}";
                     try
                     {
-                        if (profileResponse.People[0].PresenceDetails.Count == 0)
+                        if (!profileResponse.People[0].PresenceDetails.Any())
                         {
                             CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
                         }
