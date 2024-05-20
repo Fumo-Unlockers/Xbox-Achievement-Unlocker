@@ -32,21 +32,21 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private Brush _loggedInColor = new SolidColorBrush(Colors.Red);
 
         //profile vars
-        [ObservableProperty] private string _gamerPic = "pack://application:,,,/Assets/cirno.png";
-        [ObservableProperty] private string _gamerTag = "Gamertag: Unknown   ";
-        [ObservableProperty] private string _xuid = "XUID: Unknown";
-        [ObservableProperty] private string _gamerScore = "Gamerscore: Unknown";
-        [ObservableProperty] private string _profileRep = "Reputation: Unknown";
-        [ObservableProperty] private string _accountTier = "Tier: Unknown";
-        [ObservableProperty] private string _currentlyPlaying = "Currently Playing: Unknown";
-        [ObservableProperty] private string _activeDevice = "Active Device: Unknown";
-        [ObservableProperty] private string _isVerified = "Verified: Unknown";
-        [ObservableProperty] private string _location = "Location: Unknown";
-        [ObservableProperty] private string _tenure = "Tenure: Unknown";
-        [ObservableProperty] private string _following = "Following: Unknown";
-        [ObservableProperty] private string _followers = "Followers: Unknown";
-        [ObservableProperty] private string _gamepass = "Gamepass: Unknown";
-        [ObservableProperty] private string _bio = "Bio: Unknown";
+        [ObservableProperty] private string? _gamerPic = "pack://application:,,,/Assets/cirno.png";
+        [ObservableProperty] private string? _gamerTag = "Gamertag: Unknown   ";
+        [ObservableProperty] private string? _xuid = "XUID: Unknown";
+        [ObservableProperty] private string? _gamerScore = "Gamerscore: Unknown";
+        [ObservableProperty] private string? _profileRep = "Reputation: Unknown";
+        [ObservableProperty] private string? _accountTier = "Tier: Unknown";
+        [ObservableProperty] private string? _currentlyPlaying = "Currently Playing: Unknown";
+        [ObservableProperty] private string? _activeDevice = "Active Device: Unknown";
+        [ObservableProperty] private string? _isVerified = "Verified: Unknown";
+        [ObservableProperty] private string? _location = "Location: Unknown";
+        [ObservableProperty] private string? _tenure = "Tenure: Unknown";
+        [ObservableProperty] private string? _following = "Following: Unknown";
+        [ObservableProperty] private string? _followers = "Followers: Unknown";
+        [ObservableProperty] private string? _gamepass = "Gamepass: Unknown";
+        [ObservableProperty] private string? _bio = "Bio: Unknown";
         [ObservableProperty] public static bool _isLoggedIn = false;
         [ObservableProperty] public static bool _updateAvaliable = false;
         [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
