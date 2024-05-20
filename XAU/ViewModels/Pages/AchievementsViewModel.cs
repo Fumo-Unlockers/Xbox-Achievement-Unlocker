@@ -361,28 +361,13 @@ namespace XAU.ViewModels.Pages
                 //cut down version of the code to display minimal information about 360 achievements
                 for (int i = 0; i < AchievementResponse?.achievements.Count; i++)
                 {
-                    var rewardnameplaceholder = "";
-                    var rewarddescriptionplaceholder = "";
-                    var rewardvalueplaceholder = "";
-                    var rewardtypeplaceholder = "";
-                    var rewardmediaAssetplaceholder = "";
-                    var rewardvalueTypeplaceholder = "";
+                    string rewardvalueTypeplaceholder;
                     try
                     {
-                        rewardnameplaceholder = AchievementResponse.achievements[i].rewards[0].name;
-                        rewarddescriptionplaceholder = AchievementResponse.achievements[i].rewards[0].description;
-                        rewardvalueplaceholder = AchievementResponse.achievements[i].rewards[0].value;
-                        rewardtypeplaceholder = AchievementResponse.achievements[i].rewards[0].type;
-                        //rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset;
                         rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType;
                     }
                     catch
                     {
-                        rewardnameplaceholder = "N/A";
-                        rewarddescriptionplaceholder = "N/A";
-                        rewardvalueplaceholder = "N/A";
-                        rewardtypeplaceholder = "N/A";
-                        rewardmediaAssetplaceholder = "N/A";
                         rewardvalueTypeplaceholder = "N/A";
                     }
 
