@@ -114,9 +114,9 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (title.devices.ToString().Contains("XboxSeries") || title.devices.ToString().Contains("XboxOne"))
+                            if (title.Devices.Contains("XboxSeries") || title.Devices.Contains("XboxOne"))
                             {
-                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
@@ -126,9 +126,9 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (title.devices.ToString().Contains("PC"))
+                            if (title.Devices.Contains("PC"))
                             {
-                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
@@ -138,9 +138,9 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (title.devices.ToString().Contains("Xbox360"))
+                            if (title.Devices.Contains("Xbox360"))
                             {
-                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
@@ -150,9 +150,9 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (title.devices.ToString().Contains("Win32"))
+                            if (title.Devices.Contains("Win32"))
                             {
-                                if (!title.name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             };
@@ -162,8 +162,13 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (double.TryParse(title.achievement.progressPercentage.ToString(), out double progress) && progress < 100)
+                            if (double.TryParse(title.Achievement.ProgressPercentage.ToString(), out double progress) && progress < 100)
+                            {
+                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                    continue;
                                 AddGame(i);
+                            }
+                                
                         }
                         break;
                 }
@@ -231,7 +236,7 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (title.devices.ToString().Contains("XboxSeries") || title.devices.ToString().Contains("XboxOne"))
+                            if (title.Devices.Contains("XboxSeries") || title.Devices.Contains("XboxOne"))
                                 AddGame(i);
                         }
                         break;
@@ -239,7 +244,7 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (title.devices.ToString().Contains("PC"))
+                            if (title.Devices.Contains("PC"))
                                 AddGame(i);
                         }
                         break;
@@ -247,7 +252,7 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (title.devices.ToString().Contains("Xbox360"))
+                            if (title.Devices.Contains("Xbox360"))
                                 AddGame(i);
                         }
                         break;
@@ -255,7 +260,7 @@ namespace XAU.ViewModels.Pages
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
                             dynamic title = GamesResponse.Titles[i];
-                            if (title.devices.ToString().Contains("Win32"))
+                            if (title.Devices.Contains("Win32"))
                                 AddGame(i);
                         }
                         break;
