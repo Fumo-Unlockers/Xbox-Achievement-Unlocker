@@ -168,7 +168,7 @@ namespace XAU.ViewModels.Pages
                                     continue;
                                 AddGame(i);
                             }
-                                
+
                         }
                         break;
                 }
@@ -316,7 +316,7 @@ namespace XAU.ViewModels.Pages
         private void AddGame(int index)
         {
             var title = GamesResponse.Titles[index];
-            var EditedImage = title.DisplayImage.ToString();
+            var EditedImage = title.DisplayImage != null ? title.DisplayImage.ToString() : "pack://application:,,,/Assets/cirno.png";
             if (EditedImage.Contains("store-images.s-microsoft.com"))
             {
                 EditedImage = EditedImage + "?w=256&h=256&format=jpg";
