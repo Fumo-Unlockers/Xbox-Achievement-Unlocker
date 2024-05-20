@@ -164,19 +164,19 @@ namespace XAU.ViewModels.Pages
                 HomeViewModel.AutoSpoofedTitleID = TitleIDOverride;
                 HomeViewModel.SpoofingStatus = 2;
                 GameInfo = "Auto Spoofing";
-                GameName = GameInfoResponse.Titles[0].Name.ToString();
+                GameName = GameInfoResponse.Titles[0].Name;
                 await Task.Run(() => Spoofing());
                 if (HomeViewModel.SpoofingStatus == 1)
                 {
                     if (HomeViewModel.SpoofedTitleID == HomeViewModel.AutoSpoofedTitleID)
                     {
                         GameInfo = "Manually Spoofing";
-                        GameName = GameInfoResponse.Titles[0].Name.ToString();
+                        GameName = GameInfoResponse.Titles[0].Name;
                     }
                     else
                     {
                         GameInfo = "Spoofing Another Game";
-                        GameName = GameInfoResponse.Titles[0].Name.ToString();
+                        GameName = GameInfoResponse.Titles[0].Name;
                     }
                 }
                 HomeViewModel.AutoSpoofedTitleID = "0";
@@ -449,7 +449,7 @@ namespace XAU.ViewModels.Pages
                     EventsData = (dynamic)(JObject)data[TitleIDOverride];
                     foreach (var achievement in DGAchievements)
                     {
-                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != StringConstants.Achieved)
+                        if (EventsData.Achievements.ContainsKey(achievement.ID) && achievement.ProgressState != StringConstants.Achieved)
                         {
                             achievement.IsUnlockable = true;
                         }
@@ -483,7 +483,7 @@ namespace XAU.ViewModels.Pages
             {
                 try
                 {
-                    await _xboxRestAPI.Value.UnlockTitleBasedAchievementAsync(AchievementResponse.achievements[0].serviceConfigId.ToString(), AchievementResponse.achievements[0].titleAssociations[0].id.ToString(), HomeViewModel.XUIDOnly, DGAchievements[AchievementIndex].ID.ToString(), HomeViewModel.Settings.FakeSignatureEnabled);
+                    await _xboxRestAPI.Value.UnlockTitleBasedAchievementAsync(AchievementResponse.achievements[0].serviceConfigId, AchievementResponse.achievements[0].titleAssociations[0].id, HomeViewModel.XUIDOnly, DGAchievements[AchievementIndex].ID.ToString(), HomeViewModel.Settings.FakeSignatureEnabled);
 
                     _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
                         ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
@@ -492,7 +492,7 @@ namespace XAU.ViewModels.Pages
                     DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
                     CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
                 }
-                catch (HttpRequestException ex)
+                catch (HttpRequestException)
                 {
                     _snackbarService.Show("Error: Achievement Not Unlocked",
                         $"{DGAchievements[AchievementIndex].Name} was not unlocked", ControlAppearance.Danger,
@@ -511,14 +511,14 @@ namespace XAU.ViewModels.Pages
                 // TODO: move this over to the rest api?
                 var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
                 DateTime timestamp = DateTime.UtcNow;
-                foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()])
+                foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID])
                 {
                     var ReplacementData = i.Value;
-                    switch (ReplacementData.ReplacementType.ToString())
+                    switch (ReplacementData.ReplacementType)
                     {
                         case "Replace":
                             {
-                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
+                                requestbody = requestbody.Replace(ReplacementData.Target, ReplacementData.Replacement);
                                 break;
                             }
                         case "RangeInt":

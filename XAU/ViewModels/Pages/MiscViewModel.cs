@@ -51,7 +51,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _gameGamepass = "Gamepass: ";
         [ObservableProperty] private string _gameDevices = "Devices: ";
         [ObservableProperty] private string _gameGamerscore = "Gamerscore: ?/?";
-        [ObservableProperty] private string _gameImage = "pack://application:,,,/Assets/cirno.png";
+        [ObservableProperty] private string? _gameImage = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _gameTime = "Time Played: ";
         [ObservableProperty] private bool _isInitialized = false;
         [ObservableProperty] private string _currentSpoofingID = "";
@@ -103,14 +103,22 @@ namespace XAU.ViewModels.Pages
             GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
             GameStatsResponse = await _xboxRestAPI.Value.GetGameStatsAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
 
+            if (GameInfoResponse == null || GameStatsResponse == null) {
+                _snackbarService.Show("Error: Unable to acquire game info or stats",
+                    $"The game info was invalid.",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
             try
             {
-                GameName = "Name: " + GameInfoResponse.Titles[0].Name.ToString();
-                GameImage = GameInfoResponse.Titles[0].DisplayImage.ToString();
-                GameTitleID = "Title ID: " + GameInfoResponse.Titles[0].TitleId.ToString();
-                GamePFN = "PFN: " + GameInfoResponse.Titles[0].Pfn.ToString();
-                GameType = "Type: " + GameInfoResponse.Titles[0].Type.ToString();
-                GameGamepass = "Gamepass: " + GameInfoResponse.Titles[0].GamePass.IsGamePass.ToString();
+                GameName = "Name: " + GameInfoResponse.Titles[0].Name;
+                GameImage = GameInfoResponse.Titles[0].DisplayImage;
+                GameTitleID = "Title ID: " + GameInfoResponse.Titles[0].TitleId;
+                GamePFN = "PFN: " + GameInfoResponse.Titles[0].Pfn;
+                GameType = "Type: " + GameInfoResponse.Titles[0].Type;
+                GameGamepass = "Gamepass: " + GameInfoResponse.Titles[0].GamePass?.IsGamePass;
                 GameDevices = "Devices: ";
                 foreach (var device in GameInfoResponse.Titles[0].Devices)
                 {
@@ -118,8 +126,8 @@ namespace XAU.ViewModels.Pages
                 }
 
                 GameDevices = GameDevices.Remove(GameDevices.Length - 2);
-                GameGamerscore = "Gamerscore: " + GameInfoResponse.Titles[0].Achievement.CurrentGamerscore.ToString() +
-                                 "/" + GameInfoResponse.Titles[0].Achievement.TotalGamerscore.ToString();
+                GameGamerscore = "Gamerscore: " + GameInfoResponse.Titles[0].Achievement?.CurrentGamerscore.ToString() +
+                                 "/" + GameInfoResponse.Titles[0].Achievement?.TotalGamerscore.ToString();
                 try
                 {
                     var timePlayed = TimeSpan.FromMinutes(Convert.ToDouble(GameStatsResponse.StatListsCollection[0].Stats[0].Value));
@@ -145,7 +153,7 @@ namespace XAU.ViewModels.Pages
             SpoofingUpdate = true;
             CurrentlySpoofing = true;
             SpoofingButtonText = "Stop Spoofing";
-            SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name.ToString()}";
+            SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name}";
             await Task.Run(() => Spoofing());
 
         }
@@ -177,7 +185,7 @@ namespace XAU.ViewModels.Pages
                         break;
                     }
                     spoofingTime = stopwatch.Elapsed;
-                    SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name.ToString()} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
+                    SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
                     i++;
                 }
                 Thread.Sleep(1000);
