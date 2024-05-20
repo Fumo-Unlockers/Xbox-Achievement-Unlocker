@@ -166,7 +166,7 @@ namespace XAU.ViewModels.Pages
             if (File.Exists(EventsMetaFilePath))
             {
                 var metaJson = File.ReadAllText(EventsMetaFilePath);
-                var meta = JsonConvert.DeserializeObject<dynamic>(metaJson);
+                var meta = JsonConvert.DeserializeObject<EventsUpdateResponse>(metaJson);
                 EventsTimestamp = meta.Timestamp;
             }
 
@@ -568,7 +568,7 @@ namespace XAU.ViewModels.Pages
         public void LoadSettings()
         {
             string settingsJson = File.ReadAllText(SettingsFilePath);
-            var settings = JsonConvert.DeserializeObject<dynamic>(settingsJson);
+            var settings = JsonConvert.DeserializeObject<XAUSettings>(settingsJson);
             Settings.SettingsVersion = settings.SettingsVersion;
             Settings.ToolVersion = settings.ToolVersion;
             Settings.UnlockAllEnabled = settings.UnlockAllEnabled;
