@@ -261,7 +261,7 @@ namespace XAU.ViewModels.Pages
                 {
                     Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU\\Events"));
                 }
-                var defaultSettings = new
+                var defaultSettings = new XAUSettings
                 {
                     SettingsVersion = "1",
                     ToolVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
@@ -551,19 +551,7 @@ namespace XAU.ViewModels.Pages
 
         #region Settings
 
-        public class SettingsList
-        {
-            public string SettingsVersion { get; set; }
-            public string ToolVersion { get; set; }
-            public bool UnlockAllEnabled { get; set; }
-            public bool AutoSpooferEnabled { get; set; }
-            public bool AutoLaunchXboxAppEnabled { get; set; }
-            public bool FakeSignatureEnabled { get; set; }
-            public bool RegionOverride { get; set; }
-            public bool UseAcrylic { get; set; }
-            public bool PrivacyMode { get; set; }
-        }
-        public static SettingsList Settings = new SettingsList();
+        public static XAUSettings Settings = new XAUSettings();
 
         public void LoadSettings()
         {
