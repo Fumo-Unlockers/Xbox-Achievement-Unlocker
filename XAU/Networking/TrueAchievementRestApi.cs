@@ -102,7 +102,6 @@ public class TrueAchievementRestApi
                         if (product.Value.ProductType == "Game")
                         {
                             return product.Value.XboxTitleId;
-
                         }
                     }
                 }
