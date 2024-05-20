@@ -75,12 +75,12 @@ namespace XAU.ViewModels.Pages
                     if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
                     {
                         GameInfo = "Manually Spoofing";
-                        GameName = GameInfoResponse.Titles[0].Name.ToString();
+                        GameName = GameInfoResponse.Titles[0].Name;
                     }
                     else
                     {
                         GameInfo = "Spoofing Another Game";
-                        GameName = GameInfoResponse.Titles[0].Name.ToString();
+                        GameName = GameInfoResponse.Titles[0].Name;
                     }
 
                 }
@@ -133,7 +133,7 @@ namespace XAU.ViewModels.Pages
             try
             {
                 IsSelectedGame360 = GameInfoResponse.Titles[0].Devices.Contains("Xbox360") || GameInfoResponse.Titles[0].Devices.Contains("Mobile");
-                GameInfo = GameInfoResponse.Titles[0].Name.ToString();
+                GameInfo = GameInfoResponse.Titles[0].Name;
                 IsTitleIDValid = true;
             }
             catch
@@ -152,12 +152,12 @@ namespace XAU.ViewModels.Pages
                 if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
                 {
                     GameInfo = "Manually Spoofing";
-                    GameName = GameInfoResponse.Titles[0].Name.ToString();
+                    GameName = GameInfoResponse.Titles[0].Name;
                 }
                 else
                 {
                     GameInfo = "Spoofing Another Game";
-                    GameName = GameInfoResponse.Titles[0].Name.ToString();
+                    GameName = GameInfoResponse.Titles[0].Name;
                 }
             }
             else
@@ -353,14 +353,14 @@ namespace XAU.ViewModels.Pages
             {
                 Unlockable = false;
                 AchievementResponse = await _xboxRestAPI.Value.GetAchievementsFor360TitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
-                if (AchievementResponse.achievements.Count == 0)
+                if (AchievementResponse?.achievements.Count == 0)
                 {
                     _snackbarService.Show("Error: No Achievements", $"There were no achievements returned from the API", ControlAppearance.Danger,
                                                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
                 //cut down version of the code to display minimal information about 360 achievements
-                for (int i = 0; i < AchievementResponse.achievements.Count; i++)
+                for (int i = 0; i < AchievementResponse?.achievements.Count; i++)
                 {
                     var rewardnameplaceholder = "";
                     var rewarddescriptionplaceholder = "";

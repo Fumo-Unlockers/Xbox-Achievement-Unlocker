@@ -248,8 +248,7 @@ public class XboxRestAPI
         await _eventBasedClient.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
     }
 
-    // TODO: don't return dynamic....
-    public async Task<dynamic> GetTitleIdsFromGamePass(string prodId)
+    public async Task<GamePassProducts?> GetTitleIdsFromGamePass(string prodId)
     {
         SetDefaultHeaders();
         GamepassProductsRequest gamepassProducts = new GamepassProductsRequest()
@@ -259,6 +258,6 @@ public class XboxRestAPI
         var titleIDsResponse = await _httpClient.PostAsync(
                     BasicXboxAPIUris.GamepassCatalogUrl,
                     new StringContent(JsonConvert.SerializeObject(gamepassProducts))).Result.Content.ReadAsStringAsync();
-        return titleIDsResponse;
+        return JsonConvert.DeserializeObject<GamePassProducts>(titleIDsResponse);
     }
 }

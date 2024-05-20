@@ -410,3 +410,50 @@ public class DraffAchievement
     public string raritycurrentPercentage { get; set; }
 
 }
+
+
+
+public class Image
+{
+    public string URI { get; set; }
+    public int Height { get; set; }
+    public int Width { get; set; }
+    public string Caption { get; set; }
+}
+
+public class Product
+{
+    public bool PCPlatformPreinstallable { get; set; }
+    public string ProductTitle { get; set; }
+    public string ProductDescription { get; set; }
+    public string ProductDescriptionShort { get; set; }
+    public string PackageFamilyName { get; set; }
+    public string ProductType { get; set; }
+    public object ChildPackageFamilyNames { get; set; }
+    public string XboxTitleId { get; set; }
+    public object ChildXboxTitleIds { get; set; }
+    public int MinimumUserAge { get; set; }
+    public List<object> Children { get; set; }
+    public List<string> Categories { get; set; }
+    public List<object> Attributes { get; set; }
+    public object HeroTrailer { get; set; }
+    public Image ImageBoxArt { get; set; }
+    public Image ImageHero { get; set; }
+    public object ImageTitledHero { get; set; }
+    public Image ImagePoster { get; set; }
+    public object ImageTile { get; set; }
+    public object PCComingSoonDate { get; set; }
+    public object PCExitDate { get; set; }
+    public object UltimateComingSoonDate { get; set; }
+    public object UltimateExitDate { get; set; }
+    public bool IsEAPlay { get; set; }
+    public List<object> XCloudSupportedInputs { get; set; }
+    public object GameCatalogExtensionId { get; set; }
+    public string StoreId { get; set; }
+}
+
+public class GamePassProducts
+{
+    public Dictionary<string, Product> Products { get; set; }
+    public List<object> InvalidIds { get; set; }
+}
