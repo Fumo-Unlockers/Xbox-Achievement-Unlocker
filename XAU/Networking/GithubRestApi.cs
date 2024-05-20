@@ -9,7 +9,6 @@ public class GithubRestApi
     // User specifics
     public GithubRestApi()
     {
-        // This is a placeholder for the Xbox REST API
         var handler = new HttpClientHandler()
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate

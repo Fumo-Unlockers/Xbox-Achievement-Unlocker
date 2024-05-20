@@ -346,7 +346,7 @@ public class AchievementEntryResponse
     public string productId { get; set; }
     public string achievementType { get; set; }
     public string participationType { get; set; }
-    public string timeWindow { get; set; }
+    public TimeWindow timeWindow { get; set; }
     public string rewardsname { get; set; }
     public string rewardsdescription { get; set; }
     public string rewardsvalue { get; set; }
@@ -366,7 +366,11 @@ public class AchievementsResponse
     public List<AchievementEntryResponse> achievements { get; set; }
 }
 
+public class TimeWindow {
+    public string startDate { get; set; }
+    public string endDate { get; set; }
 
+}
 public class DraffAchievement
 {
     public string id { get; set; }
@@ -392,7 +396,7 @@ public class DraffAchievement
     public string productId { get; set; }
     public string achievementType { get; set; }
     public string participationType { get; set; }
-    public string timeWindow { get; set; }
+    public TimeWindow timeWindow { get; set; }
     public string rewardsname { get; set; }
     public string rewardsdescription { get; set; }
     public string rewardsvalue { get; set; }

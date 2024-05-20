@@ -9,7 +9,9 @@ public class XboxRestAPI
 {
     private readonly HttpClient _httpClient;
 
-    private readonly HttpClient _httpClient2; // Dumb, but needed for events for now
+    private readonly HttpClient _eventBasedClient; // Dumb, but needed for events for now
+
+    private readonly HttpClient _spooferClient;
 
     // User specifics
     private readonly string _xauth;
@@ -19,12 +21,12 @@ public class XboxRestAPI
     {
         _xauth = xauth;
         _currentSystemLanguage = currentSystemLanguage;
-        // This is a placeholder for the Xbox REST API
         var handler = new HttpClientHandler()
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
         };
         _httpClient = new HttpClient(handler);
+        _spooferClient = new HttpClient(handler);
 
         var insecureEventsHandler = new HttpClientHandler()
         {
@@ -32,7 +34,7 @@ public class XboxRestAPI
             //This is an absolutely terrible idea but the stupid fucking events API just cries about SSL errors
             ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         };
-        _httpClient2 = new HttpClient(insecureEventsHandler);
+        _eventBasedClient = new HttpClient(insecureEventsHandler);
     }
 
     private void SetDefaultHeaders()
@@ -44,22 +46,32 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
     }
 
+    private void SetDefaultSpooferHeaders()
+    {
+        _httpClient.DefaultRequestHeaders.Clear();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, _xauth);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _currentSystemLanguage);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+    }
+
+
     private void SetDefaultEventBasedHeaders()
     {
-        _httpClient2.DefaultRequestHeaders.Clear();
-        _httpClient2.DefaultRequestHeaders.Add("user-agent", "MSDW");
-        _httpClient2.DefaultRequestHeaders.Add("cache-control", "no-cache");
-        _httpClient2.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-        _httpClient2.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
-        _httpClient2.DefaultRequestHeaders.Add("reliability-mode", "standard");
-        _httpClient2.DefaultRequestHeaders.Add("client-version", "EUTC-Windows-C++-no-10.0.22621.3296.amd64fre.ni_release.220506-1250-no");
-        _httpClient2.DefaultRequestHeaders.Add("apikey", "0890af88a9ed4cc886a14f5e174a2827-9de66c5e-f867-43a8-a7b8-e0ddd481cca4-7548,95c1f21d6cb047a09e7b423c1cb2222e-9965f07b-54fa-498e-9727-9e8d24dec39e-7027");
-        _httpClient2.DefaultRequestHeaders.Add("Client-Id", "NO_AUTH");
-        _httpClient2.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Telemetry);
-        _httpClient2.DefaultRequestHeaders.Add(HeaderNames.Connection, "close");
+        _eventBasedClient.DefaultRequestHeaders.Clear();
+        _eventBasedClient.DefaultRequestHeaders.Add("user-agent", "MSDW");
+        _eventBasedClient.DefaultRequestHeaders.Add("cache-control", "no-cache");
+        _eventBasedClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+        _eventBasedClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+        _eventBasedClient.DefaultRequestHeaders.Add("reliability-mode", "standard");
+        _eventBasedClient.DefaultRequestHeaders.Add("client-version", "EUTC-Windows-C++-no-10.0.22621.3296.amd64fre.ni_release.220506-1250-no");
+        _eventBasedClient.DefaultRequestHeaders.Add("apikey", "0890af88a9ed4cc886a14f5e174a2827-9de66c5e-f867-43a8-a7b8-e0ddd481cca4-7548,95c1f21d6cb047a09e7b423c1cb2222e-9965f07b-54fa-498e-9727-9e8d24dec39e-7027");
+        _eventBasedClient.DefaultRequestHeaders.Add("Client-Id", "NO_AUTH");
+        _eventBasedClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Telemetry);
+        _eventBasedClient.DefaultRequestHeaders.Add(HeaderNames.Connection, "close");
         ;
         var authxtoken = Regex.Replace(_xauth, @"XBL3\.0 x=\d+;", "XBL3.0 x=-;");
-        _httpClient2.DefaultRequestHeaders.Add("authxtoken", authxtoken);
+        _eventBasedClient.DefaultRequestHeaders.Add("authxtoken", authxtoken);
 
     }
 
@@ -80,7 +92,6 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion5);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.PeopleHub);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-
         var responseString = await _httpClient.GetStringAsync(string.Format(InterpolatedXboxAPIUrls.ProfileUrl, xuid));
         return JsonConvert.DeserializeObject<Profile>(responseString);
     }
@@ -137,8 +148,8 @@ public class XboxRestAPI
 
     public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId)
     {
-        SetDefaultHeaders();
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+        SetDefaultSpooferHeaders();
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
         var heartbeatRequest = new HeartbeatRequest()
         {
             titles = new List<TitleRequest>()
@@ -149,15 +160,15 @@ public class XboxRestAPI
                 }
             }
         };
-        await _httpClient.PostAsync(
+        await _spooferClient.PostAsync(
         string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid),
         new StringContent(JsonConvert.SerializeObject(heartbeatRequest), Encoding.UTF8, HeaderValues.Accept));
     }
 
     public async Task StopHeartbeatAsync(string xuid)
     {
-        SetDefaultHeaders();
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+        SetDefaultSpooferHeaders();
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
         await _httpClient.DeleteAsync(string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid));
     }
 
@@ -233,8 +244,8 @@ public class XboxRestAPI
     public async Task UnlockEventBasedAchievement(string eventsToken, StringContent requestBody)
     {
         SetDefaultEventBasedHeaders();
-        _httpClient2.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
-        await _httpClient2.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
+        _eventBasedClient.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
+        await _eventBasedClient.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
     }
 
     // TODO: don't return dynamic....

@@ -22,7 +22,6 @@ public class TrueAchievementRestApi
         _httpClient.DefaultRequestHeaders.Clear();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-
     }
 
     public async Task<Tuple<List<string>, List<string>>> SearchAsync(string searchText)
