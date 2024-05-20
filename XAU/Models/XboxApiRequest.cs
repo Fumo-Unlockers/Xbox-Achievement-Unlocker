@@ -8,7 +8,7 @@ public class GameTitleRequest
 
 public class AchievementsArrayEntry
 {
-    public string? id{ get; set; }
+    public string? id { get; set; }
     public string percentComplete { get; set; } = "100";
 }
 

@@ -272,7 +272,7 @@ public class Title
 
     public string? Type { get; set; }
 
-    public List<string> Devices { get; set; }
+    public List<string> Devices { get; set; } = new List<string>();
     public string? DisplayImage { get; set; }
 
     public string? MediaItemType { get; set; }
@@ -280,14 +280,14 @@ public class Title
     public string? ModernTitleId { get; set; }
 
     public bool IsBundle { get; set; }
-    public BasicAchievementDetails Achievement { get; set; }
+    public BasicAchievementDetails? Achievement { get; set; }
     public object? Stats { get; set; }
 
     public object? GamePass { get; set; }
 
     public object? Images { get; set; }
 
-    public TitleHistory TitleHistory { get; set; }
+    public TitleHistory? TitleHistory { get; set; }
     public object? TitleRecord { get; set; }
 
     public object? Detail { get; set; }
@@ -306,7 +306,7 @@ public class TitlesList
 {
     public string? Xuid { get; set; }
 
-    public List<Title> Titles { get; set; }
+    public List<Title> Titles { get; set; } = new List<Title>();
 }
 
 public class ProfileSettings
@@ -323,20 +323,20 @@ public class ProfileUser
 
     public string? HostId { get; set; }
 
-    public List<ProfileSettings> Settings { get; set; }
+    public List<ProfileSettings> Settings { get; set; } = new List<ProfileSettings>();
     public string? IsSponsoredUser { get; set; }
 
 }
 
 public class BasicProfile
 {
-    public List<ProfileUser> ProfileUsers { get; set; }
+    public List<ProfileUser> ProfileUsers { get; set; } = new List<ProfileUser>();
 }
 
 
 public class Stat
 {
-    public Dictionary<string, object> GroupProperties { get; set; }
+    public Dictionary<string, object> GroupProperties { get; set; } = new Dictionary<string, object>();
     public string? Xuid { get; set; }
 
     public string? Scid { get; set; }
@@ -349,7 +349,7 @@ public class Stat
 
     public string? Value { get; set; }
 
-    public Dictionary<string, object> Properties { get; set; }
+    public Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
 }
 
 public class StatListCollection
@@ -358,13 +358,13 @@ public class StatListCollection
 
     public string? ArrangeByFieldId { get; set; }
 
-    public List<Stat> Stats { get; set; }
+    public List<Stat> Stats { get; set; } = new List<Stat>();
 }
 
 public class GameStatsResponse
 {
-    public List<object> Groups { get; set; }
-    public List<StatListCollection> StatListsCollection { get; set; }
+    public List<object> Groups { get; set; } = new List<object>();
+    public List<StatListCollection> StatListsCollection { get; set; } = new List<StatListCollection>();
 }
 
 public class AchievementRewards
@@ -377,7 +377,7 @@ public class AchievementRewards
 
     public string? type { get; set; }
 
-    public MediaAssets mediaAsset { get; set; }
+    public MediaAssets? mediaAsset { get; set; }
     public string? valueType { get; set; }
 
 }
@@ -416,7 +416,7 @@ public class AchievementRequirements
 
 public class AchievementProgression
 {
-    public List<AchievementRequirements> requirements { get; set; }
+    public List<AchievementRequirements> requirements { get; set; } = new List<AchievementRequirements>();
     public string? timeUnlocked { get; set; }
 
 }
@@ -445,7 +445,7 @@ public class AchievementEntryResponse
     public List<TitleAssociations> titleAssociations { get; set; } = new List<TitleAssociations>();
     public AchievementProgression progression { get; set; } = new AchievementProgression();
     public List<AchievementRewards> rewards { get; set; } = new List<AchievementRewards>();
-    public Rarity rarity { get; set; }
+    public Rarity? rarity { get; set; }
     public object? gamerscore { get; set; }
     public string? id { get; set; }
     public string? serviceConfigId { get; set; }
@@ -470,7 +470,7 @@ public class AchievementEntryResponse
     public string? productId { get; set; }
     public string? achievementType { get; set; }
     public string? participationType { get; set; }
-    public TimeWindow timeWindow { get; set; }
+    public TimeWindow? timeWindow { get; set; }
     public string? rewardsname { get; set; }
     public string? rewardsdescription { get; set; }
     public string? rewardsvalue { get; set; }
@@ -490,7 +490,8 @@ public class AchievementsResponse
     public List<AchievementEntryResponse> achievements { get; set; } = new List<AchievementEntryResponse>();
 }
 
-public class TimeWindow {
+public class TimeWindow
+{
     public string? startDate { get; set; }
     public string? endDate { get; set; }
 
