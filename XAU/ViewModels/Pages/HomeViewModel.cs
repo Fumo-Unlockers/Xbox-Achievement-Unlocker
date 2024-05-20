@@ -161,7 +161,7 @@ namespace XAU.ViewModels.Pages
         {
             if (EventsVersion == "EmptyDevEventsVersion")
                 return;
-            var jsonResponse = await _gitHubRestAPI.Value.CheckForEventUpdatesAsync();
+            var response = await _gitHubRestAPI.Value.CheckForEventUpdatesAsync();
             var EventsTimestamp = 0;
             if (File.Exists(EventsMetaFilePath))
             {
@@ -170,7 +170,7 @@ namespace XAU.ViewModels.Pages
                 EventsTimestamp = meta.Timestamp;
             }
 
-            if (jsonResponse.Timestamp > EventsTimestamp && jsonResponse.DataVersion == EventsVersion)
+            if (response.Timestamp > EventsTimestamp && response.DataVersion == EventsVersion)
             {
                 _snackbarService.Show("Downloading Events Update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                 UpdateEvents();
