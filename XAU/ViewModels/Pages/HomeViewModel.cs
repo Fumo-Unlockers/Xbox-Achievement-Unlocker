@@ -467,7 +467,7 @@ namespace XAU.ViewModels.Pages
                     AccountTier = $"Tier: {profileResponse.People[0].Detail?.AccountTier}";
                     try
                     {
-                        if (!profileResponse.People[0].PresenceDetails.Any())
+                        if (!profileResponse.People[0].PresenceDetails.Any() || profileResponse.People[0].PresenceDetails[0].TitleId == null)
                         {
                             CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
                         }
@@ -506,35 +506,38 @@ namespace XAU.ViewModels.Pages
                     }
 
                     ActiveDevice = $"Active Device: {profileResponse.People[0].PresenceDetails[0].Device}";
-                    IsVerified = $"Verified: {profileResponse.People[0].Detail.IsVerified}";
-                    Location = $"Location: {profileResponse.People[0].Detail.Location}";
-                    Tenure = $"Tenure: {profileResponse.People[0].Detail.Tenure}";
-                    Following = $"Following: {profileResponse.People[0].Detail.FollowingCount}";
-                    Followers = $"Followers: {profileResponse.People[0].Detail.FollowerCount}";
-                    Bio = $"Bio: {profileResponse.People[0].Detail.Bio}";
-
-                    Watermarks.Clear();
-
-                    // Tenure image format, 01..05..10
-                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
-                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
-                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
-                    var tenureString = profileResponse.People[0].Detail.Tenure;
-                    if (int.TryParse(tenureString, out int tenureInt))
+                    if (profileResponse.People[0].Detail != null)
                     {
-                        // Format the integer as a two-digit string
-                        string tenureBadge = tenureInt.ToString("D2");
-                        Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}tenure/{tenureBadge}.png" });
-                    }
-                    else
-                    {
-                        // TODO: log error somewhere
-                        Console.WriteLine("The string is not a valid integer.");
-                    }
+                        IsVerified = $"Verified: {profileResponse.People[0].Detail.IsVerified}";
+                        Location = $"Location: {profileResponse.People[0].Detail.Location}";
+                        Tenure = $"Tenure: {profileResponse.People[0].Detail.Tenure}";
+                        Following = $"Following: {profileResponse.People[0].Detail.FollowingCount}";
+                        Followers = $"Followers: {profileResponse.People[0].Detail.FollowerCount}";
+                        Bio = $"Bio: {profileResponse.People[0].Detail.Bio}";
 
-                    foreach (var watermark in profileResponse.People[0].Detail.Watermarks)
-                    {
-                        Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}launch/{watermark.ToLower()}.png" });
+                        Watermarks.Clear();
+
+                        // Tenure image format, 01..05..10
+                        // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
+                        // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
+                        // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
+                        var tenureString = profileResponse.People[0].Detail.Tenure;
+                        if (int.TryParse(tenureString, out int tenureInt))
+                        {
+                            // Format the integer as a two-digit string
+                            string tenureBadge = tenureInt.ToString("D2");
+                            Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}tenure/{tenureBadge}.png" });
+                        }
+                        else
+                        {
+                            // TODO: log error somewhere
+                            Console.WriteLine("The string is not a valid integer.");
+                        }
+
+                        foreach (var watermark in profileResponse.People[0].Detail.Watermarks)
+                        {
+                            Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}launch/{watermark.ToLower()}.png" });
+                        }
                     }
                 }
                 GrabbedProfile = true;
