@@ -390,13 +390,6 @@ public class Rarity
 
 }
 
-public class Gamerscore
-{
-    public string? currentGamerscore { get; set; }
-
-    public string? totalGamerscore { get; set; }
-
-}
 
 public class AchievementRequirements
 {
@@ -448,18 +441,20 @@ public class AchievementEntryResponse
     public Rarity? rarity { get; set; }
     public object? gamerscore { get; set; }
     public string? id { get; set; }
-    public string? serviceConfigId { get; set; }
+    public string serviceConfigId { get; set; } = StringConstants.ZeroUid;
     public string? name { get; set; }
     public string? titleAssociationsname { get; set; }
     public string? titleAssociationsid { get; set; }
-    public string? progressState { get; set; }
-    public string? progressionrequirementsid { get; set; }
-    public string? progressionrequirementscurrent { get; set; }
-    public string? progressionrequirementstarget { get; set; }
-    public string? progressionrequirementsoperationType { get; set; }
-    public string? progressionrequirementsvalueType { get; set; }
-    public string? progressionrequirementsruleParticipationType { get; set; }
-    public string? progressiontimeUnlocked { get; set; }
+    public string progressState { get; set; } = "Null";
+    //these are strings because im too lazy to handle them properly right now
+
+    public string progressionrequirementsid { get; set; } =  "AchievementResponse.achievements[i].progression.requirements[0].id";
+    public string progressionrequirementscurrent { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].current";
+    public string progressionrequirementstarget { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].target";
+    public string progressionrequirementsoperationType { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].operationType";
+    public string progressionrequirementsvalueType { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].valueType";
+    public string progressionrequirementsruleParticipationType { get; set; } = "AchievementResponse.achievements[i].progression.requirements[0].ruleParticipationType";
+    public string progressiontimeUnlocked { get; set; } = "0001-01-01T00:00:00.0000000Z";
     public string? mediaAssetsname { get; set; }
     public string? mediaAssetstype { get; set; }
     public string? mediaAssetsurl { get; set; }
@@ -471,11 +466,11 @@ public class AchievementEntryResponse
     public string? achievementType { get; set; }
     public string? participationType { get; set; }
     public TimeWindow? timeWindow { get; set; }
-    public string? rewardsname { get; set; }
-    public string? rewardsdescription { get; set; }
+    public string? rewardsname { get; set; } = "Null";
+    public string? rewardsdescription { get; set; } = "Null";
     public string? rewardsvalue { get; set; }
-    public string? rewardstype { get; set; }
-    public string? rewardsmediaAsset { get; set; }
+    public string? rewardstype { get; set; } = "Gamerscore";
+    public string? rewardsmediaAsset { get; set; } = "Null";
     public string? rewardsvalueType { get; set; }
     public string? estimatedTime { get; set; }
     public string? deeplink { get; set; }
@@ -492,51 +487,10 @@ public class AchievementsResponse
 
 public class TimeWindow
 {
-    public string? startDate { get; set; }
-    public string? endDate { get; set; }
+    public required string startDate { get; set; }
+    public required string endDate { get; set; }
 
 }
-public class DraffAchievement
-{
-    public string? id { get; set; }
-    public string? serviceConfigId { get; set; }
-    public string? name { get; set; }
-    public string? titleAssociationsname { get; set; }
-    public string? titleAssociationsid { get; set; }
-    public string? progressState { get; set; }
-    public string? progressionrequirementsid { get; set; }
-    public string? progressionrequirementscurrent { get; set; }
-    public string? progressionrequirementstarget { get; set; }
-    public string? progressionrequirementsoperationType { get; set; }
-    public string? progressionrequirementsvalueType { get; set; }
-    public string? progressionrequirementsruleParticipationType { get; set; }
-    public string? progressiontimeUnlocked { get; set; }
-    public string? mediaAssetsname { get; set; }
-    public string? mediaAssetstype { get; set; }
-    public string? mediaAssetsurl { get; set; }
-    public List<string> platforms { get; set; } = new List<string>();
-    public string? isSecret { get; set; }
-    public string? description { get; set; }
-    public string? lockedDescription { get; set; }
-    public string? productId { get; set; }
-    public string? achievementType { get; set; }
-    public string? participationType { get; set; }
-    public TimeWindow? timeWindow { get; set; }
-    public string? rewardsname { get; set; }
-    public string? rewardsdescription { get; set; }
-    public string? rewardsvalue { get; set; }
-    public string? rewardstype { get; set; }
-    public string? rewardsmediaAsset { get; set; }
-    public string? rewardsvalueType { get; set; }
-    public string? estimatedTime { get; set; }
-    public string? deeplink { get; set; }
-    public string? isRevoked { get; set; }
-    public string? raritycurrentCategory { get; set; }
-    public string? raritycurrentPercentage { get; set; }
-
-}
-
-
 
 public class Image
 {

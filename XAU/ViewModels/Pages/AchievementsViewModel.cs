@@ -292,13 +292,7 @@ namespace XAU.ViewModels.Pages
                         titleAssociationsname = AchievementResponse.achievements[i].titleAssociations[0].name,
                         titleAssociationsid = AchievementResponse.achievements[i].titleAssociations[0].id,
                         progressState = AchievementResponse.achievements[i].progressState,
-                        //these are strings because im too lazy to handle them properly right now
-                        progressionrequirementsid = "AchievementResponse.achievements[i].progression.requirements[0].id",
-                        progressionrequirementscurrent = "AchievementResponse.achievements[i].progression.requirements[0].current",
-                        progressionrequirementstarget = "AchievementResponse.achievements[i].progression.requirements[0].target",
-                        progressionrequirementsoperationType = "AchievementResponse.achievements[i].progression.requirements[0].operationType",
-                        progressionrequirementsvalueType = "AchievementResponse.achievements[i].progression.requirements[0].valueType",
-                        progressionrequirementsruleParticipationType = "AchievementResponse.achievements[i].progression.requirements[0].ruleParticipationType",
+
                         progressiontimeUnlocked = AchievementResponse.achievements[i].progression.timeUnlocked,
                         mediaAssetsname = AchievementResponse.achievements[i].mediaAssets[0].name,
                         mediaAssetstype = AchievementResponse.achievements[i].mediaAssets[0].type,
@@ -374,17 +368,10 @@ namespace XAU.ViewModels.Pages
                     Achievements.Add(new AchievementEntryResponse()
                     {
                         id = AchievementResponse.achievements[i].id,
-                        serviceConfigId = "Null",
                         name = AchievementResponse.achievements[i].name,
-                        progressState = "Null",
-                        progressiontimeUnlocked = "0001-01-01T00:00:00.0000000Z",
                         isSecret = AchievementResponse.achievements[i].isSecret,
                         description = AchievementResponse.achievements[i].description,
-                        rewardsname = "Null",
-                        rewardsdescription = "Null",
                         rewardsvalue = AchievementResponse.achievements[i].gamerscore.ToString(),
-                        rewardstype = "Gamerscore",
-                        rewardsmediaAsset = "Null",
                         rewardsvalueType = rewardvalueTypeplaceholder,
                         raritycurrentCategory = AchievementResponse.achievements[i].rarity.currentCategory,
                         raritycurrentPercentage = AchievementResponse.achievements[i].rarity.currentPercentage
