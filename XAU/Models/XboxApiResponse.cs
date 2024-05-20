@@ -270,7 +270,7 @@ public class AchievementRewards
     public string description { get; set; }
     public string value { get; set; }
     public string type { get; set; }
-    public string mediaAsset { get; set; }
+    public MediaAssets mediaAsset { get; set; }
     public string valueType { get; set; }
 }
 

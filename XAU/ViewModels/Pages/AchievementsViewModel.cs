@@ -272,7 +272,7 @@ namespace XAU.ViewModels.Pages
                         rewarddescriptionplaceholder = AchievementResponse.achievements[i].rewards[0].description;
                         rewardvalueplaceholder = AchievementResponse.achievements[i].rewards[0].value;
                         rewardtypeplaceholder = AchievementResponse.achievements[i].rewards[0].type;
-                        rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset;
+                        //rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset;
                         rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType;
                     }
                     catch
@@ -374,7 +374,7 @@ namespace XAU.ViewModels.Pages
                         rewarddescriptionplaceholder = AchievementResponse.achievements[i].rewards[0].description;
                         rewardvalueplaceholder = AchievementResponse.achievements[i].rewards[0].value;
                         rewardtypeplaceholder = AchievementResponse.achievements[i].rewards[0].type;
-                        rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset;
+                        //rewardmediaAssetplaceholder = AchievementResponse.achievements[i].rewards[0].mediaAsset;
                         rewardvalueTypeplaceholder = AchievementResponse.achievements[i].rewards[0].valueType;
                     }
                     catch
