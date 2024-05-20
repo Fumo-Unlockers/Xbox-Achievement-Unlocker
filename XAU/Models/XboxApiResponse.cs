@@ -322,20 +322,20 @@ public class AchievementEntryResponse
     public AchievementProgression progression { get; set; }
     public List<AchievementRewards> rewards { get; set; }
     public Rarity rarity { get; set; }
-    public object gamerscore { get; set; }
-    public string id { get; set; }
-    public string serviceConfigId { get; set; }
-    public string name { get; set; }
-    public string titleAssociationsname { get; set; }
-    public string titleAssociationsid { get; set; }
-    public string progressState { get; set; }
-    public string progressionrequirementsid { get; set; }
-    public string progressionrequirementscurrent { get; set; }
-    public string progressionrequirementstarget { get; set; }
-    public string progressionrequirementsoperationType { get; set; }
-    public string progressionrequirementsvalueType { get; set; }
-    public string progressionrequirementsruleParticipationType { get; set; }
-    public string progressiontimeUnlocked { get; set; }
+    public object? gamerscore { get; set; }
+    public string? id { get; set; }
+    public string? serviceConfigId { get; set; }
+    public string? name { get; set; }
+    public string? titleAssociationsname { get; set; }
+    public string? titleAssociationsid { get; set; }
+    public string? progressState { get; set; }
+    public string? progressionrequirementsid { get; set; }
+    public string? progressionrequirementscurrent { get; set; }
+    public string? progressionrequirementstarget { get; set; }
+    public string? progressionrequirementsoperationType { get; set; }
+    public string? progressionrequirementsvalueType { get; set; }
+    public string? progressionrequirementsruleParticipationType { get; set; }
+    public string? progressiontimeUnlocked { get; set; }
     public string mediaAssetsname { get; set; }
     public string mediaAssetstype { get; set; }
     public string mediaAssetsurl { get; set; }
@@ -347,17 +347,17 @@ public class AchievementEntryResponse
     public string achievementType { get; set; }
     public string participationType { get; set; }
     public TimeWindow timeWindow { get; set; }
-    public string rewardsname { get; set; }
-    public string rewardsdescription { get; set; }
-    public string rewardsvalue { get; set; }
-    public string rewardstype { get; set; }
-    public string rewardsmediaAsset { get; set; }
-    public string rewardsvalueType { get; set; }
-    public string estimatedTime { get; set; }
-    public string deeplink { get; set; }
-    public string isRevoked { get; set; }
-    public string raritycurrentCategory { get; set; }
-    public string raritycurrentPercentage { get; set; }
+    public string? rewardsname { get; set; }
+    public string? rewardsdescription { get; set; }
+    public string? rewardsvalue { get; set; }
+    public string? rewardstype { get; set; }
+    public string? rewardsmediaAsset { get; set; }
+    public string? rewardsvalueType { get; set; }
+    public string? estimatedTime { get; set; }
+    public string? deeplink { get; set; }
+    public string? isRevoked { get; set; }
+    public string? raritycurrentCategory { get; set; }
+    public string? raritycurrentPercentage { get; set; }
 
 }
 

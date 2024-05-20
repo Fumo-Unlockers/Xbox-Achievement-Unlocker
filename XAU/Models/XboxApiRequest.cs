@@ -2,7 +2,7 @@
 
 public class GameTitleRequest
 {
-    public String? Pfns { get; set; }
+    public string? Pfns { get; set; }
     public List<string> TitleIds { get; set; } = new List<string>();
 }
 
@@ -18,7 +18,7 @@ public class UnlockTitleBasedAchievementRequest
     public string serviceConfigId { get; set; } = StringConstants.ZeroUid;
     public string? titleId { get; set; }
     public string? userId { get; set; }
-    public List<AchievementsArrayEntry> achievements { get; set; } new List<AchievementsArrayEntry>();
+    public List<AchievementsArrayEntry> achievements { get; set; } = new List<AchievementsArrayEntry>();
 }
 
 public class GameStat
@@ -50,5 +50,5 @@ public class TitleRequest
 
 public class GamepassProductsRequest
 {
-    public List<string> Products { get; set; }
+    public List<string> Products { get; set; } = new List<string>();
 }
