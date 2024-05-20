@@ -374,15 +374,11 @@ namespace XAU.ViewModels.Pages
                 //cut down version of the code to display minimal information about 360 achievements
                 for (int i = 0; i < Xbox360AchievementResponse?.achievements.Count; i++)
                 {
-                    string rewardvalueTypeplaceholder;
-                    try
+                    var rewards = new AchievementRewards
                     {
-                        rewardvalueTypeplaceholder = Xbox360AchievementResponse.achievements[i].rewards[0].valueType;
-                    }
-                    catch
-                    {
-                        rewardvalueTypeplaceholder = "N/A";
-                    }
+                        value = Xbox360AchievementResponse.achievements[i].gamerscore.ToString(),
+                        valueType = "N/a"
+                    };
 
                     Achievements.Add(new OneCoreAchievementResponse()
                     {
@@ -390,8 +386,7 @@ namespace XAU.ViewModels.Pages
                         name = Xbox360AchievementResponse.achievements[i].name,
                         isSecret = Xbox360AchievementResponse.achievements[i].isSecret,
                         description = Xbox360AchievementResponse.achievements[i].description,
-                        rewardsvalue = Xbox360AchievementResponse.achievements[i].gamerscore.ToString(),
-                        rewardsvalueType = rewardvalueTypeplaceholder,
+                        rewards = new List<AchievementRewards>()  {rewards},
                         raritycurrentCategory = Xbox360AchievementResponse.achievements[i].rarity.currentCategory,
                         raritycurrentPercentage = Xbox360AchievementResponse.achievements[i].rarity.currentPercentage
                     }
@@ -650,9 +645,9 @@ namespace XAU.ViewModels.Pages
                     if (!IsSelectedGame360)
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == "Gamerscore")
+                        if (achievement.rewards[0].type == "Gamerscore")
                         {
-                            gamerscore = int.Parse(achievement.rewardsvalue);
+                            gamerscore = int.Parse(achievement.rewards[0].value);
                         }
                         DGAchievements.Add(new DGAchievement()
                         {
@@ -661,7 +656,7 @@ namespace XAU.ViewModels.Pages
                             Name = achievement.name,
                             Description = achievement.description,
                             IsSecret = achievement.isSecret,
-                            DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                            DateUnlocked = DateTime.Parse(achievement.progression.timeUnlocked),
                             Gamerscore = gamerscore,
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
@@ -672,9 +667,9 @@ namespace XAU.ViewModels.Pages
                     else
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == StringConstants.Gamerscore)
+                        if (achievement.rewards[0].type == StringConstants.Gamerscore)
                         {
-                            gamerscore = int.Parse(achievement.rewardsvalue);
+                            gamerscore = int.Parse(achievement.rewards[0].value);
                         }
                         DGAchievements.Add(new DGAchievement()
                         {
@@ -683,7 +678,7 @@ namespace XAU.ViewModels.Pages
                             Name = achievement.name,
                             Description = achievement.description,
                             IsSecret = achievement.isSecret,
-                            DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                            DateUnlocked = DateTime.Parse(achievement.progression.timeUnlocked),
                             Gamerscore = gamerscore,
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
@@ -714,9 +709,9 @@ namespace XAU.ViewModels.Pages
                     if (!IsSelectedGame360)
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == StringConstants.Gamerscore)
+                        if (achievement.rewards[0].type == StringConstants.Gamerscore)
                         {
-                            gamerscore = int.Parse(achievement.rewardsvalue);
+                            gamerscore = int.Parse(achievement.rewards[0].value);
                         }
                         DGAchievements.Add(new DGAchievement()
                         {
@@ -725,7 +720,7 @@ namespace XAU.ViewModels.Pages
                             Name = achievement.name,
                             Description = achievement.description,
                             IsSecret = achievement.isSecret,
-                            DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                            DateUnlocked = DateTime.Parse(achievement.progression.timeUnlocked),
                             Gamerscore = gamerscore,
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
@@ -736,9 +731,9 @@ namespace XAU.ViewModels.Pages
                     else
                     {
                         var gamerscore = 0;
-                        if (achievement.rewardstype == StringConstants.Gamerscore)
+                        if (achievement.rewards[0].type == StringConstants.Gamerscore)
                         {
-                            gamerscore = int.Parse(achievement.rewardsvalue);
+                            gamerscore = int.Parse(achievement.rewards[0].value);
                         }
                         DGAchievements.Add(new DGAchievement()
                         {
@@ -747,7 +742,7 @@ namespace XAU.ViewModels.Pages
                             Name = achievement.name,
                             Description = achievement.description,
                             IsSecret = achievement.isSecret,
-                            DateUnlocked = DateTime.Parse(achievement.progressiontimeUnlocked),
+                            DateUnlocked = DateTime.Parse(achievement.progression.timeUnlocked),
                             Gamerscore = gamerscore,
                             RarityPercentage = float.Parse(achievement.raritycurrentPercentage),
                             RarityCategory = achievement.raritycurrentCategory,
