@@ -71,46 +71,61 @@ public class TrueAchievementRestApi
 
     public async Task<string> GetGameLinkAsync(XboxRestAPI xboxApi, string gameLink)
     {
-        SetDefaultHeaders();
-        var response = await _httpClient.GetAsync(gameLink);
-        var html = await response.Content.ReadAsStringAsync();
-        var doc = new HtmlDocument();
-        doc.LoadHtml(html);
-
-        var productIds = doc.DocumentNode.SelectNodes("//a[@class='price']");
-
-        // Bundles can be a problem
-        foreach (var pid in productIds)
+        try
         {
-            var productId = pid.Attributes["href"].Value;
-            productId = productId.Replace("/ext?u=", "");
-            productId = System.Web.HttpUtility.UrlDecode(productId);
-            productId = productId.Substring(0, productId.LastIndexOf('&'));
-            productId = productId.Split('/').Last();
-            if (productId.Contains("-"))
+            SetDefaultHeaders();
+            var response = await _httpClient.GetAsync(gameLink);
+            response.EnsureSuccessStatusCode();
+            var html = await response.Content.ReadAsStringAsync();
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            var productIds = doc.DocumentNode.SelectNodes("//a[@class='price']");
+            if (productIds != null && productIds.Any())
             {
-                return Convert.ToInt32(productId.Substring(productId.Length - 8), 16).ToString();
-            }
-            else
-            {
-                var TitleIDsContent = await xboxApi.GetTitleIdsFromGamePass(productId);
-                var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
-                var xboxTitleId = JsonTitleIDs.Products[$"{productId}"].XboxTitleId;
-                //here is some super dumb shit to handle bundles
-                if (xboxTitleId == null)
+                foreach (var pid in productIds)
                 {
-                    foreach (var Product in JsonTitleIDs.Products)
+                    var productId = pid.Attributes["href"].Value;
+                    productId = productId.Replace("/ext?u=", "");
+                    productId = System.Web.HttpUtility.UrlDecode(productId);
+                    productId = productId.Substring(0, productId.LastIndexOf('&'));
+                    productId = productId.Split('/').Last();
+                    if (productId.Contains("-"))
                     {
-                        foreach (var Title in Product)
+                        return Convert.ToInt32(productId.Substring(productId.Length - 8), 16).ToString();
+                    }
+                    else
+                    {
+                        var TitleIDsContent = await xboxApi.GetTitleIdsFromGamePass(productId);
+                        var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
+                        var xboxTitleId = JsonTitleIDs.Products[$"{productId}"]?.XboxTitleId;
+                        if (xboxTitleId == null)
                         {
-                            if (Title.ToString().Contains("\"ProductType\": \"Game\",") && Title.XboxTitleId != null)
+                            foreach (var product in JsonTitleIDs.Products)
                             {
-                                return Title.XboxTitleId;
+                                foreach (var title in product)
+                                {
+                                    if (title.ToString().Contains("\"ProductType\": \"Game\",") && title.XboxTitleId != null)
+                                    {
+                                        return title.XboxTitleId;
+                                    }
+                                }
                             }
+                        }
+                        else
+                        {
+                            return xboxTitleId;
                         }
                     }
                 }
             }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP Request Error: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching game link: {ex.Message}");
         }
         return "-1";
     }
