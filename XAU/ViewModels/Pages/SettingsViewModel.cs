@@ -30,7 +30,7 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public void SaveSettings()
         {
-            var settings = new
+            var settings = new XAUSettings
             {
                 SettingsVersion = SettingsVersion,
                 ToolVersion = ToolVersion,
@@ -45,15 +45,7 @@ namespace XAU.ViewModels.Pages
             };
             string settingsJson = JsonConvert.SerializeObject(settings);
             File.WriteAllText(SettingsFilePath, settingsJson);
-            HomeViewModel.Settings.SettingsVersion = SettingsVersion;
-            HomeViewModel.Settings.ToolVersion = ToolVersion;
-            HomeViewModel.Settings.UnlockAllEnabled = UnlockAllEnabled;
-            HomeViewModel.Settings.AutoSpooferEnabled = AutoSpooferEnabled;
-            HomeViewModel.Settings.AutoLaunchXboxAppEnabled = AutoLaunchXboxAppEnabled;
-            HomeViewModel.Settings.FakeSignatureEnabled = FakeSignatureEnabled;
-            HomeViewModel.Settings.RegionOverride = RegionOverride;
-            HomeViewModel.Settings.UseAcrylic = UseAcrylic;
-            HomeViewModel.Settings.PrivacyMode = PrivacyMode;
+            HomeViewModel.Settings = settings; // update ref
         }
 
         public void OnNavigatedTo()
@@ -86,6 +78,7 @@ namespace XAU.ViewModels.Pages
             PrivacyMode = HomeViewModel.Settings.PrivacyMode;
             Xauth = HomeViewModel.XAUTH;
         }
+
         private string GetAssemblyVersion()
         {
             return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString()
