@@ -32,11 +32,12 @@ struct HeaderValues
 
 }
 
-struct SocialLinks
+struct OpenableLinks
 {
     // Hardcoded links to socials
     public const string Discord = @"https://discord.gg/fCqM7287jG";
     public const string GitHubUserUrl = @"https://github.com/ItsLogic";
+    public const string EventsDocumentationUrl = @"https://github.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/blob/Main/Doc/Events.md";
 }
 
 struct Hosts

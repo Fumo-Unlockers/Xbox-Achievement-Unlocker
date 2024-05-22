@@ -44,10 +44,10 @@ namespace XAU.ViewModels.Pages
         private dynamic EventsData = (dynamic)(new JObject());
         public static string EventsToken;
 
-        public AchievementsViewModel(ISnackbarService snackbarService)
+        public AchievementsViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
             _snackbarService = snackbarService;
-            _contentDialogService = new ContentDialogService();
+            _contentDialogService =  contentDialogService;
         }
 
         private readonly IContentDialogService _contentDialogService;
@@ -441,7 +441,7 @@ namespace XAU.ViewModels.Pages
                     EventsData = (dynamic)(JObject)data[TitleIDOverride];
                     foreach (var achievement in DGAchievements)
                     {
-                        if (EventsData.Achievements.ContainsKey(achievement.ID) && achievement.ProgressState != StringConstants.Achieved)
+                        if (EventsData.Achievements.ContainsKey(achievement.ID.ToString()) && achievement.ProgressState != StringConstants.Achieved)
                         {
                             achievement.IsUnlockable = true;
                         }
@@ -495,8 +495,25 @@ namespace XAU.ViewModels.Pages
             {
                 if (EventsToken == null)
                 {
-                    _snackbarService.Show("Error: No Events Token", "No events token was set", ControlAppearance.Danger,
-                                               new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    ContentDialogResult result = await _contentDialogService.ShowSimpleDialogAsync(
+                        new SimpleContentDialogCreateOptions()
+                        {
+                            Title = "Error: You have not set an events token",
+                            Content = "To unlock event based games you must supply an events token. Please refer to the guide for more information.\nPressing the \"Open Guide\" button will open the documentation and guide in your default browser.",
+                            PrimaryButtonText = "Open Guide",
+                            CloseButtonText = "Close",
+                        });
+
+                    switch (result)
+                    {
+                        case ContentDialogResult.Primary:
+                            var sInfo = new System.Diagnostics.ProcessStartInfo(OpenableLinks.EventsDocumentationUrl)
+                            {
+                                UseShellExecute = true,
+                            };
+                            System.Diagnostics.Process.Start(sInfo);
+                            break;
+                    }
                     return;
                 }
 
