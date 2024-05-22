@@ -105,6 +105,11 @@ public class TrueAchievementRestApi
                         }
                     }
                 }
+                else
+                {
+                    return xboxTitleId;
+                }
+
             }
         }
         return "-1";
