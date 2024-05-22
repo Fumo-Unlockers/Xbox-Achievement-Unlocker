@@ -32,21 +32,21 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private Brush _loggedInColor = new SolidColorBrush(Colors.Red);
 
         //profile vars
-        [ObservableProperty] private string _gamerPic = "pack://application:,,,/Assets/cirno.png";
-        [ObservableProperty] private string _gamerTag = "Gamertag: Unknown   ";
-        [ObservableProperty] private string _xuid = "XUID: Unknown";
-        [ObservableProperty] private string _gamerScore = "Gamerscore: Unknown";
-        [ObservableProperty] private string _profileRep = "Reputation: Unknown";
-        [ObservableProperty] private string _accountTier = "Tier: Unknown";
-        [ObservableProperty] private string _currentlyPlaying = "Currently Playing: Unknown";
-        [ObservableProperty] private string _activeDevice = "Active Device: Unknown";
-        [ObservableProperty] private string _isVerified = "Verified: Unknown";
-        [ObservableProperty] private string _location = "Location: Unknown";
-        [ObservableProperty] private string _tenure = "Tenure: Unknown";
-        [ObservableProperty] private string _following = "Following: Unknown";
-        [ObservableProperty] private string _followers = "Followers: Unknown";
-        [ObservableProperty] private string _gamepass = "Gamepass: Unknown";
-        [ObservableProperty] private string _bio = "Bio: Unknown";
+        [ObservableProperty] private string? _gamerPic = "pack://application:,,,/Assets/cirno.png";
+        [ObservableProperty] private string? _gamerTag = "Gamertag: Unknown   ";
+        [ObservableProperty] private string? _xuid = "XUID: Unknown";
+        [ObservableProperty] private string? _gamerScore = "Gamerscore: Unknown";
+        [ObservableProperty] private string? _profileRep = "Reputation: Unknown";
+        [ObservableProperty] private string? _accountTier = "Tier: Unknown";
+        [ObservableProperty] private string? _currentlyPlaying = "Currently Playing: Unknown";
+        [ObservableProperty] private string? _activeDevice = "Active Device: Unknown";
+        [ObservableProperty] private string? _isVerified = "Verified: Unknown";
+        [ObservableProperty] private string? _location = "Location: Unknown";
+        [ObservableProperty] private string? _tenure = "Tenure: Unknown";
+        [ObservableProperty] private string? _following = "Following: Unknown";
+        [ObservableProperty] private string? _followers = "Followers: Unknown";
+        [ObservableProperty] private string? _gamepass = "Gamepass: Unknown";
+        [ObservableProperty] private string? _bio = "Bio: Unknown";
         [ObservableProperty] public static bool _isLoggedIn = false;
         [ObservableProperty] public static bool _updateAvaliable = false;
         [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
@@ -161,16 +161,16 @@ namespace XAU.ViewModels.Pages
         {
             if (EventsVersion == "EmptyDevEventsVersion")
                 return;
-            var jsonResponse = await _gitHubRestAPI.Value.CheckForEventUpdatesAsync();
+            var response = await _gitHubRestAPI.Value.CheckForEventUpdatesAsync();
             var EventsTimestamp = 0;
             if (File.Exists(EventsMetaFilePath))
             {
                 var metaJson = File.ReadAllText(EventsMetaFilePath);
-                var meta = JsonConvert.DeserializeObject<dynamic>(metaJson);
+                var meta = JsonConvert.DeserializeObject<EventsUpdateResponse>(metaJson);
                 EventsTimestamp = meta.Timestamp;
             }
 
-            if (jsonResponse.Timestamp > EventsTimestamp && jsonResponse.DataVersion == EventsVersion)
+            if (response.Timestamp > EventsTimestamp && response.DataVersion == EventsVersion)
             {
                 _snackbarService.Show("Downloading Events Update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                 UpdateEvents();
@@ -261,7 +261,7 @@ namespace XAU.ViewModels.Pages
                 {
                     Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU\\Events"));
                 }
-                var defaultSettings = new
+                var defaultSettings = new XAUSettings
                 {
                     SettingsVersion = "1",
                     ToolVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
@@ -432,6 +432,11 @@ namespace XAU.ViewModels.Pages
             try
             {
                 var profileResponse = await _xboxRestAPI.Value.GetProfileAsync(XUIDOnly);
+                if (profileResponse == null || !profileResponse.People.Any())
+                {
+                    _snackbarService.Show("Error", "Failed to grab profile information.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
 
                 if (Settings.PrivacyMode)
                 {
@@ -453,15 +458,16 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
+
                     GamerTag = $"Gamertag: {profileResponse.People[0].Gamertag}";
                     Xuid = $"XUID: {profileResponse.People[0].Xuid}";
                     GamerPic = profileResponse.People[0].DisplayPicRaw;
                     GamerScore = $"Gamerscore: {profileResponse.People[0].GamerScore}";
                     ProfileRep = $"Reputation: {profileResponse.People[0].XboxOneRep}";
-                    AccountTier = $"Tier: {profileResponse.People[0].Detail.AccountTier}";
+                    AccountTier = $"Tier: {profileResponse.People[0].Detail?.AccountTier}";
                     try
                     {
-                        if (profileResponse.People[0].PresenceDetails.Count == 0)
+                        if (!profileResponse.People[0].PresenceDetails.Any() || profileResponse.People[0].PresenceDetails[0].TitleId == null)
                         {
                             CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
                         }
@@ -500,35 +506,38 @@ namespace XAU.ViewModels.Pages
                     }
 
                     ActiveDevice = $"Active Device: {profileResponse.People[0].PresenceDetails[0].Device}";
-                    IsVerified = $"Verified: {profileResponse.People[0].Detail.IsVerified}";
-                    Location = $"Location: {profileResponse.People[0].Detail.Location}";
-                    Tenure = $"Tenure: {profileResponse.People[0].Detail.Tenure}";
-                    Following = $"Following: {profileResponse.People[0].Detail.FollowingCount}";
-                    Followers = $"Followers: {profileResponse.People[0].Detail.FollowerCount}";
-                    Bio = $"Bio: {profileResponse.People[0].Detail.Bio}";
-
-                    Watermarks.Clear();
-
-                    // Tenure image format, 01..05..10
-                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
-                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
-                    // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
-                    var tenureString = profileResponse.People[0].Detail.Tenure;
-                    if (int.TryParse(tenureString, out int tenureInt))
+                    if (profileResponse.People[0].Detail != null)
                     {
-                        // Format the integer as a two-digit string
-                        string tenureBadge = tenureInt.ToString("D2");
-                        Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}tenure/{tenureBadge}.png" });
-                    }
-                    else
-                    {
-                        // TODO: log error somewhere
-                        Console.WriteLine("The string is not a valid integer.");
-                    }
+                        IsVerified = $"Verified: {profileResponse.People[0].Detail.IsVerified}";
+                        Location = $"Location: {profileResponse.People[0].Detail.Location}";
+                        Tenure = $"Tenure: {profileResponse.People[0].Detail.Tenure}";
+                        Following = $"Following: {profileResponse.People[0].Detail.FollowingCount}";
+                        Followers = $"Followers: {profileResponse.People[0].Detail.FollowerCount}";
+                        Bio = $"Bio: {profileResponse.People[0].Detail.Bio}";
 
-                    foreach (var watermark in profileResponse.People[0].Detail.Watermarks)
-                    {
-                        Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}launch/{watermark.ToLower()}.png" });
+                        Watermarks.Clear();
+
+                        // Tenure image format, 01..05..10
+                        // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
+                        // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
+                        // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
+                        var tenureString = profileResponse.People[0].Detail.Tenure;
+                        if (int.TryParse(tenureString, out int tenureInt))
+                        {
+                            // Format the integer as a two-digit string
+                            string tenureBadge = tenureInt.ToString("D2");
+                            Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}tenure/{tenureBadge}.png" });
+                        }
+                        else
+                        {
+                            // TODO: log error somewhere
+                            Console.WriteLine("The string is not a valid integer.");
+                        }
+
+                        foreach (var watermark in profileResponse.People[0].Detail.Watermarks)
+                        {
+                            Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}launch/{watermark.ToLower()}.png" });
+                        }
                     }
                 }
                 GrabbedProfile = true;
@@ -551,24 +560,12 @@ namespace XAU.ViewModels.Pages
 
         #region Settings
 
-        public class SettingsList
-        {
-            public string SettingsVersion { get; set; }
-            public string ToolVersion { get; set; }
-            public bool UnlockAllEnabled { get; set; }
-            public bool AutoSpooferEnabled { get; set; }
-            public bool AutoLaunchXboxAppEnabled { get; set; }
-            public bool FakeSignatureEnabled { get; set; }
-            public bool RegionOverride { get; set; }
-            public bool UseAcrylic { get; set; }
-            public bool PrivacyMode { get; set; }
-        }
-        public static SettingsList Settings = new SettingsList();
+        public static XAUSettings Settings = new XAUSettings();
 
         public void LoadSettings()
         {
             string settingsJson = File.ReadAllText(SettingsFilePath);
-            var settings = JsonConvert.DeserializeObject<dynamic>(settingsJson);
+            var settings = JsonConvert.DeserializeObject<XAUSettings>(settingsJson);
             Settings.SettingsVersion = settings.SettingsVersion;
             Settings.ToolVersion = settings.ToolVersion;
             Settings.UnlockAllEnabled = settings.UnlockAllEnabled;

@@ -94,7 +94,7 @@ namespace XAU.ViewModels.Pages
         }
         public async Task OpenAchievements(string index)
         {
-            AchievementsViewModel.TitleID = GamesResponse.Titles[int.Parse(index)].TitleId.ToString();
+            AchievementsViewModel.TitleID = GamesResponse.Titles[int.Parse(index)].TitleId;
             AchievementsViewModel.IsSelectedGame360 = GamesResponse.Titles[int.Parse(index)].Devices.Contains("Xbox360") || GamesResponse.Titles[int.Parse(index)].Devices.Contains("Mobile");
             AchievementsViewModel.NewGame = true;
             navigationService.Navigate(typeof(AchievementsPage));
@@ -113,10 +113,9 @@ namespace XAU.ViewModels.Pages
                     case 1:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (title.Devices.Contains("XboxSeries") || title.Devices.Contains("XboxOne"))
+                            if (GamesResponse.Titles[i].Devices.Contains("XboxSeries") || GamesResponse.Titles[i].Devices.Contains("XboxOne"))
                             {
-                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
@@ -125,10 +124,9 @@ namespace XAU.ViewModels.Pages
                     case 2:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (title.Devices.Contains("PC"))
+                            if (GamesResponse.Titles[i].Devices.Contains("PC"))
                             {
-                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
@@ -137,10 +135,9 @@ namespace XAU.ViewModels.Pages
                     case 3:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (title.Devices.Contains("Xbox360"))
+                            if (GamesResponse.Titles[i].Devices.Contains("Xbox360"))
                             {
-                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
@@ -149,10 +146,9 @@ namespace XAU.ViewModels.Pages
                     case 4:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (title.Devices.Contains("Win32"))
+                            if (GamesResponse.Titles[i].Devices.Contains("Win32"))
                             {
-                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             };
@@ -161,10 +157,9 @@ namespace XAU.ViewModels.Pages
                     case 5:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (double.TryParse(title.Achievement.ProgressPercentage.ToString(), out double progress) && progress < 100)
+                            if (double.TryParse(GamesResponse.Titles[i].Achievement.ProgressPercentage.ToString(), out double progress) && progress < 100)
                             {
-                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }
@@ -235,42 +230,37 @@ namespace XAU.ViewModels.Pages
                     case 1:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (title.Devices.Contains("XboxSeries") || title.Devices.Contains("XboxOne"))
+                            if (GamesResponse.Titles[i].Devices.Contains("XboxSeries") || GamesResponse.Titles[i].Devices.Contains("XboxOne"))
                                 AddGame(i);
                         }
                         break;
                     case 2:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (title.Devices.Contains("PC"))
+                            if (GamesResponse.Titles[i].Devices.Contains("PC"))
                                 AddGame(i);
                         }
                         break;
                     case 3:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (title.Devices.Contains("Xbox360"))
+                            if (GamesResponse.Titles[i].Devices.Contains("Xbox360"))
                                 AddGame(i);
                         }
                         break;
                     case 4:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (title.Devices.Contains("Win32"))
+                            if (GamesResponse.Titles[i].Devices.Contains("Win32"))
                                 AddGame(i);
                         }
                         break;
                     case 5:
                         for (int i = 0; i < GamesResponse.Titles.Count; i++)
                         {
-                            dynamic title = GamesResponse.Titles[i];
-                            if (double.TryParse(title.Achievement.ProgressPercentage.ToString(), out double progress) && progress < 100)
+                            if (double.TryParse(GamesResponse.Titles[i].Achievement.ProgressPercentage.ToString(), out double progress) && progress < 100)
                             {
-                                if (!title.Name.ToString().ToLower().Contains(SearchText.ToLower()))
+                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
                             }

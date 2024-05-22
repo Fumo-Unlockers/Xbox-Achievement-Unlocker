@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 public class GithubRestApi
@@ -9,7 +10,6 @@ public class GithubRestApi
     // User specifics
     public GithubRestApi()
     {
-        // This is a placeholder for the Xbox REST API
         var handler = new HttpClientHandler()
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
@@ -27,15 +27,13 @@ public class GithubRestApi
             "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
     }
 
-    public async Task<dynamic> GetDevToolVersionAsync()
+    public async Task<VersionResponse?> GetDevToolVersionAsync()
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
         var responseString =
             await _httpClient.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Pre-Release/info.json");
-
-        var jsonResponse = (dynamic)JObject.Parse(responseString);
-        return jsonResponse;
+        return JsonConvert.DeserializeObject<VersionResponse>(responseString);
     }
 
     public async Task<dynamic> GetReleaseVersionAsync()
@@ -48,12 +46,11 @@ public class GithubRestApi
         return jsonResponse;
     }
 
-    public async Task<dynamic> CheckForEventUpdatesAsync()
+    public async Task<EventsUpdateResponse?> CheckForEventUpdatesAsync()
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
         var responseString = await _httpClient.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
-        var jsonResponse = (dynamic)JObject.Parse(responseString);
-        return jsonResponse;
+        return JsonConvert.DeserializeObject<EventsUpdateResponse>(responseString);
     }
 }
