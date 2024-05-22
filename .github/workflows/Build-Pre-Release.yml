@@ -1,4 +1,4 @@
-name: .NET 7 Build
+name: .NET 8 Build
 
 on:
   push:
@@ -31,6 +31,7 @@ jobs:
       run: |
         $content = Get-Content -Path "${{github.workspace}}/XAU/ViewModels/Pages/HomeViewModel.cs" -Raw
         $content = $content -replace 'public static string ToolVersion = "EmptyDevToolVersion";', 'public static string ToolVersion = "DEV-${{ steps.get-hash.outputs.hash }}";'
+        $content = $content -replace 'Tool Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}', 'Tool Version: DEV-${{ steps.get-hash.outputs.hash }}'
         Set-Content -Path "${{github.workspace}}/XAU/ViewModels/Pages/HomeViewModel.cs" -Value $content
 
     - name: Restore dependencies
