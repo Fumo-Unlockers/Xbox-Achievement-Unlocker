@@ -22,7 +22,6 @@ public class TrueAchievementRestApi
         _httpClient.DefaultRequestHeaders.Clear();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-
     }
 
     public async Task<Tuple<List<string>, List<string>>> SearchAsync(string searchText)
@@ -93,23 +92,24 @@ public class TrueAchievementRestApi
             }
             else
             {
-                var TitleIDsContent = await xboxApi.GetTitleIdsFromGamePass(productId);
-                var JsonTitleIDs = (dynamic)JObject.Parse(TitleIDsContent);
-                var xboxTitleId = JsonTitleIDs.Products[$"{productId}"].XboxTitleId;
+                var titleIDsContent = await xboxApi.GetTitleIdsFromGamePass(productId);
+                var xboxTitleId = titleIDsContent.Products[$"{productId}"].XboxTitleId;
                 //here is some super dumb shit to handle bundles
                 if (xboxTitleId == null)
                 {
-                    foreach (var Product in JsonTitleIDs.Products)
+                    foreach (var product in titleIDsContent.Products)
                     {
-                        foreach (var Title in Product)
+                        if (product.Value.ProductType == "Game" && !string.IsNullOrWhiteSpace(product.Value.XboxTitleId))
                         {
-                            if (Title.ToString().Contains("\"ProductType\": \"Game\",") && Title.XboxTitleId != null)
-                            {
-                                return Title.XboxTitleId;
-                            }
+                            return product.Value.XboxTitleId;
                         }
                     }
                 }
+                else
+                {
+                    return xboxTitleId;
+                }
+
             }
         }
         return "-1";
