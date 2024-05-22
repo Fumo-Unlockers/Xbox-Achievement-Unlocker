@@ -1,0 +1,6 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Publish Debug" type="DotNetFolderPublish" factoryName="Publish to folder">
+    <riderPublish configuration="Debug" delete_existing_files="true" platform="x64" runtime="Portable" target_folder="$PROJECT_DIR$/XAU/bin/Debug/net8.0-windows/publish" target_framework="net8.0-windows" uuid_high="3467633360020586717" uuid_low="-5402852396017586348" />
+    <method v="2" />
+  </configuration>
+</component>
