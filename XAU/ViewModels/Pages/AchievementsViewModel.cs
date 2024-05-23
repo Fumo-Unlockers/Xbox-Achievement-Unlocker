@@ -34,9 +34,8 @@ namespace XAU.ViewModels.Pages
         private Xbox360AchievementResponse Xbox360AchievementResponse = new Xbox360AchievementResponse();
 
         private GameTitle GameInfoResponse = new GameTitle();
-        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
         // TODO: this needs to be updated if language changes
-        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH, System.Globalization.CultureInfo.CurrentCulture.Name));
+        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
 
         public static bool SpoofingUpdate = false;
         private bool IsFiltered = false;
@@ -118,8 +117,6 @@ namespace XAU.ViewModels.Pages
             TitleIDEnabled = true;
             IsInitialized = true;
             NewGame = false;
-            if (HomeViewModel.Settings.RegionOverride)
-                currentSystemLanguage = "en-GB";
         }
 
 

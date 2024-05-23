@@ -4,6 +4,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using XAU.ViewModels.Pages;
+using XAU.ViewModels.Windows;
 
 public class XboxRestAPI
 {
@@ -15,12 +17,12 @@ public class XboxRestAPI
 
     // User specifics
     private readonly string _xauth;
-    private readonly string _currentSystemLanguage;
+    private readonly string _requestedResponseLanguage;
 
-    public XboxRestAPI(string xauth, string currentSystemLanguage)
+    public XboxRestAPI(string xauth)
     {
         _xauth = xauth;
-        _currentSystemLanguage = currentSystemLanguage;
+        _requestedResponseLanguage = HomeViewModel.Settings.RegionOverride ? "en-GB" : System.Globalization.CultureInfo.CurrentCulture.Name;
         var handler = new HttpClientHandler()
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
@@ -41,7 +43,7 @@ public class XboxRestAPI
     {
         _httpClient.DefaultRequestHeaders.Clear();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, _xauth);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _currentSystemLanguage);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _requestedResponseLanguage);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
     }
@@ -50,7 +52,7 @@ public class XboxRestAPI
     {
         _httpClient.DefaultRequestHeaders.Clear();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, _xauth);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _currentSystemLanguage);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _requestedResponseLanguage);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
     }

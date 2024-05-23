@@ -11,12 +11,10 @@ namespace XAU.ViewModels.Pages
 {
     public partial class MiscViewModel : ObservableObject, INavigationAware
     {
-        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
-
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
-        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH, System.Globalization.CultureInfo.CurrentCulture.Name));
+        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
         private Lazy<TrueAchievementRestApi> _taRestApi = new Lazy<TrueAchievementRestApi>();
 
         public MiscViewModel(ISnackbarService snackbarService)
@@ -37,8 +35,6 @@ namespace XAU.ViewModels.Pages
 
         private void InitializeViewModel()
         {
-            if (HomeViewModel.Settings.RegionOverride)
-                currentSystemLanguage = "en-GB";
             IsInitialized = true;
         }
 
