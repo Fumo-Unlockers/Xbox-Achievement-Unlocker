@@ -65,7 +65,7 @@ namespace XAU.ViewModels.Pages
             _contentDialogService = contentDialogService;
 
             // Assume XAUTH and System Language are set by the time this is actually instantiated
-            _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH, currentSystemLanguage));
+            _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH));
         }
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
@@ -90,7 +90,6 @@ namespace XAU.ViewModels.Pages
         private bool _isInitialized = false;
         string SettingsFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "settings.json");
         string EventsMetaFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "Events", "meta.json");
-        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
 
         public async void OnNavigatedTo()
         {
@@ -294,8 +293,6 @@ namespace XAU.ViewModels.Pages
                 p.StartInfo = startInfo;
                 p.Start();
             }
-            if (Settings.RegionOverride)
-                currentSystemLanguage = "en-GB";
         }
 
         #region Xauth

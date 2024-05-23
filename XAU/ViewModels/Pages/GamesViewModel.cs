@@ -41,10 +41,8 @@ namespace XAU.ViewModels.Pages
 
         }
 
-        string currentSystemLanguage = System.Globalization.CultureInfo.CurrentCulture.Name;
-
         // TODO: this needs to be updated if language changes
-        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH, System.Globalization.CultureInfo.CurrentCulture.Name));
+        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
 
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService = snackbarService;
@@ -66,8 +64,6 @@ namespace XAU.ViewModels.Pages
 
             IsInitialized = true;
             await GetGamesList();
-            if (HomeViewModel.Settings.RegionOverride)
-                currentSystemLanguage = "en-GB";
 
         }
 
