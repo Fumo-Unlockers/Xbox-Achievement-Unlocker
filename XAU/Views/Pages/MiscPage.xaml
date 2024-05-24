@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="XAU.Views.Pages.MiscPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -129,7 +129,66 @@
 
                 </Grid>
             </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Search24" />
+                        <TextBlock Text="Gamertag Search" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ui:Button
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Icon="{ui:SymbolIcon Search24}"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Stretch"
+                       Margin="25,0,0,0"
+                       Command="{Binding ViewModel.SearchGamertagCommand}"></ui:Button>
+                                        <ui:TextBox
+                       x:Name="GamertagSearchBox"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       VerticalAlignment="Top"
+                       Margin="0,0,40,0"
+                       ClearButtonEnabled="False"
+                       PlaceholderText="Gamertag"
+                       MinWidth="200"
+                       Text="{Binding ViewModel.Gamertag, Mode=TwoWay}"
+                       KeyDown="GamertagSearch_OnKeyDown"></ui:TextBox>
+                                        <StackPanel
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       Margin="0,5,0,0"
+                       Orientation="Horizontal"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top">
+                                    <Image
+                           Source="{Binding ViewModel.GamertagImage}"
+                           Height="100"
+                           Width="100"
+                           Margin="5,0,10,0"></Image>
+                        <StackPanel>
+                            <Label Content="{Binding ViewModel.GamertagName}" Margin="0,0,0,5" />
+                            <Label Content="{Binding ViewModel.GamertagScore}" Margin="0,0,0,5" />
+                            <TextBox
+                           Text="{Binding ViewModel.GamertagXuid, Mode=OneWay}"
+                           Margin="0,0,0,5"
+                           IsReadOnly="True" />     
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
-        
+
     </Grid>
 </Page>
