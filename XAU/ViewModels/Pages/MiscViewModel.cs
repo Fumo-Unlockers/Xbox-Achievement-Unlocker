@@ -244,9 +244,38 @@ namespace XAU.ViewModels.Pages
         #endregion
 
         #region GamertagSearch
+        [ObservableProperty] private string _gamertag = "";
+        [ObservableProperty] private string _gamertagName = "";
+        [ObservableProperty] private string _gamertagImage = "pack://application:,,,/Assets/default.png";
+        [ObservableProperty] private string _gamertagScore = "Gamerscore: ";
+        [ObservableProperty] private string _gamertagXuid = "XUID: ";
 
+        [RelayCommand]
+        public async Task SearchGamertag()
+        {
+            if (string.IsNullOrWhiteSpace(Gamertag))
+            {
+                _snackbarService.Show("Error", "Please enter a valid gamertag.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
 
-        #endregion
+            try
+            {
+                var profileData = await _xboxRestAPI.Value.GetGamertagProfileAsync(Gamertag);
 
+                var user = profileData["profileUsers"].First;
+                GamertagXuid = user["id"].ToString();
+                GamertagName = "Gamertag: " + user["settings"].First(setting => setting["id"].ToString() == "Gamertag")["value"].ToString();
+                GamertagScore = "Gamerscore: " + user["settings"].First(setting => setting["id"].ToString() == "Gamerscore")["value"].ToString();
+                GamertagImage = user["settings"].First(setting => setting["id"].ToString() == "GameDisplayPicRaw")["value"].ToString();
+            }
+            catch (Exception ex)
+            {
+                _snackbarService.Show("Error", "Failed to fetch gamertag information. " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+        }
     }
+
+
+    #endregion
 }
