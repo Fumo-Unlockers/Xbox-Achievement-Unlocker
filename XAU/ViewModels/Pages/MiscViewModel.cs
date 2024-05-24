@@ -302,7 +302,8 @@ namespace XAU.ViewModels.Pages
 
                 foreach (var title in gamesResponse.Titles)
                 {
-                    sb.AppendLine($"{title.TitleId},{title.Name},{title.Achievement.CurrentAchievements},{title.Achievement.CurrentGamerscore}/{title.Achievement.TotalGamerscore},{title.Achievement.ProgressPercentage},");
+                    var titleName = title.Name.Contains(",") || title.Name.Contains("\"") ? $"\"{title.Name.Replace("\"", "\"\"")}\"" : title.Name;
+                    sb.AppendLine($"{title.TitleId},{titleName},{title.Achievement.CurrentAchievements},{title.Achievement.CurrentGamerscore}/{title.Achievement.TotalGamerscore},{title.Achievement.ProgressPercentage},");
                 }
 
                 var saveFileDialog = new Microsoft.Win32.SaveFileDialog
