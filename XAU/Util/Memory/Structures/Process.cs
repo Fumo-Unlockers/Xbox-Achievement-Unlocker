@@ -1,10 +1,16 @@
+﻿using System;
 using System.Diagnostics;
 
-namespace Memory;
-
-public class Proc
+namespace Memory
 {
-    public Process Process { get; set; } = new();
-    public nint Handle { get; set; }
-    public bool Is64Bit { get; set; }
+    /// <summary>
+    /// Information about the opened process.
+    /// </summary>
+    public class Proc
+    {
+        public Process Process { get; set; }
+        public IntPtr Handle { get; set; }
+        public bool Is64Bit { get; set; }
+        public ProcessModule MainModule { get; set; }
+    }
 }
