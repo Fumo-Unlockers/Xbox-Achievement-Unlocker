@@ -36,8 +36,21 @@ namespace XAU.Views.Pages
         {
             if (e.Key == Key.Enter)
             {
-                ViewModel.SearchGamertagCommand.Execute(null);
+                // Fully qualify TextBox to avoid ambiguity
+                var textBox = sender as System.Windows.Controls.TextBox;
+                var bindingExpression = textBox.GetBindingExpression(System.Windows.Controls.TextBox.TextProperty);
+                bindingExpression?.UpdateSource();
+
+                if (ViewModel.SearchGamertagCommand.CanExecute(null))
+                {
+                    ViewModel.SearchGamertagCommand.Execute(null);
+                }
             }
         }
+        private async void ExportToCsvButton_Click(object sender, RoutedEventArgs e)
+        {
+            await ViewModel.ExportToCsvAsync();
+        }
+
     }
 }
