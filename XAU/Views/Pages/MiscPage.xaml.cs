@@ -31,5 +31,13 @@ namespace XAU.Views.Pages
                 ViewModel.SearchGame();
             }
         }
+
+        private void GamertagSearch_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ViewModel.SearchGamertagCommand.Execute(null);
+            }
+        }
     }
 }
