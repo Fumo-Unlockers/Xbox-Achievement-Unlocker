@@ -62,7 +62,7 @@
             <Label 
                 Grid.Row="0" 
                 Grid.Column="0"
-                Margin="27,0,27,0"
+                Margin="0,0,54,0"
                 Content="TitleID Override"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
@@ -94,7 +94,7 @@
             <Label 
                 Grid.Row="0" 
                 Grid.Column="1"
-                Margin="00,0,0,0"
+                Margin="00,0,44,0"
                 Content="Search"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
@@ -106,13 +106,16 @@
                 Content="{Binding ViewModel.GameInfo}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
-            <Label 
-                Grid.Row="1" 
+            <TextBlock
+                Grid.Row="1"
                 Grid.Column="3"
                 Margin="10,0,10,0"
-                Content="{Binding ViewModel.GameName}"
+                Text="{Binding ViewModel.GameName}"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center"/>
+                HorizontalAlignment="Center"
+                TextWrapping="Wrap"
+                TextAlignment="Center"
+                />
             <ui:Button
                 Grid.Row="0"
                 Grid.Column="4"

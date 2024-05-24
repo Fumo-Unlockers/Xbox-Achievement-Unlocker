@@ -25,7 +25,6 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _gameName = "";
         [ObservableProperty] private bool _isUnlockAllEnabled = false;
         [ObservableProperty] private string _searchText = "";
-        public static bool SpooferEnabled = HomeViewModel.Settings.AutoSpooferEnabled;
         public static string TitleID = "0";
         private bool IsTitleIDValid = false;
         public static bool NewGame = false;
@@ -69,7 +68,7 @@ namespace XAU.ViewModels.Pages
         }
         public async void OnNavigatedTo()
         {
-            if (SpooferEnabled)
+            if (HomeViewModel.Settings.AutoSpooferEnabled)
             {
                 if (HomeViewModel.SpoofingStatus == 1 && !(GameInfo == ""))
                 {
@@ -112,7 +111,7 @@ namespace XAU.ViewModels.Pages
                 Unlockable = false;
             await LoadGameInfo();
             await LoadAchievements();
-            if (SpooferEnabled)
+            if (HomeViewModel.Settings.AutoSpooferEnabled)
                 SpoofGame();
             TitleIDEnabled = true;
             IsInitialized = true;
@@ -132,12 +131,12 @@ namespace XAU.ViewModels.Pages
             try
             {
                 IsSelectedGame360 = GameInfoResponse.Titles[0].Devices.Contains("Xbox360") || GameInfoResponse.Titles[0].Devices.Contains("Mobile");
-                GameInfo = GameInfoResponse.Titles[0].Name;
+                GameName = GameInfoResponse.Titles[0].Name;
                 IsTitleIDValid = true;
             }
             catch
             {
-                GameInfo = "Error";
+                GameName = "Error";
                 IsTitleIDValid = false;
                 return;
             }
@@ -625,7 +624,7 @@ namespace XAU.ViewModels.Pages
             await LoadGameInfo();
             await LoadAchievements();
             NewGame = false;
-            if (SpooferEnabled)
+            if (HomeViewModel.Settings.AutoSpooferEnabled)
                 SpoofGame();
         }
 
