@@ -1,97 +1,120 @@
+﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
-namespace Memory;
-
-public static partial class Imps
+namespace Memory
 {
-    [LibraryImport("kernel32.dll")]
-    public static partial nint OpenProcess(uint dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
-
-    [LibraryImport("kernel32.dll", EntryPoint = "VirtualQueryEx")]
-    public static partial nuint Native_VirtualQueryEx(nint hProcess, nuint lpAddress, out MemoryBasicInformation32 lpBuffer, nuint dwLength);
-
-    [LibraryImport("kernel32.dll", EntryPoint = "VirtualQueryEx")]
-    public static partial nuint Native_VirtualQueryEx(nint hProcess, nuint lpAddress, out MemoryBasicInformation64 lpBuffer, nuint dwLength);
-
-    [LibraryImport("kernel32.dll")]
-    public static partial void GetSystemInfo(out SystemInfo lpSystemInfo);
-
-    [LibraryImport("kernel32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial void ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, IntPtr lpBuffer, UIntPtr nSize, out ulong lpNumberOfBytesRead);
-
-    [LibraryImport("kernel32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, byte[] lpBuffer, UIntPtr nSize, IntPtr lpNumberOfBytesRead);
-
-    [LibraryImport("kernel32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool IsWow64Process(nint hProcess, [MarshalAs(UnmanagedType.Bool)] out bool lpSystemInfo);
-
-    public const uint MemCommit = 0x00001000;
-
-    public const uint Readonly = 0x02;
-    public const uint Readwrite = 0x04;
-    public const uint WriteCopy = 0x08;
-    public const uint ExecuteReadwrite = 0x40;
-    public const uint ExecuteWriteCopy = 0x80;
-    public const uint Execute = 0x10;
-    public const uint ExecuteRead = 0x20;
-
-    public const uint Guard = 0x100;
-    public const uint NoAccess = 0x01;
-
-    public const uint MemPrivate = 0x20000;
-    public const uint MemImage = 0x1000000;
-    public const uint MemMapped = 0x40000;
-
-    public struct SystemInfo
+    public class Imps
     {
-        public ushort ProcessorArchitecture;
-        private ushort _reserved;
-        public uint PageSize;
-        public nuint MinimumApplicationAddress;
-        public nuint MaximumApplicationAddress;
-        public nint ActiveProcessorMask;
-        public uint NumberOfProcessors;
-        public uint ProcessorType;
-        public uint AllocationGranularity;
-        public ushort ProcessorLevel;
-        public ushort ProcessorRevision;
-    }
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr OpenProcess(
+            UInt32 dwDesiredAccess,
+            bool bInheritHandle,
+            Int32 dwProcessId
+            );
 
-    public struct MemoryBasicInformation32
-    {
-        public nuint BaseAddress;
-        public nuint AllocationBase;
-        public uint AllocationProtect;
-        public uint RegionSize;
-        public uint State;
-        public uint Protect;
-        public uint Type;
-    }
+#if WINXP
+#else
+        [DllImport("kernel32.dll", EntryPoint = "VirtualQueryEx")]
+        public static extern UIntPtr Native_VirtualQueryEx(IntPtr hProcess, UIntPtr lpAddress,
+            out MEMORY_BASIC_INFORMATION32 lpBuffer, UIntPtr dwLength);
 
-    public struct MemoryBasicInformation64
-    {
-        public nuint BaseAddress;
-        public nuint AllocationBase;
-        public uint AllocationProtect;
-        public uint Alignment1;
-        public ulong RegionSize;
-        public uint State;
-        public uint Protect;
-        public uint Type;
-        public uint Alignment2;
-    }
+        [DllImport("kernel32.dll", EntryPoint = "VirtualQueryEx")]
+        public static extern UIntPtr Native_VirtualQueryEx(IntPtr hProcess, UIntPtr lpAddress,
+            out MEMORY_BASIC_INFORMATION64 lpBuffer, UIntPtr dwLength);
 
-    public struct MemoryBasicInformation
-    {
-        public nuint BaseAddress;
-        public nuint AllocationBase;
-        public uint AllocationProtect;
-        public long RegionSize;
-        public uint State;
-        public uint Protect;
-        public uint Type;
+        [DllImport("kernel32.dll")]
+        public static extern void GetSystemInfo(out SYSTEM_INFO lpSystemInfo);
+#endif
+
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+        public static extern uint GetPrivateProfileString(
+           string lpAppName,
+           string lpKeyName,
+           string lpDefault,
+           StringBuilder lpReturnedString,
+           uint nSize,
+           string lpFileName);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, [Out] byte[] lpBuffer, UIntPtr nSize, IntPtr lpNumberOfBytesRead);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool ReadProcessMemory(IntPtr hProcess, UIntPtr lpBaseAddress, [Out] IntPtr lpBuffer, UIntPtr nSize, out ulong lpNumberOfBytesRead);
+
+        [DllImport("kernel32")]
+        public static extern bool IsWow64Process(IntPtr hProcess, out bool lpSystemInfo);
+
+        // used for memory allocation
+        public const uint MEM_FREE = 0x10000;
+        public const uint MEM_COMMIT = 0x00001000;
+        public const uint MEM_RESERVE = 0x00002000;
+
+        public const uint PAGE_READONLY = 0x02;
+        public const uint PAGE_READWRITE = 0x04;
+        public const uint PAGE_WRITECOPY = 0x08;
+        public const uint PAGE_EXECUTE_READWRITE = 0x40;
+        public const uint PAGE_EXECUTE_WRITECOPY = 0x80;
+        public const uint PAGE_EXECUTE = 0x10;
+        public const uint PAGE_EXECUTE_READ = 0x20;
+
+        public const uint PAGE_GUARD = 0x100;
+        public const uint PAGE_NOACCESS = 0x01;
+
+        public const uint MEM_PRIVATE = 0x20000;
+        public const uint MEM_IMAGE = 0x1000000;
+        public const uint MEM_MAPPED = 0x40000;
+
+
+        public struct SYSTEM_INFO
+        {
+            public ushort processorArchitecture;
+            ushort reserved;
+            public uint pageSize;
+            public UIntPtr minimumApplicationAddress;
+            public UIntPtr maximumApplicationAddress;
+            public IntPtr activeProcessorMask;
+            public uint numberOfProcessors;
+            public uint processorType;
+            public uint allocationGranularity;
+            public ushort processorLevel;
+            public ushort processorRevision;
+        }
+
+        public struct MEMORY_BASIC_INFORMATION32
+        {
+            public UIntPtr BaseAddress;
+            public UIntPtr AllocationBase;
+            public uint AllocationProtect;
+            public uint RegionSize;
+            public uint State;
+            public uint Protect;
+            public uint Type;
+        }
+
+        public struct MEMORY_BASIC_INFORMATION64
+        {
+            public UIntPtr BaseAddress;
+            public UIntPtr AllocationBase;
+            public uint AllocationProtect;
+            public uint __alignment1;
+            public ulong RegionSize;
+            public uint State;
+            public uint Protect;
+            public uint Type;
+            public uint __alignment2;
+        }
+
+        public struct MEMORY_BASIC_INFORMATION
+        {
+            public UIntPtr BaseAddress;
+            public UIntPtr AllocationBase;
+            public uint AllocationProtect;
+            public long RegionSize;
+            public uint State;
+            public uint Protect;
+            public uint Type;
+        }
     }
 }

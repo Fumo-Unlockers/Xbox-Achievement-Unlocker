@@ -300,7 +300,7 @@ namespace XAU.ViewModels.Pages
         {
             while (true)
             {
-                if (m.OpenProcess(ProcessNames.XboxPcApp) != Mem.OpenProcessResults.Success)
+                if (!m.OpenProcess((ProcessNames.XboxPcApp)))
                 {
                     IsAttached = false;
                     Thread.Sleep(1000);
@@ -317,7 +317,7 @@ namespace XAU.ViewModels.Pages
         {
             if (IsAttached || XAUTH.Length > 0)
             {
-                Attached = $"Attached to xbox app ({Mem.GetProcIdFromName(ProcessNames.XboxPcApp).ToString()})";
+                Attached = $"Attached to xbox app ({m.GetProcIdFromName(ProcessNames.XboxPcApp).ToString()})";
                 AttachedColor = new SolidColorBrush(Colors.Green);
                 if (IsLoggedIn)
                 {
@@ -341,7 +341,7 @@ namespace XAU.ViewModels.Pages
                     }
                 }
             }
-            if (Mem.GetProcIdFromName(ProcessNames.XboxPcApp) == 0)
+            if (m.GetProcIdFromName(ProcessNames.XboxPcApp) == 0)
             {
                 Attached = "Not Attached";
                 AttachedColor = new SolidColorBrush(Colors.Red);
@@ -354,19 +354,23 @@ namespace XAU.ViewModels.Pages
         }
         private async void GetXAUTH()
         {
-            var XauthScanList = await m.AoBScan(XAuthScanPattern, true);
+            IEnumerable<long> XauthScanList = await m.AoBScan(XAuthScanPattern, true);
             string[] XauthStrings = new string[XauthScanList.Count()];
             var i = 0;
             foreach (var address in XauthScanList)
             {
-                XauthStrings[i] = m.ReadStringMemory(address, length: 10000);
+                XauthStrings[i] = m.ReadString(address.ToString("X"), length: 10000);
                 i++;
             }
 
-            var frequency = new Dictionary<string, int>();
-            foreach (var str in XauthStrings)
+            Dictionary<string, int> frequency = new Dictionary<string, int>();
+            foreach (string str in XauthStrings)
             {
-                if (!frequency.TryAdd(str, 1))
+                if (!frequency.ContainsKey(str))
+                {
+                    frequency[str] = 1;
+                }
+                else
                 {
                     frequency[str]++;
                 }
@@ -377,12 +381,15 @@ namespace XAU.ViewModels.Pages
                 return;
             }
 
-            var mostCommon = XauthStrings[0];
-            var highestFrequency = 0;
-            foreach (var pair in frequency.Where(pair => pair.Value > highestFrequency))
+            string mostCommon = XauthStrings[0];
+            int highestFrequency = 0;
+            foreach (KeyValuePair<string, int> pair in frequency)
             {
-                mostCommon = pair.Key;
-                highestFrequency = pair.Value;
+                if (pair.Value > highestFrequency)
+                {
+                    mostCommon = pair.Key;
+                    highestFrequency = pair.Value;
+                }
             }
 
             if (highestFrequency > 3)
