@@ -164,8 +164,8 @@
                        PlaceholderText="Gamertag"
                        MinWidth="200"
                        Text="{Binding ViewModel.Gamertag, Mode=TwoWay}"
-                       KeyDown="GamertagSearch_OnKeyDown"></ui:TextBox>
-                                        <StackPanel
+                       KeyDown="GamertagSearch_OnKeyDown" ></ui:TextBox>
+                        <StackPanel
                        Grid.Row="1"
                        Grid.Column="0"
                        Margin="0,5,0,0"
@@ -180,10 +180,14 @@
                         <StackPanel>
                             <Label Content="{Binding ViewModel.GamertagName}" Margin="0,0,0,5" />
                             <Label Content="{Binding ViewModel.GamertagScore}" Margin="0,0,0,5" />
-                            <TextBox
-                           Text="{Binding ViewModel.GamertagXuid, Mode=OneWay}"
-                           Margin="0,0,0,5"
-                           IsReadOnly="True" />     
+                            <TextBlock Text="XUID: " VerticalAlignment="Center" Margin="0,0,5,0" />
+                                <TextBox Text="{Binding ViewModel.GamertagXuid, Mode=OneWay}" Margin="0,0,0,5" IsReadOnly="True" />
+                            <ui:Button
+                            x:Name="ExportButton"
+                            IsEnabled="{Binding ViewModel.IsInitialized}"
+                            Content="Export Games to CSV"
+                            Icon="{ui:SymbolIcon Save24}"
+                            Click="ExportToCsvButton_Click"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
