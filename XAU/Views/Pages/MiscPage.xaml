@@ -153,6 +153,7 @@
                        HorizontalAlignment="Right"
                        VerticalAlignment="Stretch"
                        Margin="25,0,0,0"
+                       IsEnabled="{Binding ViewModel.IsInitialized}"
                        Command="{Binding ViewModel.SearchGamertagCommand}"></ui:Button>
                                         <ui:TextBox
                        x:Name="GamertagSearchBox"

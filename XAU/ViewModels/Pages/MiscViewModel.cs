@@ -251,7 +251,7 @@ namespace XAU.ViewModels.Pages
         #region GamertagSearch
         [ObservableProperty] private string _gamertag = "";
         [ObservableProperty] private string _gamertagName = "";
-        [ObservableProperty] private string _gamertagImage = "pack://application:,,,/Assets/default.png";
+        [ObservableProperty] private string _gamertagImage = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _gamertagScore = "Gamerscore: ";
         [ObservableProperty] private string _gamertagXuid;
 
