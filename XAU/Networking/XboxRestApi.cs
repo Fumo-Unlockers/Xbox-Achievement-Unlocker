@@ -127,6 +127,19 @@ public class XboxRestAPI
         return JsonConvert.DeserializeObject<TitlesList>(responseString);
     }
 
+    public async Task<JObject> GetGamertagProfileAsync(string gamertag)
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Profile);
+
+        string url = string.Format(InterpolatedXboxAPIUrls.GamertagSearch, gamertag);
+        var response = await _httpClient.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        return JObject.Parse(jsonResponse);
+    }
+
     public async Task<GameStatsResponse?> GetGameStatsAsync(string xuid, string titleId)
     {
         SetDefaultHeaders();

@@ -74,6 +74,7 @@ public struct InterpolatedXboxAPIUrls
     public const string QueryAchievements360Url = "https://achievements.xboxlive.com/users/xuid({0})/titleachievements?titleId={1}&maxItems=1000";
     public const string UpdateAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements/{1}/update";
     public const string HeartbeatUrl = "https://presence-heartbeat.xboxlive.com/users/xuid({0})/devices/current/";
+    public const string GamertagSearch = "https://profile.xboxlive.com/users/gt({0})/profile/settings?settings=GameDisplayPicRaw,Gamerscore,Gamertag";
 }
 
 public struct ProcessNames
