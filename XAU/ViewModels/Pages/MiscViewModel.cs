@@ -1,6 +1,9 @@
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Windows.Input;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
@@ -16,6 +19,8 @@ namespace XAU.ViewModels.Pages
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
         private Lazy<TrueAchievementRestApi> _taRestApi = new Lazy<TrueAchievementRestApi>();
+
+
 
         public MiscViewModel(ISnackbarService snackbarService)
         {
@@ -244,9 +249,90 @@ namespace XAU.ViewModels.Pages
         #endregion
 
         #region GamertagSearch
+        [ObservableProperty] private string _gamertag = "";
+        [ObservableProperty] private string _gamertagName = "";
+        [ObservableProperty] private string _gamertagImage = "pack://application:,,,/Assets/cirno.png";
+        [ObservableProperty] private string _gamertagScore = "Gamerscore: ";
+        [ObservableProperty] private string _gamertagXuid;
+
+        [RelayCommand]
+        public async Task SearchGamertag()
+        {
+            if (string.IsNullOrWhiteSpace(Gamertag))
+            {
+                _snackbarService.Show("Error", "Please enter a valid gamertag.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
+            try
+            {
+                var profileData = await _xboxRestAPI.Value.GetGamertagProfileAsync(Gamertag);
+
+                var user = profileData["profileUsers"].First;
+                GamertagXuid = user["id"].ToString();
+                GamertagName = "Gamertag: " + user["settings"].First(setting => setting["id"].ToString() == "Gamertag")["value"].ToString();
+                GamertagScore = "Gamerscore: " + user["settings"].First(setting => setting["id"].ToString() == "Gamerscore")["value"].ToString();
+                GamertagImage = user["settings"].First(setting => setting["id"].ToString() == "GameDisplayPicRaw")["value"].ToString();
+            }
+            catch (Exception ex)
+            {
+                _snackbarService.Show("Error", "Failed to fetch gamertag information. " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+        }
+
+        public async Task ExportToCsvAsync()
+        {
+            if (string.IsNullOrWhiteSpace(GamertagXuid))
+            {
+                _snackbarService.Show("Error", "Search for a user first.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+            try
+            {
+                _snackbarService.Show("Success", "Exporting... This may take a moment depending on the number of games.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                var gamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(GamertagXuid);
+                if (gamesResponse == null || gamesResponse.Titles == null)
+                {
+                    _snackbarService.Show("Error", "Failed to fetch games list.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
+                var sb = new StringBuilder();
+                sb.AppendLine("Title ID,Title,CurrentAchievements,Gamerscore,Progress");
+
+                foreach (var title in gamesResponse.Titles)
+                {
+                    var titleName = title.Name.Contains(",") || title.Name.Contains("\"") ? $"\"{title.Name.Replace("\"", "\"\"")}\"" : title.Name;
+                    sb.AppendLine($"{title.TitleId},{titleName},{title.Achievement.CurrentAchievements},{title.Achievement.CurrentGamerscore}/{title.Achievement.TotalGamerscore},{title.Achievement.ProgressPercentage},");
+                }
+
+                var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+                {
+                    Filter = "CSV files (*.csv)|*.csv",
+                    FileName = $"{GamertagXuid}.csv"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    await Task.Run(() =>
+                    {
+                        File.WriteAllText(saveFileDialog.FileName, sb.ToString());
+                    });
+
+                    _snackbarService.Show("Success", "Games list exported successfully.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                }
+                else
+                {
+                    _snackbarService.Show("Cancelled", "Game export was not completed", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+                }
+            }
+            catch (Exception ex)
+            {
+                _snackbarService.Show("Error", "Failed to export games list: " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+        }
 
 
         #endregion
-
     }
 }
