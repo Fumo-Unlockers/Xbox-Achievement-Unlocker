@@ -19,13 +19,14 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private bool _unlockAllEnabled;
         [ObservableProperty] private bool _autoSpooferEnabled;
         [ObservableProperty] private bool _autoLaunchXboxAppEnabled;
+        [ObservableProperty] private bool _launchHidden;
         [ObservableProperty] private bool _fakeSignatureEnabled;
         [ObservableProperty] private bool _regionOverride;
         [ObservableProperty] private bool _useAcrylic;
         [ObservableProperty] private bool _privacyMode;
         [ObservableProperty] private string _xauth;
         public static bool ManualXauth = false;
-
+        public RoutedEventHandler OnNavigatedToEvent = null!;
 
         [RelayCommand]
         public void SaveSettings()
@@ -37,6 +38,7 @@ namespace XAU.ViewModels.Pages
                 UnlockAllEnabled = UnlockAllEnabled,
                 AutoSpooferEnabled = AutoSpooferEnabled,
                 AutoLaunchXboxAppEnabled = AutoLaunchXboxAppEnabled,
+                LaunchHidden = LaunchHidden,
                 FakeSignatureEnabled = FakeSignatureEnabled,
                 RegionOverride = RegionOverride,
                 UseAcrylic = UseAcrylic,
@@ -51,8 +53,11 @@ namespace XAU.ViewModels.Pages
         public void OnNavigatedTo()
         {
             if (!_isInitialized)
+            {
                 InitializeViewModel();
+            }
 
+            OnNavigatedToEvent.Invoke(this, new RoutedEventArgs());
         }
 
         public void OnNavigatedFrom() { }
@@ -72,6 +77,7 @@ namespace XAU.ViewModels.Pages
             UnlockAllEnabled = HomeViewModel.Settings.UnlockAllEnabled;
             AutoSpooferEnabled = HomeViewModel.Settings.AutoSpooferEnabled;
             AutoLaunchXboxAppEnabled = HomeViewModel.Settings.AutoLaunchXboxAppEnabled;
+            LaunchHidden = HomeViewModel.Settings.LaunchHidden;
             FakeSignatureEnabled = HomeViewModel.Settings.FakeSignatureEnabled;
             RegionOverride = HomeViewModel.Settings.RegionOverride;
             UseAcrylic = HomeViewModel.Settings.UseAcrylic;

@@ -282,14 +282,19 @@ namespace XAU.ViewModels.Pages
             CheckForEventUpdates();
             LoadSettings();
             _isInitialized = true;
-            if (Settings.AutoLaunchXboxAppEnabled)
+            if (Settings.AutoLaunchXboxAppEnabled && Process.GetProcessesByName(ProcessNames.XboxPcApp).Length == 0)
             {
-                Process p = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo
+                var p = new Process();
+                var startInfo = new ProcessStartInfo
                 {
                     UseShellExecute = true,
                     FileName = @"shell:appsFolder\Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App"
                 };
+
+                if (Settings.LaunchHidden)
+                {
+                    startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                }
                 p.StartInfo = startInfo;
                 p.Start();
             }
@@ -509,7 +514,11 @@ namespace XAU.ViewModels.Pages
                         Gamepass = $"Gamepass: Unknown";
                     }
 
-                    ActiveDevice = $"Active Device: {profileResponse.People[0].PresenceDetails[0].Device}";
+                    if (profileResponse.People.Count > 0 && profileResponse.People[0].PresenceDetails.Count > 0)
+                    {
+                        ActiveDevice = $"Active Device: {profileResponse.People[0].PresenceDetails[0].Device}";
+                    }
+
                     if (profileResponse.People[0].Detail != null)
                     {
                         IsVerified = $"Verified: {profileResponse.People[0].Detail.IsVerified}";
@@ -564,17 +573,29 @@ namespace XAU.ViewModels.Pages
 
         #region Settings
 
-        public static XAUSettings Settings = new XAUSettings();
+        public static XAUSettings Settings = new();
 
-        public void LoadSettings()
+        private void LoadSettings()
         {
-            string settingsJson = File.ReadAllText(SettingsFilePath);
+            var settingsJson = File.ReadAllText(SettingsFilePath);
             var settings = JsonConvert.DeserializeObject<XAUSettings>(settingsJson);
+            if (settings == null)
+            {
+                _snackbarService.Show(
+                    "Error",
+                    "Couldn't load settings.",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24)
+                );
+                return;
+            }
+
             Settings.SettingsVersion = settings.SettingsVersion;
             Settings.ToolVersion = settings.ToolVersion;
             Settings.UnlockAllEnabled = settings.UnlockAllEnabled;
             Settings.AutoSpooferEnabled = settings.AutoSpooferEnabled;
             Settings.AutoLaunchXboxAppEnabled = settings.AutoLaunchXboxAppEnabled;
+            Settings.LaunchHidden = settings.LaunchHidden;
             Settings.FakeSignatureEnabled = settings.FakeSignatureEnabled;
             Settings.RegionOverride = settings.RegionOverride;
             Settings.UseAcrylic = settings.UseAcrylic;
