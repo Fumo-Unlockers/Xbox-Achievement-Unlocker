@@ -183,7 +183,7 @@
                     <ui:TextBlock
                         Grid.Row="1"
                         Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                        Text="Uses the en-gb region when making web requests to the Xbox API's." 
+                        Text="Uses the en-GB region when making web requests to the Xbox API's." 
                         TextWrapping="WrapWithOverflow"/>
                 </Grid>
             </ui:CardControl.Header>
