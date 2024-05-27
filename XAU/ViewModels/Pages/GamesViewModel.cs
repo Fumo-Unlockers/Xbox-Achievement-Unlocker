@@ -1,7 +1,5 @@
-using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
@@ -70,10 +68,22 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         private async Task GetGamesList()
         {
+            if (string.IsNullOrWhiteSpace(XuidOverride) || string.IsNullOrEmpty(XuidOverride))
+            {
+                _snackbarService.Show(
+                    "Error",
+                    "XUID Override cannot be empty.",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24),
+                    _snackbarDuration
+                );
+                return;
+            }
+
             Games.Clear();
             GamesPaged.Clear();
             LoadingStart();
-            GamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(XuidOverride);
+            GamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(XuidOverride) ?? new TitlesList();
             LoadGame();
         }
 
