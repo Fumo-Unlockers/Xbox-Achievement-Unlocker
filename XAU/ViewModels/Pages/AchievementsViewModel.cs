@@ -516,14 +516,14 @@ namespace XAU.ViewModels.Pages
                 // TODO: move this over to the rest api?
                 var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
                 DateTime timestamp = DateTime.UtcNow;
-                foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID])
+                foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()])
                 {
                     var ReplacementData = i.Value;
-                    switch (ReplacementData.ReplacementType)
+                    switch (ReplacementData.ReplacementType.ToString())
                     {
                         case "Replace":
                             {
-                                requestbody = requestbody.Replace(ReplacementData.Target, ReplacementData.Replacement);
+                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
                                 break;
                             }
                         case "RangeInt":
