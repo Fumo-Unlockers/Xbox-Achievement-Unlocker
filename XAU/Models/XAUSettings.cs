@@ -5,6 +5,7 @@ public class XAUSettings
     public bool UnlockAllEnabled { get; set; }
     public bool AutoSpooferEnabled { get; set; }
     public bool AutoLaunchXboxAppEnabled { get; set; }
+    public bool LaunchHidden { get; set; }
     public bool FakeSignatureEnabled { get; set; }
     public bool RegionOverride { get; set; }
     public bool UseAcrylic { get; set; }
