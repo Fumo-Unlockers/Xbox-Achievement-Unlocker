@@ -19347,6 +19347,351 @@
       }
 	}
   },
+     "173777692": {
+    "FullySupported": true,
+    "Achievements": {
+	  "37": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":5000,\"DistanceInRun\":0,\"LlamasSaved\":0,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "38": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":30,\"DistanceInRun\":0,\"LlamasSaved\":0,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "39": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":7,\"DistanceInRun\":0,\"LlamasSaved\":0,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "40": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":365,\"DistanceInRun\":0,\"LlamasSaved\":0,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "41": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"measurements\":{\"f\":{\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"measurements\":{\"TutorialCompleted\":1}}}"
+        }
+      },
+	  "42": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "GameProgress"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"measurements\":{\"f\":{\"CompletionPercent\":6}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"GameProgress\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"measurements\":{\"CompletionPercent\":100}}},"
+        }
+      },
+	  "43": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":2154,\"LlamasSaved\":1000,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "44": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":2154,\"LlamasSaved\":10000,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "45": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":2154,\"LlamasSaved\":100000,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "46": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":0,\"LlamasSaved\":0,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":1,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "47": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":10000,\"LlamasSaved\":1,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "48": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":100000,\"LlamasSaved\":1,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "49": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":1000000,\"LlamasSaved\":1,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "50": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":10000000,\"LlamasSaved\":1,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "51": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":0},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":2154,\"LlamasSaved\":11,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "52": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":1},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":2154,\"LlamasSaved\":11,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "53": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":2},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":2154,\"LlamasSaved\":11,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "54": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":4},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":2154,\"LlamasSaved\":11,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "55": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":5},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":2154,\"LlamasSaved\":11,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      },
+	  "56": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTALTO",
+          "Replacement": "RunCompleted"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CharacterId\":4}},\"measurements\":{\"f\":{\"DaysPassed\":4,\"DistanceInRun\":4,\"LlamasSaved\":4,\"Multiplier\":4,\"Score\":4,\"SnowboardStuck\":4,\"TutorialCompleted\":4}}}}},\"policies\":0},"
+        },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RunCompleted\",\"serviceConfigId\":\"2f900100-b07f-4b70-9f70-2ade0a5ba31c\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"173777692\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CharacterId\":3},\"measurements\":{\"DaysPassed\":0,\"DistanceInRun\":2154,\"LlamasSaved\":11,\"Multiplier\":4,\"Score\":14114,\"SnowboardStuck\":0,\"TutorialCompleted\":0}}},"
+        }
+      }
+	}
+  },
   "SupportedTitleIDs": [
     1144039928,
     552499398,
@@ -19373,6 +19718,7 @@
     434412541,
     1909396590,
 	896928775,
-	983730484
+	983730484,
+	173777692
   ]
 }
