@@ -254,6 +254,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _gamertagImage = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _gamertagScore = "Gamerscore: ";
         [ObservableProperty] private string _gamertagXuid;
+        [ObservableProperty] private bool _excludeZeroGamerscoreGames;
 
         [RelayCommand]
         public async Task SearchGamertag()
@@ -302,6 +303,11 @@ namespace XAU.ViewModels.Pages
 
                 foreach (var title in gamesResponse.Titles)
                 {
+                    if (ExcludeZeroGamerscoreGames && title.Achievement.TotalGamerscore == 0)
+                    {
+                        continue;
+                    }
+
                     var titleName = title.Name.Contains(",") || title.Name.Contains("\"") ? $"\"{title.Name.Replace("\"", "\"\"")}\"" : title.Name;
                     sb.AppendLine($"{title.TitleId},{titleName},{title.Achievement.CurrentAchievements},{title.Achievement.CurrentGamerscore}/{title.Achievement.TotalGamerscore},{title.Achievement.ProgressPercentage},");
                 }
@@ -331,8 +337,6 @@ namespace XAU.ViewModels.Pages
                 _snackbarService.Show("Error", "Failed to export games list: " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
         }
-
-
         #endregion
     }
 }
