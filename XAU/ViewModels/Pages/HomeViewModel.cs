@@ -509,7 +509,11 @@ namespace XAU.ViewModels.Pages
                         Gamepass = $"Gamepass: Unknown";
                     }
 
-                    ActiveDevice = $"Active Device: {profileResponse.People[0].PresenceDetails[0].Device}";
+                    if (profileResponse.People.Count > 0 && profileResponse.People[0].PresenceDetails.Count > 0)
+                    {
+                        ActiveDevice = $"Active Device: {profileResponse.People[0].PresenceDetails[0].Device}";
+                    }
+
                     if (profileResponse.People[0].Detail != null)
                     {
                         IsVerified = $"Verified: {profileResponse.People[0].Detail.IsVerified}";
