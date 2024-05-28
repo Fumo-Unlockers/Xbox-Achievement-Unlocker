@@ -31,6 +31,7 @@ namespace XAU.ViewModels.Pages
         public static bool IsSelectedGame360;
         private AchievementsResponse AchievementResponse = new AchievementsResponse();
         private Xbox360AchievementResponse Xbox360AchievementResponse = new Xbox360AchievementResponse();
+        private Dictionary<int, DGAchievement> _unlockedAchievements = new Dictionary<int, DGAchievement>();
 
         private GameTitle GameInfoResponse = new GameTitle();
         // TODO: this needs to be updated if language changes
@@ -478,6 +479,18 @@ namespace XAU.ViewModels.Pages
                     DGAchievements[AchievementIndex].IsUnlockable = false;
                     DGAchievements[AchievementIndex].ProgressState = StringConstants.Achieved;
                     DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
+
+                    // Add achievement to the dictionary. this will fix search & filter unlockable state
+                    var unlockedAchievement = DGAchievements[AchievementIndex];
+                    unlockedAchievement.IsUnlockable = false;
+                    unlockedAchievement.ProgressState = StringConstants.Achieved;
+                    unlockedAchievement.DateUnlocked = DateTime.Now;
+
+                    if (!_unlockedAchievements.ContainsKey(unlockedAchievement.ID))
+                    {
+                        _unlockedAchievements.Add(unlockedAchievement.ID, unlockedAchievement);
+                    }
+
                     CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
                 }
                 catch (HttpRequestException ex)
@@ -621,6 +634,9 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public async Task RefreshAchievements()
         {
+            // clears unlocked achievements from dictionary
+            _unlockedAchievements.Clear();
+
             await LoadGameInfo();
             await LoadAchievements();
             NewGame = false;
@@ -666,7 +682,7 @@ namespace XAU.ViewModels.Pages
                             gamerscore = int.Parse(achievement.rewards[0].value);
                         }
 
-                        DGAchievements.Add(new DGAchievement()
+                        var dgAchievement = new DGAchievement()
                         {
                             Index = DGAchievements.Count,
                             ID = int.Parse(achievement.id),
@@ -679,7 +695,18 @@ namespace XAU.ViewModels.Pages
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
                             IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
-                        });
+                        };
+
+                        // Override with the state from _unlockedAchievements dictionary if it exists.
+                        if (_unlockedAchievements.ContainsKey(dgAchievement.ID))
+                        {
+                            var unlocked = _unlockedAchievements[dgAchievement.ID];
+                            dgAchievement.IsUnlockable = unlocked.IsUnlockable;
+                            dgAchievement.ProgressState = unlocked.ProgressState;
+                            dgAchievement.DateUnlocked = unlocked.DateUnlocked;
+                        }
+
+                        DGAchievements.Add(dgAchievement);
                     }
 
                     if (IsEventBased && Unlockable)
@@ -709,7 +736,7 @@ namespace XAU.ViewModels.Pages
                             gamerscore = int.Parse(achievement.rewards[0].value);
                         }
 
-                        DGAchievements.Add(new DGAchievement()
+                        var dgAchievement = new DGAchievement()
                         {
                             Index = DGAchievements.Count,
                             ID = int.Parse(achievement.id),
@@ -722,8 +749,18 @@ namespace XAU.ViewModels.Pages
                             RarityCategory = achievement.raritycurrentCategory,
                             ProgressState = achievement.progressState,
                             IsUnlockable = achievement.progressState != StringConstants.Achieved && Unlockable && !IsEventBased
-                        });
+                        };
 
+                        // Override with the state from _unlockedAchievements dictionary if it exists.
+                        if (_unlockedAchievements.ContainsKey(dgAchievement.ID))
+                        {
+                            var unlockedAchievement = _unlockedAchievements[dgAchievement.ID];
+                            dgAchievement.IsUnlockable = unlockedAchievement.IsUnlockable;
+                            dgAchievement.ProgressState = unlockedAchievement.ProgressState;
+                            dgAchievement.DateUnlocked = unlockedAchievement.DateUnlocked;
+                        }
+
+                        DGAchievements.Add(dgAchievement);
                         achievementsFound = true;
                     }
                 }
