@@ -256,6 +256,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _gamertagXuid;
         [ObservableProperty] private bool _excludeZeroGamerscoreGames;
 
+
         [RelayCommand]
         public async Task SearchGamertag()
         {
@@ -299,7 +300,7 @@ namespace XAU.ViewModels.Pages
                 }
 
                 var sb = new StringBuilder();
-                sb.AppendLine("Title ID,Title,CurrentAchievements,Gamerscore,Progress");
+                sb.AppendLine("\"Title ID\",\"Title\",\"CurrentAchievements\",\"Gamerscore\",\"Progress\",\"Devices\",\"Genres\"");
 
                 foreach (var title in gamesResponse.Titles)
                 {
@@ -308,8 +309,11 @@ namespace XAU.ViewModels.Pages
                         continue;
                     }
 
-                    var titleName = title.Name.Contains(",") || title.Name.Contains("\"") ? $"\"{title.Name.Replace("\"", "\"\"")}\"" : title.Name;
-                    sb.AppendLine($"{title.TitleId},{titleName},{title.Achievement.CurrentAchievements},{title.Achievement.CurrentGamerscore}/{title.Achievement.TotalGamerscore},{title.Achievement.ProgressPercentage},");
+                    var titleName = title.Name.Replace("\"", "\"\"");
+                    var devices = title.Devices != null ? string.Join(", ", title.Devices).Replace("\"", "\"\"") : string.Empty;
+                    var genres = title.Detail?.Genres != null ? string.Join(", ", title.Detail.Genres).Replace("\"", "\"\"") : string.Empty;
+
+                    sb.AppendLine($"\"{title.TitleId}\",\"{titleName}\",\"{title.Achievement.CurrentAchievements}\",\"{title.Achievement.CurrentGamerscore}/{title.Achievement.TotalGamerscore}\",\"{title.Achievement.ProgressPercentage}\",\"{devices}\",\"{genres}\"");
                 }
 
                 var saveFileDialog = new Microsoft.Win32.SaveFileDialog
@@ -337,6 +341,7 @@ namespace XAU.ViewModels.Pages
                 _snackbarService.Show("Error", "Failed to export games list: " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
         }
+
         #endregion
     }
 }
