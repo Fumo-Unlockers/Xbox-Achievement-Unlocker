@@ -290,7 +290,7 @@ namespace XAU.ViewModels.Pages
             }
             try
             {
-                _snackbarService.Show("Fetching Games", "Trying to get games. This may take a moment depending on the number of games.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                _snackbarService.Show("Fetching Games", "Trying to get games. This may take a moment depending on the number of games.", ControlAppearance.Primary, new SymbolIcon(SymbolRegular.XboxController24), _snackbarDuration);
                 var gamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(GamertagXuid);
 
                 if (gamesResponse == null || gamesResponse.Titles == null)
