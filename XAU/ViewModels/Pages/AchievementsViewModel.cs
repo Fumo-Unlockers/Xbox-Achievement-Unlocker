@@ -216,6 +216,8 @@ namespace XAU.ViewModels.Pages
 
             Achievements.Clear();
             DGAchievements.Clear();
+            // clears unlocked achievements from dictionary
+            _unlockedAchievements.Clear();
             if (!IsTitleIDValid)
                 return;
             if (!IsSelectedGame360)
