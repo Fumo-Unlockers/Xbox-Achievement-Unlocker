@@ -256,7 +256,6 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _gamertagXuid;
         [ObservableProperty] private bool _excludeZeroGamerscoreGames;
 
-
         [RelayCommand]
         public async Task SearchGamertag()
         {
