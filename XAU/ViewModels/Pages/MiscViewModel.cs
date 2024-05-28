@@ -290,11 +290,17 @@ namespace XAU.ViewModels.Pages
             }
             try
             {
-                _snackbarService.Show("Success", "Exporting... This may take a moment depending on the number of games.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
                 var gamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(GamertagXuid);
+
                 if (gamesResponse == null || gamesResponse.Titles == null)
                 {
                     _snackbarService.Show("Error", "Failed to fetch games list.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
+                if (gamesResponse.Titles.Count == 0)
+                {
+                    _snackbarService.Show("No Titles Found", "No games found for this user. This could be due to user privacy settings or other reasons.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
 
@@ -340,7 +346,6 @@ namespace XAU.ViewModels.Pages
                 _snackbarService.Show("Error", "Failed to export games list: " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
         }
-
         #endregion
     }
 }
