@@ -10731,1723 +10731,6 @@
       }
     }
   },
-  "981972052": {
-    "FullySupported": false,
-    "Achievements": {
-      "9": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "3994"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "670000"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "1"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "91.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "26": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "0"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "47"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "50000000"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "27": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "0"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "50"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "14": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "0"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "80468"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "50"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "15": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "0"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "160936"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "16": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "1"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "28": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "5"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "22": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "1"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "21": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "10"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "17": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "30"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "18": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "60"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "1"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "1.653488159179688"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "1"
-        }
-      },
-      "10": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2363"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "3"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "13"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "3"
-        }
-      },
-      "12": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "1651"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "3"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "13"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "3"
-        }
-      },
-      "11": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "1668"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "3"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "13"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "3"
-        }
-      },
-      "19": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "1651"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "9"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "850"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "0"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "13"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "9"
-        }
-      },
-      "13": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFMAP",
-          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
-        },
-        "Replacement1": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNAME",
-          "Replacement": "RaceEnd"
-        },
-        "Replacement2": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPBRH",
-          "Replacement": "0"
-        },
-        "Replacement3": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCID",
-          "Replacement": "2164"
-        },
-        "Replacement4": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCOH",
-          "Replacement": "1"
-        },
-        "Replacement5": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPCO",
-          "Replacement": "0"
-        },
-        "Replacement6": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDLID",
-          "Replacement": "0"
-        },
-        "Replacement7": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPDL",
-          "Replacement": "0"
-        },
-        "Replacement8": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPESID",
-          "Replacement": "0"
-        },
-        "Replacement9": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPGPMID",
-          "Replacement": "3"
-        },
-        "Replacement10": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPME",
-          "Replacement": "0"
-        },
-        "Replacement11": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPNOO",
-          "Replacement": "15"
-        },
-        "Replacement12": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPPSE",
-          "Replacement": "0"
-        },
-        "Replacement13": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPRP",
-          "Replacement": "0"
-        },
-        "Replacement15": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSRC",
-          "Replacement": "0"
-        },
-        "Replacement16": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSLO",
-          "Replacement": "0"
-        },
-        "Replacement17": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTID",
-          "Replacement": "530"
-        },
-        "Replacement18": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPTKS",
-          "Replacement": "2"
-        },
-        "Replacement19": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPVID",
-          "Replacement": "0"
-        },
-        "Replacement20": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAPSpeed",
-          "Replacement": "13"
-        },
-        "Replacement21": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACECCRITERAFMAGM",
-          "Replacement": "3"
-        }
-      }
-    }
-  },
   "2014650813": {
     "FullySupported": true,
     "Achievements": {
@@ -19692,6 +17975,441 @@
       }
 	}
   },
+  "1999574456": {
+    "FullySupported": false,
+    "Achievements": {
+	  "361": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+		  "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"AllLegendaryModChallengesMet\": 4,\"AllModTypes\": 4,\"AssistABS\": 4,\"AssistDamage\": 4,\"AssistDrivingLine\": 4,\"AssistFriction\": 4,\"AssistRewind\": 4,\"AssistSTM\": 4,\"AssistSteering\": 4,\"AssistSuperEasy\": 4,\"AssistTCS\": 4,\"AssistTransmission\": 4,\"BaseBonusCreditsFromCards\": 4,\"CameraId\": 4,\"CarClassId\": 4,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 4,\"CarCountryId\": 4,\"CarDivisionId\": 4,\"CarDrivetrainId\": 4,\"CarEnginePlacementId\": 4,\"CarId\": 4,\"CarRegionId\": 4,\"CarYear\": 4,\"Card1Id\": 4,\"Card1Rarity\": 4,\"Card1Type\": 4,\"Card2Id\": 4,\"Card2Rarity\": 4,\"Card2Type\": 4,\"Card3Id\": 4,\"Card3Rarity\": 4,\"Card3Type\": 4,\"CardsUsed\": 4,\"CareerChampionshipId\": 4,\"CareerRaceId\": 4,\"CareerSeriesId\": 4,\"CarsPassed\": 4,\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DidMarshall\": 4,\"DidSpectate\": 4,\"DifficultyLevelId\": 4,\"DistanceDriftedMeters\": 4,\"DistanceDrivenMeters\": 4,\"DistanceLedMeters\": 4,\"DriverLevel\": 4,\"EndCondition\": 4,\"EnvironmentId\": 4,\"FamilyBodyId\": 4,\"FamilyModeId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameTypePreset\": 4,\"HadQuickstops\": 4,\"HopperCategoryId\": 4,\"HopperId\": 4,\"HopperIsDivision\": 4,\"IsMultiplayer\": 4,\"ManufacturerId\": 4,\"NoAssistsUsed\": 4,\"NumPerfectDrafts\": 4,\"NumPerfectDrifts\": 4,\"NumPerfectPasses\": 4,\"NumPerfectTurns\": 4,\"NumberOfOpponents\": 4,\"Place\": 4,\"RaceLength\": 4,\"RivalEventId\": 4,\"ScoringType\": 4,\"ShowcaseEventId\": 4,\"StartType\": 4,\"StartedLast\": 4,\"TrackCountryId\": 4,\"TrackId\": 4,\"TrackLength\": 4,\"TrackRegionId\": 4,\"TrackScenario\": 4,\"UsedAssists\": 4,\"UserLevel\": 4,\"WeatherConditionId\": 4,\"WeatherConditionsSeen\": 4}},\"measurements\": {\"f\": {\"BestLapScore\": 6,\"CreditMultiplierFromCards\": 6,\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},"
+		  },
+		  "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"1999574456\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"AllLegendaryModChallengesMet\": 0,\"AllModTypes\": 1,\"AssistABS\": 1,\"AssistDamage\": 0,\"AssistDrivingLine\": 0,\"AssistFriction\": 0,\"AssistRewind\": 0,\"AssistSTM\": 2,\"AssistSteering\": 2,\"AssistSuperEasy\": 0,\"AssistTCS\": 1,\"AssistTransmission\": 0,\"BaseBonusCreditsFromCards\": 0,\"CameraId\": 0,\"CarClassId\": 5,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 565,\"CarCountryId\": 3,\"CarDivisionId\": 15,\"CarDrivetrainId\": 2,\"CarEnginePlacementId\": 3,\"CarId\": 2755,\"CarRegionId\": 2,\"CarYear\": 2018,\"Card1Id\": 0,\"Card1Rarity\": -1,\"Card1Type\": 0,\"Card2Id\": 0,\"Card2Rarity\": -1,\"Card2Type\": 0,\"Card3Id\": 0,\"Card3Rarity\": -1,\"Card3Type\": 0,\"CardsUsed\": 0,\"CareerChampionshipId\": 0,\"CareerRaceId\": 3001,\"CareerSeriesId\": 0,\"CarsPassed\": 9,\"ChallengeSet0\": -1,\"ChallengeSet1\": -1,\"ChallengeSet2\": -1,\"ChallengeSet3\": -1,\"ChallengeSet4\": -1,\"ChallengeSet5\": -1,\"ChallengeSet6\": -1,\"ChallengeSet7\": -1,\"ChallengeSet8\": -1,\"ChallengeSet9\": -1,\"DidMarshall\": -1,\"DidSpectate\": 0,\"DifficultyLevelId\": 2,\"DistanceDriftedMeters\": 7258,\"DistanceDrivenMeters\": 7068,\"DistanceLedMeters\": 4364,\"DriverLevel\": 0,\"EndCondition\": 1,\"EnvironmentId\": 113,\"FamilyBodyId\": 1,\"FamilyModeId\": 39,\"Finished\": 1,\"GameMode\": 12,\"GameTypePreset\": 0,\"HadQuickstops\": 0,\"HopperCategoryId\": -1,\"HopperId\": -1,\"HopperIsDivision\": -1,\"IsMultiplayer\": 0,\"ManufacturerId\": 39,\"NoAssistsUsed\": 0,\"NumPerfectDrafts\": 0,\"NumPerfectDrifts\": 0,\"NumPerfectPasses\": 0,\"NumPerfectTurns\": 1,\"NumberOfOpponents\": 17,\"Place\": 1,\"RaceLength\": 0,\"RivalEventId\": -1,\"ScoringType\": 0,\"ShowcaseEventId\": 0,\"StartType\": 2,\"StartedLast\": 0,\"TrackCountryId\": 24,\"TrackId\": 1130,\"TrackLength\": -1,\"TrackRegionId\": 2,\"TrackScenario\": 0,\"UsedAssists\": 1,\"UserLevel\": 0,\"WeatherConditionId\": 0,\"WeatherConditionsSeen\": 0},\"measurements\": {\"BestLapScore\": 169,\"CreditMultiplierFromCards\": 1,\"TimeInSeconds\": 171.70901489257812,\"TopSpeed\": 74.752403259277344}}}"
+		}
+	  },
+    "421": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"AllLegendaryModChallengesMet\": 4,\"AllModTypes\": 4,\"AssistABS\": 4,\"AssistDamage\": 4,\"AssistDrivingLine\": 4,\"AssistFriction\": 4,\"AssistRewind\": 4,\"AssistSTM\": 4,\"AssistSteering\": 4,\"AssistSuperEasy\": 4,\"AssistTCS\": 4,\"AssistTransmission\": 4,\"BaseBonusCreditsFromCards\": 4,\"CameraId\": 4,\"CarClassId\": 4,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 4,\"CarCountryId\": 4,\"CarDivisionId\": 4,\"CarDrivetrainId\": 4,\"CarEnginePlacementId\": 4,\"CarId\": 4,\"CarRegionId\": 4,\"CarYear\": 4,\"Card1Id\": 4,\"Card1Rarity\": 4,\"Card1Type\": 4,\"Card2Id\": 4,\"Card2Rarity\": 4,\"Card2Type\": 4,\"Card3Id\": 4,\"Card3Rarity\": 4,\"Card3Type\": 4,\"CardsUsed\": 4,\"CareerChampionshipId\": 4,\"CareerRaceId\": 4,\"CareerSeriesId\": 4,\"CarsPassed\": 4,\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DidMarshall\": 4,\"DidSpectate\": 4,\"DifficultyLevelId\": 4,\"DistanceDriftedMeters\": 4,\"DistanceDrivenMeters\": 4,\"DistanceLedMeters\": 4,\"DriverLevel\": 4,\"EndCondition\": 4,\"EnvironmentId\": 4,\"FamilyBodyId\": 4,\"FamilyModeId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameTypePreset\": 4,\"HadQuickstops\": 4,\"HopperCategoryId\": 4,\"HopperId\": 4,\"HopperIsDivision\": 4,\"IsMultiplayer\": 4,\"ManufacturerId\": 4,\"NoAssistsUsed\": 4,\"NumPerfectDrafts\": 4,\"NumPerfectDrifts\": 4,\"NumPerfectPasses\": 4,\"NumPerfectTurns\": 4,\"NumberOfOpponents\": 4,\"Place\": 4,\"RaceLength\": 4,\"RivalEventId\": 4,\"ScoringType\": 4,\"ShowcaseEventId\": 4,\"StartType\": 4,\"StartedLast\": 4,\"TrackCountryId\": 4,\"TrackId\": 4,\"TrackLength\": 4,\"TrackRegionId\": 4,\"TrackScenario\": 4,\"UsedAssists\": 4,\"UserLevel\": 4,\"WeatherConditionId\": 4,\"WeatherConditionsSeen\": 4}},\"measurements\": {\"f\": {\"BestLapScore\": 6,\"CreditMultiplierFromCards\": 6,\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},"
+		  },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"1999574456\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"AllLegendaryModChallengesMet\": 0,\"AllModTypes\": 1,\"AssistABS\": 0,\"AssistDamage\": 0,\"AssistDrivingLine\": 0,\"AssistFriction\": 0,\"AssistRewind\": 0,\"AssistSTM\": 0,\"AssistSteering\": 0,\"AssistSuperEasy\": 0,\"AssistTCS\": 0,\"AssistTransmission\": 0,\"BaseBonusCreditsFromCards\": 0,\"CameraId\": 0,\"CarClassId\": 5,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 565,\"CarCountryId\": 3,\"CarDivisionId\": 15,\"CarDrivetrainId\": 2,\"CarEnginePlacementId\": 3,\"CarId\": 2755,\"CarRegionId\": 2,\"CarYear\": 2018,\"Card1Id\": 0,\"Card1Rarity\": -1,\"Card1Type\": 0,\"Card2Id\": 0,\"Card2Rarity\": -1,\"Card2Type\": 0,\"Card3Id\": 0,\"Card3Rarity\": -1,\"Card3Type\": 0,\"CardsUsed\": 0,\"CareerChampionshipId\": 0,\"CareerRaceId\": 3001,\"CareerSeriesId\": 0,\"CarsPassed\": 23,\"ChallengeSet0\": -1,\"ChallengeSet1\": -1,\"ChallengeSet2\": -1,\"ChallengeSet3\": -1,\"ChallengeSet4\": -1,\"ChallengeSet5\": -1,\"ChallengeSet6\": -1,\"ChallengeSet7\": -1,\"ChallengeSet8\": -1,\"ChallengeSet9\": -1,\"DidMarshall\": -1,\"DidSpectate\": 0,\"DifficultyLevelId\": 2,\"DistanceDriftedMeters\": 7258,\"DistanceDrivenMeters\": 7068,\"DistanceLedMeters\": 4364,\"DriverLevel\": 0,\"EndCondition\": 1,\"EnvironmentId\": 113,\"FamilyBodyId\": 1,\"FamilyModeId\": 39,\"Finished\": 1,\"GameMode\": 12,\"GameTypePreset\": 0,\"HadQuickstops\": 0,\"HopperCategoryId\": -1,\"HopperId\": -1,\"HopperIsDivision\": -1,\"IsMultiplayer\": 1,\"ManufacturerId\": 39,\"NoAssistsUsed\": 1,\"NumPerfectDrafts\": 0,\"NumPerfectDrifts\": 0,\"NumPerfectPasses\": 0,\"NumPerfectTurns\": 1,\"NumberOfOpponents\": 22,\"Place\": 1,\"RaceLength\": 0,\"RivalEventId\": -1,\"ScoringType\": 0,\"ShowcaseEventId\": 0,\"StartType\": 2,\"StartedLast\": 0,\"TrackCountryId\": 24,\"TrackId\": 1130,\"TrackLength\": -1,\"TrackRegionId\": 2,\"TrackScenario\": 0,\"UsedAssists\": 0,\"UserLevel\": 0,\"WeatherConditionId\": 0,\"WeatherConditionsSeen\": 0},\"measurements\": {\"BestLapScore\": 169,\"CreditMultiplierFromCards\": 1,\"TimeInSeconds\": 171.70901489257812,\"TopSpeed\": 74.752403259277344}}}"
+		  }
+		  },
+	  "422": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"AllLegendaryModChallengesMet\": 4,\"AllModTypes\": 4,\"AssistABS\": 4,\"AssistDamage\": 4,\"AssistDrivingLine\": 4,\"AssistFriction\": 4,\"AssistRewind\": 4,\"AssistSTM\": 4,\"AssistSteering\": 4,\"AssistSuperEasy\": 4,\"AssistTCS\": 4,\"AssistTransmission\": 4,\"BaseBonusCreditsFromCards\": 4,\"CameraId\": 4,\"CarClassId\": 4,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 4,\"CarCountryId\": 4,\"CarDivisionId\": 4,\"CarDrivetrainId\": 4,\"CarEnginePlacementId\": 4,\"CarId\": 4,\"CarRegionId\": 4,\"CarYear\": 4,\"Card1Id\": 4,\"Card1Rarity\": 4,\"Card1Type\": 4,\"Card2Id\": 4,\"Card2Rarity\": 4,\"Card2Type\": 4,\"Card3Id\": 4,\"Card3Rarity\": 4,\"Card3Type\": 4,\"CardsUsed\": 4,\"CareerChampionshipId\": 4,\"CareerRaceId\": 4,\"CareerSeriesId\": 4,\"CarsPassed\": 4,\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DidMarshall\": 4,\"DidSpectate\": 4,\"DifficultyLevelId\": 4,\"DistanceDriftedMeters\": 4,\"DistanceDrivenMeters\": 4,\"DistanceLedMeters\": 4,\"DriverLevel\": 4,\"EndCondition\": 4,\"EnvironmentId\": 4,\"FamilyBodyId\": 4,\"FamilyModeId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameTypePreset\": 4,\"HadQuickstops\": 4,\"HopperCategoryId\": 4,\"HopperId\": 4,\"HopperIsDivision\": 4,\"IsMultiplayer\": 4,\"ManufacturerId\": 4,\"NoAssistsUsed\": 4,\"NumPerfectDrafts\": 4,\"NumPerfectDrifts\": 4,\"NumPerfectPasses\": 4,\"NumPerfectTurns\": 4,\"NumberOfOpponents\": 4,\"Place\": 4,\"RaceLength\": 4,\"RivalEventId\": 4,\"ScoringType\": 4,\"ShowcaseEventId\": 4,\"StartType\": 4,\"StartedLast\": 4,\"TrackCountryId\": 4,\"TrackId\": 4,\"TrackLength\": 4,\"TrackRegionId\": 4,\"TrackScenario\": 4,\"UsedAssists\": 4,\"UserLevel\": 4,\"WeatherConditionId\": 4,\"WeatherConditionsSeen\": 4}},\"measurements\": {\"f\": {\"BestLapScore\": 6,\"CreditMultiplierFromCards\": 6,\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},"
+		  },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"1999574456\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"AllLegendaryModChallengesMet\": 0,\"AllModTypes\": 1,\"AssistABS\": 0,\"AssistDamage\": 0,\"AssistDrivingLine\": 0,\"AssistFriction\": 0,\"AssistRewind\": 0,\"AssistSTM\": 0,\"AssistSteering\": 0,\"AssistSuperEasy\": 0,\"AssistTCS\": 0,\"AssistTransmission\": 0,\"BaseBonusCreditsFromCards\": 0,\"CameraId\": 0,\"CarClassId\": 5,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 565,\"CarCountryId\": 3,\"CarDivisionId\": 15,\"CarDrivetrainId\": 2,\"CarEnginePlacementId\": 3,\"CarId\": 2755,\"CarRegionId\": 2,\"CarYear\": 2018,\"Card1Id\": 0,\"Card1Rarity\": -1,\"Card1Type\": 0,\"Card2Id\": 0,\"Card2Rarity\": -1,\"Card2Type\": 0,\"Card3Id\": 0,\"Card3Rarity\": -1,\"Card3Type\": 0,\"CardsUsed\": 0,\"CareerChampionshipId\": 0,\"CareerRaceId\": 3001,\"CareerSeriesId\": 0,\"CarsPassed\": 23,\"ChallengeSet0\": -1,\"ChallengeSet1\": -1,\"ChallengeSet2\": -1,\"ChallengeSet3\": -1,\"ChallengeSet4\": -1,\"ChallengeSet5\": -1,\"ChallengeSet6\": -1,\"ChallengeSet7\": -1,\"ChallengeSet8\": -1,\"ChallengeSet9\": -1,\"DidMarshall\": -1,\"DidSpectate\": 0,\"DifficultyLevelId\": 2,\"DistanceDriftedMeters\": 7258,\"DistanceDrivenMeters\": 7068,\"DistanceLedMeters\": 4364,\"DriverLevel\": 0,\"EndCondition\": 1,\"EnvironmentId\": 113,\"FamilyBodyId\": 1,\"FamilyModeId\": 39,\"Finished\": 1,\"GameMode\": 12,\"GameTypePreset\": 0,\"HadQuickstops\": 0,\"HopperCategoryId\": -1,\"HopperId\": -1,\"HopperIsDivision\": -1,\"IsMultiplayer\": 1,\"ManufacturerId\": 39,\"NoAssistsUsed\": 0,\"NumPerfectDrafts\": 0,\"NumPerfectDrifts\": 0,\"NumPerfectPasses\": 0,\"NumPerfectTurns\": 1,\"NumberOfOpponents\": 23,\"Place\": 1,\"RaceLength\": 0,\"RivalEventId\": -1,\"ScoringType\": 0,\"ShowcaseEventId\": 0,\"StartType\": 2,\"StartedLast\": 1,\"TrackCountryId\": 24,\"TrackId\": 1130,\"TrackLength\": -1,\"TrackRegionId\": 2,\"TrackScenario\": 0,\"UsedAssists\": 1,\"UserLevel\": 0,\"WeatherConditionId\": 0,\"WeatherConditionsSeen\": 0},\"measurements\": {\"BestLapScore\": 169,\"CreditMultiplierFromCards\": 1,\"TimeInSeconds\": 171.70901489257812,\"TopSpeed\": 74.752403259277344}}}"
+		  }
+		  }
+		  }
+      },
+      "981972052": {
+        "FullySupported": false,
+        "Achievements": {
+          "3": {
+            "EventReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEEVENTFM6",
+                "Replacement": "Microsoft.XboxLive.T981972052.EquipBadge"
+              },
+            "MetaDataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEMETADATA",
+            "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BadgeLevel\": 4}}}}},\"policies\": 0},"
+                    },
+            "DataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEDATA",
+            "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"EquipBadge\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BadgeLevel\": 1}}}"
+          }
+          },
+          "4": {
+            "EventReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEEVENTFM6",
+                "Replacement": "Microsoft.XboxLive.T981972052.EquipBadge"
+              },
+            "MetaDataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEMETADATA",
+            "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BadgeLevel\": 4}}}}},\"policies\": 0},"
+                    },
+            "DataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEDATA",
+            "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"EquipBadge\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BadgeLevel\": 2}}}"
+          }
+          },
+          "5": {
+            "EventReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEEVENTFM6",
+                "Replacement": "Microsoft.XboxLive.T981972052.EquipBadge"
+              },
+            "MetaDataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEMETADATA",
+            "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BadgeLevel\": 4}}}}},\"policies\": 0},"
+                    },
+            "DataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEDATA",
+            "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"EquipBadge\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BadgeLevel\": 3}}}"
+          }
+          },
+          "6": {
+            "EventReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEEVENTFM6",
+                "Replacement": "Microsoft.XboxLive.T981972052.EquipBadge"
+              },
+            "MetaDataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEMETADATA",
+            "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BadgeLevel\": 4}}}}},\"policies\": 0},"
+                    },
+            "DataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEDATA",
+            "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"EquipBadge\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BadgeLevel\": 4}}}"
+          }
+          },
+        "8": {
+            "EventReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEEVENTFM6",
+                "Replacement": "Microsoft.XboxLive.T981972052.Photo"
+              },
+            "MetaDataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEMETADATA",
+            "Replacement": "{\"policies\": 0},"
+                    },
+            "DataReplacement": {
+                "ReplacementType": "Replace",
+                "Target": "REPLACEDATA",
+            "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"Photo\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1}}"
+          }
+          },
+        "9": {
+          "EventReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACEEVENTFM6",
+              "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+            },
+          "MetaDataReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}},\"policies\": 0},"
+                  },
+          "DataReplacement": {
+              "ReplacementType": "Replace",
+              "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 1,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 3994,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 67000,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 0,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 91.653488159179688}}}"
+        }
+      },
+      "10": {
+        "EventReplacement": {
+            "ReplacementType": "Replace",
+            "Target": "REPLACEEVENTFM6",
+            "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+          },
+        "MetaDataReplacement": {
+            "ReplacementType": "Replace",
+            "Target": "REPLACEMETADATA",
+        "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}},\"policies\": 0},"
+                },
+        "DataReplacement": {
+            "ReplacementType": "Replace",
+            "Target": "REPLACEDATA",
+        "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 1,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 3,\"GameplayModeId\": 3,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 0,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 13}}}"
+    }
+    },
+    "11": {
+      "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM6",
+          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+        },
+      "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}},\"policies\": 0},"
+              },
+      "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 1668,\"CockpitOrHoodViewOnly\": 1,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 3,\"GameplayModeId\": 3,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 0,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 13}}}"
+  }
+  },
+  "12": {
+    "EventReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACEEVENTFM6",
+        "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+      },
+    "MetaDataReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACEMETADATA",
+    "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+            },
+    "DataReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACEDATA",
+    "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 1651,\"CockpitOrHoodViewOnly\": 1,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 3,\"GameplayModeId\": 3,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 0,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 13}}}"
+}
+},
+    "13": {
+      "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM6",
+          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+        },
+      "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+              },
+      "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2164,\"CockpitOrHoodViewOnly\": 1,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 3,\"GameplayModeId\": 3,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 0,\"TrackId\": 530,\"TrackScenario\": 2,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 13}}}"
+  }
+  },
+  "14": {
+    "EventReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACEEVENTFM6",
+        "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+      },
+    "MetaDataReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACEMETADATA",
+    "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+            },
+    "DataReplacement": {
+        "ReplacementType": "Replace",
+        "Target": "REPLACEDATA",
+    "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 1,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 80468,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 0,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+}
+},
+"15": {
+  "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFM6",
+      "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+    },
+  "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+          },
+  "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 1,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 160936,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 0,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+}
+},
+"16": {
+  "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFM6",
+      "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+    },
+  "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+          },
+  "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 1,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 1,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+}
+},
+"17": {
+  "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFM6",
+      "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+    },
+  "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+          },
+  "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 0,\"CompletedObjective\": 30,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 1,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+}
+},
+"18": {
+  "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFM6",
+      "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+    },
+  "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+          },
+  "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 0,\"CompletedObjective\": 60,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 1,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+}
+},
+"19": {
+  "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFM6",
+      "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+    },
+  "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+          },
+  "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 0,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 10,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 1,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+}
+},
+"21": {
+  "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFM6",
+      "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+    },
+  "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+          },
+  "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 0,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 9,\"GameplayModeId\": 9,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 10,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 1,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+}
+},
+"22": {
+  "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFM6",
+      "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+    },
+  "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+  "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+          },
+  "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 0,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 9,\"GameplayModeId\": 9,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 1,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 1,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+}
+},
+"25": {
+  "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFM6",
+      "Replacement": "Microsoft.XboxLive.T981972052.VisitForzaHub"
+    },
+  "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+  "Replacement": "{\"policies\": 0},"
+          },
+  "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+  "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"VisitForzaHub\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1}}"
+}
+},
+      "26": {
+        "EventReplacement": {
+            "ReplacementType": "Replace",
+            "Target": "REPLACEEVENTFM6",
+            "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+          },
+        "MetaDataReplacement": {
+            "ReplacementType": "Replace",
+            "Target": "REPLACEMETADATA",
+        "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+                },
+        "DataReplacement": {
+            "ReplacementType": "Replace",
+            "Target": "REPLACEDATA",
+        "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 0,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 50000000,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 0,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+    }
+    },
+    "27": {
+      "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM6",
+          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+        },
+      "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+              },
+      "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 0,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 50,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 0,\"SuggestedLineOff\": 1,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+    }
+    },
+    "28": {
+      "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM6",
+          "Replacement": "Microsoft.XboxLive.T981972052.RaceEnd"
+        },
+      "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"BeatRivalHighScore\": 4,\"CarId\": 4,\"CockpitOrHoodViewOnly\": 4,\"CompletedObjective\": 4,\"DifficultyLevelId\": 4,\"DistanceLed\": 4,\"ExitStatusId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameplayModeId\": 4,\"MedalsEarned\": 4,\"NumberOfOpponents\": 4,\"PerfectScoreEarned\": 4,\"Place\": 4,\"RacePoints\": 4,\"SectionId\": 4,\"SpotlightRaceComplete\": 4,\"SuggestedLineOff\": 4,\"TrackId\": 4,\"TrackScenario\": 4,\"VehicleId\": 4}},\"measurements\": {\"f\": {\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},\"policies\": 0},"
+              },
+      "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"9bb50100-c0d7-4041-b98e-7e4a3a87b454\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"981972052\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"BeatRivalHighScore\": 0,\"CarId\": 2363,\"CockpitOrHoodViewOnly\": 0,\"CompletedObjective\": 0,\"DifficultyLevelId\": 0,\"DistanceLed\": 0,\"ExitStatusId\": 0,\"Finished\": 1,\"GameMode\": 1,\"GameplayModeId\": 1,\"MedalsEarned\": 0,\"MultiplayerCorrelationId\": \"<null>\",\"NumberOfOpponents\": 15,\"PerfectScoreEarned\": 0,\"Place\": 1,\"RacePoints\": 0,\"RoundId\": \"FFFFFFFF-FFFF-FFFF-FFFF-FFFF00000000\",\"SectionId\": 0,\"SpotlightRaceComplete\": 5,\"SuggestedLineOff\": 1,\"TrackId\": 850,\"TrackScenario\": 0,\"VehicleId\": 0},\"measurements\": {\"TimeInSeconds\": 165.2421875,\"TopSpeed\": 1.653488159179688}}}"
+    }
+    }
+    }
+        },
   "SupportedTitleIDs": [
     1144039928,
     552499398,
@@ -19719,6 +18437,7 @@
     1909396590,
 	896928775,
 	983730484,
-	173777692
+	173777692,
+  1999574456
   ]
 }
