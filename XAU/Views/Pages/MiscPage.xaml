@@ -187,7 +187,7 @@
                             x:Name="ExcludeZeroGamerscoreToggle"
                             Grid.Row="0"
                             Grid.Column="0"
-                            Margin="10"
+                            Margin="0,10,0,10"
                             Content="Exclude 0 Gamerscore Games"
                             IsChecked="{Binding ViewModel.ExcludeZeroGamerscoreGames, Mode=TwoWay}" />
                             <ui:Button
