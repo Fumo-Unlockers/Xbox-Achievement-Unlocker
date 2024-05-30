@@ -31,7 +31,6 @@ public class DeviceRestApi
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, "en-US");
         _httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-store, must-revalidate, no-cache");
-
     }
 
     private object BuildBody()
@@ -54,14 +53,13 @@ public class DeviceRestApi
         };
     }
 
-    public async Task GetDeviceTokenAsync()
+    public async Task<DeviceToken?> GetDeviceTokenAsync()
     {
         SetDefaultHeaders();
         string bodyStr = JsonConvert.SerializeObject(BuildBody());
         var signature = _signer.SignRequest(DeviceUrl, HeaderValues.Signature, bodyStr);
         _httpClient.DefaultRequestHeaders.Add("Signature", signature);
-        var response = await _httpClient.PostAsync(DeviceUrl, new StringContent(bodyStr, Encoding.UTF8, HeaderValues.Accept));
-        Console.WriteLine(response);
-
+        var response = await _httpClient.PostAsync(DeviceUrl, new StringContent(bodyStr, Encoding.UTF8, HeaderValues.Accept)).Result.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<DeviceToken>(response);
     }
 }
