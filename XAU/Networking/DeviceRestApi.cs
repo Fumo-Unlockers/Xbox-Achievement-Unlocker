@@ -33,13 +33,6 @@ public class DeviceRestApi
         _httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-store, must-revalidate, no-cache");
 
     }
-    public static void AddDefaultHeaders(HttpRequestMessage request)
-    {
-        request.Headers.Add("Accept", "application/json");
-        request.Headers.TryAddWithoutValidation("User-Agent",UserAgent);
-        request.Headers.Add("Accept-Language", "en-US");
-        request.Headers.Add("Cache-Control", "no-store, must-revalidate, no-cache");
-    }
 
     private object BuildBody()
     {
@@ -53,7 +46,7 @@ public class DeviceRestApi
                 Id = "{" + id + "}",
                 DeviceType = _device,
                 SerialNumber = "{" + serialNumber + "}",
-                Version = "0.0.0",
+                Version = "15.6.1",
                 ProofKey = _signer.ProofKey
             },
             RelyingParty = "http://auth.xboxlive.com",
@@ -74,8 +67,7 @@ public class DeviceRestApi
             Content = new StringContent(bodyStr, Encoding.UTF8, "application/json")
         };
         var signature = _signer.SignRequest(DeviceUrl, HeaderValues.Signature, bodyStr);
-        req.Headers.Add("Signature", signature);
-        AddDefaultHeaders(req);
+        _httpClient.DefaultRequestHeaders.Add("Signature", signature);
         var response = await _httpClient.SendAsync(req);
         Console.WriteLine(response);
     }
