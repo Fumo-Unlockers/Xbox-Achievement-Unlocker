@@ -12,7 +12,7 @@ public class DeviceRestApi
     private readonly HttpClient _httpClient;
     private readonly Signer _signer;
     private const string DeviceUrl = "https://device.auth.xboxlive.com/device/authenticate";
-    private const string UserAgent = "Mozilla/5.0 (XboxReplay; XboxLiveAuth/3.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36";
+    private const string UserAgent = "XblAuthManager";
     private readonly string _requestedResponseLanguage;
     private readonly XboxDeviceTypes _device;
 
@@ -29,7 +29,7 @@ public class DeviceRestApi
         _httpClient.DefaultRequestHeaders.Clear();
         _httpClient.DefaultRequestHeaders.Add("User-Agent", UserAgent);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, "en-US");
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _requestedResponseLanguage);
         _httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-store, must-revalidate, no-cache");
     }
 
