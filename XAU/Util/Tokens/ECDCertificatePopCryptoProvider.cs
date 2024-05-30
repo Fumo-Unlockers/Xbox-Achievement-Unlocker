@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Security.Cryptography;
 using Microsoft.Identity.Client.AuthScheme.PoP;
-using Microsoft.Identity.Client.Utils;
 
 public class ECDCertificatePopCryptoProvider : IPoPCryptoProvider
 {
@@ -41,7 +39,7 @@ public class ECDCertificatePopCryptoProvider : IPoPCryptoProvider
     {
         string x = ecdPublicKey.Q.X != null ? Base64UrlHelpers.Encode(ecdPublicKey.Q.X) : null;
         string y = ecdPublicKey.Q.Y != null ? Base64UrlHelpers.Encode(ecdPublicKey.Q.Y) : null;
-        return $@"{{""{JsonWebKeyParameterNames.Crv}"":""{GetCrvParameterValue(ecdPublicKey.Curve)}"",""{JsonWebKeyParameterNames.Kty}"":""{JsonWebKeyParameterNames.EC}"",""{JsonWebKeyParameterNames.X}"":""{x}"",""{JsonWebKeyParameterNames.Y}"":""{y}""}}";
+        return $@"{{""{JsonWebKeyParameterNames.Use}"":""sig"",""{JsonWebKeyParameterNames.Alg}"":""ES256"",""{JsonWebKeyParameterNames.Kty}"":""{JsonWebKeyParameterNames.EC}"",""{JsonWebKeyParameterNames.Crv}"":""{GetCrvParameterValue(ecdPublicKey.Curve)}"",""{JsonWebKeyParameterNames.X}"":""{x}"",""{JsonWebKeyParameterNames.Y}"":""{y}""}}";
     }
 
     public static byte[] Sign(ECDsa EcdKey, byte[] payload)
