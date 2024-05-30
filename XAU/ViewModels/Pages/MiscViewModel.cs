@@ -250,11 +250,12 @@ namespace XAU.ViewModels.Pages
 
         #region GamertagSearch
         [ObservableProperty] private string _gamertag = "";
-        [ObservableProperty] private string _gamertagName = "";
+        [ObservableProperty] private string _gamertagName = "Gamertag:";
         [ObservableProperty] private string _gamertagImage = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _gamertagScore = "Gamerscore: ";
         [ObservableProperty] private string _gamertagXuid;
         [ObservableProperty] private bool _excludeZeroGamerscoreGames;
+        [ObservableProperty] private bool _excludeXbox360Games;
 
         [RelayCommand]
         public async Task SearchGamertag()
@@ -290,7 +291,7 @@ namespace XAU.ViewModels.Pages
             }
             try
             {
-                _snackbarService.Show("Fetching Games", "Trying to get games. This may take a moment depending on the number of games.", ControlAppearance.Primary, new SymbolIcon(SymbolRegular.XboxController24), _snackbarDuration);
+                _snackbarService.Show("Fetching Games", "Trying to get games. This may take a moment depending on the number of games the user has.", ControlAppearance.Primary, new SymbolIcon(SymbolRegular.XboxController24), _snackbarDuration);
                 var gamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(GamertagXuid);
 
                 if (gamesResponse == null || gamesResponse.Titles == null)
@@ -313,6 +314,11 @@ namespace XAU.ViewModels.Pages
                 foreach (var title in gamesResponse.Titles)
                 {
                     if (ExcludeZeroGamerscoreGames && title.Achievement.TotalGamerscore == 0)
+                    {
+                        continue;
+                    }
+
+                    if (ExcludeXbox360Games && title.Devices != null && title.Devices.Contains("Xbox360"))
                     {
                         continue;
                     }
