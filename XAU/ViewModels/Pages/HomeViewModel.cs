@@ -301,10 +301,13 @@ namespace XAU.ViewModels.Pages
         }
 
         #region Xauth
-        public void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
+        public async void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
+
+                var restApi = new DeviceRestApi();
+                await restApi.GetDeviceTokenAsync();
                 if (!m.OpenProcess((ProcessNames.XboxPcApp)))
                 {
                     IsAttached = false;

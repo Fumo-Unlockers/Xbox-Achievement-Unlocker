@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using XAU.ViewModels.Pages;
-using XAU.ViewModels.Windows;
 
 public class XboxRestAPI
 {
