@@ -33,30 +33,10 @@ public class DeviceRestApi
         _httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-store, must-revalidate, no-cache");
     }
 
-    private object BuildBody()
-    {
-        string id = Guid.NewGuid().ToString("D"); // Replace with your actual id
-        string serialNumber = Guid.NewGuid().ToString("D"); // Replace with your actual serial number
-        return new
-        {
-            Properties = new
-            {
-                AuthMethod = "ProofOfPossession",
-                Id = "{" + id + "}",
-                DeviceType = _device.ToString(),
-                SerialNumber = "{" + serialNumber + "}",
-                Version = "15.6.1",
-                ProofKey = _signer.ProofKey
-            },
-            RelyingParty = "http://auth.xboxlive.com",
-            TokenType = "JWT"
-        };
-    }
-
     public async Task<DeviceToken?> GetDeviceTokenAsync()
     {
         SetDefaultHeaders();
-        string bodyStr = JsonConvert.SerializeObject(BuildBody());
+        string bodyStr = JsonConvert.SerializeObject(new DeviceTokenRequest { Properties = new Properties { DeviceType = _device.ToString(), ProofKey = _signer.ProofKey } });
         var signature = _signer.SignRequest(DeviceUrl, HeaderValues.Signature, bodyStr);
         _httpClient.DefaultRequestHeaders.Add("Signature", signature);
         var response = await _httpClient.PostAsync(DeviceUrl, new StringContent(bodyStr, Encoding.UTF8, HeaderValues.Accept));

@@ -1,4 +1,20 @@
-using System.Text.Json.Serialization;
+public class Properties
+{
+    public string? AuthMethod { get; set; } = "ProofOfPossession";
+    public string? Id { get; set; } = "{" + Guid.NewGuid().ToString("D") + "}";
+    public string? DeviceType { get; set; } = XboxDeviceTypes.Win32.ToString();
+    public string? SerialNumber { get; set; } = "{" + Guid.NewGuid().ToString("D") + "}";
+    public string? Version { get; set; } = "0.0.0";
+    public object? ProofKey { get; set; }
+}
+
+public class DeviceTokenRequest
+{
+    public Properties? Properties { get; set; }
+    public string? RelyingParty { get; set; } = "http://auth.xboxlive.com";
+    public string? TokenType { get; set; } = "JWT";
+}
+
 
 public class DisplayClaims
 {
