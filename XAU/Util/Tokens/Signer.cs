@@ -8,7 +8,7 @@ public class Signer
 
     public Signer(ECDCertificatePopCryptoProvider signer)
     {
-        this._signer = signer;
+        _signer = signer;
     }
 
     public object ProofKey => _signer.ProofKey;
@@ -16,7 +16,7 @@ public class Signer
     public string SignRequest(string reqUri, string token, string body)
     {
         var timestamp = getWindowsTimestamp();
-        var data = generatePayload(timestamp, reqUri, token, body);
+        var data = generatePayload(timestamp, reqUri, "", body);
         var signature = sign(timestamp, data);
         return Convert.ToBase64String(signature);
     }

@@ -12,28 +12,34 @@ public class DeviceRestApi
     private readonly HttpClient _httpClient;
     private readonly Signer _signer;
     private const string DeviceUrl = "https://device.auth.xboxlive.com/device/authenticate";
-    private const string UserAgent = "XblAuthManager";
+    private const string UserAgent = "Mozilla/5.0 (XboxReplay; XboxLiveAuth/3.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36";
+    private readonly string _requestedResponseLanguage;
 
     public DeviceRestApi()
     {
-        var handler = new HttpClientHandler()
-        {
-            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-        };
-        _httpClient = new HttpClient(handler);
+        _requestedResponseLanguage = HomeViewModel.Settings.RegionOverride ? "en-GB" : System.Globalization.CultureInfo.CurrentCulture.Name;
+        _httpClient = new HttpClient();
         _signer = new Signer(new ECDCertificatePopCryptoProvider());
     }
 
     private void SetDefaultHeaders()
     {
         _httpClient.DefaultRequestHeaders.Clear();
-        _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", UserAgent);
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", UserAgent);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, "en-US");
+        _httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-store, must-revalidate, no-cache");
+
+    }
+    public static void AddDefaultHeaders(HttpRequestMessage request)
+    {
+        request.Headers.Add("Accept", "application/json");
+        request.Headers.TryAddWithoutValidation("User-Agent",UserAgent);
+        request.Headers.Add("Accept-Language", "en-US");
+        request.Headers.Add("Cache-Control", "no-store, must-revalidate, no-cache");
     }
 
-    private object BuildBody(string id, string serialNumber)
+    private object BuildBody(string id, string serialNumber, object proofKey)
     {
         return new
         {
@@ -41,10 +47,10 @@ public class DeviceRestApi
             {
                 AuthMethod = "ProofOfPossession",
                 Id = "{" + id + "}",
-                DeviceType = "Scarlett",
+                DeviceType = "Nintendo",
                 SerialNumber = "{" + serialNumber + "}",
                 Version = "0.0.0",
-                ProofKey = _signer.ProofKey
+                ProofKey = proofKey
             },
             RelyingParty = "http://auth.xboxlive.com",
             TokenType = "JWT"
@@ -53,9 +59,10 @@ public class DeviceRestApi
 
     public async Task GetDeviceTokenAsync()
     {
-        string id = StringConstants.ZeroUid; // Replace with your actual id
-        string serialNumber = StringConstants.ZeroUid; // Replace with your actual serial number
-        string bodyStr = JsonConvert.SerializeObject(BuildBody(id, serialNumber));
+        SetDefaultHeaders();
+        string id = Guid.NewGuid().ToString("D"); // Replace with your actual id
+        string serialNumber = Guid.NewGuid().ToString("D"); // Replace with your actual serial number
+        string bodyStr = JsonConvert.SerializeObject(BuildBody(id, serialNumber, _signer.ProofKey));
 
         var req = new HttpRequestMessage
         {
@@ -65,7 +72,7 @@ public class DeviceRestApi
         };
         var signature = _signer.SignRequest(DeviceUrl, HeaderValues.Signature, bodyStr);
         req.Headers.Add("Signature", signature);
-        _httpClient.DefaultRequestHeaders.Add("Signature", signature);
+        AddDefaultHeaders(req);
         var response = await _httpClient.SendAsync(req);
         Console.WriteLine(response);
     }
