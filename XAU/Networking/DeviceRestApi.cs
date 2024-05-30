@@ -42,6 +42,7 @@ public class DeviceRestApi
         var signature = _signer.SignRequest(DeviceUrl, HeaderValues.Signature, bodyStr);
         _httpClient.DefaultRequestHeaders.Add("Signature", signature);
         var response = await _httpClient.PostAsync(DeviceUrl, new StringContent(bodyStr, Encoding.UTF8, HeaderValues.Accept));
+        Console.Out.WriteLine(response.StatusCode);
         var responseStr = await response.Content.ReadAsStringAsync();
         var token = JsonConvert.DeserializeObject<DeviceToken>(responseStr);
         return token;
