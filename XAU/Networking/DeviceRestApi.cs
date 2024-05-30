@@ -57,18 +57,11 @@ public class DeviceRestApi
     public async Task GetDeviceTokenAsync()
     {
         SetDefaultHeaders();
-
         string bodyStr = JsonConvert.SerializeObject(BuildBody());
-
-        var req = new HttpRequestMessage
-        {
-            RequestUri = new Uri(DeviceUrl),
-            Method = HttpMethod.Post,
-            Content = new StringContent(bodyStr, Encoding.UTF8, "application/json")
-        };
         var signature = _signer.SignRequest(DeviceUrl, HeaderValues.Signature, bodyStr);
         _httpClient.DefaultRequestHeaders.Add("Signature", signature);
-        var response = await _httpClient.SendAsync(req);
+        var response = await _httpClient.PostAsync(DeviceUrl, new StringContent(bodyStr, Encoding.UTF8, HeaderValues.Accept));
         Console.WriteLine(response);
+
     }
 }
