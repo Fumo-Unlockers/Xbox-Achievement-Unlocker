@@ -306,7 +306,7 @@ namespace XAU.ViewModels.Pages
 
         private async Task CheckDevices()
         {
-            foreach (XboxDeviceTypes2 deviceType in Enum.GetValues(typeof(XboxDeviceTypes2)))
+            foreach (XboxDeviceTypes deviceType in Enum.GetValues(typeof(XboxDeviceTypes)))
             {
                 var restApi = new DeviceRestApi(deviceType);
                 var token = await restApi.GetDeviceTokenAsync();

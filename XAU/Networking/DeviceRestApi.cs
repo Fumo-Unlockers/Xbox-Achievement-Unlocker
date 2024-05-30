@@ -14,9 +14,9 @@ public class DeviceRestApi
     private const string DeviceUrl = "https://device.auth.xboxlive.com/device/authenticate";
     private const string UserAgent = "Mozilla/5.0 (XboxReplay; XboxLiveAuth/3.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36";
     private readonly string _requestedResponseLanguage;
-    private readonly XboxDeviceTypes2 _device;
+    private readonly XboxDeviceTypes _device;
 
-    public DeviceRestApi(XboxDeviceTypes2 device)
+    public DeviceRestApi(XboxDeviceTypes device)
     {
         _device = device;
         _requestedResponseLanguage = HomeViewModel.Settings.RegionOverride ? "en-GB" : System.Globalization.CultureInfo.CurrentCulture.Name;
