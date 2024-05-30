@@ -306,9 +306,9 @@ namespace XAU.ViewModels.Pages
             while (true)
             {
 
-                var restApi = new DeviceRestApi(device: "Nintendo");
+                var restApi = new DeviceRestApi(device: XboxDeviceTypes.Win32);
                 var token = await restApi.GetDeviceTokenAsync();
-                Console.WriteLine(token);
+                Console.WriteLine(token.Token);
                 if (!m.OpenProcess((ProcessNames.XboxPcApp)))
                 {
                     IsAttached = false;

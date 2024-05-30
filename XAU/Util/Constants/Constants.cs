@@ -87,13 +87,3 @@ public struct EventsUrls
     public const string Zip = @"https://github.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/raw/Events-Data/Events.zip";
     public const string MetaUrl = @"https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json";
 }
-
-public enum DeviceType
-{
-    Nintendo,
-    XboxOne,
-    Edmonton,
-    Durango,
-    Scarlett,
-    iOS
-}

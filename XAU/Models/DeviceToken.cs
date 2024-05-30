@@ -20,5 +20,17 @@ public class DeviceToken
     public string? IssueInstant { get; set; }
     public string? Token { get; set; }
     public string? ExpireOn { get; set; }
+}
+
+public class XboxDeviceTypes
+{
+    public const string Win32 = "Win32";
+    public const string iOS = "iOS";
+    public const string Android = "Android";
+    public const string Nintendo = "Nintendo";
+    public const string Durango = "Durango";
+    public const string XboxOne = "XboxOne";
+    public const string Edmonton = "Edmonton";
+    public const string Scarlett = "Scarlett";
 
 }
