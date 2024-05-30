@@ -33,30 +33,37 @@ public class DeviceRestApi
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
     }
 
+    private object BuildBody(string id, string serialNumber)
+    {
+        return new
+        {
+            Properties = new
+            {
+                AuthMethod = "ProofOfPossession",
+                Id = "{" + id + "}",
+                DeviceType = "Scarlett",
+                SerialNumber = "{" + serialNumber + "}",
+                Version = "0.0.0",
+                ProofKey = _signer.ProofKey
+            },
+            RelyingParty = "http://auth.xboxlive.com",
+            TokenType = "JWT"
+        };
+    }
+
     public async Task GetDeviceTokenAsync()
     {
         string id = Guid.Empty.ToString("D"); // Replace with your actual id
         string serialNumber = Guid.Empty.ToString("D"); // Replace with your actual serial number
-        string json = $@"
-        {{
-            ""RelyingParty"": ""http://auth.xboxlive.com"",
-            ""TokenType"": ""JWT"",
-            ""Properties"": {{
-                ""AuthMethod"": ""ProofOfPossession"",
-                ""Id"": ""{id}"",
-                ""DeviceType"": ""Scarlett"",
-                ""SerialNumber"": ""{serialNumber}"",
-                ""Version"": ""DeviceVersion"",
-                ""ProofKey"": {_signer.ProofKey}
-            }}
-        }}".Replace("\n", "").Replace(" ", "");
+        string bodyStr = JsonConvert.SerializeObject(BuildBody(id, serialNumber));
+
         var req = new HttpRequestMessage
         {
             RequestUri = new Uri(DeviceUrl),
             Method = HttpMethod.Post,
-            Content = new StringContent(json, Encoding.UTF8, "application/json")
+            Content = new StringContent(bodyStr, Encoding.UTF8, "application/json")
         };
-        var signature = _signer.SignRequest(DeviceUrl, HeaderValues.Signature, json);
+        var signature = _signer.SignRequest(DeviceUrl, HeaderValues.Signature, bodyStr);
         req.Headers.Add("Signature", signature);
         _httpClient.DefaultRequestHeaders.Add("Signature", signature);
         var response = await _httpClient.SendAsync(req);

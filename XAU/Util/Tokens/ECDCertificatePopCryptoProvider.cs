@@ -18,9 +18,12 @@ public class ECDCertificatePopCryptoProvider : IPoPCryptoProvider
 
     private ECDsa _signingKey;
 
-    public string CannonicalPublicKeyJwk { get; private set; }
+    public string CannonicalPublicKeyJwk {  get; private set; }
 
     public string CryptographicAlgorithm { get => "ES256"; }
+
+    private object? _proofKey;
+    public object ProofKey => _proofKey ??= generateNewProofKey();
 
     private void InitializeSigningKey()
     {
@@ -40,6 +43,20 @@ public class ECDCertificatePopCryptoProvider : IPoPCryptoProvider
         string x = ecdPublicKey.Q.X != null ? Base64UrlHelpers.Encode(ecdPublicKey.Q.X) : null;
         string y = ecdPublicKey.Q.Y != null ? Base64UrlHelpers.Encode(ecdPublicKey.Q.Y) : null;
         return $@"{{""{JsonWebKeyParameterNames.Use}"":""sig"",""{JsonWebKeyParameterNames.Alg}"":""ES256"",""{JsonWebKeyParameterNames.Kty}"":""{JsonWebKeyParameterNames.EC}"",""{JsonWebKeyParameterNames.Crv}"":""{GetCrvParameterValue(ecdPublicKey.Curve)}"",""{JsonWebKeyParameterNames.X}"":""{x}"",""{JsonWebKeyParameterNames.Y}"":""{y}""}}";
+    }
+
+    private object generateNewProofKey()
+    {
+        var parameters = _signingKey.ExportParameters(false);
+        return new
+        {
+            kty = "EC",
+            x = parameters.Q.X != null ? Base64UrlHelpers.Encode(parameters.Q.X) : null,
+            y = parameters.Q.Y != null ? Base64UrlHelpers.Encode(parameters.Q.Y) : null,
+            crv = "P-256",
+            alg = "ES256",
+            use = "sig"
+        };
     }
 
     public static byte[] Sign(ECDsa EcdKey, byte[] payload)

@@ -4,14 +4,14 @@ using Microsoft.Identity.Client.AuthScheme.PoP;
 
 public class Signer
 {
-    private readonly IPoPCryptoProvider _signer;
+    private readonly ECDCertificatePopCryptoProvider _signer;
 
-    public Signer(IPoPCryptoProvider signer)
+    public Signer(ECDCertificatePopCryptoProvider signer)
     {
         this._signer = signer;
     }
 
-    public object ProofKey => _signer.CannonicalPublicKeyJwk;
+    public object ProofKey => _signer.ProofKey;
 
     public string SignRequest(string reqUri, string token, string body)
     {
