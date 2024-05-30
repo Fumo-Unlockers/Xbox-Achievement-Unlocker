@@ -14,9 +14,11 @@ public class DeviceRestApi
     private const string DeviceUrl = "https://device.auth.xboxlive.com/device/authenticate";
     private const string UserAgent = "Mozilla/5.0 (XboxReplay; XboxLiveAuth/3.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36";
     private readonly string _requestedResponseLanguage;
+    private readonly string _device;
 
-    public DeviceRestApi()
+    public DeviceRestApi(string device)
     {
+        _device = device;
         _requestedResponseLanguage = HomeViewModel.Settings.RegionOverride ? "en-GB" : System.Globalization.CultureInfo.CurrentCulture.Name;
         _httpClient = new HttpClient();
         _signer = new Signer(new ECDCertificatePopCryptoProvider());
@@ -39,18 +41,20 @@ public class DeviceRestApi
         request.Headers.Add("Cache-Control", "no-store, must-revalidate, no-cache");
     }
 
-    private object BuildBody(string id, string serialNumber, object proofKey)
+    private object BuildBody()
     {
+        string id = Guid.NewGuid().ToString("D"); // Replace with your actual id
+        string serialNumber = Guid.NewGuid().ToString("D"); // Replace with your actual serial number
         return new
         {
             Properties = new
             {
                 AuthMethod = "ProofOfPossession",
                 Id = "{" + id + "}",
-                DeviceType = "Nintendo",
+                DeviceType = _device,
                 SerialNumber = "{" + serialNumber + "}",
                 Version = "0.0.0",
-                ProofKey = proofKey
+                ProofKey = _signer.ProofKey
             },
             RelyingParty = "http://auth.xboxlive.com",
             TokenType = "JWT"
@@ -60,9 +64,8 @@ public class DeviceRestApi
     public async Task GetDeviceTokenAsync()
     {
         SetDefaultHeaders();
-        string id = Guid.NewGuid().ToString("D"); // Replace with your actual id
-        string serialNumber = Guid.NewGuid().ToString("D"); // Replace with your actual serial number
-        string bodyStr = JsonConvert.SerializeObject(BuildBody(id, serialNumber, _signer.ProofKey));
+
+        string bodyStr = JsonConvert.SerializeObject(BuildBody());
 
         var req = new HttpRequestMessage
         {

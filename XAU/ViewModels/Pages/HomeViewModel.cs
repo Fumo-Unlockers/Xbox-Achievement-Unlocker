@@ -306,7 +306,7 @@ namespace XAU.ViewModels.Pages
             while (true)
             {
 
-                var restApi = new DeviceRestApi();
+                var restApi = new DeviceRestApi(device: "Nintendo");
                 await restApi.GetDeviceTokenAsync();
                 if (!m.OpenProcess((ProcessNames.XboxPcApp)))
                 {
