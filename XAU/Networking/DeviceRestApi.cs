@@ -35,8 +35,8 @@ public class DeviceRestApi
 
     public async Task GetDeviceTokenAsync()
     {
-        string id = Guid.NewGuid().ToString("D"); // Replace with your actual id
-        string serialNumber = Guid.NewGuid().ToString("D"); // Replace with your actual serial number
+        string id = Guid.Empty.ToString("D"); // Replace with your actual id
+        string serialNumber = Guid.Empty.ToString("D"); // Replace with your actual serial number
         string json = $@"
         {{
             ""RelyingParty"": ""http://auth.xboxlive.com"",
@@ -49,7 +49,7 @@ public class DeviceRestApi
                 ""Version"": ""DeviceVersion"",
                 ""ProofKey"": {_signer.ProofKey}
             }}
-        }}";
+        }}".Replace("\n", "").Replace(" ", "");
         var req = new HttpRequestMessage
         {
             RequestUri = new Uri(DeviceUrl),
