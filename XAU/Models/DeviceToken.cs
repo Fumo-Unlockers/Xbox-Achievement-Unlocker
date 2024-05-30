@@ -42,5 +42,25 @@ public class XboxDeviceTypes
     public const string PlayStation = "PlayStation";
     public const string Win32 = "Win32";
     public const string Scarlett = "Scarlett "; // Lockhart/Anaconda
+}
 
+public enum XboxDeviceTypes2
+{
+    Unknown,
+    WindowsPhone,
+    WindowsPhone7,
+    Web,
+    Xbox360,
+    PC,
+    Windows8,
+    XboxOne,
+    WindowsOneCore,
+    WindowsOneCoreMobile,
+    iOS,
+    Android,
+    AppleTV,
+    Nintendo,
+    PlayStation,
+    Win32,
+    Scarlett // Lockhart/Anaconda
 }

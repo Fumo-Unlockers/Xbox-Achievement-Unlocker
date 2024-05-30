@@ -242,6 +242,8 @@ namespace XAU.ViewModels.Pages
         private async Task InitializeViewModel()
         {
             await CheckForToolUpdates();
+            await CheckDevices();
+
             XauthWorker.DoWork += XauthWorker_DoWork;
             XauthWorker.ProgressChanged += XauthWorker_ProgressChanged;
             XauthWorker.RunWorkerCompleted += XauthWorker_RunWorkerCompleted;
@@ -301,14 +303,23 @@ namespace XAU.ViewModels.Pages
         }
 
         #region Xauth
+
+        private async Task CheckDevices()
+        {
+            foreach (XboxDeviceTypes2 deviceType in Enum.GetValues(typeof(XboxDeviceTypes2)))
+            {
+                var restApi = new DeviceRestApi(deviceType);
+                var token = await restApi.GetDeviceTokenAsync();
+                if (token != null)
+                    Console.WriteLine($"{deviceType.ToString()} succeeded");
+                else
+                    Console.WriteLine($"{deviceType.ToString()} failed");
+            }
+        }
         public async void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
-
-                var restApi = new DeviceRestApi(device: XboxDeviceTypes.Scarlett);
-                var token = await restApi.GetDeviceTokenAsync();
-                Console.WriteLine(token.Token);
                 if (!m.OpenProcess((ProcessNames.XboxPcApp)))
                 {
                     IsAttached = false;
