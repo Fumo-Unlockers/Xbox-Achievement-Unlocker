@@ -53,8 +53,8 @@ public class DeviceRestApi
 
     public async Task GetDeviceTokenAsync()
     {
-        string id = Guid.Empty.ToString("D"); // Replace with your actual id
-        string serialNumber = Guid.Empty.ToString("D"); // Replace with your actual serial number
+        string id = StringConstants.ZeroUid; // Replace with your actual id
+        string serialNumber = StringConstants.ZeroUid; // Replace with your actual serial number
         string bodyStr = JsonConvert.SerializeObject(BuildBody(id, serialNumber));
 
         var req = new HttpRequestMessage
