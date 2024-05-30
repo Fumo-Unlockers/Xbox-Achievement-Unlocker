@@ -31,6 +31,8 @@ public class DeviceRestApi
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _requestedResponseLanguage);
         _httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-store, must-revalidate, no-cache");
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, "gzip, deflate, br");
     }
 
     public async Task<DeviceToken?> GetDeviceTokenAsync()

@@ -4,7 +4,7 @@ public class Properties
     public string? Id { get; set; } = "{" + Guid.NewGuid().ToString("D") + "}";
     public string? DeviceType { get; set; } = XboxDeviceTypes.Win32.ToString();
     public string? SerialNumber { get; set; } = "{" + Guid.NewGuid().ToString("D") + "}";
-    public string? Version { get; set; } = "0.0.0";
+    public string? Version { get; set; } = "10.0.25398.4478";
     public object? ProofKey { get; set; }
 }
 
