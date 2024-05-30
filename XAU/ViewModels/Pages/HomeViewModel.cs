@@ -306,7 +306,7 @@ namespace XAU.ViewModels.Pages
             while (true)
             {
 
-                var restApi = new DeviceRestApi(device: XboxDeviceTypes.Durango);
+                var restApi = new DeviceRestApi(device: XboxDeviceTypes.Scarlett);
                 var token = await restApi.GetDeviceTokenAsync();
                 Console.WriteLine(token.Token);
                 if (!m.OpenProcess((ProcessNames.XboxPcApp)))

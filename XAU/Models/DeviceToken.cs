@@ -22,15 +22,25 @@ public class DeviceToken
     public string? ExpireOn { get; set; }
 }
 
+// https://learn.microsoft.com/en-us/gaming/gdk/_content/gc/reference/live/xsapi-c/presence_c/enums/xblpresencedevicetype
 public class XboxDeviceTypes
 {
-    public const string Win32 = "Win32";
+    public const string Unknown = "Unknown";
+    public const string WindowsPhone = "WindowsPhone";
+    public const string WindowsPhone7 = "WindowsPhone7";
+    public const string Web = "Web";
+    public const string Xbox360 = "Xbox360";
+    public const string PC = "PC";
+    public const string Windows8 = "Windows8";
+    public const string XboxOne = "XboxOne";
+    public const string WindowsOneCore = "WindowsOneCore";
+    public const string WindowsOneCoreMobile = "WindowsOneCoreMobile";
     public const string iOS = "iOS";
     public const string Android = "Android";
+    public const string AppleTV = "AppleTV";
     public const string Nintendo = "Nintendo";
-    public const string Durango = "Durango";
-    public const string XboxOne = "XboxOne";
-    public const string Edmonton = "Edmonton";
-    public const string Scarlett = "Scarlett";
+    public const string PlayStation = "PlayStation";
+    public const string Win32 = "Win32";
+    public const string Scarlett = "Scarlett "; // Lockhart/Anaconda
 
 }
