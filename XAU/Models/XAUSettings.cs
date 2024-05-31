@@ -10,4 +10,5 @@ public class XAUSettings
     public bool RegionOverride { get; set; }
     public bool UseAcrylic { get; set; }
     public bool PrivacyMode { get; set; }
+    public bool OAuthLogin { get; set; }
 }

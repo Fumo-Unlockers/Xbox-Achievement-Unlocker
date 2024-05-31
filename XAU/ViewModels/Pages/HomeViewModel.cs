@@ -12,6 +12,10 @@ using System.Collections.ObjectModel;
 using System.IO.Compression;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
+using XboxAuthNet.OAuth;
+using XboxAuthNet.OAuth.CodeFlow;
+using XboxAuthNet.XboxLive;
+using XboxAuthNet.XboxLive.Requests;
 
 namespace XAU.ViewModels.Pages
 {
@@ -25,6 +29,7 @@ namespace XAU.ViewModels.Pages
     {
         public static string ToolVersion = "EmptyDevToolVersion";
         public static string EventsVersion = "1.0";
+
         //attach vars
         [ObservableProperty] private string _attached = "Not Attached";
         [ObservableProperty] private Brush _attachedColor = new SolidColorBrush(Colors.Red);
@@ -47,6 +52,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string? _followers = "Followers: Unknown";
         [ObservableProperty] private string? _gamepass = "Gamepass: Unknown";
         [ObservableProperty] private string? _bio = "Bio: Unknown";
+        [ObservableProperty] private string _loginText = "Login";
         [ObservableProperty] public static bool _isLoggedIn = false;
         [ObservableProperty] public static bool _updateAvaliable = false;
         [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
@@ -83,13 +89,17 @@ namespace XAU.ViewModels.Pages
         public BackgroundWorker XauthWorker = new BackgroundWorker();
         bool IsAttached = false;
         bool GrabbedProfile = false;
-        bool XAUTHTested = false;
+        public static bool XAUTHTested = false;
         public static string XAUTH = "";
         public static string XUIDOnly;
         public static bool InitComplete = false;
         private bool _isInitialized = false;
         string SettingsFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "settings.json");
         string EventsMetaFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "Events", "meta.json");
+        string AuthFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "auth.json");
+        public CodeFlowAuthenticator oauth;
+        public XboxAuthClient xboxAuthClient;
+        public XboxSignedClient xboxSignedClient;
 
         public async void OnNavigatedTo()
         {
@@ -262,7 +272,7 @@ namespace XAU.ViewModels.Pages
                 }
                 var defaultSettings = new XAUSettings
                 {
-                    SettingsVersion = "1",
+                    SettingsVersion = "2",
                     ToolVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(),
                     UnlockAllEnabled = false,
                     AutoSpooferEnabled = false,
@@ -270,12 +280,17 @@ namespace XAU.ViewModels.Pages
                     FakeSignatureEnabled = true,
                     RegionOverride = false,
                     UseAcrylic = false,
-                    PrivacyMode = false
+                    PrivacyMode = false,
+                    OAuthLogin = false
                 };
                 string defaultSettingsJson = JsonConvert.SerializeObject(defaultSettings, Formatting.Indented);
                 using (var file = new StreamWriter(SettingsFilePath))
                 {
                     file.Write(defaultSettingsJson);
+                }
+                if (Settings.OAuthLogin)
+                {
+                    OAuthLogin();
                 }
 
             }
@@ -303,7 +318,7 @@ namespace XAU.ViewModels.Pages
         #region Xauth
         public void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
+            while (!Settings.OAuthLogin)
             {
                 if (!m.OpenProcess((ProcessNames.XboxPcApp)))
                 {
@@ -317,6 +332,7 @@ namespace XAU.ViewModels.Pages
                 Thread.Sleep(1000);
                 XauthWorker.ReportProgress(0);
             }
+            Thread.Sleep(5000);
         }
         public void XauthWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
@@ -333,7 +349,7 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
-                    if (!SettingsViewModel.ManualXauth)
+                    if (!SettingsViewModel.ManualXauth && !Settings.OAuthLogin)
                     {
                         GetXAUTH();
                         SettingsViewModel.ManualXauth = false;
@@ -400,6 +416,7 @@ namespace XAU.ViewModels.Pages
             if (highestFrequency > 3)
             {
                 XAUTH = mostCommon;
+                XAUTHTested = false;
             }
         }
         private async void TestXAUTH()
@@ -425,16 +442,122 @@ namespace XAU.ViewModels.Pages
             }
             catch (HttpRequestException ex)
             {
-                if (ex.StatusCode == HttpStatusCode.Forbidden)
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     IsLoggedIn = false;
-                    XAUTHTested = false;
+                    XAUTHTested = true;
 
                 }
             }
         }
         #endregion
 
+        #region OAuthLogin
+
+        [RelayCommand]
+        private async void OAuthLogin()
+        {
+            //init oauth stuff
+            var OAuthhttpClient = new HttpClient();
+            var apiClient = new CodeFlowLiveApiClient(XboxGameTitles.XboxAppPC, XboxAuthConstants.XboxScope, OAuthhttpClient);
+            xboxAuthClient = new XboxAuthClient(OAuthhttpClient);
+            xboxSignedClient = new XboxSignedClient(OAuthhttpClient);
+            oauth = new CodeFlowBuilder(apiClient)
+                .WithUIParent(this)
+                .Build();
+            if (LoginText == "Logout")
+            {
+                oauth.Signout();
+                File.Delete(AuthFilePath);
+                LoginText = "Login";
+                return;
+            }
+            //check for previous session auth otherwise do interactive login (should almost certainly make this more secure
+            if (File.Exists(AuthFilePath))
+            {
+                MicrosoftOAuthResponse response = readSession();
+                try
+                {
+                    response = await oauth.AuthenticateSilently(response?.RefreshToken);
+                    writeSession(response);
+                    _snackbarService.Show("Success", "Logged in with previous session", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                    GenerateTokens(response);
+                }
+                catch
+                {
+                    _snackbarService.Show("Session invalid", "You are required to log in again as the session has expired", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                     response = await oauth.AuthenticateInteractively();
+                }
+
+            }
+            else
+            {
+                try
+                {
+
+                    MicrosoftOAuthResponse response = await oauth.AuthenticateInteractively();
+                    writeSession(response);
+                    _snackbarService.Show("Success", "Logged in", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                    GenerateTokens(response);
+                }
+                catch
+                {
+                    _snackbarService.Show("Error", "Failed to authenticate", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                }
+            }
+        }
+
+        private async void GenerateTokens(MicrosoftOAuthResponse response)
+        {
+            var deviceToken = await xboxSignedClient.RequestDeviceToken(XboxDeviceTypes.Win32, "0.0.0");
+            var sisuResult = await xboxSignedClient.SisuAuth(new XboxSisuAuthRequest
+            {
+                AccessToken = response.AccessToken,
+                ClientId = XboxGameTitles.XboxAppPC,
+                DeviceToken = deviceToken.Token,
+                RelyingParty = XboxAuthConstants.XboxLiveRelyingParty,
+            });
+            try
+            {
+                XAUTH = $"XBL3.0 x={sisuResult.AuthorizationToken.XuiClaims.UserHash};{sisuResult.AuthorizationToken.Token}";
+            }
+            catch
+            {
+                _snackbarService.Show("Error", "Failed to generate XAUTH", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+            deviceToken = await xboxSignedClient.RequestDeviceToken(XboxDeviceTypes.Win32, "0.0.0");
+            sisuResult = await xboxSignedClient.SisuAuth(new XboxSisuAuthRequest
+            {
+                AccessToken = response.AccessToken,
+                ClientId = XboxGameTitles.XboxAppPC,
+                DeviceToken = deviceToken.Token,
+                RelyingParty = XboxAuthConstants.XboxEventsRelyingParty,
+            });
+            try
+            {
+                AchievementsViewModel.EventsToken = $"x:XBL3.0 x={sisuResult.AuthorizationToken.XuiClaims.UserHash};{sisuResult.AuthorizationToken.Token}";
+            }
+            catch
+            {
+                _snackbarService.Show("Error", "Failed to generate Events Token", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+            LoginText = "Logout";
+            XauthWorker_ProgressChanged(null, null);
+        }
+        private MicrosoftOAuthResponse readSession()
+        {
+            var file = File.ReadAllText(AuthFilePath);
+            var response = JsonConvert.DeserializeObject<MicrosoftOAuthResponse>(file);
+
+            return response;
+        }
+        private void writeSession(MicrosoftOAuthResponse response)
+        {
+            var json = JsonConvert.SerializeObject(response);
+            File.WriteAllText(AuthFilePath, json);
+        }
+
+        #endregion
         #region Profile
         private async void GrabProfile()
         {
@@ -562,7 +685,7 @@ namespace XAU.ViewModels.Pages
                 if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     IsLoggedIn = false;
-                    XAUTHTested = false;
+                    XAUTHTested = true;
                     _snackbarService.Show("401 Unauthorized", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 }
 
@@ -601,6 +724,7 @@ namespace XAU.ViewModels.Pages
             Settings.RegionOverride = settings.RegionOverride;
             Settings.UseAcrylic = settings.UseAcrylic;
             Settings.PrivacyMode = settings.PrivacyMode;
+            Settings.OAuthLogin = settings.OAuthLogin;
         }
 
         #endregion

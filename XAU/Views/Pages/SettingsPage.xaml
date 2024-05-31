@@ -134,6 +134,28 @@
                     <ui:TextBlock
                         Grid.Row="0"
                         FontTypography="Body"
+                        Text="OAuth Login" 
+                        TextWrapping="WrapWithOverflow"/>
+                    <ui:TextBlock
+                        Grid.Row="1"
+                        Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                        Text="Use email and password instead of a memory scan for Xauth and Events tokens." 
+                        TextWrapping="WrapWithOverflow"/>
+                </Grid>
+            </ui:CardControl.Header>
+            <ui:ToggleSwitch IsChecked="{Binding ViewModel.OAuthLogin, Mode=TwoWay}"
+                             Command="{Binding ViewModel.SaveSettingsCommand}"/>
+        </ui:CardControl>
+        <ui:CardControl Margin="4, 2">
+            <ui:CardControl.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock
+                        Grid.Row="0"
+                        FontTypography="Body"
                         Text="Use Fake Signature" 
                         TextWrapping="WrapWithOverflow"/>
                     <ui:TextBlock
