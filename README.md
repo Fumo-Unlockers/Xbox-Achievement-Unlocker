@@ -42,7 +42,7 @@ Xbox Achievement Unlocker uses code from memory.dll to extract the user's XAuth 
 
 ## Features
 
-- Extract XAuth from Xbox app
+- Extract XAuth from Xbox app or use OAuth to login
 - Obtain a list of games from the user or any selected XUID
 - Unlock Achievements for any Title Managed game
 - Spoof time in any game
@@ -66,8 +66,6 @@ See [Discord](https://discord.com/channels/1013602813093359657/12331935285536400
 
 - Stats editor
 - Support for Event based stats
-- Support for Event based achievements
-- In-app login
 
 ## Join Our Discord Server
 
@@ -76,6 +74,7 @@ Feel free to join our [Discord server][discord-invite] for updates and discussio
 ## License
 
 The UI for this program was built on top of the WPF-UI Fluent template as of [this commit](https://github.com/lepoco/wpfui/tree/c8cd75f6f82414a52a94d2a55fe2a21dd5db83d7) which is MIT licensed. Any and all modifications and/or additions to this template are GNU GPL licensed. You can find a copy of the licenses [here][LICENSE] and [here][MIT-LICENSE].
+This tool uses the XboxAuthNet library which is also MIT licensed
 
 ## Sponsors
 
