@@ -137,6 +137,13 @@
         <ui:Button
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            Padding="17, 5, 17, 5"
+            Content="{Binding ViewModel.LoginText, Mode=OneWay}"
+            Command="{Binding ViewModel.OAuthLoginCommand, Mode=OneWay}"/>
+        <ui:Button
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0, 35, 0, 0"
             Content="Refresh"
             IsEnabled="{Binding ViewModel.IsLoggedIn, Mode=OneWay}"
             Command="{Binding ViewModel.RefreshProfileCommand, Mode=OneWay}"/>
