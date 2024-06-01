@@ -138,6 +138,7 @@ public class Detail
     public int FollowerCount { get; set; }
     public int FollowingCount { get; set; }
     public bool HasGamePass { get; set; }
+    public List<string>? Genres { get; set; }
 }
 
 public class LinkedAccount
@@ -290,7 +291,7 @@ public class Title
     public TitleHistory? TitleHistory { get; set; }
     public object? TitleRecord { get; set; }
 
-    public object? Detail { get; set; }
+    public Detail? Detail { get; set; }
 
     public object? FriendsWhoPlayed { get; set; }
 

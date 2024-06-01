@@ -24,6 +24,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private bool _regionOverride;
         [ObservableProperty] private bool _useAcrylic;
         [ObservableProperty] private bool _privacyMode;
+        [ObservableProperty] private bool _oAuthLogin;
         [ObservableProperty] private string _xauth;
         public static bool ManualXauth = false;
         public RoutedEventHandler OnNavigatedToEvent = null!;
@@ -42,7 +43,8 @@ namespace XAU.ViewModels.Pages
                 FakeSignatureEnabled = FakeSignatureEnabled,
                 RegionOverride = RegionOverride,
                 UseAcrylic = UseAcrylic,
-                PrivacyMode = PrivacyMode
+                PrivacyMode = PrivacyMode,
+                OAuthLogin = OAuthLogin
 
             };
             string settingsJson = JsonConvert.SerializeObject(settings);
@@ -66,7 +68,7 @@ namespace XAU.ViewModels.Pages
         {
             LoadSettings();
             ToolVersion = $"XAU - {GetAssemblyVersion()}";
-            SettingsVersion = "1";
+            SettingsVersion = "2";
             _isInitialized = true;
         }
 
@@ -83,6 +85,7 @@ namespace XAU.ViewModels.Pages
             UseAcrylic = HomeViewModel.Settings.UseAcrylic;
             PrivacyMode = HomeViewModel.Settings.PrivacyMode;
             Xauth = HomeViewModel.XAUTH;
+            OAuthLogin = HomeViewModel.Settings.OAuthLogin;
         }
 
         private string GetAssemblyVersion()

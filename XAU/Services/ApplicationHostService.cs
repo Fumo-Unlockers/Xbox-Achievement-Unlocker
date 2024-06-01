@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using XAU.Views.Pages;
 using XAU.Views.Windows;
-
+using Application = System.Windows.Application;
 namespace XAU.Services
 {
     /// <summary>

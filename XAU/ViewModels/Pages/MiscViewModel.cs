@@ -250,10 +250,12 @@ namespace XAU.ViewModels.Pages
 
         #region GamertagSearch
         [ObservableProperty] private string _gamertag = "";
-        [ObservableProperty] private string _gamertagName = "";
+        [ObservableProperty] private string _gamertagName = "Gamertag:";
         [ObservableProperty] private string _gamertagImage = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _gamertagScore = "Gamerscore: ";
         [ObservableProperty] private string _gamertagXuid;
+        [ObservableProperty] private bool _excludeZeroGamerscoreGames;
+        [ObservableProperty] private bool _excludeXbox360Games;
 
         [RelayCommand]
         public async Task SearchGamertag()
@@ -289,21 +291,43 @@ namespace XAU.ViewModels.Pages
             }
             try
             {
-                _snackbarService.Show("Success", "Exporting... This may take a moment depending on the number of games.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                _snackbarService.Show("Fetching Games", "Trying to get games. This may take a moment depending on the number of games the user has.", ControlAppearance.Primary, new SymbolIcon(SymbolRegular.XboxController24), _snackbarDuration);
                 var gamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(GamertagXuid);
+
                 if (gamesResponse == null || gamesResponse.Titles == null)
                 {
+                    await Task.Delay(2500);
                     _snackbarService.Show("Error", "Failed to fetch games list.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
 
+                if (gamesResponse.Titles.Count == 0)
+                {
+                    await Task.Delay(2500);
+                    _snackbarService.Show("No Titles Found", "No games found for this user. This could be due to user privacy settings or other reasons.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
                 var sb = new StringBuilder();
-                sb.AppendLine("Title ID,Title,CurrentAchievements,Gamerscore,Progress");
+                sb.AppendLine("\"Title ID\",\"Title\",\"CurrentAchievements\",\"Gamerscore\",\"Progress\",\"Devices\",\"Genres\"");
 
                 foreach (var title in gamesResponse.Titles)
                 {
-                    var titleName = title.Name.Contains(",") || title.Name.Contains("\"") ? $"\"{title.Name.Replace("\"", "\"\"")}\"" : title.Name;
-                    sb.AppendLine($"{title.TitleId},{titleName},{title.Achievement.CurrentAchievements},{title.Achievement.CurrentGamerscore}/{title.Achievement.TotalGamerscore},{title.Achievement.ProgressPercentage},");
+                    if (ExcludeZeroGamerscoreGames && title.Achievement.TotalGamerscore == 0)
+                    {
+                        continue;
+                    }
+
+                    if (ExcludeXbox360Games && title.Devices != null && title.Devices.Contains("Xbox360"))
+                    {
+                        continue;
+                    }
+
+                    var titleName = title.Name.Replace("\"", "\"\"");
+                    var devices = title.Devices != null ? string.Join(", ", title.Devices).Replace("\"", "\"\"") : string.Empty;
+                    var genres = title.Detail?.Genres != null ? string.Join(", ", title.Detail.Genres).Replace("\"", "\"\"") : string.Empty;
+
+                    sb.AppendLine($"\"{title.TitleId}\",\"{titleName}\",\"{title.Achievement.CurrentAchievements}\",\"{title.Achievement.CurrentGamerscore}/{title.Achievement.TotalGamerscore}\",\"{title.Achievement.ProgressPercentage}\",\"{devices}\",\"{genres}\"");
                 }
 
                 var saveFileDialog = new Microsoft.Win32.SaveFileDialog
@@ -331,8 +355,6 @@ namespace XAU.ViewModels.Pages
                 _snackbarService.Show("Error", "Failed to export games list: " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
         }
-
-
         #endregion
     }
 }

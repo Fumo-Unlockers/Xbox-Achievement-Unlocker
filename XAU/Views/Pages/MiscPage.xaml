@@ -182,7 +182,21 @@
                             <Label Content="{Binding ViewModel.GamertagName}" Margin="0,0,0,5" />
                             <Label Content="{Binding ViewModel.GamertagScore}" Margin="0,0,0,5" />
                             <TextBlock Text="XUID: " VerticalAlignment="Center" Margin="0,0,5,0" />
-                                <TextBox Text="{Binding ViewModel.GamertagXuid, Mode=OneWay}" Margin="0,0,0,5" IsReadOnly="True" />
+                            <TextBox Text="{Binding ViewModel.GamertagXuid, Mode=OneWay}" Margin="0,0,0,5" IsReadOnly="True" />
+                            <ui:ToggleSwitch
+                            x:Name="ExcludeZeroGamerscoreToggle"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="0,10,0,10"
+                            Content="Exclude 0 Gamerscore Games"
+                            IsChecked="{Binding ViewModel.ExcludeZeroGamerscoreGames, Mode=TwoWay}" />
+                            <ui:ToggleSwitch
+                            x:Name="ExcludeXbox360GamesToggle"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="0,5,0,10"
+                            Content="Exclude Xbox 360 Games"
+                            IsChecked="{Binding ViewModel.ExcludeXbox360Games, Mode=TwoWay}" />
                             <ui:Button
                             x:Name="ExportButton"
                             IsEnabled="{Binding ViewModel.IsInitialized}"

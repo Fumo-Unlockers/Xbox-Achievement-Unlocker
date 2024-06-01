@@ -41,6 +41,7 @@ namespace XAU.Views.Pages
 
             HomeViewModel.XAUTH = XauthTextBox.Text;
             SettingsViewModel.ManualXauth = true;
+            HomeViewModel.XAUTHTested = false;
         }
 
         private void EventsToken_OnTextChanged(object sender, TextChangedEventArgs e)
