@@ -16,7 +16,26 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <Grid>
-        
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+            <ui:TextBox Width="200" Margin="0,0,10,0" Text="{Binding TitleId, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Enter Title ID"/>
+            <ui:Button Content="Load Stats" Width="100" Command="{Binding LoadStatsCommand}"/>
+        </StackPanel>
+
+        <ui:DataGrid AutoGenerateColumns="False" Grid.Row="1" Margin="0,0,0,10" ItemsSource="{Binding Stats}" SelectedItem="{Binding SelectedStat}" IsReadOnly="False">
+            <ui:DataGrid.Columns>
+                <DataGridTextColumn Header="Stat Name" Binding="{Binding DisplayName}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Stat Value" Binding="{Binding Value}" Width="*"/>
+            </ui:DataGrid.Columns>
+        </ui:DataGrid>
+
+        <ui:Button Content="Save Stats" Width="100" Grid.Row="2" HorizontalAlignment="Left" Command="{Binding SaveStatsCommand}"/>
+        <Label Content="{Binding StatusMessage}" Grid.Row="2" HorizontalAlignment="Right"/>
     </Grid>
 </Page>

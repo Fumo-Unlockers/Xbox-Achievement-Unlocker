@@ -10,10 +10,10 @@ namespace XAU.Views.Pages
     {
         public StatsViewModel ViewModel { get; }
 
-        public StatsPage(StatsViewModel viewModel)
+        public StatsPage()
         {
-            ViewModel = viewModel;
-            DataContext = this;
+            ViewModel = new StatsViewModel();
+            DataContext = ViewModel;
             InitializeComponent();
         }
     }
