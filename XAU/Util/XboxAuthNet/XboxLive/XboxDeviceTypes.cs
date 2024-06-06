@@ -10,5 +10,6 @@ namespace XboxAuthNet.XboxLive
         public const string iOS = "iOS";
         public const string Android = "Android";
         public const string Nintendo = "Nintendo";
+        public const string WindowsOneCore = "WindowsOneCore";
     }
 }
