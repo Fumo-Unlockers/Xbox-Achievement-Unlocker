@@ -472,6 +472,8 @@ namespace XAU.ViewModels.Pages
                 LoginText = "Login";
                 return;
             }
+            Settings.OAuthLogin = true;
+
             //check for previous session auth otherwise do interactive login (should almost certainly make this more secure
             if (File.Exists(AuthFilePath))
             {
