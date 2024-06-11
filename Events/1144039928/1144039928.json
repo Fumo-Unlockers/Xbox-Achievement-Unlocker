@@ -1,0 +1,125 @@
+{
+    "FullySupported": "false",
+    "GameName": "Halo: Master Chief Collection",
+    "Achievements": {
+        "127": [
+            {
+                "Event": "Microsoft.XboxLive.T1144039928.AchievementEarned.json",
+                "RepeatType": "None",
+                "Replacements": [
+                    {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECRITERIA1",
+                        "Replacement": 1
+                    }
+                ]
+            },
+            {
+                "Event": "Microsoft.XboxLive.T1144039928.MissionCompleted.json",
+                "RepeatType": "None",
+                "Replacements": [
+                    {
+                        "ReplacementType": "StupidFuckingLDAPTimestamp",
+                        "Target": "REPLACEDATEPLAYED"
+                    },
+                    {
+                        "ReplacementType": "RangeInt",
+                        "Target": "REPLACEKILLS",
+                        "Min": 200,
+                        "Max": 300
+                    },
+                    {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACEMAPID",
+                        "Replacement": 179
+                    },
+                    {
+                        "ReplacementType": "RangeInt",
+                        "Target": "REPLACEMISSIONSCORE",
+                        "Min": 12750,
+                        "Max": 14999
+                    },
+                    {
+                        "ReplacementType": "RangeInt",
+                        "Target": "REPLACETIMEPLAYED",
+                        "Min": 900001,
+                        "Max": 1035000
+                    },
+                    {
+                        "ReplacementType": "RangeFloat",
+                        "Target": "REPLACEMULTIPLIER",
+                        "Min": 1,
+                        "Max": 2
+                    }
+                ]
+            }
+        ],
+        "265": [
+            {
+                "Event": "Microsoft.XboxLive.T1144039928.AchievementEarned.json",
+                "RepeatType": "None",
+                "Replacements": [
+                    {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECRITERIA1",
+                        "Replacement": 3
+                    }
+                ]
+            }
+        ],
+        "784": [
+            {
+                "Event": "Microsoft.XboxLive.T1144039928.AchievementEarned.json",
+                "RepeatType": "None",
+                "Replacements": [
+                    {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACECRITERIA1",
+                        "Replacement": 4
+                    }
+                ]
+            }
+        ],
+        "900": [
+            {
+                "Event": "Microsoft.XboxLive.T1144039928.MissionCompleted.json",
+                "RepeatType": "None",
+                "Replacements": [
+                    {
+                        "ReplacementType": "StupidFuckingLDAPTimestamp",
+                        "Target": "REPLACEDATEPLAYED"
+                    },
+                    {
+                        "ReplacementType": "RangeInt",
+                        "Target": "REPLACEKILLS",
+                        "Min": 200,
+                        "Max": 300
+                    },
+                    {
+                        "ReplacementType": "Replace",
+                        "Target": "REPLACEMAPID",
+                        "Replacement": 179
+                    },
+                    {
+                        "ReplacementType": "RangeInt",
+                        "Target": "REPLACEMISSIONSCORE",
+                        "Min": 12750,
+                        "Max": 14999
+                    },
+                    {
+                        "ReplacementType": "RangeInt",
+                        "Target": "REPLACETIMEPLAYED",
+                        "Min": 900001,
+                        "Max": 1035000
+                    },
+                    {
+                        "ReplacementType": "RangeFloat",
+                        "Target": "REPLACEMULTIPLIER",
+                        "Min": 1,
+                        "Max": 2
+                    }
+                ]
+            }
+        ]
+    }
+}

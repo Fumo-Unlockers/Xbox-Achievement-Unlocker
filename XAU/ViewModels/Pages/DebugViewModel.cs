@@ -14,21 +14,24 @@ namespace XAU.ViewModels.Pages
 
         public void OnNavigatedTo()
         {
-            if (!_isInitialized)
-                InitializeViewModel();
+            if (!_isInitialized) InitializeViewModel();
         }
 
-        public void OnNavigatedFrom() { }
+        public void OnNavigatedFrom()
+        {
+        }
 
         private void InitializeViewModel()
         {
             _isInitialized = true;
         }
+
         public DebugViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
             _snackbarService = snackbarService;
             _contentDialogService = contentDialogService;
         }
+
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private readonly IContentDialogService _contentDialogService;
@@ -39,96 +42,99 @@ namespace XAU.ViewModels.Pages
             int failedAchievements = 0;
             int successfulAchievements = 0;
             List<string> errors = new List<string>();
-            string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "Events", "Data.json");
+            string eventsDirectory = Environment.ProcessPath;
+            eventsDirectory = eventsDirectory.Substring(0, eventsDirectory.LastIndexOf("\\XAU\\"));
+            eventsDirectory = Path.Combine(eventsDirectory, "Events");
+            string DataPath = Path.Combine(eventsDirectory, "Data.json");
             var data = JObject.Parse(File.ReadAllText(DataPath));
             JArray SupportedGamesJ = (JArray)data["SupportedTitleIDs"];
             string Achievement = "";
             DateTime timestamp = DateTime.UtcNow;
             foreach (var game in SupportedGamesJ)
             {
-                var requestbody = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "Events", $"{game}.json"));
-
-                var EventsData = (dynamic)(JObject)data[game.ToString()];
-                foreach (var i in EventsData.Achievements)
+                var GamePath = Path.Combine(eventsDirectory, game.ToString());
+                var EventsData = (dynamic)JObject.Parse(File.ReadAllText(GamePath + $"\\{game}.json"));
+                foreach (var achievement in EventsData.Achievements)
                 {
                     try
                     {
-                        foreach (var j in i)
+                        foreach (var Event in achievement)
                         {
-                            Achievement = i.Name.ToString();
-                            foreach (var k in j)
+                            // it is extremely stupid that I need to do this but I dont care because it probably doesnt matter when doing it for actual unlocking
+                            foreach (var Event2 in Event)
                             {
-                                var ReplacementData = k.Value;
-                                switch (ReplacementData.ReplacementType.ToString())
+                                var eventstring = File.ReadAllText(GamePath + $"\\{Event2.Event}");
+                                foreach (var replacement in Event2.Replacements)
                                 {
-                                    case "Replace":
+                                    switch (replacement.ReplacementType.ToString())
+                                    {
+                                        case "Replace":
                                         {
-                                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
+                                            eventstring = eventstring.Replace(replacement.Target.ToString(),
+                                                replacement.Replacement.ToString());
                                             break;
                                         }
-                                    case "RangeInt":
+                                        case "RangeInt":
                                         {
-                                            int min = ReplacementData.Min;
-                                            int max = ReplacementData.Max;
+                                            int min = replacement.Min;
+                                            int max = replacement.Max;
                                             Random random = new Random();
                                             int randomint = random.Next(min, max);
-                                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomint.ToString());
+                                            eventstring = eventstring.Replace(replacement.Target.ToString(),
+                                                randomint.ToString());
                                             break;
                                         }
-                                    case "RangeFloat":
+                                        case "RangeFloat":
                                         {
-                                            float min = ReplacementData.Min;
-                                            float max = ReplacementData.Max;
+                                            float min = replacement.Min;
+                                            float max = replacement.Max;
                                             Random random = new Random();
                                             float randomfloat = (float)random.NextDouble() * (max - min) + min;
-                                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomfloat.ToString());
+                                            eventstring = eventstring.Replace(replacement.Target.ToString(),
+                                                randomfloat.ToString());
                                             break;
                                         }
-                                    case "StupidFuckingLDAPTimestamp":
+                                        case "StupidFuckingLDAPTimestamp":
                                         {
                                             long ldapTimestamp = DateTime.Now.ToFileTime();
-                                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ldapTimestamp.ToString());
+                                            eventstring = eventstring.Replace(replacement.Target.ToString(),
+                                                ldapTimestamp.ToString());
                                             break;
                                         }
-                                    default:
+                                        default:
                                         {
-                                            //_snackbarService.Show("Error: Bad Achievement Data", "Something went wrong with the achievement data", ControlAppearance.Danger,
-                                            //                                                  new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                                             return;
                                         }
-
+                                    }
                                 }
+                                eventstring = eventstring.Replace("REPLACETIME", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
+                                eventstring = eventstring.Replace("REPLACESEQ", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
+                                eventstring = eventstring.Replace("REPLACEXUID", HomeViewModel.XUIDOnly);
+                                eventstring = JObject.Parse(eventstring).ToString(Formatting.None);
+                                var bodyconverted = new StringContent(eventstring, Encoding.UTF8, "application/x-json-stream");
 
                             }
                         }
-                        requestbody = requestbody.Replace("REPLACETIME", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
-                        requestbody = requestbody.Replace("REPLACESEQ", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
-                        requestbody = requestbody.Replace("REPLACEXUID", HomeViewModel.XUIDOnly);
-                        requestbody = JObject.Parse(requestbody).ToString(Formatting.None);
-                        var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
                         successfulAchievements++;
                     }
-                    catch (Exception ex)
+                    catch (Exception e)
                     {
                         failedAchievements++;
-                        errors.Add($"Game: {game}, Achievement:{Achievement}, Error: {ex.Message}");
+                        errors.Add($"Game: {game}, Achievement:{Achievement}, Error: {e.Message}");
                     }
                 }
-
             }
-
             // Write errors to a file
             File.WriteAllLines(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "Events", "Errors.log"), errors);
 
             // Show message box with the summary
             _contentDialogService.ShowSimpleDialogAsync(
-                        new SimpleContentDialogCreateOptions()
-                        {
-                            Title = "Test Results",
-                            Content = $"Successful Achievements: {successfulAchievements}\nUnsuccessful Achievements: {failedAchievements}",
-                            CloseButtonText = "Close"
-                        });
+                new SimpleContentDialogCreateOptions()
+                {
+                    Title = "Test Results",
+                    Content = $"Successful Achievements: {successfulAchievements}\nUnsuccessful Achievements: {failedAchievements}",
+                    CloseButtonText = "Close"
+                });
         }
-
     }
 }
