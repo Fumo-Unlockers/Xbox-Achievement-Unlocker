@@ -423,8 +423,11 @@ namespace XAU.ViewModels.Pages
 
             if (IsSelectedGame360)
             {
-                _snackbarService.Show("Warning: Unsupported Game", $"This tool does not support Xbox 360 titles", ControlAppearance.Caution,
+                _snackbarService.Show("Warning: Unsupported Game", $"This tool does not/will not support Xbox 360 titles. To unlock 360 achievements, you can try https://www.wemod.com/horizon", ControlAppearance.Caution,
                     new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+                IsUnlockAllEnabled = false;
+
+                return;
             }
 
             if (IsEventBased)
