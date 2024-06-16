@@ -17391,6 +17391,94 @@
           "Target": "REPLACEACHMCW",
           "Replacement": 108
         }
+      },
+	  "135": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMCW",
+          "Replacement": "Microsoft.XboxLive.T896928775.AwardAchievement"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AccountType\":4,\"AchievementID\":4,\"BuildPlat\":4,\"Cheevos\":4,\"CurrentNumDevices\":4,\"Dim\":4,\"DnaIgnore\":4,\"Mode\":4,\"NetworkType\":4,\"PlayerGameMode\":4,\"isTrial\":4,\"isUnderground\":4,\"vrMode\":4}},\"measurements\":{\"f\":{\"AchievementCount\":4}}}}},\"policies\":0},"
+        },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AwardAchievement\",\"serviceConfigId\":\"4fc10100-5f7a-4470-899b-280835760c07\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":896928775,\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AccountType\":1,\"AchievementID\":REPLACEACHMCW,\"Build\":\"1.20.81\",\"BuildNum\":\"24130101\",\"BuildPlat\":7,\"Cheevos\":1,\"ClientId\":\"11111111-1111-1111-1111-111111111111\",\"CurrentNumDevices\":1,\"Difficulty\":\"NORMAL\",\"Dim\":0,\"DnAPlat\":\"Win,D,,UWP\",\"DnaIgnore\":1,\"MasterPlayfabId\":\"1111111111111111\",\"Mode\":0,\"NetworkType\":0,\"Plat\":\"Win 10.0.22631.3447\",\"PlayerGameMode\":0,\"TitleAccountPlayfabId\":\"1111111111111111\",\"UserId\":\"REPLACEXUID\",\"WorldID\":\"1\",\"editionType\":\"win10\",\"isTrial\":0,\"isUnderground\":0,\"vrMode\":0},\"measurements\":{\"AchievementCount\":2}}}"
+        },
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEACHMCW",
+          "Replacement": 109
+        }
+      },
+	  "136": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMCW",
+          "Replacement": "Microsoft.XboxLive.T896928775.AwardAchievement"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AccountType\":4,\"AchievementID\":4,\"BuildPlat\":4,\"Cheevos\":4,\"CurrentNumDevices\":4,\"Dim\":4,\"DnaIgnore\":4,\"Mode\":4,\"NetworkType\":4,\"PlayerGameMode\":4,\"isTrial\":4,\"isUnderground\":4,\"vrMode\":4}},\"measurements\":{\"f\":{\"AchievementCount\":4}}}}},\"policies\":0},"
+        },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AwardAchievement\",\"serviceConfigId\":\"4fc10100-5f7a-4470-899b-280835760c07\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":896928775,\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AccountType\":1,\"AchievementID\":REPLACEACHMCW,\"Build\":\"1.20.81\",\"BuildNum\":\"24130101\",\"BuildPlat\":7,\"Cheevos\":1,\"ClientId\":\"11111111-1111-1111-1111-111111111111\",\"CurrentNumDevices\":1,\"Difficulty\":\"NORMAL\",\"Dim\":0,\"DnAPlat\":\"Win,D,,UWP\",\"DnaIgnore\":1,\"MasterPlayfabId\":\"1111111111111111\",\"Mode\":0,\"NetworkType\":0,\"Plat\":\"Win 10.0.22631.3447\",\"PlayerGameMode\":0,\"TitleAccountPlayfabId\":\"1111111111111111\",\"UserId\":\"REPLACEXUID\",\"WorldID\":\"1\",\"editionType\":\"win10\",\"isTrial\":0,\"isUnderground\":0,\"vrMode\":0},\"measurements\":{\"AchievementCount\":2}}}"
+        },
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEACHMCW",
+          "Replacement": 110
+        }
+      },
+	  "137": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMCW",
+          "Replacement": "Microsoft.XboxLive.T896928775.AwardAchievement"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AccountType\":4,\"AchievementID\":4,\"BuildPlat\":4,\"Cheevos\":4,\"CurrentNumDevices\":4,\"Dim\":4,\"DnaIgnore\":4,\"Mode\":4,\"NetworkType\":4,\"PlayerGameMode\":4,\"isTrial\":4,\"isUnderground\":4,\"vrMode\":4}},\"measurements\":{\"f\":{\"AchievementCount\":4}}}}},\"policies\":0},"
+        },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AwardAchievement\",\"serviceConfigId\":\"4fc10100-5f7a-4470-899b-280835760c07\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":896928775,\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AccountType\":1,\"AchievementID\":REPLACEACHMCW,\"Build\":\"1.20.81\",\"BuildNum\":\"24130101\",\"BuildPlat\":7,\"Cheevos\":1,\"ClientId\":\"11111111-1111-1111-1111-111111111111\",\"CurrentNumDevices\":1,\"Difficulty\":\"NORMAL\",\"Dim\":0,\"DnAPlat\":\"Win,D,,UWP\",\"DnaIgnore\":1,\"MasterPlayfabId\":\"1111111111111111\",\"Mode\":0,\"NetworkType\":0,\"Plat\":\"Win 10.0.22631.3447\",\"PlayerGameMode\":0,\"TitleAccountPlayfabId\":\"1111111111111111\",\"UserId\":\"REPLACEXUID\",\"WorldID\":\"1\",\"editionType\":\"win10\",\"isTrial\":0,\"isUnderground\":0,\"vrMode\":0},\"measurements\":{\"AchievementCount\":2}}}"
+        },
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEACHMCW",
+          "Replacement": 111
+        }
+      },
+	  "138": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMCW",
+          "Replacement": "Microsoft.XboxLive.T896928775.AwardAchievement"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AccountType\":4,\"AchievementID\":4,\"BuildPlat\":4,\"Cheevos\":4,\"CurrentNumDevices\":4,\"Dim\":4,\"DnaIgnore\":4,\"Mode\":4,\"NetworkType\":4,\"PlayerGameMode\":4,\"isTrial\":4,\"isUnderground\":4,\"vrMode\":4}},\"measurements\":{\"f\":{\"AchievementCount\":4}}}}},\"policies\":0},"
+        },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AwardAchievement\",\"serviceConfigId\":\"4fc10100-5f7a-4470-899b-280835760c07\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":896928775,\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AccountType\":1,\"AchievementID\":REPLACEACHMCW,\"Build\":\"1.20.81\",\"BuildNum\":\"24130101\",\"BuildPlat\":7,\"Cheevos\":1,\"ClientId\":\"11111111-1111-1111-1111-111111111111\",\"CurrentNumDevices\":1,\"Difficulty\":\"NORMAL\",\"Dim\":0,\"DnAPlat\":\"Win,D,,UWP\",\"DnaIgnore\":1,\"MasterPlayfabId\":\"1111111111111111\",\"Mode\":0,\"NetworkType\":0,\"Plat\":\"Win 10.0.22631.3447\",\"PlayerGameMode\":0,\"TitleAccountPlayfabId\":\"1111111111111111\",\"UserId\":\"REPLACEXUID\",\"WorldID\":\"1\",\"editionType\":\"win10\",\"isTrial\":0,\"isUnderground\":0,\"vrMode\":0},\"measurements\":{\"AchievementCount\":2}}}"
+        },
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEACHMCW",
+          "Replacement": 112
+        }
       }
 	}
   },
@@ -20095,6 +20183,94 @@
           "ReplacementType": "Replace",
           "Target": "REPLACEACHMCW",
           "Replacement": 108
+        }
+      },
+	  "130": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMCA",
+          "Replacement": "Microsoft.XboxLive.T1739947436.AwardAchievement"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AccountType\":4,\"AchievementID\":4,\"BuildPlat\":4,\"Cheevos\":4,\"CurrentNumDevices\":4,\"Dim\":4,\"DnaIgnore\":4,\"Mode\":4,\"NetworkType\":4,\"PlayerGameMode\":4,\"isTrial\":4,\"isUnderground\":4,\"vrMode\":4}},\"measurements\":{\"f\":{\"AchievementCount\":4}}}}},\"policies\":0},"
+        },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AwardAchievement\",\"serviceConfigId\":\"00000000-0000-0000-0000-000067b57dac\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":1739947436,\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AccountType\":1,\"AchievementID\":REPLACEACHMCW,\"Build\":\"1.20.81\",\"BuildNum\":\"24130101\",\"BuildPlat\":7,\"Cheevos\":1,\"ClientId\":\"11111111-1111-1111-1111-111111111111\",\"CurrentNumDevices\":1,\"Difficulty\":\"NORMAL\",\"Dim\":0,\"DnAPlat\":\"Win,D,,UWP\",\"DnaIgnore\":1,\"MasterPlayfabId\":\"1111111111111111\",\"Mode\":0,\"NetworkType\":0,\"Plat\":\"Win 10.0.22631.3447\",\"PlayerGameMode\":0,\"TitleAccountPlayfabId\":\"1111111111111111\",\"UserId\":\"REPLACEXUID\",\"WorldID\":\"1\",\"editionType\":\"1\",\"isTrial\":0,\"isUnderground\":0,\"vrMode\":0},\"measurements\":{\"AchievementCount\":2}}}"
+        },
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEACHMCW",
+          "Replacement": 109
+        }
+      },
+	  "131": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMCA",
+          "Replacement": "Microsoft.XboxLive.T1739947436.AwardAchievement"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AccountType\":4,\"AchievementID\":4,\"BuildPlat\":4,\"Cheevos\":4,\"CurrentNumDevices\":4,\"Dim\":4,\"DnaIgnore\":4,\"Mode\":4,\"NetworkType\":4,\"PlayerGameMode\":4,\"isTrial\":4,\"isUnderground\":4,\"vrMode\":4}},\"measurements\":{\"f\":{\"AchievementCount\":4}}}}},\"policies\":0},"
+        },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AwardAchievement\",\"serviceConfigId\":\"00000000-0000-0000-0000-000067b57dac\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":1739947436,\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AccountType\":1,\"AchievementID\":REPLACEACHMCW,\"Build\":\"1.20.81\",\"BuildNum\":\"24130101\",\"BuildPlat\":7,\"Cheevos\":1,\"ClientId\":\"11111111-1111-1111-1111-111111111111\",\"CurrentNumDevices\":1,\"Difficulty\":\"NORMAL\",\"Dim\":0,\"DnAPlat\":\"Win,D,,UWP\",\"DnaIgnore\":1,\"MasterPlayfabId\":\"1111111111111111\",\"Mode\":0,\"NetworkType\":0,\"Plat\":\"Win 10.0.22631.3447\",\"PlayerGameMode\":0,\"TitleAccountPlayfabId\":\"1111111111111111\",\"UserId\":\"REPLACEXUID\",\"WorldID\":\"1\",\"editionType\":\"1\",\"isTrial\":0,\"isUnderground\":0,\"vrMode\":0},\"measurements\":{\"AchievementCount\":2}}}"
+        },
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEACHMCW",
+          "Replacement": 110
+        }
+      },
+	  "132": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMCA",
+          "Replacement": "Microsoft.XboxLive.T1739947436.AwardAchievement"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AccountType\":4,\"AchievementID\":4,\"BuildPlat\":4,\"Cheevos\":4,\"CurrentNumDevices\":4,\"Dim\":4,\"DnaIgnore\":4,\"Mode\":4,\"NetworkType\":4,\"PlayerGameMode\":4,\"isTrial\":4,\"isUnderground\":4,\"vrMode\":4}},\"measurements\":{\"f\":{\"AchievementCount\":4}}}}},\"policies\":0},"
+        },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AwardAchievement\",\"serviceConfigId\":\"00000000-0000-0000-0000-000067b57dac\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":1739947436,\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AccountType\":1,\"AchievementID\":REPLACEACHMCW,\"Build\":\"1.20.81\",\"BuildNum\":\"24130101\",\"BuildPlat\":7,\"Cheevos\":1,\"ClientId\":\"11111111-1111-1111-1111-111111111111\",\"CurrentNumDevices\":1,\"Difficulty\":\"NORMAL\",\"Dim\":0,\"DnAPlat\":\"Win,D,,UWP\",\"DnaIgnore\":1,\"MasterPlayfabId\":\"1111111111111111\",\"Mode\":0,\"NetworkType\":0,\"Plat\":\"Win 10.0.22631.3447\",\"PlayerGameMode\":0,\"TitleAccountPlayfabId\":\"1111111111111111\",\"UserId\":\"REPLACEXUID\",\"WorldID\":\"1\",\"editionType\":\"1\",\"isTrial\":0,\"isUnderground\":0,\"vrMode\":0},\"measurements\":{\"AchievementCount\":2}}}"
+        },
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEACHMCW",
+          "Replacement": 111
+        }
+      },
+	  "133": {
+		  "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMCA",
+          "Replacement": "Microsoft.XboxLive.T1739947436.AwardAchievement"
+        },
+		"MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+		  "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AccountType\":4,\"AchievementID\":4,\"BuildPlat\":4,\"Cheevos\":4,\"CurrentNumDevices\":4,\"Dim\":4,\"DnaIgnore\":4,\"Mode\":4,\"NetworkType\":4,\"PlayerGameMode\":4,\"isTrial\":4,\"isUnderground\":4,\"vrMode\":4}},\"measurements\":{\"f\":{\"AchievementCount\":4}}}}},\"policies\":0},"
+        },
+		"DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+		  "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AwardAchievement\",\"serviceConfigId\":\"00000000-0000-0000-0000-000067b57dac\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":1739947436,\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AccountType\":1,\"AchievementID\":REPLACEACHMCW,\"Build\":\"1.20.81\",\"BuildNum\":\"24130101\",\"BuildPlat\":7,\"Cheevos\":1,\"ClientId\":\"11111111-1111-1111-1111-111111111111\",\"CurrentNumDevices\":1,\"Difficulty\":\"NORMAL\",\"Dim\":0,\"DnAPlat\":\"Win,D,,UWP\",\"DnaIgnore\":1,\"MasterPlayfabId\":\"1111111111111111\",\"Mode\":0,\"NetworkType\":0,\"Plat\":\"Win 10.0.22631.3447\",\"PlayerGameMode\":0,\"TitleAccountPlayfabId\":\"1111111111111111\",\"UserId\":\"REPLACEXUID\",\"WorldID\":\"1\",\"editionType\":\"1\",\"isTrial\":0,\"isUnderground\":0,\"vrMode\":0},\"measurements\":{\"AchievementCount\":2}}}"
+        },
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEACHMCW",
+          "Replacement": 112
         }
       }
 	}
