@@ -23412,6 +23412,403 @@
       }
     }
   },
+  "690285705": {
+    "FullySupported": true,
+    "Achievements": {
+      "11": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "18"
+        }
+      },
+      "14": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "1"
+        }
+      },
+      "19": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "6"
+        }
+      },
+      "20": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "7"
+        }
+      },
+      "21": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "8"
+        }
+      },
+      "22": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "9"
+        }
+      },
+      "23": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "10"
+        }
+      },
+      "24": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "11"
+        }
+      },
+      "25": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "12"
+        }
+      },
+      "26": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "13"
+        }
+      },
+      "27": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "14"
+        }
+      },
+      "28": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "15"
+        }
+      },
+      "29": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "16"
+        }
+      },
+      "30": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "17"
+        }
+      },
+      "31": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "20"
+        }
+      },
+      "33": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "22"
+        }
+      },
+      "34": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "23"
+        }
+      },
+      "35": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "24"
+        }
+      },
+      "36": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "25"
+        }
+      },
+      "37": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "26"
+        }
+      },
+      "38": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "27"
+        }
+      },
+      "39": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "28"
+        }
+      },
+      "40": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "29"
+        }
+      },
+      "41": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "30"
+        }
+      },
+      "42": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "31"
+        }
+      },
+      "43": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "32"
+        }
+      },
+      "44": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "33"
+        }
+      },
+      "45": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "34"
+        }
+      },
+      "46": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "35"
+        }
+      },
+      "47": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "36"
+        }
+      },
+      "48": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "37"
+        }
+      },
+      "49": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "38"
+        }
+      },
+      "50": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "39"
+        }
+      },
+      "51": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "40"
+        }
+      },
+      "52": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "41"
+        }
+      },
+      "53": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "42"
+        }
+      },
+      "54": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "43"
+        }
+      },
+      "55": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "44"
+        }
+      },
+      "56": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "45"
+        }
+      },
+      "57": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "46"
+        }
+      },
+      "58": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "47"
+        }
+      },
+      "59": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "48"
+        }
+      },
+      "60": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "49"
+        }
+      },
+      "61": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "50"
+        }
+      },
+      "62": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "51"
+        }
+      },
+      "63": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "52"
+        }
+      },
+      "64": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "53"
+        }
+      },
+      "65": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "54"
+        }
+      },
+      "66": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "55"
+        }
+      },
+      "67": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "56"
+        }
+      },
+      "68": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "57"
+        }
+      },
+      "69": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "58"
+        }
+      },
+      "70": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "59"
+        }
+      },
+      "71": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "60"
+        }
+      },
+      "72": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "61"
+        }
+      },
+      "73": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "62"
+        }
+      }
+    }
+  },
   "SupportedTitleIDs": [
     144389848,
     1144039928,
@@ -23447,6 +23844,7 @@
     333693662,
     1289871275,
     1015066519,
-    1739947436
+    1739947436,
+    690285705
   ]
 }
