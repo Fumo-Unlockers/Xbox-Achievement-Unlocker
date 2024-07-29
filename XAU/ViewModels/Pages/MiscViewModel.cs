@@ -1,5 +1,6 @@
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -19,6 +20,8 @@ namespace XAU.ViewModels.Pages
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
         private Lazy<TrueAchievementRestApi> _taRestApi = new Lazy<TrueAchievementRestApi>();
+        private readonly Lazy<IGDBRestApi> _IGDBRestApi = new Lazy<IGDBRestApi>();
+
 
 
 
@@ -26,6 +29,8 @@ namespace XAU.ViewModels.Pages
         {
             _snackbarService = snackbarService;
             _contentDialogService = new ContentDialogService();
+            ApiOptions = new List<string> { "TrueAchievements", "IGDB" };
+            SelectedApi = ApiOptions[0]; // Default selection to TrueAchievements
         }
 
         public void OnNavigatedTo()
@@ -197,54 +202,111 @@ namespace XAU.ViewModels.Pages
         #endregion
 
         #region GameSearch
-        [ObservableProperty] private List<string> _tSearchGameLinks = new List<string>();
+        [ObservableProperty] private ObservableCollection<string> _tSearchGameLinks = new ObservableCollection<string>();
+        [ObservableProperty] private ObservableCollection<string> _tSearchGameNames = new ObservableCollection<string>();
         [ObservableProperty] private string _tSearchText = "";
-        [ObservableProperty] private List<string> _tSearchGameNames = new List<string>();
         [ObservableProperty] private string _tSearchGameImage = "pack://application:,,,/Assets/cirno.png";
-        [ObservableProperty] private string _tSearchGameName = "Name: ";
+        [ObservableProperty] private string _tSearchGameName = "";
         [ObservableProperty] private string _tSearchGameTitleID = "";
+        [ObservableProperty] private List<string> _apiOptions;
+        [ObservableProperty] private string _selectedApi;
+
         [RelayCommand]
         public async Task SearchGame()
         {
             try
             {
-                var response = await _taRestApi.Value.SearchAsync(TSearchText);
-                TSearchGameNames = response.Item1;
-                TSearchGameLinks = response.Item2;
+                Tuple<List<string>, List<string>> response;
+
+                if (SelectedApi == "TrueAchievements")
+                {
+                    response = await _taRestApi.Value.SearchAsync(TSearchText);
+                }
+                else if (SelectedApi == "IGDB")
+                {
+                    response = await _IGDBRestApi.Value.SearchAsync(TSearchText); 
+                }
+                else
+                {
+                    _snackbarService.Show("Error: Invalid Search Database",
+                        "You must select a database to search from.",
+                        ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
+                TSearchGameNames = new ObservableCollection<string>(response.Item1);
+                TSearchGameLinks = new ObservableCollection<string>(response.Item2);
+
+                if (TSearchGameNames.Count == 0 || TSearchGameLinks.Count == 0)
+                {
+                    _snackbarService.Show("Error: No Results Found",
+                        $"No results were found for '{TSearchText}'.",
+                        ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
             }
-            catch
+            catch (Exception ex)
             {
-                _snackbarService.Show("Error: No Results", $"No results were found for {TSearchText}",
-                    ControlAppearance.Danger,
-                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                return;
+                Console.WriteLine($"An error occurred during the search: {ex.Message}");
+                _snackbarService.Show("Error: No Results",
+                        $"No results were found for {TSearchText}",
+                        ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
             }
         }
 
-        public async void DisplayGameInfo(int index)
+        public async Task DisplayGameInfo(int index)
         {
             try
             {
-                var titleId = await _taRestApi.Value.GetGameLinkAsync(_xboxRestAPI.Value, TSearchGameLinks[index]);
-                TSearchGameName = "Name: " + TSearchGameNames[index];
-                TSearchGameTitleID = titleId;
-                if (titleId == "-1")
+                if (SelectedApi == "TrueAchievements")
                 {
-                    _snackbarService.Show("Error: TitleID not found",
-                        $"The TitleID for {TSearchGameNames[index]} was not available via TrueAchievement Search",
+                    var titleId = await _taRestApi.Value.GetGameLinkAsync(_xboxRestAPI.Value, TSearchGameLinks[index]);
+                    TSearchGameName = TSearchGameNames[index];
+                    TSearchGameTitleID = titleId;
+                    if (titleId == "-1")
+                    {
+                        _snackbarService.Show("Error: TitleID not found",
+                            $"The TitleID for {TSearchGameNames[index]} was not available via TrueAchievement Search",
+                            ControlAppearance.Danger,
+                            new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                        return;
+                    }
+                }
+                else if (SelectedApi == "IGDB")
+                {
+                    TSearchGameName = TSearchGameNames[index];
+                    TSearchGameTitleID = TSearchGameLinks[index];
+                }
+                else
+                {
+                    _snackbarService.Show("Error: Invalid Search Database",
+                        "You must select a database to search from.",
                         ControlAppearance.Danger,
                         new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine($"Error displaying game info: {ex.Message}");
+
                 _snackbarService.Show("Error: No Store Page",
-                    $"This Game does not have a store page listed.",
+                    $"This game does not have a store page listed.",
                     ControlAppearance.Danger,
                     new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                return;
             }
+        }
+        public void ClearSearchResults()
+        {
+            TSearchGameNames.Clear();
+            TSearchGameLinks.Clear();
+            TSearchGameName = string.Empty;
+            TSearchGameTitleID = string.Empty;
         }
         #endregion
 
