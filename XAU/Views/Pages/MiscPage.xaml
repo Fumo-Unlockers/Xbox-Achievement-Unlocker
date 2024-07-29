@@ -75,6 +75,7 @@
                             <TextBlock Text="{Binding ViewModel.GameTime}" Margin="0,0,0,5" />
                         </StackPanel>
                     </GroupBox>
+
                 </Grid>
             </TabItem>
 
@@ -168,7 +169,6 @@
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
 
-
                     <GroupBox Grid.Row="0" Grid.Column="0" Header="Search Gamertag" Margin="0,0,10,0" VerticalAlignment="Stretch">
                         <StackPanel Margin="10">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10">
@@ -210,6 +210,7 @@
                     Click="ExportToCsvButton_Click"/>
                         </StackPanel>
                     </GroupBox>
+
                     <GroupBox Grid.Row="0" Grid.Column="1" Header="Gamertag Information" Margin="0,0,0,0" VerticalAlignment="Stretch">
                         <StackPanel Margin="10">
                             <Image
@@ -217,7 +218,6 @@
                     Height="100"
                     Width="100"
                     Margin="0,0,0,10" />
-
                             <StackPanel>
                                 <TextBlock Text="{Binding ViewModel.GamertagName}" FontWeight="Bold" Margin="0,0,0,5" />
                                 <TextBlock Text="{Binding ViewModel.GamertagScore}" Margin="0,0,0,5" />
@@ -229,10 +229,9 @@
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
+
                 </Grid>
             </TabItem>
-
         </TabControl>
-
     </Grid>
 </Page>
