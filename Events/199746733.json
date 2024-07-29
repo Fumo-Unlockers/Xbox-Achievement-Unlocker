@@ -1,6 +1,6 @@
 {
     "ver": "4.0",
-    "name": "REPLACETITLE",
+    "name": "Microsoft.XboxLive.T199746733.ConanAchievementProgressionEvent",
     "time": "REPLACETIME",
     "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
     "ext": {
@@ -20,6 +20,16 @@
             "f": {
                 "baseData": {
                     "f": {
+                        "measurements": {
+                            "f": {
+                                "Progression": 4
+                            }
+                        },
+                        "properties": {
+                            "f": {
+                                "AchievementIndex": 4
+                            }
+                        },
                         "ver": 2
                     }
                 }
@@ -34,8 +44,8 @@
             "expId": "1"
         },
         "app": {
-            "id": "U:Bungie.Destiny2PCbasegame_0.3.29627.0_x64__8xb1a0vv8ay84!Destiny2",
-            "ver": "0.3.29627.0_x64_!2024/06/13:00:35:51!7368303!destiny2.exe",
+            "id": "U:FuncomOsloAS.ConanExiles_8979.204.1650.0_x64__pkaskhy6cdq4g!App",
+            "ver": "8979.204.1650.0_x64_!2024/07/01:21:38:39!5DF3E93!conansandboxms.exe",
             "is1P": 1,
             "asId": 1
         },
@@ -61,14 +71,15 @@
         "baseType": "Microsoft.XboxLive.InGame",
         "baseData": {
             "measurements": {
-                "PlayerSessionId": "{00000000-0000-0000-0000-000000000000}",
-                "UserId": "1"
+                "Progression": 100
             },
-            "name": "REPLACENAME",
+            "name": "ConanAchievementProgressionEvent",
             "playerSessionId": "11111111-1111-1111-1111-111111111111",
-            "properties": {},
-            "serviceConfigId": "bcc90100-31ff-42bd-b545-90cd089b36d8",
-            "titleId": 144389848,
+            "properties": {
+                "AchievementIndex": "REPLACEID"
+            },
+            "serviceConfigId": "e6040100-3bba-41ea-b345-3c6d0be7e4ad",
+            "titleId": 199746733,
             "userId": "REPLACEXUID",
             "ver": 1
         }
