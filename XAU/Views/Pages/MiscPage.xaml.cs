@@ -52,5 +52,10 @@ namespace XAU.Views.Pages
             await ViewModel.ExportToCsvAsync();
         }
 
+        private void GamesApi_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.ClearSearchResults();
+        }
+
     }
 }
