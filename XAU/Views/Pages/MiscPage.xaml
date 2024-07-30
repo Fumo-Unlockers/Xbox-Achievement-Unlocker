@@ -188,7 +188,7 @@
                         Command="{Binding ViewModel.SearchGamertagCommand}"
                         IsEnabled="{Binding ViewModel.IsInitialized}" />
                             </StackPanel>
-                            <TextBlock Text="Search Settings" FontWeight="Bold" Margin="0,0,0,5" />
+                            <TextBlock Text="Export Settings" FontWeight="Bold" Margin="0,0,0,5" />
                             <StackPanel>
                                 <ui:ToggleSwitch
                         x:Name="ExcludeZeroGamerscoreToggle"
