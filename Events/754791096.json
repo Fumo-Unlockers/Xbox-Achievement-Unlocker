@@ -13,29 +13,31 @@
             "seq": REPLACESEQ
         },
         "privacy": {
-            "dataType": 33554432,
             "isRequired": false
         },
         "metadata": {
             "f": {
                 "baseData": {
                     "f": {
-                        "ver": 2
+                        "properties": {
+                            "f": {
+                                "Unlock": 4
+                            }
+                        }
                     }
                 }
             },
-            "privTags": 33554432,
             "policies": 0
         },
         "os": {
             "bootId": 1,
-            "name": "1",
+            "name": "Windows",
             "ver": "1",
             "expId": "1"
         },
         "app": {
-            "id": "U:Bungie.Destiny2PCbasegame_0.3.29627.0_x64__8xb1a0vv8ay84!Destiny2",
-            "ver": "0.3.29627.0_x64_!2024/06/13:00:35:51!7368303!destiny2.exe",
+            "id": "U:38985CA0.PCCallofDutyInfiniteWarfare_1.2018.111.2_x64__5bkah9njm3e9g!App",
+            "ver": "1.2018.111.2_x64_!2018/01/08:22:18:11!0!iw7uwp_ship.exe",
             "is1P": 1,
             "asId": 1
         },
@@ -60,17 +62,15 @@
     "data": {
         "baseType": "Microsoft.XboxLive.InGame",
         "baseData": {
-            "measurements": {
-                "PlayerSessionId": "{00000000-0000-0000-0000-000000000000}",
-                "UserId": "1"
-            },
             "name": "REPLACENAME",
+            "serviceConfigId": "cc3a0100-c215-4c0a-9d7f-ca182cfd32b8",
             "playerSessionId": "11111111-1111-1111-1111-111111111111",
-            "properties": {},
-            "serviceConfigId": "bcc90100-31ff-42bd-b545-90cd089b36d8",
-            "titleId": 144389848,
+            "titleId": "754791096",
             "userId": "REPLACEXUID",
-            "ver": 1
+            "ver": 1,
+            "properties": {
+                "Unlock": 1
+            }
         }
     }
 }
