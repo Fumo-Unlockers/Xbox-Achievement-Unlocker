@@ -1,0 +1,81 @@
+{
+    "ver": "4.0",
+    "name": "Microsoft.XboxLive.T852431422.AchievementProgress",
+    "time": "REPLACETIME",
+    "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
+    "ext": {
+        "utc": {
+            "shellId": 1,
+            "eventFlags": 1,
+            "pgName": "XBOX",
+            "flags": 1,
+            "epoch": "1",
+            "seq": REPLACESEQ
+        },
+        "privacy": {
+            "dataType": 1,
+            "isRequired": false
+        },
+        "metadata": {
+            "f": {
+                "baseData": {
+                    "f": {
+                        "properties": {
+                            "f": {
+                                "AchievementId": 4,
+                                "Count": 4
+                            }
+                        }
+                    }
+                }
+            },
+            "privTags": 1,
+            "policies": 0
+        },
+        "os": {
+            "bootId": 1,
+            "name": "Windows",
+            "ver": "1",
+            "expId": "1"
+        },
+        "app": {
+            "id": "U:27620HinterlandStudio.30233944AADE4_2.31.129.0_x64__y1bt56c4151zw!Game",
+            "ver": "2.31.129.0_x64_!2022/12/12:20:48:53!0!tld.exe",
+            "is1P": 1,
+            "asId": 1
+        },
+        "device": {
+            "localId": "s:11111111-1111-1111-1111-111111111111",
+            "deviceClass": "Windows.Desktop"
+        },
+        "protocol": {
+            "devMake": "1",
+            "devModel": "1",
+            "ticketKeys": [
+                "1"
+            ]
+        },
+        "user": {
+            "localId": "w:11111111-1111-1111-1111-111111111111"
+        },
+        "loc": {
+            "tz": "00:00"
+        }
+    },
+    "data": {
+        "baseType": "Microsoft.XboxLive.InGame",
+        "baseData": {
+            "measurements": {},
+            "name": "AchievementProgress",
+            "playerSessionId": "11111111-1111-1111-1111-111111111111",
+            "properties": {
+                "AchievementId": REPLACECRITERIA,
+                "Count": 50000000
+            },
+            "serviceConfigId": "31ba0100-1d30-40c4-9816-9d6c32cf123e",
+            "titleId": 852431422,
+            "userId": "REPLACEXUID",
+            "ver": 1
+        }
+    }
+}
