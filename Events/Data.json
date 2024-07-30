@@ -6659,12 +6659,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.AreTheyNakedInThereAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.AreTheyNakedInThere"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "AreTheyNakedInThereAchievement"
+          "Replacement": "AreTheyNakedInThere"
         }
       },
       "38": {
@@ -6779,132 +6779,132 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.ThunderAndLightningAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.ThunderAndLightning"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "ThunderAndLightningAchievement"
+          "Replacement": "ThunderAndLightning"
         }
       },
       "48": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.TwistAndShoutAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.TwistAndShout"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "TwistAndShoutAchievement"
+          "Replacement": "TwistAndShout"
         }
       },
       "49": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.RunBambiAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.RunBambi"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "RunBambiAchievement"
+          "Replacement": "RunBambi"
         }
       },
       "50": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.DropTheBaseAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.DropTheBase"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "DropTheBaseAchievement"
+          "Replacement": "DropTheBase"
         }
       },
       "51": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.ItsHeadingRightForUSAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.ItsHeadingRightForUs"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "ItsHeadingRightForUSAchievement"
+          "Replacement": "ItsHeadingRightForUs"
         }
       },
       "52": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.WeNeedSnorkelsAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.WeNeedSnorkels"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "WeNeedSnorkelsAchievement"
+          "Replacement": "WeNeedSnorkels"
         }
       },
       "53": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.ShakeItUpAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.ShakeItUp"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "ShakeItUpAchievement"
+          "Replacement": "ShakeItUp"
         }
       },
       "54": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.EthernalCityAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.EternalCity"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "EthernalCityAchievement"
+          "Replacement": "EternalCity"
         }
       },
       "55": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.WeHaveAWinnerAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.WeHaveAWinner"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "WeHaveAWinnerAchievement"
+          "Replacement": "WeHaveAWinner"
         }
       },
       "56": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.WhatTheAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.WhatThe"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "WhatTheAchievement"
+          "Replacement": "WhatThe"
         }
       },
       "57": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.TheUnderdogAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.TheUnderdog"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "TheUnderdogAchievement"
+          "Replacement": "TheUnderdog"
         }
       },
       "58": {
@@ -7079,12 +7079,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.SuperSelfSuffcientAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.SuperSelfSufficientAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "SuperSelfSuffcientAchievement"
+          "Replacement": "SuperSelfSufficientAchievement"
         }
       },
       "73": {
@@ -7283,12 +7283,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.OffhoreAssetsAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.OffshoreAssetsAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "OffShoreAssetsAchievement"
+          "Replacement": "OffshoreAssetsAchievement"
         }
       },
       "97": {
@@ -7367,12 +7367,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.EducationNationAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.EducationNation"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "EducationNationAchievement"
+          "Replacement": "EducationNation"
         }
       },
       "104": {
@@ -7439,12 +7439,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.MultidisciplinaryAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.MultidisciplinaryTransportTycoonAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "MultidisciplinaryAchievement"
+          "Replacement": "MultidisciplinaryTransportTycoonAchievement"
         }
       },
       "110": {
@@ -7559,24 +7559,24 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.TheSweetestCityAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.TheSweetestCity"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "TheSweetestCityAchievement"
+          "Replacement": "TheSweetestCity"
         }
       },
       "120": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.GarbageCollectionIssues"
+          "Replacement": "Microsoft.XboxLive.T748474487.GarbageCollectionIssuesAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "GarbageCollectionIssues"
+          "Replacement": "GarbageCollectionIssuesAchievement"
         }
       },
       "121": {
