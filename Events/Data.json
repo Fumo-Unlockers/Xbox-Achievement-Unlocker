@@ -6275,12 +6275,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.PowerAtYourFingertipsAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.PowerAtYourFingeripsAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "PowerAtYourFingertipsAchievement"
+          "Replacement": "PowerAtYourFingeripsAchievement"
         }
       },
       "6": {
@@ -6383,12 +6383,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.DistoryAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.DistroyAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "DistoryAchievement"
+          "Replacement": "DistroyAchievement"
         }
       },
       "15": {
@@ -6599,12 +6599,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.1001NightsAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.A1001NightsAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "1001NightsAchievement"
+          "Replacement": "A1001NightsAchievement"
         }
       },
       "33": {
@@ -6647,24 +6647,24 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.SimulatedTownAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.SIMulatedTown"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "SimulatedTownAchievement"
+          "Replacement": "SIMulatedTown"
         }
       },
       "37": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.AreTheyNakedInThereAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.AreTheyNakedInThere"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "AreTheyNakedInThereAchievement"
+          "Replacement": "AreTheyNakedInThere"
         }
       },
       "38": {
@@ -6779,132 +6779,132 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.ThunderAndLightningAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.ThunderAndLightning"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "ThunderAndLightningAchievement"
+          "Replacement": "ThunderAndLightning"
         }
       },
       "48": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.TwistAndShoutAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.TwistAndShout"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "TwistAndShoutAchievement"
+          "Replacement": "TwistAndShout"
         }
       },
       "49": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.RunBambiAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.RunBambi"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "RunBambiAchievement"
+          "Replacement": "RunBambi"
         }
       },
       "50": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.DropTheBaseAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.DropTheBase"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "DropTheBaseAchievement"
+          "Replacement": "DropTheBase"
         }
       },
       "51": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.ItsHeadingRightForUSAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.ItsHeadingRightForUs"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "ItsHeadingRightForUSAchievement"
+          "Replacement": "ItsHeadingRightForUs"
         }
       },
       "52": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.WeNeedSnorkelsAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.WeNeedSnorkels"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "WeNeedSnorkelsAchievement"
+          "Replacement": "WeNeedSnorkels"
         }
       },
       "53": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.ShakeItUpAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.ShakeItUp"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "ShakeItUpAchievement"
+          "Replacement": "ShakeItUp"
         }
       },
       "54": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.EthernalCityAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.EternalCity"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "EthernalCityAchievement"
+          "Replacement": "EternalCity"
         }
       },
       "55": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.WeHaveAWinnerAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.WeHaveAWinner"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "WeHaveAWinnerAchievement"
+          "Replacement": "WeHaveAWinner"
         }
       },
       "56": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.WhatTheAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.WhatThe"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "WhatTheAchievement"
+          "Replacement": "WhatThe"
         }
       },
       "57": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.TheUnderdogAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.TheUnderdog"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "TheUnderdogAchievement"
+          "Replacement": "TheUnderdog"
         }
       },
       "58": {
@@ -7079,12 +7079,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.SuperSelfSuffcientAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.SuperSelfSufficientAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "SuperSelfSuffcientAchievement"
+          "Replacement": "SuperSelfSufficientAchievement"
         }
       },
       "73": {
@@ -7283,12 +7283,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.OffShoreAssetsAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.OffshoreAssetsAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "OffShoreAssetsAchievement"
+          "Replacement": "OffshoreAssetsAchievement"
         }
       },
       "97": {
@@ -7367,12 +7367,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.EducationNationAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.EducationNation"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "EducationNationAchievement"
+          "Replacement": "EducationNation"
         }
       },
       "104": {
@@ -7439,12 +7439,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.MultidisciplinaryAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.MultidisciplinaryTransportTycoonAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "MultidisciplinaryAchievement"
+          "Replacement": "MultidisciplinaryTransportTycoonAchievement"
         }
       },
       "110": {
@@ -7559,12 +7559,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.TheSweetestCityAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.TheSweetestCity"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "TheSweetestCityAchievement"
+          "Replacement": "TheSweetestCity"
         }
       },
       "120": {
@@ -22228,57 +22228,6 @@
           "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"FestivalSiteUpgraded\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"SiteName\":\"ByronBay\",\"TotalUpgradesAllSites\":1,\"Track\":552,\"UpgradeCount\":1}}}"
         }
       },
-      "10": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
-        },
-        "MetaDataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEMETADATA",
-          "Replacement": ""
-        },
-        "DataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEDATA",
-          "Replacement": ""
-        }
-      },
-      "11": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
-        },
-        "MetaDataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEMETADATA",
-          "Replacement": ""
-        },
-        "DataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEDATA",
-          "Replacement": ""
-        }
-      },
-      "12": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
-        },
-        "MetaDataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEMETADATA",
-          "Replacement": ""
-        },
-        "DataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEDATA",
-          "Replacement": ""
-        }
-      },
       "13": {
         "EventReplacement": {
           "ReplacementType": "Replace",
@@ -22294,57 +22243,6 @@
           "ReplacementType": "Replace",
           "Target": "REPLACEDATA",
           "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"DrivatarHired\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BonusType\":\"FanBonus\",\"BuildNum\":156858,\"IsSwap\":0,\"Track\":552}}}"
-        }
-      },
-      "14": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
-        },
-        "MetaDataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEMETADATA",
-          "Replacement": ""
-        },
-        "DataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEDATA",
-          "Replacement": ""
-        }
-      },
-      "15": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
-        },
-        "MetaDataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEMETADATA",
-          "Replacement": ""
-        },
-        "DataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEDATA",
-          "Replacement": ""
-        }
-      },
-      "16": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
-        },
-        "MetaDataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEMETADATA",
-          "Replacement": ""
-        },
-        "DataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEDATA",
-          "Replacement": ""
         }
       },
       "22": {
@@ -22396,6 +22294,23 @@
           "ReplacementType": "Replace",
           "Target": "REPLACEDATA",
           "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RadioStationUnlocked\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"StationName\":\"Horizon Pulse\",\"Track\":552,\"UnlockCount\":5}}}"
+        }
+      },
+      "28": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.FestivalSiteBuilt"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"Track\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"FestivalSiteBuilt\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"SiteName\":\"Outback\",\"Track\":552}}}"
         }
       },
       "29": {
@@ -22466,6 +22381,23 @@
           "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"ShowcaseRaceEnd\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"EventId\":5,\"VehicleType\":\"RP_NONE\"}}}"
         }
       },
+      "34": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.DistanceDrivenInConvoy"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"CarBucket\":4,\"ManufacturerId\":4,\"ModelId\":4,\"PlayerCount\":4,\"Track\":4}}}}},\"measurements\":{\"f\":{\"Distance\":6,\"DistanceDelta\":6}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"DistanceDrivenInConvoy\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarBucket\":34,\"Location\":\"rainforest\",\"ManufacturerId\":14,\"ModelId\":2648,\"PlayerCount\":2,\"Track\":554},\"measurements\":{\"Distance\":192140000000.46875,\"DistanceDelta\":1000.76873779296875}}}"
+        }
+      },
       "37": {
         "EventReplacement": {
           "ReplacementType": "Replace",
@@ -22500,21 +22432,21 @@
           "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RoadsDriven\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"Amount\":488,\"BuildNum\":156858}}}"
         }
       },
-      "39": {
+      "41": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
+          "Replacement": "Microsoft.XboxLive.T1289871275.SkillPerkUnlocked"
         },
         "MetaDataReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEMETADATA",
-          "Replacement": ""
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"IsConsumable\":4,\"PerkId\":4,\"Track\":4}}}}"
         },
         "DataReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEDATA",
-          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":156858,\"CarBucket\":35,\"HasHotWheelsGrade\":0,\"IsSkillSong\":1,\"LocationName\":\"airstrip\",\"NumChainedSkills\":43,\"Payout\":135660,\"PlayerCarId\":378,\"PlayerCarManufacturerId\":30,\"Track\":552}},\"measurements\":{\"f\":{\"ChainTimer\":6.0165724754333496,\"Multiplier\":6}}}"
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"SkillPerkUnlocked\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"IsConsumable\":0,\"PerkId\":31,\"Track\":552}}}"
         }
       },
       "46": {
@@ -22619,40 +22551,6 @@
           "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarAddedToGarage\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarId\":2141,\"IsHorizonEdition\":1,\"NumCarsInGarage\":696969,\"Track\":552}}}"
         }
       },
-      "54": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
-        },
-        "MetaDataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEMETADATA",
-          "Replacement": ""
-        },
-        "DataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEDATA",
-          "Replacement": ""
-        }
-      },
-      "55": {
-        "EventReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
-        },
-        "MetaDataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEMETADATA",
-          "Replacement": ""
-        },
-        "DataReplacement": {
-          "ReplacementType": "Replace",
-          "Target": "REPLACEDATA",
-          "Replacement": ""
-        }
-      },
       "60": {
         "EventReplacement": {
           "ReplacementType": "Replace",
@@ -22668,6 +22566,23 @@
           "ReplacementType": "Replace",
           "Target": "REPLACEDATA",
           "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CampaignSlotChampionshipCompleted\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"Track\":552}}}"
+        }
+      },
+      "65": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.AmbientMedalTotalsChanged"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"Bronze\":4,\"BronzeOrBetter\":4,\"Gold\":4,\"GoldOrBetter\":4,\"Silver\":4,\"SilverOrBetter\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AmbientMedalTotalsChanged\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"Bronze\":0,\"BronzeOrBetter\":93,\"Gold\":93,\"GoldOrBetter\":93,\"Silver\":0,\"SilverOrBetter\":93}}}"
         }
       },
       "67": {
@@ -22687,21 +22602,106 @@
           "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"LandmarkDiscovered\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"LandmarkGroup\":\"BeautySpots\",\"LandmarkId\":\"beauty_trigger_byron\",\"TotalSeen\":14,\"Track\":552,\"VehicleId\":1625}}}"
         }
       },
-      "175": {
+      "164": {
+    "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFH3",
+      "Replacement": "Microsoft.XboxLive.T1289871275.CurrencyChanged"
+    },
+    "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"Delta\":4,\"Total\":4,\"Track\":4}}}}"
+    },
+    "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CurrencyChanged\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CurrencyType\":\"Stars\",\"Delta\":3,\"Total\":160,\"Track\":553}}}"
+    }
+  },
+  "166": {
+    "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFH3",
+      "Replacement": "Microsoft.XboxLive.T1289871275.MountainBarnFindRestored"
+    },
+    "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"Track\":4}}}}"
+    },
+    "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\", \"baseData\": {\"name\": \"MountainBarnFindRestored\", \"serviceConfigId\": \"19020100-9575-4c2b-9916-3d664ce1dfab\", \"playerSessionId\": \"11111111-1111-1111-1111-111111111111\", \"titleId\": \"1289871275\", \"userId\": \"REPLACEXUID\", \"ver\": 1, \"properties\": {\"BuildNum\": 156858, \"CarId\": 2558, \"Track\": 553}}}"
+    }
+  },  
+  "167": {
+    "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFH3",
+      "Replacement": "Microsoft.XboxLive.T1289871275.MountainCampaignSlotChampionshipCompleted"
+    },
+    "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"Track\":4}}}}"
+    },
+    "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"MountainCampaignSlotChampionshipCompleted\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"Track\":553}}}"
+    }
+  },
+  "168": {
+    "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFH3",
+      "Replacement": "Microsoft.XboxLive.T1289871275.MountainCampaignSlotChampionshipCompleted"
+    },
+    "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"Track\":4}}}}"
+    },
+    "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"MountainCampaignSlotChampionshipCompleted\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"Track\":553}}}"
+    }
+  },
+	    "170": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTFH3",
-          "Replacement": ""
+          "Replacement": "Microsoft.XboxLive.T1289871275.MountainRewardBoardSmashed"
         },
         "MetaDataReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEMETADATA",
-          "Replacement": ""
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"TotalSmashed\":4,\"Track\":4}}}}"
         },
         "DataReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEDATA",
-          "Replacement": ""
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"MountainRewardBoardSmashed\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"Id\":\"bm_discount_board_xp_a_025\",\"RewardType\":\"XP\",\"TotalSmashed\":25,\"Track\":553}}}"
+        }
+      },
+      "174": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.MountainRoadsDriven"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"Amount\":4,\"BuildNum\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"MountainRoadsDriven\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"Amount\":50,\"BuildNum\":156858}}}"
         }
       },
       "177": {
@@ -22720,9 +22720,417 @@
           "Target": "REPLACEDATA",
           "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AnthemOnlineRaceEnd\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarBaseCost\":160000,\"CarBucket\":31,\"CarClass\":6,\"CarClassStock\":4,\"CarMeetId\":-1,\"CoopRace\":0,\"CreditReward\":2360,\"DifficultyLevelId\":0,\"ExitStatusId\":0,\"GameplayModeId\":6,\"InputDeviceType\":0,\"IsPlaygroundEvent\":1,\"IsRivals\":0,\"IsTeamEvent\":0,\"ManufacturerId\":9,\"MultiplayerCorrelationId\":\"ae5ff7b2-045e-222b-9a64-ae4ed077c854\",\"Place\":2,\"RaceMode\":6,\"RoundId\":\"E0AA32FE-6208-41F3-BD40-AFD46EE4BE0F\",\"RouteId\":3054,\"SectionId\":0,\"SessionPrivacy\":\"InviteOnly\",\"TeamPlace\":0,\"Track\":553,\"VehicleId\":2675,\"Wet\":0},\"measurements\":{\"FramesPerSecond\":59.783809661865234,\"TimeInSeconds\":46.032707214355469}}}"
         }
-      }
+      },
+      "294": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":0,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":0,\"ChampionshipsCompleted\":0,\"IslandStarsEarnt\":0,\"RaceEventsCompleted\":1,\"RoadsDriven\":0}}}"
+        }
+      },
+      "301": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":0,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":0,\"ChampionshipsCompleted\":0,\"IslandStarsEarnt\":0,\"RaceEventsCompleted\":27,\"RoadsDriven\":0}}}"
+        }
+      },
+      "302": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.MountainAmbientMedalTotalsChanged"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"Bronze\":4,\"BronzeOrBetter\":4,\"Gold\":4,\"GoldOrBetter\":4,\"Silver\":4,\"SilverOrBetter\":4,\"Track\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"MountainAmbientMedalTotalsChanged\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"Bronze\":0,\"BronzeOrBetter\":29,\"Gold\":29,\"GoldOrBetter\":29,\"Silver\":0,\"SilverOrBetter\":29,\"Track\":554}}}"
+        }
+      },
+      "303": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":0,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":0,\"ChampionshipsCompleted\":0,\"IslandStarsEarnt\":177,\"RaceEventsCompleted\":0,\"RoadsDriven\":0}}}"
+        }
+      },
+      "305": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":1,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":0,\"ChampionshipsCompleted\":0,\"IslandStarsEarnt\":0,\"RaceEventsCompleted\":0,\"RoadsDriven\":0}}}"
+        }
+      },
+      "306": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":0,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":1,\"ChampionshipsCompleted\":0,\"IslandStarsEarnt\":0,\"RaceEventsCompleted\":0,\"RoadsDriven\":0}}}"
+        }
+      },
+      "307": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":0,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":5,\"ChampionshipsCompleted\":0,\"IslandStarsEarnt\":0,\"RaceEventsCompleted\":0,\"RoadsDriven\":0}}}"
+        }
+      },
+      "309": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":0,\"BonusBoardsSmashed\":50,\"BucketListsCompleted\":0,\"ChampionshipsCompleted\":0,\"IslandStarsEarnt\":0,\"RaceEventsCompleted\":0,\"RoadsDriven\":0}}}"
+        }
+      },
+      "319": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":4,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":0,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":0,\"ChampionshipsCompleted\":0,\"IslandStarsEarnt\":0,\"RaceEventsCompleted\":0,\"RoadsDriven\":177}}}"
+        }
+      },
+      "320": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":4,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":0,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":0,\"ChampionshipsCompleted\":3,\"IslandStarsEarnt\":177,\"RaceEventsCompleted\":0,\"RoadsDriven\":0}}}"
+        }
+      },
+      "321": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.OpusIslandAchievementProgress"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BarnFindsRestored\":4,\"BonusBoardsSmashed\":4,\"BucketListsCompleted\":4,\"ChampionshipsCompleted\":4,\"IslandStarsEarnt\":4,\"RaceEventsCompleted\":4,\"RoadsDriven\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"OpusIslandAchievementProgress\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BarnFindsRestored\":0,\"BonusBoardsSmashed\":0,\"BucketListsCompleted\":0,\"ChampionshipsCompleted\":120,\"IslandStarsEarnt\":0,\"RaceEventsCompleted\":0,\"RoadsDriven\":0}}}"
+        }
+      },
+      "398": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.ChampionshipCompleted"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AustralianCarsOnly\":4,\"BuildNum\":4,\"CoopSession\":4,\"IsBlueprint\":4,\"NumEvents\":4,\"Place\":4,\"PlayerCarClass\":4,\"PlayerCarId\":4,\"PlayerCarManufacturerId\":4,\"PlayerIsAuthor\":4,\"TotalMeters\":4,\"Track\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"ChampionshipCompleted\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AustralianCarsOnly\":0,\"BuildNum\":156858,\"CoopSession\":1,\"FestivalSite\":\"BlizzardMountain\",\"IsBlueprint\":0,\"NumEvents\":1,\"Place\":1,\"PlayerCarClass\":3,\"PlayerCarId\":2734,\"PlayerCarManufacturerId\":156,\"PlayerIsAuthor\":0,\"TotalMeters\":5519,\"Track\":553}}}"
+        }
+      },
+        "399": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.RivalsEverywhereEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BeatenRival\":4,\"BuildNum\":4,\"CarBaseCost\":4,\"CarClass\":4,\"CarId\":4,\"CoopSession\":4,\"ManufacturerId\":4,\"Track\":4}},\"measurements\":{\"f\":{\"MassKG\":6,\"Score\":6}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RivalsEverywhereEnd\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BeatenRival\":0,\"BuildNum\":156858,\"CarBaseCost\":1000000,\"CarClass\":5,\"CarId\":2734,\"CoopSession\":0,\"LocationName\":\"surfers\",\"ManufacturerId\":156,\"MedalEarned\":\"Gold\",\"Track\":552,\"Type\":\"DangerSign\",\"UniqueId\":\"17A17SurfersParkJump\"},\"measurements\":{\"MassKG\":1351.709228515625,\"Score\":295.13330078125}}}"
+        }
+      },
+      "400": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.RivalsEverywhereEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BeatenRival\":4,\"BuildNum\":4,\"CarBaseCost\":4,\"CarClass\":4,\"CarId\":4,\"CoopSession\":4,\"ManufacturerId\":4,\"Track\":4}},\"measurements\":{\"f\":{\"MassKG\":6,\"Score\":6}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RivalsEverywhereEnd\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BeatenRival\":0,\"BuildNum\":156858,\"CarBaseCost\":1000000,\"CarClass\":5,\"CarId\":2736,\"CoopSession\":0,\"LocationName\":\"goldmine\",\"ManufacturerId\":156,\"MedalEarned\":\"Gold\",\"Track\":552,\"Type\":\"DriftZone\",\"UniqueId\":\"driftzone08\"},\"measurements\":{\"MassKG\":1351.709228515625,\"Score\":295.13330078125}}}"
+        }
+      },
+      "402": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.RivalsEverywhereEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BeatenRival\":4,\"BuildNum\":4,\"CarBaseCost\":4,\"CarClass\":4,\"CarId\":4,\"CoopSession\":4,\"ManufacturerId\":4,\"Track\":4}},\"measurements\":{\"f\":{\"MassKG\":6,\"Score\":6}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RivalsEverywhereEnd\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BeatenRival\":0,\"BuildNum\":156858,\"CarBaseCost\":1000000,\"CarClass\":5,\"CarId\":2734,\"CoopSession\":0,\"LocationName\":\"surfers\",\"ManufacturerId\":156,\"MedalEarned\":\"Gold\",\"Track\":552,\"Type\":\"DangerSign\",\"UniqueId\":\"17A17SurfersParkJump\"},\"measurements\":{\"MassKG\":1351.709228515625,\"Score\":295.13330078125}}}"
+        }
+      },
+      "403": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.AnthemOnlineRaceEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"CarClass\":4,\"ChampionshipID\":4,\"DestinationID\":4,\"DrivatarCollisions\":4,\"FinishPos\":4,\"GainedCredits\":4,\"GainedXP\":4,\"ModelID\":4,\"Online\":4,\"PlayerCollisions\":4,\"RouteID\":4,\"SessionLeader\":4,\"Track\":4,\"WorldCollisions\":4,\"Wristband\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"AnthemOnlineRaceEnd\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"2533274796689758\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarBaseCost\":78000,\"CarBucket\":18,\"CarClass\":3,\"CarClassStock\":3,\"CarMeetId\":-1,\"CoopRace\":0,\"CreditReward\":2032,\"DifficultyLevelId\":0,\"ExitStatusId\":0,\"GameplayModeId\":3,\"InputDeviceType\":0,\"IsPlaygroundEvent\":0,\"IsRivals\":0,\"IsTeamEvent\":0,\"ManufacturerId\":28,\"MultiplayerCorrelationId\":\"11111111-1111-1111-1111-111111111111\",\"Place\":2,\"RaceMode\":2,\"RoundId\":\"11111111-1111-1111-1111-111111111111\",\"RouteId\":2129,\"SectionId\":0,\"SessionPrivacy\":\"InviteOnly\",\"TeamPlace\":0,\"Track\":552,\"VehicleId\":1525,\"Wet\":0},\"measurements\":{\"FramesPerSecond\":60.003818511962891,\"TimeInSeconds\":34.349605560302734}}}"
+        }
+      },
+      "404": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.RivalsEverywhereEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BeatenRival\":4,\"BuildNum\":4,\"CarBaseCost\":4,\"CarClass\":4,\"CarId\":4,\"CoopSession\":4,\"ManufacturerId\":4,\"Track\":4}},\"measurements\":{\"f\":{\"MassKG\":6,\"Score\":6}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RivalsEverywhereEnd\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BeatenRival\":0,\"BuildNum\":156858,\"CarBaseCost\":250000,\"CarClass\":5,\"CarId\":2733,\"CoopSession\":0,\"LocationName\":\"airstrip\",\"ManufacturerId\":156,\"MedalEarned\":\"Gold\",\"Track\":552,\"Type\":\"DangerSign\",\"UniqueId\":\"25A35PlaneJump\"},\"measurements\":{\"MassKG\":1351.709228515625,\"Score\":295.13330078125}}}"
+        }
+      },
+      "405": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.SkillAchievedHighFreq"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"CarClass\":4,\"CarId\":4,\"Combo\":4,\"Gradation\":4,\"Track\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"SkillAchievedHighFreq\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarClass\":5,\"CarId\":2732,\"Combo\":1,\"Gradation\":0,\"Track\":552,\"Type\":\"Drift\"}}}"
+        }
+      },
+      "406": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.SkillChainCompleted"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"CarBucket\":4,\"HasHotWheelsGrade\":4,\"IsSkillSong\":4,\"NumChainedSkills\":4,\"Payout\":4,\"PlayerCarId\":4,\"PlayerCarManufacturerId\":4,\"Track\":4}}},\"measurements\":{\"f\":{\"ChainTimer\":6,\"Multiplier\":6}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"SkillChainCompleted\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarBucket\":26,\"HasHotWheelsGrade\":0,\"IsSkillSong\":0,\"LocationName\":\"timbermill\",\"NumChainedSkills\":42,\"Payout\":2302300,\"PlayerCarId\":2732,\"PlayerCarManufacturerId\":156,\"Track\":552},\"measurements\":{\"ChainTimer\":6.0166068077087402,\"Multiplier\":6}}}"
+        }
+      },
+      "407": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFH3",
+          "Replacement": "Microsoft.XboxLive.T1289871275.SkillAchievedHighFreq"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"CarClass\":4,\"CarId\":4,\"Combo\":4,\"Gradation\":4,\"Track\":4}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"SkillAchievedHighFreq\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarClass\":5,\"CarId\":2732,\"Combo\":1,\"Gradation\":0,\"Track\":552,\"Type\":\"FruitSalad\"}}}"
+        }
+      },
+  "791": {
+    "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFH3",
+      "Replacement": "Microsoft.XboxLive.T1289871275.SkillAchievedHighFreq"
+    },
+    "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"CarClass\":4,\"CarId\":4,\"Combo\":4,\"Gradation\":4,\"Track\":4}}}}"
+    },
+    "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"SkillAchievedHighFreq\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarClass\":5,\"CarId\":2648,\"Combo\":1,\"Gradation\":0,\"Track\":553,\"Type\":\"Snowman\"}}}"
     }
   },
+  "792": {
+    "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFH3",
+      "Replacement": "Microsoft.XboxLive.T1289871275.SkillAchievedHighFreq"
+    },
+    "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"CarClass\":4,\"CarId\":4,\"Combo\":4,\"Gradation\":4,\"Track\":4}}}}"
+    },
+    "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"SkillAchievedHighFreq\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarClass\":5,\"CarId\":2648,\"Combo\":1,\"Gradation\":0,\"Track\":552,\"Type\":\"Kangaroo\"}}}"
+    }
+  },
+  "793": {
+    "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFH3",
+      "Replacement": "Microsoft.XboxLive.T1289871275.SkillAchievedHighFreq"
+    },
+    "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"CarClass\":4,\"CarId\":4,\"Combo\":4,\"Gradation\":4,\"Track\":4}}}}"
+    },
+    "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"SkillAchievedHighFreq\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarClass\":5,\"CarId\":2648,\"Combo\":1,\"Gradation\":0,\"Track\":554,\"Type\":\"Air\"}}}"
+    }
+  },
+  "794": {
+    "EventReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEEVENTFH3",
+      "Replacement": "Microsoft.XboxLive.T1289871275.SkillAchievedHighFreq"
+    },
+    "MetaDataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEMETADATA",
+      "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BuildNum\":4,\"CarClass\":4,\"CarId\":4,\"Combo\":4,\"Gradation\":4,\"Track\":4}}}}"
+    },
+    "DataReplacement": {
+      "ReplacementType": "Replace",
+      "Target": "REPLACEDATA",
+      "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"SkillAchievedHighFreq\",\"serviceConfigId\":\"19020100-9575-4c2b-9916-3d664ce1dfab\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1289871275\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BuildNum\":156858,\"CarClass\":5,\"CarId\":2648,\"Combo\":1,\"Gradation\":0,\"Track\":552,\"Type\":\"Drift\"}}}"
+      }
+    }
+  }
+},
   "144389848": {
     "FullySupported": true,
     "Achievements": {
@@ -23004,6 +23412,1022 @@
       }
     }
   },
+  "690285705": {
+    "FullySupported": true,
+    "Achievements": {
+      "11": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "18"
+        }
+      },
+      "14": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "1"
+        }
+      },
+      "19": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "6"
+        }
+      },
+      "20": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "7"
+        }
+      },
+      "21": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "8"
+        }
+      },
+      "22": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "9"
+        }
+      },
+      "23": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "10"
+        }
+      },
+      "24": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "11"
+        }
+      },
+      "25": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "12"
+        }
+      },
+      "26": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "13"
+        }
+      },
+      "27": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "14"
+        }
+      },
+      "28": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "15"
+        }
+      },
+      "29": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "16"
+        }
+      },
+      "30": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "17"
+        }
+      },
+      "31": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "20"
+        }
+      },
+      "33": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "22"
+        }
+      },
+      "34": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "23"
+        }
+      },
+      "35": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "24"
+        }
+      },
+      "36": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "25"
+        }
+      },
+      "37": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "26"
+        }
+      },
+      "38": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "27"
+        }
+      },
+      "39": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "28"
+        }
+      },
+      "40": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "29"
+        }
+      },
+      "41": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "30"
+        }
+      },
+      "42": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "31"
+        }
+      },
+      "43": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "32"
+        }
+      },
+      "44": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "33"
+        }
+      },
+      "45": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "34"
+        }
+      },
+      "46": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "35"
+        }
+      },
+      "47": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "36"
+        }
+      },
+      "48": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "37"
+        }
+      },
+      "49": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "38"
+        }
+      },
+      "50": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "39"
+        }
+      },
+      "51": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "40"
+        }
+      },
+      "52": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "41"
+        }
+      },
+      "53": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "42"
+        }
+      },
+      "54": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "43"
+        }
+      },
+      "55": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "44"
+        }
+      },
+      "56": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "45"
+        }
+      },
+      "57": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "46"
+        }
+      },
+      "58": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "47"
+        }
+      },
+      "59": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "48"
+        }
+      },
+      "60": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "49"
+        }
+      },
+      "61": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "50"
+        }
+      },
+      "62": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "51"
+        }
+      },
+      "63": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "52"
+        }
+      },
+      "64": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "53"
+        }
+      },
+      "65": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "54"
+        }
+      },
+      "66": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "55"
+        }
+      },
+      "67": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "56"
+        }
+      },
+      "68": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "57"
+        }
+      },
+      "69": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "58"
+        }
+      },
+      "70": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "59"
+        }
+      },
+      "71": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "60"
+        }
+      },
+      "72": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "61"
+        }
+      },
+      "73": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "62"
+        }
+      }
+    }
+  },
+  "852431422": {
+    "FullySupported": false,
+    "Achievements": {
+      "6": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "54"
+        }
+      },
+      "7": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "17"
+        }
+      },
+      "8": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "43"
+        }
+      },
+      "9": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "41"
+        }
+      },
+      "10": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "35"
+        }
+      },
+      "11": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "32"
+        }
+      },
+      "12": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "6"
+        }
+      },
+      "13": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "2"
+        }
+      },
+      "14": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "47"
+        }
+      },
+      "15": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "38"
+        }
+      },
+      "16": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "44"
+        }
+      },
+      "17": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "20"
+        }
+      },
+      "18": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "45"
+        }
+      },
+      "19": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "3"
+        }
+      },
+      "20": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "10"
+        }
+      },
+      "21": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "48"
+        }
+      },
+      "22": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "26"
+        }
+      },
+      "23": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "24"
+        }
+      },
+      "24": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "33"
+        }
+      },
+      "25": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "18"
+        }
+      },
+      "26": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "22"
+        }
+      },
+      "27": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "8"
+        }
+      },
+      "28": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "25"
+        }
+      },
+      "29": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "1"
+        }
+      },
+      "30": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "30"
+        }
+      },
+      "31": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "37"
+        }
+      },
+      "33": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "52"
+        }
+      },
+      "34": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "19"
+        }
+      },
+      "35": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "27"
+        }
+      },
+      "36": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "31"
+        }
+      },
+      "37": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "11"
+        }
+      },
+      "38": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "40"
+        }
+      },
+      "39": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "29"
+        }
+      },
+      "40": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "49"
+        }
+      },
+      "41": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "4"
+        }
+      },
+      "42": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "42"
+        }
+      },
+      "43": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "9"
+        }
+      },
+      "44": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "23"
+        }
+      },
+      "45": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "36"
+        }
+      },
+      "46": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "14"
+        }
+      },
+      "47": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "12"
+        }
+      },
+      "48": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "13"
+        }
+      },
+      "49": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "5"
+        }
+      },
+      "50": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "53"
+        }
+      },
+      "51": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "39"
+        }
+      },
+      "52": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "50"
+        }
+      },
+      "53": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "21"
+        }
+      },
+      "54": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "55"
+        }
+      },
+      "55": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "28"
+        }
+      },
+      "56": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "7"
+        }
+      },
+      "57": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "16"
+        }
+      },
+      "58": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "46"
+        }
+      },
+      "59": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "15"
+        }
+      },
+      "61": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "55"
+        }
+      },
+      "62": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "56"
+        }
+      },
+      "63": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "57"
+        }
+      },
+      "64": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "58"
+        }
+      },
+      "65": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "59"
+        }
+      },
+      "66": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "60"
+        }
+      },
+      "67": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "61"
+        }
+      },
+      "68": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "62"
+        }
+      },
+      "69": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "63"
+        }
+      },
+      "71": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "64"
+        }
+      },
+      "72": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "67"
+        }
+      },
+      "73": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "66"
+        }
+      },
+      "74": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "68"
+        }
+      },
+      "75": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "65"
+        }
+      },
+      "76": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "69"
+        }
+      },
+      "77": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "70"
+        }
+      },
+      "78": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "71"
+        }
+      },
+      "79": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "72"
+        }
+      },
+      "80": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "73"
+        }
+      },
+      "81": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "74"
+        }
+      }
+    }
+  },
+  "885488152": {
+    "FullySupported": true,
+    "Achievements": {
+      "1": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "1"
+        }
+      },
+      "2": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "2"
+        }
+      },
+      "3": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "3"
+        }
+      },
+      "4": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "4"
+        }
+      },
+      "5": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "5"
+        }
+      },
+      "6": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "6"
+        }
+      },
+      "7": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "7"
+        }
+      },
+      "8": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "8"
+        }
+      },
+      "9": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "9"
+        }
+      },
+      "10": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "10"
+        }
+      },
+      "11": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "11"
+        }
+      },
+      "12": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "12"
+        }
+      },
+      "13": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "13"
+        }
+      },
+      "14": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA",
+          "Replacement": "14"
+        }
+      }
+    }
+  },
   "SupportedTitleIDs": [
     144389848,
     1144039928,
@@ -23039,6 +24463,9 @@
     333693662,
     1289871275,
     1015066519,
-    1739947436
+    1739947436,
+    690285705,
+    852431422,
+    885488152
   ]
 }
