@@ -104,7 +104,7 @@ namespace XAU.ViewModels.Pages
             GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
             GameStatsResponse = await _xboxRestAPI.Value.GetGameStatsAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
 
-            if (GameInfoResponse == null || GameStatsResponse == null)
+            if (GameInfoResponse == null || GameStatsResponse == null || !GameInfoResponse.Titles.Any())
             {
                 _snackbarService.Show("Error: Unable to acquire game info or stats",
                     $"The game info was invalid.",
@@ -266,20 +266,19 @@ namespace XAU.ViewModels.Pages
                 return;
             }
 
-            try
+            var profileData = await _xboxRestAPI.Value.GetGamertagProfileAsync(Gamertag) ?? new JObject();
+            var profileUsers = profileData["profileUsers"]?.FirstOrDefault();
+            if (profileUsers == null)
             {
-                var profileData = await _xboxRestAPI.Value.GetGamertagProfileAsync(Gamertag);
+                _snackbarService.Show("Error", "Failed to fetch gamertag information.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
 
-                var user = profileData["profileUsers"].First;
-                GamertagXuid = user["id"].ToString();
-                GamertagName = "Gamertag: " + user["settings"].First(setting => setting["id"].ToString() == "Gamertag")["value"].ToString();
-                GamertagScore = "Gamerscore: " + user["settings"].First(setting => setting["id"].ToString() == "Gamerscore")["value"].ToString();
-                GamertagImage = user["settings"].First(setting => setting["id"].ToString() == "GameDisplayPicRaw")["value"].ToString();
-            }
-            catch (Exception ex)
-            {
-                _snackbarService.Show("Error", "Failed to fetch gamertag information. " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-            }
+            GamertagXuid = profileUsers["id"]?.ToString() ?? string.Empty;
+            GamertagName = "Gamertag: " + profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "Gamertag")?["value"]?.ToString() ?? "Unknown";
+            GamertagScore = "Gamerscore: " + profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "Gamerscore")?["value"]?.ToString() ?? "Unknown";
+            GamertagImage = profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "GameDisplayPicRaw")?["value"]?.ToString() ?? string.Empty;
+
         }
 
         public async Task ExportToCsvAsync()
