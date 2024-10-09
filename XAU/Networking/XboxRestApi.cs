@@ -46,6 +46,13 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _requestedResponseLanguage);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+
+        Console.WriteLine("Headers in _httpClient:");
+        foreach (var header in _httpClient.DefaultRequestHeaders)
+        {
+            if (header.Key == "Authorization") continue;
+            Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+        }
     }
 
     private void SetDefaultSpooferHeaders()
@@ -55,8 +62,14 @@ public class XboxRestAPI
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _requestedResponseLanguage);
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
-    }
 
+        Console.WriteLine("Headers in _spooferClient:");
+        foreach (var header in _spooferClient.DefaultRequestHeaders)
+        {
+            if (header.Key == "Authorization") continue;
+            Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+        }
+    }
 
     private void SetDefaultEventBasedHeaders()
     {
@@ -75,6 +88,13 @@ public class XboxRestAPI
         var authxtoken = Regex.Replace(_xauth, @"XBL3\.0 x=\d+;", "XBL3.0 x=-;");
         _eventBasedClient.DefaultRequestHeaders.Add("authxtoken", authxtoken);
 
+
+        Console.WriteLine("Headers in _eventBasedClient:");
+        foreach (var header in _eventBasedClient.DefaultRequestHeaders)
+        {
+            if (header.Key == "authxtoken") continue;
+            Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+        }
     }
 
     public async Task<BasicProfile?> GetBasicProfileAsync()
@@ -99,6 +119,12 @@ public class XboxRestAPI
 
     public async Task<GameTitle?> GetGameTitleAsync(string xuid, string titleId)
     {
+        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
+        {
+            // Don't send a request if we don't have the details
+            return null;
+        }
+
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
         var gameTitleRequest = new GameTitleRequest()
@@ -106,7 +132,10 @@ public class XboxRestAPI
             Pfns = null,
             TitleIds = new List<string>() { titleId }
         };
+
+
         var gameTitleResponse = await _httpClient.PostAsync(string.Format(InterpolatedXboxAPIUrls.TitleUrl, xuid), new StringContent(JsonConvert.SerializeObject(gameTitleRequest), Encoding.UTF8, HeaderValues.Accept)).Result.Content.ReadAsStringAsync();
+
         return JsonConvert.DeserializeObject<GameTitle>(gameTitleResponse);
     }
 

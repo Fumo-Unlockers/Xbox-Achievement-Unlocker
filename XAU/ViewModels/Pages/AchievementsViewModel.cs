@@ -46,7 +46,7 @@ namespace XAU.ViewModels.Pages
         public AchievementsViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
             _snackbarService = snackbarService;
-            _contentDialogService =  contentDialogService;
+            _contentDialogService = contentDialogService;
         }
 
         private readonly IContentDialogService _contentDialogService;
@@ -71,23 +71,31 @@ namespace XAU.ViewModels.Pages
         {
             if (HomeViewModel.Settings.AutoSpooferEnabled)
             {
-                if (HomeViewModel.SpoofingStatus == 1 && !(GameInfo == ""))
+                if (!GameInfoResponse.Titles.Any())
                 {
-                    if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
-                    {
-                        GameInfo = "Manually Spoofing";
-                        GameName = GameInfoResponse.Titles[0].Name;
-                    }
-                    else
-                    {
-                        GameInfo = "Spoofing Another Game";
-                        GameName = GameInfoResponse.Titles[0].Name;
-                    }
-
+                    _snackbarService.Show("Error: Game Info Response Contained No Titles", $"There were no titles returned from the API", ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 }
-                else if (HomeViewModel.SpoofingStatus == 0 && !(GameInfo == ""))
+                else
                 {
-                    SpoofGame();
+                    if (HomeViewModel.SpoofingStatus == 1 && !!string.IsNullOrWhiteSpace(GameInfo))
+                    {
+                        if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
+                        {
+                            GameInfo = "Manually Spoofing";
+                            GameName = GameInfoResponse.Titles[0].Name;
+                        }
+                        else
+                        {
+                            GameInfo = "Spoofing Another Game";
+                            GameName = GameInfoResponse.Titles[0].Name;
+                        }
+
+                    }
+                    else if (HomeViewModel.SpoofingStatus == 0 && !string.IsNullOrWhiteSpace(GameInfo))
+                    {
+                        SpoofGame();
+                    }
                 }
             }
 
@@ -129,19 +137,17 @@ namespace XAU.ViewModels.Pages
             }
             GameInfo = "";
             GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
-            try
+            if (GameInfoResponse == null || GameInfoResponse.Titles.Count == 0) {
+                GameName = "Error";
+                IsTitleIDValid = false;
+                return;
+            }
+            else
             {
                 IsSelectedGame360 = GameInfoResponse.Titles[0].Devices.Contains("Xbox360") || GameInfoResponse.Titles[0].Devices.Contains("Mobile");
                 GameName = GameInfoResponse.Titles[0].Name;
                 IsTitleIDValid = true;
             }
-            catch
-            {
-                GameName = "Error";
-                IsTitleIDValid = false;
-                return;
-            }
-
         }
 
         private async void SpoofGame()
@@ -287,7 +293,8 @@ namespace XAU.ViewModels.Pages
                         rewardvalueTypeplaceholder = "N/A";
                     }
 
-                    var mediaAsset = new MediaAsset{
+                    var mediaAsset = new MediaAsset
+                    {
                         name = AchievementResponse.achievements[i].mediaAssets[0].name,
                         type = AchievementResponse.achievements[i].mediaAssets[0].type,
                         url = AchievementResponse.achievements[i].mediaAssets[0].url
@@ -317,10 +324,10 @@ namespace XAU.ViewModels.Pages
                         id = AchievementResponse.achievements[i].id,
                         serviceConfigId = AchievementResponse.achievements[i].serviceConfigId,
                         name = AchievementResponse.achievements[i].name,
-                        titleAssociations = new List<TitleAssociation>() {titleAssociation},
+                        titleAssociations = new List<TitleAssociation>() { titleAssociation },
                         progressState = AchievementResponse.achievements[i].progressState,
                         progression = progression,
-                        mediaAssets = new List<MediaAsset>() {mediaAsset},
+                        mediaAssets = new List<MediaAsset>() { mediaAsset },
                         platforms = AchievementResponse.achievements[i].platforms,
                         isSecret = AchievementResponse.achievements[i].isSecret,
                         description = AchievementResponse.achievements[i].description,
@@ -329,7 +336,7 @@ namespace XAU.ViewModels.Pages
                         achievementType = AchievementResponse.achievements[i].achievementType,
                         participationType = AchievementResponse.achievements[i].participationType,
                         timeWindow = AchievementResponse.achievements[i].timeWindow,
-                        rewards = new List<AchievementRewards>() {rewards},
+                        rewards = new List<AchievementRewards>() { rewards },
                         estimatedTime = AchievementResponse.achievements[i].estimatedTime,
                         deeplink = AchievementResponse.achievements[i].deeplink,
                         isRevoked = AchievementResponse.achievements[i].isRevoked,
@@ -390,7 +397,7 @@ namespace XAU.ViewModels.Pages
                         name = Xbox360AchievementResponse.achievements[i].name,
                         isSecret = Xbox360AchievementResponse.achievements[i].isSecret,
                         description = Xbox360AchievementResponse.achievements[i].description,
-                        rewards = new List<AchievementRewards>()  {rewards},
+                        rewards = new List<AchievementRewards>() { rewards },
                         raritycurrentCategory = Xbox360AchievementResponse.achievements[i].rarity.currentCategory,
                         raritycurrentPercentage = Xbox360AchievementResponse.achievements[i].rarity.currentPercentage,
                         progression = progression

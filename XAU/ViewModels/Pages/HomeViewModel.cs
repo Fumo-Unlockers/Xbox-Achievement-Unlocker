@@ -608,7 +608,12 @@ namespace XAU.ViewModels.Pages
                         else
                         {
                             var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, profileResponse.People[0].PresenceDetails[0].TitleId);
-                            CurrentlyPlaying = $"Currently Playing: {gameTitle.Titles[0].Name}";
+                            if (gameTitle == null) {
+                                CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
+                            } else {
+                                CurrentlyPlaying = $"Currently Playing: {gameTitle.Titles[0].Name}";
+
+                            }
                         }
                     }
                     catch (ArgumentOutOfRangeException)
