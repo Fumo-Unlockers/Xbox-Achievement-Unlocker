@@ -130,22 +130,31 @@ namespace XAU.ViewModels.Pages
 
         private async Task LoadGameInfo()
         {
+            // Check for a valid TitleID and set overrides
             if (TitleID != "0")
             {
                 TitleIDOverride = TitleID;
                 TitleID = "0";
             }
-            GameInfo = "";
-            GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
-            if (GameInfoResponse == null || !GameInfoResponse.Titles.Any()) {
+
+            GameInfo = string.Empty;
+
+            // Fetch game information
+            var gameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
+
+            // Handle response validation and set properties accordingly
+            if (gameInfoResponse?.Titles?.Any() != true)
+            {
                 GameName = "Error";
                 IsTitleIDValid = false;
                 return;
             }
-            else
+
+            var gameTitle = gameInfoResponse.Titles.FirstOrDefault();
+            if (gameTitle != null)
             {
-                IsSelectedGame360 = GameInfoResponse.Titles[0].Devices.Contains("Xbox360") || GameInfoResponse.Titles[0].Devices.Contains("Mobile");
-                GameName = GameInfoResponse.Titles[0].Name;
+                IsSelectedGame360 = gameTitle.Devices.Contains("Xbox360") || gameTitle.Devices.Contains("Mobile");
+                GameName = gameTitle.Name;
                 IsTitleIDValid = true;
             }
         }

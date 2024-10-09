@@ -677,9 +677,6 @@ namespace XAU.ViewModels.Pages
             {
                 _snackbarService.Show("Error", "Failed to grab profile information. " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
-
-
-
         }
         #endregion
 
