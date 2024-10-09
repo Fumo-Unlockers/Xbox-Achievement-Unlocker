@@ -617,7 +617,7 @@ namespace XAU.ViewModels.Pages
             var lockedAchievementIds = Achievements.Where(o => o.progressState != StringConstants.Achieved).Select(o => o.id).ToList();
             try
             {
-                await _xboxRestAPI.Value.UnlockAllTitleBasedAchievementAsync(serviceConfigId: AchievementResponse.achievements[0].serviceConfigId,
+                await _xboxRestAPI.Value.UnlockTitleBasedAchievementsAsync(serviceConfigId: AchievementResponse.achievements[0].serviceConfigId,
                     titleId: AchievementResponse.achievements[0].titleAssociations[0].id, xuid: HomeViewModel.XUIDOnly, achievementIds: lockedAchievementIds, useFakeSignature: HomeViewModel.Settings.FakeSignatureEnabled);
 
                 _snackbarService.Show("All Achievements Unlocked", $"All Achievements for this game have been unlocked",

@@ -269,6 +269,10 @@ namespace XAU.ViewModels.Pages
             try
             {
                 var profileData = await _xboxRestAPI.Value.GetGamertagProfileAsync(Gamertag);
+                if (profileData == null || profileData["profileUsers"] == null || !profileData["profileUsers"].Any())
+                {
+                    _snackbarService.Show("Error", "Failed to fetch gamertag information.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                }
 
                 var user = profileData["profileUsers"].First;
                 GamertagXuid = user["id"].ToString();

@@ -47,12 +47,15 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
 
+
+#if DEBUG
         Console.WriteLine("Headers in _httpClient:");
         foreach (var header in _httpClient.DefaultRequestHeaders)
         {
             if (header.Key == "Authorization") continue;
             Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
         }
+#endif
     }
 
     private void SetDefaultSpooferHeaders()
@@ -63,12 +66,14 @@ public class XboxRestAPI
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
 
+#if DEBUG
         Console.WriteLine("Headers in _spooferClient:");
         foreach (var header in _spooferClient.DefaultRequestHeaders)
         {
             if (header.Key == "Authorization") continue;
             Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
         }
+#endif
     }
 
     private void SetDefaultEventBasedHeaders()
@@ -88,13 +93,14 @@ public class XboxRestAPI
         var authxtoken = Regex.Replace(_xauth, @"XBL3\.0 x=\d+;", "XBL3.0 x=-;");
         _eventBasedClient.DefaultRequestHeaders.Add("authxtoken", authxtoken);
 
-
+#if DEBUG
         Console.WriteLine("Headers in _eventBasedClient:");
         foreach (var header in _eventBasedClient.DefaultRequestHeaders)
         {
             if (header.Key == "authxtoken") continue;
             Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
         }
+#endif
     }
 
     public async Task<BasicProfile?> GetBasicProfileAsync()
@@ -139,6 +145,12 @@ public class XboxRestAPI
 
     public async Task<Gamepass?> GetGamepassMembershipAsync(string xuid)
     {
+        if (string.IsNullOrWhiteSpace(xuid))
+        {
+            // Don't send a request if we don't have the details
+            return null;
+        }
+
         SetDefaultHeaders();
         var gpuResponse = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.GamepassMembershipUrl, xuid)).Result.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<Gamepass>(gpuResponse);
@@ -146,6 +158,12 @@ public class XboxRestAPI
 
     public async Task<TitlesList?> GetGamesListAsync(string xuid)
     {
+        if (string.IsNullOrWhiteSpace(xuid))
+        {
+            // Don't send a request if we don't have the details
+            return null;
+        }
+
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.TitleHub);
@@ -154,8 +172,14 @@ public class XboxRestAPI
         return JsonConvert.DeserializeObject<TitlesList>(responseString);
     }
 
-    public async Task<JObject> GetGamertagProfileAsync(string gamertag)
+    public async Task<JObject?> GetGamertagProfileAsync(string gamertag)
     {
+        if (string.IsNullOrWhiteSpace(gamertag))
+        {
+            // Don't send a request if we don't have the details
+            return null;
+        }
+
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Profile);
@@ -169,6 +193,12 @@ public class XboxRestAPI
 
     public async Task<GameStatsResponse?> GetGameStatsAsync(string xuid, string titleId)
     {
+        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
+        {
+            // Don't send a request if we don't have the details
+            return null;
+        }
+
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
 
@@ -189,6 +219,12 @@ public class XboxRestAPI
 
     public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId)
     {
+        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(spoofedTitleId))
+        {
+            // Don't send a request if we don't have the details
+            return;
+        }
+
         SetDefaultSpooferHeaders();
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
         var heartbeatRequest = new HeartbeatRequest()
@@ -208,6 +244,12 @@ public class XboxRestAPI
 
     public async Task StopHeartbeatAsync(string xuid)
     {
+        if (string.IsNullOrWhiteSpace(xuid))
+        {
+            // Don't send a request if we don't have the details
+            return;
+        }
+
         SetDefaultSpooferHeaders();
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
         await _spooferClient.DeleteAsync(string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid));
@@ -215,6 +257,11 @@ public class XboxRestAPI
 
     public async Task<AchievementsResponse?> GetAchievementsForTitleAsync(string xuid, string titleId)
     {
+        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
+        {
+            // Don't send a request if we don't have the details
+            return null;
+        }
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion4);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
@@ -227,6 +274,11 @@ public class XboxRestAPI
 
     public async Task<Xbox360AchievementResponse?> GetAchievementsFor360TitleAsync(string xuid, string titleId)
     {
+        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
+        {
+            // Don't send a request if we don't have the details
+            return null;
+        }
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
@@ -238,11 +290,18 @@ public class XboxRestAPI
 
     public async Task UnlockTitleBasedAchievementAsync(string serviceConfigId, string titleId, string xuid, string achievementId, bool useFakeSignature = false)
     {
-        await UnlockAllTitleBasedAchievementAsync(serviceConfigId, titleId, xuid, new List<string>() { achievementId }, useFakeSignature);
+        // only unlock the specified achievement
+        await UnlockTitleBasedAchievementsAsync(serviceConfigId, titleId, xuid, new List<string>() { achievementId }, useFakeSignature);
     }
 
-    public async Task UnlockAllTitleBasedAchievementAsync(string serviceConfigId, string titleId, string xuid, List<string> achievementIds, bool useFakeSignature = false)
+    public async Task UnlockTitleBasedAchievementsAsync(string serviceConfigId, string titleId, string xuid, List<string> achievementIds, bool useFakeSignature = false)
     {
+        if (string.IsNullOrWhiteSpace(serviceConfigId) || string.IsNullOrWhiteSpace(titleId) || string.IsNullOrWhiteSpace(xuid) || achievementIds.Count == 0)
+        {
+            // Don't send a request if we don't have the details
+            return;
+        }
+
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
@@ -284,6 +343,12 @@ public class XboxRestAPI
     // TODO: see if we can handle the actual request body building
     public async Task UnlockEventBasedAchievement(string eventsToken, StringContent requestBody)
     {
+        if (string.IsNullOrWhiteSpace(eventsToken))
+        {
+            // Don't send a request if we don't have the details
+            return;
+        }
+
         SetDefaultEventBasedHeaders();
         _eventBasedClient.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
         await _eventBasedClient.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
@@ -291,6 +356,12 @@ public class XboxRestAPI
 
     public async Task<GamePassProducts?> GetTitleIdsFromGamePass(string prodId)
     {
+        if (string.IsNullOrWhiteSpace(prodId))
+        {
+            // Don't send a request if we don't have the details
+            return null;
+        }
+
         SetDefaultHeaders();
         GamepassProductsRequest gamepassProducts = new GamepassProductsRequest()
         {

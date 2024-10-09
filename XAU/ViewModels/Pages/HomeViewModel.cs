@@ -593,6 +593,11 @@ namespace XAU.ViewModels.Pages
                 else
                 {
 
+                    if (!profileResponse.People.Any())
+                    {
+                        _snackbarService.Show("Error", "Failed to grab profile information.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    }
+
                     GamerTag = $"Gamertag: {profileResponse.People[0].Gamertag}";
                     Xuid = $"XUID: {profileResponse.People[0].Xuid}";
                     GamerPic = profileResponse.People[0].DisplayPicRaw;
