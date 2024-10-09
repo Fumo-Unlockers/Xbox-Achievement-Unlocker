@@ -266,24 +266,19 @@ namespace XAU.ViewModels.Pages
                 return;
             }
 
-            try
+            var profileData = await _xboxRestAPI.Value.GetGamertagProfileAsync(Gamertag) ?? new JObject();
+            var profileUsers = profileData["profileUsers"]?.FirstOrDefault();
+            if (profileUsers == null)
             {
-                var profileData = await _xboxRestAPI.Value.GetGamertagProfileAsync(Gamertag);
-                if (profileData == null || profileData["profileUsers"] == null || !profileData["profileUsers"].Any())
-                {
-                    _snackbarService.Show("Error", "Failed to fetch gamertag information.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                }
+                _snackbarService.Show("Error", "Failed to fetch gamertag information.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
 
-                var user = profileData["profileUsers"].First;
-                GamertagXuid = user["id"].ToString();
-                GamertagName = "Gamertag: " + user["settings"].First(setting => setting["id"].ToString() == "Gamertag")["value"].ToString();
-                GamertagScore = "Gamerscore: " + user["settings"].First(setting => setting["id"].ToString() == "Gamerscore")["value"].ToString();
-                GamertagImage = user["settings"].First(setting => setting["id"].ToString() == "GameDisplayPicRaw")["value"].ToString();
-            }
-            catch (Exception ex)
-            {
-                _snackbarService.Show("Error", "Failed to fetch gamertag information. " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-            }
+            GamertagXuid = profileUsers["id"]?.ToString() ?? string.Empty;
+            GamertagName = "Gamertag: " + profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "Gamertag")?["value"]?.ToString() ?? "Unknown";
+            GamertagScore = "Gamerscore: " + profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "Gamerscore")?["value"]?.ToString() ?? "Unknown";
+            GamertagImage = profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "GameDisplayPicRaw")?["value"]?.ToString() ?? string.Empty;
+
         }
 
         public async Task ExportToCsvAsync()

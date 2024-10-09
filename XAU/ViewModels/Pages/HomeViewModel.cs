@@ -566,136 +566,118 @@ namespace XAU.ViewModels.Pages
             try
             {
                 var profileResponse = await _xboxRestAPI.Value.GetProfileAsync(XUIDOnly);
-                if (profileResponse == null || !profileResponse.People.Any())
+
+                if (profileResponse?.People?.Any() != true)
                 {
                     _snackbarService.Show("Error", "Failed to grab profile information.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
 
+                var person = profileResponse.People.FirstOrDefault();
                 if (Settings.PrivacyMode)
                 {
-                    GamerTag = $"Gamertag: Hidden";
-                    Xuid = $"XUID: Hidden";
+                    // Display hidden profile details for privacy mode
+                    GamerTag = "Gamertag: Hidden";
+                    Xuid = "XUID: Hidden";
                     GamerPic = "pack://application:,,,/Assets/cirno.png";
-                    GamerScore = $"Gamerscore: Hidden";
-                    ProfileRep = $"Reputation: Hidden";
-                    AccountTier = $"Tier: Hidden";
-                    CurrentlyPlaying = $"Currently Playing: Hidden";
-                    ActiveDevice = $"Active Device: Hidden";
-                    IsVerified = $"Verified: Hidden";
-                    Location = $"Location: Hidden";
-                    Tenure = $"Tenure: Hidden";
-                    Following = $"Following: Hidden";
-                    Followers = $"Followers: Hidden";
-                    Gamepass = $"Gamepass: Hidden";
-                    Bio = $"Bio: Hidden";
+                    GamerScore = "Gamerscore: Hidden";
+                    ProfileRep = "Reputation: Hidden";
+                    AccountTier = "Tier: Hidden";
+                    CurrentlyPlaying = "Currently Playing: Hidden";
+                    ActiveDevice = "Active Device: Hidden";
+                    IsVerified = "Verified: Hidden";
+                    Location = "Location: Hidden";
+                    Tenure = "Tenure: Hidden";
+                    Following = "Following: Hidden";
+                    Followers = "Followers: Hidden";
+                    Gamepass = "Gamepass: Hidden";
+                    Bio = "Bio: Hidden";
                 }
                 else
                 {
+                    // Populate user profile details
+                    GamerTag = $"Gamertag: {person?.Gamertag ?? "Unknown"}";
+                    Xuid = $"XUID: {person?.Xuid ?? "Unknown"}";
+                    GamerPic = person?.DisplayPicRaw ?? "pack://application:,,,/Assets/default.png";
+                    GamerScore = $"Gamerscore: {person?.GamerScore ?? "Unknown"}";
+                    ProfileRep = $"Reputation: {person?.XboxOneRep ?? "Unknown"}";
+                    AccountTier = $"Tier: {person?.Detail?.AccountTier ?? "Unknown"}";
 
-                    if (!profileResponse.People.Any())
+                    // Currently playing information
+                    var presence = person?.PresenceDetails?.FirstOrDefault();
+                    if (presence?.TitleId == null)
                     {
-                        _snackbarService.Show("Error", "Failed to grab profile information.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                    }
-
-                    GamerTag = $"Gamertag: {profileResponse.People[0].Gamertag}";
-                    Xuid = $"XUID: {profileResponse.People[0].Xuid}";
-                    GamerPic = profileResponse.People[0].DisplayPicRaw;
-                    GamerScore = $"Gamerscore: {profileResponse.People[0].GamerScore}";
-                    ProfileRep = $"Reputation: {profileResponse.People[0].XboxOneRep}";
-                    AccountTier = $"Tier: {profileResponse.People[0].Detail?.AccountTier}";
-
-                    if (!profileResponse.People[0].PresenceDetails.Any() || profileResponse.People[0].PresenceDetails[0].TitleId == null)
-                    {
-                        CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
+                        CurrentlyPlaying = "Currently Playing: Unknown (No Presence)";
                     }
                     else
                     {
-                        var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, profileResponse.People[0].PresenceDetails[0].TitleId);
-                        if (gameTitle == null || !gameTitle.Titles.Any())
-                        {
-                            CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrWhiteSpace(gameTitle.Titles[0].Name))
-                                CurrentlyPlaying = $"Currently Playing: {gameTitle.Titles[0].Name}";
-                            else
-                                CurrentlyPlaying = $"Currently Playing: Unknown ({profileResponse.People[0].PresenceDetails[0].TitleId})";
-
-                        }
+                        var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, presence.TitleId);
+                        CurrentlyPlaying = gameTitle?.Titles?.FirstOrDefault()?.Name ?? $"Currently Playing: Unknown ({presence.TitleId})";
                     }
-                    // GPU details
+
+                    // Retrieve Gamepass Membership Information
                     try
                     {
                         var gpuResponse = await _xboxRestAPI.Value.GetGamepassMembershipAsync(XUIDOnly);
-                        if (!string.IsNullOrEmpty(gpuResponse.GamepassMembership))
-                        {
-                            Gamepass = $"Gamepass: {gpuResponse.GamepassMembership}";
-                        }
-                        else
-                        {
-                            Gamepass = $"Gamepass: {gpuResponse.Data.GamepassMembership}";
-                        }
+                        Gamepass = $"Gamepass: {gpuResponse?.GamepassMembership ?? gpuResponse?.Data?.GamepassMembership ?? "Unknown"}";
                     }
                     catch
                     {
-                        Gamepass = $"Gamepass: Unknown";
+                        Gamepass = "Gamepass: Unknown";
                     }
 
+                    // Active Device Information
+                    ActiveDevice = $"Active Device: {presence?.Device ?? "Unknown"}";
 
-                    if (profileResponse.People.Count > 0 && profileResponse.People[0].PresenceDetails.Count > 0)
+                    // Detailed profile information
+                    if (person?.Detail != null)
                     {
-                        ActiveDevice = $"Active Device: {profileResponse.People[0].PresenceDetails[0].Device}";
-                    }
+                        IsVerified = $"Verified: {person.Detail.IsVerified}";
+                        Location = $"Location: {person.Detail.Location ?? "Unknown"}";
+                        Tenure = $"Tenure: {person.Detail.Tenure ?? "Unknown"}";
+                        Following = $"Following: {person.Detail.FollowingCount}";
+                        Followers = $"Followers: {person.Detail.FollowerCount}";
+                        Bio = $"Bio: {person.Detail.Bio ?? "No Bio"}";
 
-                    if (profileResponse.People[0].Detail != null)
-                    {
-                        IsVerified = $"Verified: {profileResponse.People[0].Detail.IsVerified}";
-                        Location = $"Location: {profileResponse.People[0].Detail.Location}";
-                        Tenure = $"Tenure: {profileResponse.People[0].Detail.Tenure}";
-                        Following = $"Following: {profileResponse.People[0].Detail.FollowingCount}";
-                        Followers = $"Followers: {profileResponse.People[0].Detail.FollowerCount}";
-                        Bio = $"Bio: {profileResponse.People[0].Detail.Bio}";
-
+                        // Handle Watermarks
                         Watermarks.Clear();
 
-                        // Tenure image format, 01..05..10
-                        // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/tenure/15.png
-                        // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/ba75b64a-9a80-47ea-8c3a-76d3e2ea1422.png
-                        // https://dlassets-ssl.xboxlive.com/public/content/ppl/watermarks/launch/xboxoneteam.png
-                        var tenureString = profileResponse.People[0].Detail.Tenure;
-                        if (int.TryParse(tenureString, out int tenureInt))
+                        // Parse Tenure Badge
+                        if (int.TryParse(person.Detail.Tenure, out int tenureInt))
                         {
-                            // Format the integer as a two-digit string
                             string tenureBadge = tenureInt.ToString("D2");
                             Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}tenure/{tenureBadge}.png" });
                         }
                         else
                         {
-                            // TODO: log error somewhere
-                            Console.WriteLine("The string is not a valid integer.");
+                            Console.WriteLine("The tenure string is not a valid integer.");
                         }
 
-                        foreach (var watermark in profileResponse.People[0].Detail.Watermarks)
+                        // Add Launch Watermarks
+                        if (person.Detail.Watermarks != null)
                         {
-                            Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}launch/{watermark.ToLower()}.png" });
+                            foreach (var watermark in person.Detail.Watermarks)
+                            {
+                                Watermarks.Add(new ImageItem { ImageUrl = $@"{BasicXboxAPIUris.WatermarksUrl}launch/{watermark.ToLower()}.png" });
+                            }
                         }
                     }
                 }
+
                 GrabbedProfile = true;
                 _snackbarService.Show("Success", "Profile information grabbed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
             {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    IsLoggedIn = false;
-                    XAUTHTested = true;
-                    _snackbarService.Show("401 Unauthorized", "Something went wrong. Retrying", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                }
-
+                IsLoggedIn = false;
+                XAUTHTested = true;
+                _snackbarService.Show("401 Unauthorized", "Something went wrong. Retrying.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
+            catch (Exception ex)
+            {
+                _snackbarService.Show("Error", "Failed to grab profile information. " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+
 
 
         }
