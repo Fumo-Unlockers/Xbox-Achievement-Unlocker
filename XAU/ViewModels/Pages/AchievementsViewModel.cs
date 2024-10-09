@@ -137,7 +137,7 @@ namespace XAU.ViewModels.Pages
             }
             GameInfo = "";
             GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
-            if (GameInfoResponse == null || GameInfoResponse.Titles.Count == 0) {
+            if (GameInfoResponse == null || !GameInfoResponse.Titles.Any()) {
                 GameName = "Error";
                 IsTitleIDValid = false;
                 return;

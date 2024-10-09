@@ -133,9 +133,7 @@ public class XboxRestAPI
             TitleIds = new List<string>() { titleId }
         };
 
-
         var gameTitleResponse = await _httpClient.PostAsync(string.Format(InterpolatedXboxAPIUrls.TitleUrl, xuid), new StringContent(JsonConvert.SerializeObject(gameTitleRequest), Encoding.UTF8, HeaderValues.Accept)).Result.Content.ReadAsStringAsync();
-
         return JsonConvert.DeserializeObject<GameTitle>(gameTitleResponse);
     }
 

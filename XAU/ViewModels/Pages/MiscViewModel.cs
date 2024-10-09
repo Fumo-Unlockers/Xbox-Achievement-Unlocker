@@ -104,7 +104,7 @@ namespace XAU.ViewModels.Pages
             GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
             GameStatsResponse = await _xboxRestAPI.Value.GetGameStatsAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
 
-            if (GameInfoResponse == null || GameStatsResponse == null)
+            if (GameInfoResponse == null || GameStatsResponse == null || !GameInfoResponse.Titles.Any())
             {
                 _snackbarService.Show("Error: Unable to acquire game info or stats",
                     $"The game info was invalid.",

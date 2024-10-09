@@ -488,7 +488,7 @@ namespace XAU.ViewModels.Pages
                 catch
                 {
                     _snackbarService.Show("Session invalid", "You are required to log in again as the session has expired", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                     response = await oauth.AuthenticateInteractively();
+                    response = await oauth.AuthenticateInteractively();
                 }
 
             }
@@ -599,33 +599,27 @@ namespace XAU.ViewModels.Pages
                     GamerScore = $"Gamerscore: {profileResponse.People[0].GamerScore}";
                     ProfileRep = $"Reputation: {profileResponse.People[0].XboxOneRep}";
                     AccountTier = $"Tier: {profileResponse.People[0].Detail?.AccountTier}";
-                    try
+
+                    if (!profileResponse.People[0].PresenceDetails.Any() || profileResponse.People[0].PresenceDetails[0].TitleId == null)
                     {
-                        if (!profileResponse.People[0].PresenceDetails.Any() || profileResponse.People[0].PresenceDetails[0].TitleId == null)
+                        CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
+                    }
+                    else
+                    {
+                        var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, profileResponse.People[0].PresenceDetails[0].TitleId);
+                        if (gameTitle == null || !gameTitle.Titles.Any())
                         {
                             CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
                         }
                         else
                         {
-                            var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, profileResponse.People[0].PresenceDetails[0].TitleId);
-                            if (gameTitle == null) {
-                                CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
-                            } else {
+                            if (!string.IsNullOrWhiteSpace(gameTitle.Titles[0].Name))
                                 CurrentlyPlaying = $"Currently Playing: {gameTitle.Titles[0].Name}";
+                            else
+                                CurrentlyPlaying = $"Currently Playing: Unknown ({profileResponse.People[0].PresenceDetails[0].TitleId})";
 
-                            }
                         }
                     }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        // User has no presence details
-                        CurrentlyPlaying = $"Currently Playing: Unknown (No Presence)";
-                    }
-                    catch
-                    {
-                        CurrentlyPlaying = $"Currently Playing: Unknown ({profileResponse.People[0].PresenceDetails[0].TitleId})";
-                    }
-
                     // GPU details
                     try
                     {
