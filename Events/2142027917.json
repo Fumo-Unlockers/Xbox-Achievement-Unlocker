@@ -1,0 +1,62 @@
+{
+    "ver": "4.0",
+    "name": "Microsoft.XboxLive.T2142027917.RadawayCollected",
+    "time": "REPLACETIME",
+    "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
+    "ext": {
+        "utc": {
+            "shellId": 1,
+            "eventFlags": 1,
+            "pgName": "XBOX",
+            "flags": 1,
+            "epoch": "1",
+            "seq": REPLACESEQ
+        },
+        "privacy": {
+            "isRequired": false
+        },
+        "os": {
+            "bootId": 1,
+            "name": "Windows",
+            "ver": "1",
+            "expId": "1"
+        },
+        "app": {
+            "id": "U:BethesdaSoftworks.FalloutShelter_1.13.156.2_x64__3275kfvn8vcwc!App",
+            "ver": "1.13.156.2_x64_!2018/09/24:19:17:35!0!fallout shelter.exe",
+            "is1P": 1,
+            "asId": 1
+        },
+        "metadata": {
+            "policies": 0
+        },
+        "device": {
+            "localId": "s:11111111-1111-1111-1111-111111111111",
+            "deviceClass": "Windows.Desktop"
+        },
+        "protocol": {
+            "devMake": "1",
+            "devModel": "1",
+            "ticketKeys": [
+                "1"
+            ]
+        },
+        "user": {
+            "localId": "m:1111111111111111"
+        },
+        "loc": {
+            "tz": "00:00"
+        }
+    },
+    "data": {
+        "baseType": "Microsoft.XboxLive.InGame",
+        "baseData": {
+            "name": "REPLACETITLE",
+            "serviceConfigId": "00000000-0000-0000-0000-00007facc08d",
+            "playerSessionId": "11111111-1111-1111-1111-111111111111",
+            "titleId": "2142027917",
+            "userId": "REPLACEXUID",
+            "ver": 1
+        }
+    }
+}
