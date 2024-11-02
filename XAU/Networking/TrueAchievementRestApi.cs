@@ -93,6 +93,11 @@ public class TrueAchievementRestApi
             else
             {
                 var titleIDsContent = await xboxApi.GetTitleIdsFromGamePass(productId);
+                if (titleIDsContent == null)
+                {
+                    return "-1";
+                }
+
                 var xboxTitleId = titleIDsContent.Products[$"{productId}"].XboxTitleId;
                 //here is some super dumb shit to handle bundles
                 if (xboxTitleId == null)
