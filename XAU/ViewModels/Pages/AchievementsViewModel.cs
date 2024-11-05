@@ -71,7 +71,8 @@ namespace XAU.ViewModels.Pages
         {
             if (HomeViewModel.Settings.AutoSpooferEnabled)
             {
-                if (!GameInfoResponse.Titles.Any())
+
+                if (!GameInfoResponse.Titles.Any() && !String.IsNullOrWhiteSpace(GameInfoResponse.Xuid))
                 {
                     _snackbarService.Show("Error: Game Info Response Contained No Titles", $"There were no titles returned from the API", ControlAppearance.Danger,
                         new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
@@ -179,7 +180,11 @@ namespace XAU.ViewModels.Pages
                 HomeViewModel.AutoSpoofedTitleID = TitleIDOverride;
                 HomeViewModel.SpoofingStatus = 2;
                 GameInfo = "Auto Spoofing";
-                GameName = GameInfoResponse.Titles[0].Name;
+                if (GameInfoResponse.Titles.Any())
+                {
+                    GameName = GameInfoResponse.Titles[0].Name;
+                }
+
                 await Task.Run(() => Spoofing());
                 if (HomeViewModel.SpoofingStatus == 1)
                 {
