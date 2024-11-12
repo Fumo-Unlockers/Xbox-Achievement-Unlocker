@@ -383,8 +383,8 @@ namespace XAU.ViewModels.Pages
                 Xbox360AchievementResponse = await _xboxRestAPI.Value.GetAchievementsFor360TitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
                 if (Xbox360AchievementResponse?.achievements.Count == 0)
                 {
-                    _snackbarService.Show("Error: No Achievements", $"There were no achievements returned from the API", ControlAppearance.Danger,
-                                               new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    IsSelectedGame360 = false;
+                    LoadAchievements();
                     return;
                 }
                 //cut down version of the code to display minimal information about 360 achievements
