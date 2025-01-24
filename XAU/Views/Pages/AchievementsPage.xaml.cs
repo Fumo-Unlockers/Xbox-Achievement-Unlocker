@@ -133,7 +133,7 @@ private void Timer_Tick(object sender, EventArgs e)
         }
 
         //check Remains
-        if (ViewModel.ReaminingAchivement == 0)
+        if (ViewModel.ReaminingAchivement <= 0)
         {
             EtaAutoAchivement.Content = "0 Remains";
             RemainLabel.Content = $"Remains {ViewModel.ReaminingAchivement}";
