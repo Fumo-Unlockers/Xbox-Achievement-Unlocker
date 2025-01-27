@@ -116,7 +116,10 @@ namespace XAU.ViewModels.Pages
                 InitializeViewModel();
         }
 
-        public void OnNavigatedFrom() { }
+        public void OnNavigatedFrom() { 
+            if (AutoAchivementEnable == true)
+                AutoAchivementEnable = false;
+        }
 
         private async void InitializeViewModel()
         {
