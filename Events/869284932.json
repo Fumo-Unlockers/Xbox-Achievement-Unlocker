@@ -1,6 +1,6 @@
 {
     "ver": "4.0",
-    "name": "Microsoft.XboxLive.T1627819535.AchievementShouldUnlock",
+    "name": "Microsoft.XboxLive.T869284932.HcAchievementCompleted",
     "time": "REPLACETIME",
     "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
     "ext": {
@@ -13,29 +13,31 @@
             "seq": REPLACESEQ
         },
         "privacy": {
-            "dataType": 1,
             "isRequired": false
         },
         "metadata": {
             "f": {
                 "baseData": {
                     "f": {
-                        "ver": 1
+                        "properties": {
+                            "f": {
+                                "AchievementId": 4
+                            }
+                        }
                     }
                 }
             },
-            "privTags": 1,
             "policies": 0
         },
         "os": {
             "bootId": 1,
-            "name": "1",
+            "name": "Windows",
             "ver": "1",
             "expId": "1"
         },
         "app": {
-            "id": "U:BethesdaSoftworks.DishonoredDE-PC_1.10.0.0_x64__3275kfvn8vcwc!Game",
-            "ver": "1.10.0.0_x64_!2021/10/21:16:21:44!1946165!dishonored.exe",
+            "id": "U:Mexond.T-KaraPuzzles_1.8.31.0_x64__ws8c14wzbrndy!App",
+            "ver": "1.8.31.0_x64_!2022/02/25:10:58:27!0!tkara_uwp.exe",
             "is1P": 1,
             "asId": 1
         },
@@ -47,12 +49,11 @@
             "devMake": "1",
             "devModel": "1",
             "ticketKeys": [
-                "1",
                 "1"
             ]
         },
         "user": {
-            "localId": "m:11111111111111111"
+            "localId": "m:1111111111111111"
         },
         "loc": {
             "tz": "00:00"
@@ -61,16 +62,15 @@
     "data": {
         "baseType": "Microsoft.XboxLive.InGame",
         "baseData": {
-            "measurements": {},
-            "name": "AchievementShouldUnlock",
-            "playerSessionId": "11111111-1111-1111-1111-111111111111",
-            "properties": {
-                "AchievementName": "REPLACECCRITERADDEPC"
-            },
-            "serviceConfigId": "00000000-0000-0000-0000-000061068e0f",
-            "titleId": 1627819535,
+            "name": "HcAchievementCompleted",
+            "serviceConfigId": "b95e0100-303b-4319-b052-add833d03c44",
+            "playerSessionId": "5C615612-62BB-45D7-9D16-61C102AE8400",
+            "titleId": "869284932",
             "userId": "REPLACEXUID",
-            "ver": 1
+            "ver": 1,
+            "properties": {
+                "AchievementId": REPLACEID
+            }
         }
     }
 }

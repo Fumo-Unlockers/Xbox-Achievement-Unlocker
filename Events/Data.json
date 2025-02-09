@@ -27406,12 +27406,12 @@
         "Replacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACETITLE",
-          "Replacement": "Microsoft.XboxLive.T1696012554.ANewChallengerhasAppearedAchievement"
+          "Replacement": "Microsoft.XboxLive.T1696012554.AnewchallengeAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACENAME",
-          "Replacement": "ANewChallengerhasAppearedAchievement"
+          "Replacement": "AnewchallengeAchievement"
         }
       },
       "2": {
@@ -28424,7 +28424,3880 @@
       }
     }
   },
+  "1074352212": {
+    "FullySupported": true,
+    "Achievements": {
+      "36": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_OnlyYou"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_OnlyYou"
+        }
+      },
+      "21": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_FirstPurchase"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_FirstPurchase"
+        }
+      },
+      "1": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Victory"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Victory"
+        }
+      },
+      "2": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_MusicLover"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_MusicLover"
+        }
+      },
+      "3": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_MasterAngler"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_MasterAngler"
+        }
+      },
+      "4": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_DeckedOut"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_DeckedOut"
+        }
+      },
+      "5": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_RelicRoundTable"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_RelicRoundTable"
+        }
+      },
+      "6": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_IScreamForIchor"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_IScreamForIchor"
+        }
+      },
+      "7": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_NiceHat"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_NiceHat"
+        }
+      },
+      "8": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_ReflectLord"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_ReflectLord"
+        }
+      },
+      "9": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Again"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Again"
+        }
+      },
+      "10": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_HallChampion"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_HallChampion"
+        }
+      },
+      "11": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_AnotherDimension"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_AnotherDimension"
+        }
+      },
+      "13": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_ArcOfIron"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_ArcOfIron"
+        }
+      },
+      "16": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Boom"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Boom"
+        }
+      },
+      "17": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Checkpointless"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Checkpointless"
+        }
+      },
+      "19": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_ClearingAPath"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_ClearingAPath"
+        }
+      },
+      "20": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_DirtPoor"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_DirtPoor"
+        }
+      },
+      "22": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_FlareWander"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_FlareWander"
+        }
+      },
+      "23": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_FlyingFeat"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_FlyingFeat"
+        }
+      },
+      "24": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_GetThePoint"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_GetThePoint"
+        }
+      },
+      "25": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Halfway"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Halfway"
+        }
+      },
+      "26": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_HeyBigSpender"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_HeyBigSpender"
+        }
+      },
+      "27": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Hooper"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Hooper"
+        }
+      },
+      "28": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_HurryUp"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_HurryUp"
+        }
+      },
+      "29": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_ImAlive"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_ImAlive"
+        }
+      },
+      "30": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Impossible"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Impossible"
+        }
+      },
+      "31": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Juggler"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Juggler"
+        }
+      },
+      "32": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_KnuckleDown"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_KnuckleDown"
+        }
+      },
+      "33": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_MasterShoveler"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_MasterShoveler"
+        }
+      },
+      "34": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_NoDamage"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_NoDamage"
+        }
+      },
+      "35": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_OnADiet"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_OnADiet"
+        }
+      },
+      "43": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Sparker"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Sparker"
+        }
+      },
+      "37": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_OrderOfHoarders"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_OrderOfHoarders"
+        }
+      },
+      "38": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PennyPincher"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PennyPincher"
+        }
+      },
+      "39": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PerfectPlatformer"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PerfectPlatformer"
+        }
+      },
+      "40": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Pungent"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Pungent"
+        }
+      },
+      "41": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_ReflectedRiches"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_ReflectedRiches"
+        }
+      },
+      "42": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_ShovelEconomy"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_ShovelEconomy"
+        }
+      },
+      "44": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SuperSphere"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SuperSphere"
+        }
+      },
+      "45": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_TrouppleAcolyte"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_TrouppleAcolyte"
+        }
+      },
+      "46": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_TrueShovelry"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_TrueShovelry"
+        }
+      },
+      "47": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_Untouched"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_Untouched"
+        }
+      },
+      "48": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_WellMet"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_WellMet"
+        }
+      },
+      "49": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_YoureFired"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_YoureFired"
+        }
+      },
+      "50": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_Again"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_Again"
+        }
+      },
+      "51": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_BombEconomy"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_BombEconomy"
+        }
+      },
+      "52": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_BombJumpBlitz"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_BombJumpBlitz"
+        }
+      },
+      "53": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_Checkpointless"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_Checkpointless"
+        }
+      },
+      "54": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_Creep"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_Creep"
+        }
+      },
+      "55": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_DefendTheLab"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_DefendTheLab"
+        }
+      },
+      "56": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_GetOutOfMyRoom"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_GetOutOfMyRoom"
+        }
+      },
+      "57": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_HallViillain"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_HallViillain"
+        }
+      },
+      "58": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_HangTime"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_HangTime"
+        }
+      },
+      "59": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_HurryUp"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_HurryUp"
+        }
+      },
+      "60": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_MaxedOut"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_MaxedOut"
+        }
+      },
+      "61": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_MintCondition"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_MintCondition"
+        }
+      },
+      "62": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_NakedPlague"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_NakedPlague"
+        }
+      },
+      "63": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_NoDamage"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_NoDamage"
+        }
+      },
+      "64": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_PennyPincher"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_PennyPincher"
+        }
+      },
+      "65": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_PoorOolong"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_PoorOolong"
+        }
+      },
+      "66": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_Teetotaler"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_Teetotaler"
+        }
+      },
+      "67": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_TradingUp"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_TradingUp"
+        }
+      },
+      "68": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_Untouched"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_Untouched"
+        }
+      },
+      "69": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_PLK_Victory"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_PLK_Victory"
+        }
+      },
+      "70": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_Again"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_Again"
+        }
+      },
+      "72": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_Checkpointless"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_Checkpointless"
+        }
+      },
+      "73": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_CurioConquest"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_CurioConquest"
+        }
+      },
+      "74": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_Darkslide"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_Darkslide"
+        }
+      },
+      "75": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_GetOutOfMyRoom"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_GetOutOfMyRoom"
+        }
+      },
+      "76": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_HarvestOfHeights"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_HarvestOfHeights"
+        }
+      },
+      "77": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_HurryUp"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_HurryUp"
+        }
+      },
+      "78": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_InhumanResources"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_InhumanResources"
+        }
+      },
+      "79": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_MakeAKilling"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_MakeAKilling"
+        }
+      },
+      "80": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_MoodyKnight"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_MoodyKnight"
+        }
+      },
+      "81": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_NakedSpecter"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_NakedSpecter"
+        }
+      },
+      "82": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_NoDamage"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_NoDamage"
+        }
+      },
+      "83": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_ScytheEconomy"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_ScytheEconomy"
+        }
+      },
+      "84": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_SkullSeeker"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_SkullSeeker"
+        }
+      },
+      "85": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_SpiritofGiving"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_SpiritofGiving"
+        }
+      },
+      "86": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_Untouched"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_Untouched"
+        }
+      },
+      "87": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_VectorVictor"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_VectorVictor"
+        }
+      },
+      "88": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_Victory"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_Victory"
+        }
+      },
+      "89": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_WispWhisperer"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_WispWhisperer"
+        }
+      },
+      "90": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Microsoft.XboxLive.T1074352212.Ach_SPK_SpecdOut"
+        },
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Ach_SPK_SpecdOut"
+        }
+      }
+    }
+  },
+  "891310449": {
+    "FullySupported": true,
+    "Achievements": {
+      "1": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "1"
+        }
+      },
+      "2": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "2"
+        }
+      },
+      "3": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "3"
+        }
+      },
+      "4": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "4"
+        }
+      },
+      "5": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "5"
+        }
+      },
+      "6": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "6"
+        }
+      },
+      "7": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "7"
+        }
+      },
+      "8": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "8"
+        }
+      },
+      "9": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "9"
+        }
+      },
+      "10": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "10"
+        }
+      },
+      "11": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "11"
+        }
+      },
+      "12": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "12"
+        }
+      },
+      "13": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "13"
+        }
+      },
+      "14": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "14"
+        }
+      },
+      "15": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "15"
+        }
+      },
+      "16": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "16"
+        }
+      },
+      "17": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "17"
+        }
+      },
+      "18": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "18"
+        }
+      },
+      "19": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "19"
+        }
+      },
+      "20": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "20"
+        }
+      },
+      "21": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "21"
+        }
+      },
+      "22": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACESTATVALUE",
+          "Replacement": "22"
+        }
+      }
+    }
+  },
+  "568182861": {
+    "FullySupported": true,
+    "Achievements": {
+      "5": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "3"
+        }
+      },
+      "3": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "1"
+        }
+      },
+      "2": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "0"
+        }
+      },
+      "4": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "2"
+        }
+      },
+      "6": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "4"
+        }
+      },
+      "7": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "5"
+        }
+      },
+      "8": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "6"
+        }
+      },
+      "9": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "7"
+        }
+      },
+      "10": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "8"
+        }
+      },
+      "11": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "9"
+        }
+      },
+      "12": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "10"
+        }
+      },
+      "13": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "11"
+        }
+      },
+      "14": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "12"
+        }
+      },
+      "15": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "13"
+        }
+      },
+      "16": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "14"
+        }
+      },
+      "17": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "15"
+        }
+      },
+      "18": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "16"
+        }
+      },
+      "19": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "17"
+        }
+      },
+      "20": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "18"
+        }
+      },
+      "21": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "19"
+        }
+      },
+      "22": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "20"
+        }
+      },
+      "23": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "21"
+        }
+      },
+      "24": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "22"
+        }
+      },
+      "25": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "23"
+        }
+      },
+      "26": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "24"
+        }
+      },
+      "27": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "25"
+        }
+      },
+      "28": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "26"
+        }
+      },
+      "29": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "27"
+        }
+      },
+      "30": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "28"
+        }
+      },
+      "31": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "29"
+        }
+      },
+      "32": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "30"
+        }
+      },
+      "33": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "31"
+        }
+      },
+      "34": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "32"
+        }
+      },
+      "35": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "33"
+        }
+      },
+      "36": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "34"
+        }
+      },
+      "37": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "35"
+        }
+      },
+      "38": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "36"
+        }
+      },
+      "39": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "37"
+        }
+      },
+      "40": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "38"
+        }
+      },
+      "41": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "39"
+        }
+      },
+      "42": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "40"
+        }
+      },
+      "43": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "41"
+        }
+      },
+      "44": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "42"
+        }
+      },
+      "45": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "43"
+        }
+      },
+      "46": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "44"
+        }
+      },
+      "47": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "45"
+        }
+      },
+      "48": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "46"
+        }
+      },
+      "49": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "47"
+        }
+      },
+      "50": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "48"
+        }
+      },
+      "51": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "49"
+        }
+      },
+      "52": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "50"
+        }
+      },
+      "53": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "51"
+        }
+      },
+      "54": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "52"
+        }
+      },
+      "55": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "53"
+        }
+      },
+      "56": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "54"
+        }
+      },
+      "57": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "55"
+        }
+      },
+      "58": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "56"
+        }
+      }
+    }
+  },
+  "1936671821": {
+    "FullySupported": true,
+    "Achievements": {
+      "9": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId10"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId10\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId10\":50},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId10\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "6": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId07"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId07\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId07\":50},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId07\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "2": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId03"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId03\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId03\":150},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId03\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "7": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId08"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId08\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId08\":30},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId08\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "8": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId09"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId09\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId09\":30},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId09\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "3": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId04"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId04\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId04\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId04\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "4": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId05"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId05\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId05\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId05\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "5": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId06"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId06\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId06\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId06\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "10": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId11"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId11\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId11\":5},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId11\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "11": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId12"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId12\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId12\":4},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId12\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "12": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId13"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId13\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId13\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId13\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "13": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId14"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId14\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId14\":50},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId14\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "14": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId15"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId15\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId15\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId15\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "15": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId16"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId16\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId16\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId16\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "16": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId17"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId17\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId17\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId17\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "17": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId18"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId18\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId18\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId18\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "18": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId19"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId19\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId19\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId19\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "19": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId20"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId20\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId20\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId20\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "20": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId21"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId21\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId21\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId21\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "21": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId22"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId22\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId22\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId22\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "22": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId23"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId23\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId23\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId23\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "23": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId24"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId24\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId24\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId24\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "24": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId25"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId25\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId25\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId25\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "25": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId26"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId26\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId26\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId26\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "26": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId27"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId27\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId27\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId27\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "27": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId28"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId28\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId28\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId28\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "28": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId29"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId29\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId29\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId29\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "29": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId30"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId30\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId30\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId30\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "43": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId31"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId31\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId31\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId31\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "38": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId40"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId40\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId40\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId40\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "30": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId32"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId32\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId32\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId32\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "31": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId33"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId33\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId33\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId33\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "32": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId34"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId34\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId34\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId34\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "33": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId35"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId35\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId35\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId35\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "34": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId36"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId36\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId36\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId36\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "35": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId37"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId37\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId37\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId37\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "37": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId39"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId39\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId39\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId39\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "36": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId38"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId38\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId38\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId38\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "1": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId01"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId01\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId01\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId01\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "39": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId41"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId41\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId41\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId41\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "40": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId42"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId42\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId42\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId42\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "41": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId43"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId43\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId43\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId43\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      },
+      "42": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "AchievementEventId44"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"measurements\":{},\"name\":\"AchievementEventId44\",\"playerSessionId\":\"A5326C92-3C1B-407E-AF7C-F1F246A757CE\",\"properties\":{\"AchievementFlagId44\":1},\"serviceConfigId\":\"00000000-0000-0000-0000-0000736f444d\",\"titleId\":1936671821,\"userId\":\"REPLACEXUID\",\"ver\":1}}"
+        },
+        "MetadataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AchievementFlagId44\":4}},\"ver\":2}}},\"privTags\":33554432,\"policies\":0}"
+        }
+      }
+    }
+  },
+  "312881568": {
+    "FullySupported": true,
+    "Achievements": {
+      "1": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement000"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement000"
+        }
+      },
+      "2": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement001"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement001"
+        }
+      },
+      "12": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement011"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement011"
+        }
+      },
+      "3": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement002"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement002"
+        }
+      },
+      "4": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement003"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement003"
+        }
+      },
+      "5": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement004"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement004"
+        }
+      },
+      "6": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement005"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement005"
+        }
+      },
+      "7": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement006"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement006"
+        }
+      },
+      "8": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement007"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement007"
+        }
+      },
+      "9": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement008"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement008"
+        }
+      },
+      "10": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement009"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement009"
+        }
+      },
+      "11": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement010"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement010"
+        }
+      },
+      "13": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement012"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement012"
+        }
+      },
+      "14": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement013"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement013"
+        }
+      },
+      "15": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement014"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement014"
+        }
+      },
+      "16": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement015"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement015"
+        }
+      },
+      "17": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement016"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement016"
+        }
+      },
+      "18": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement017"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement017"
+        }
+      },
+      "19": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement018"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement018"
+        }
+      },
+      "20": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement019"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement019"
+        }
+      },
+      "21": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement020"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement020"
+        }
+      },
+      "22": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement021"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement021"
+        }
+      },
+      "23": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement022"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement022"
+        }
+      },
+      "24": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement023"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement023"
+        }
+      },
+      "25": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement024"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement024"
+        }
+      },
+      "26": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement025"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement025"
+        }
+      },
+      "27": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement026"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement026"
+        }
+      },
+      "28": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement027"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement027"
+        }
+      },
+      "29": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement028"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement028"
+        }
+      },
+      "30": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement029"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement029"
+        }
+      },
+      "31": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement030"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement030"
+        }
+      },
+      "32": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement031"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement031"
+        }
+      },
+      "33": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement032"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement032"
+        }
+      },
+      "34": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement033"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement033"
+        }
+      },
+      "35": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement034"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement034"
+        }
+      },
+      "36": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement035"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement035"
+        }
+      },
+      "37": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement036"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement036"
+        }
+      },
+      "38": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement037"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement037"
+        }
+      },
+      "39": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement038"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement038"
+        }
+      },
+      "40": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement039"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement039"
+        }
+      },
+      "41": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement040"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement040"
+        }
+      },
+      "42": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement041"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement041"
+        }
+      },
+      "43": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement042"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement042"
+        }
+      },
+      "44": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement043"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement043"
+        }
+      },
+      "45": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement044"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement044"
+        }
+      },
+      "46": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement045"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement045"
+        }
+      },
+      "47": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement046"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement046"
+        }
+      },
+      "48": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement047"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement047"
+        }
+      },
+      "49": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement048"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement048"
+        }
+      },
+      "50": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement049"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement049"
+        }
+      },
+      "51": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement050"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement050"
+        }
+      },
+      "52": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement051"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement051"
+        }
+      },
+      "53": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement052"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement052"
+        }
+      },
+      "54": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement053"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement053"
+        }
+      },
+      "55": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement054"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement054"
+        }
+      },
+      "56": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement055"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement055"
+        }
+      },
+      "57": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement056"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement056"
+        }
+      },
+      "58": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement057"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement057"
+        }
+      },
+      "59": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement058"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement058"
+        }
+      },
+      "60": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement059"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement059"
+        }
+      },
+      "61": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement060"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement060"
+        }
+      },
+      "62": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement061"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement061"
+        }
+      },
+      "63": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement062"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement062"
+        }
+      },
+      "64": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement063"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement063"
+        }
+      },
+      "65": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement064"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement064"
+        }
+      },
+      "66": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement065"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement065"
+        }
+      },
+      "67": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement066"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement066"
+        }
+      },
+      "68": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement067"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement067"
+        }
+      },
+      "69": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement068"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement068"
+        }
+      },
+      "70": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement069"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement069"
+        }
+      },
+      "71": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement070"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement070"
+        }
+      },
+      "72": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement071"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement071"
+        }
+      },
+      "73": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement072"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement072"
+        }
+      },
+      "74": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement073"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement073"
+        }
+      },
+      "75": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement074"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement074"
+        }
+      },
+      "76": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement075"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement075"
+        }
+      },
+      "77": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement076"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement076"
+        }
+      },
+      "78": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement077"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement077"
+        }
+      },
+      "79": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement078"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement078"
+        }
+      },
+      "80": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement079"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement079"
+        }
+      },
+      "81": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement080"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement080"
+        }
+      },
+      "82": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement081"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement081"
+        }
+      },
+      "83": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement082"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement082"
+        }
+      },
+      "84": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement083"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement083"
+        }
+      },
+      "85": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement084"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement084"
+        }
+      },
+      "87": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement085"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement085"
+        }
+      },
+      "86": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement086"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement086"
+        }
+      },
+      "88": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement087"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement087"
+        }
+      },
+      "89": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement088"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement088"
+        }
+      },
+      "90": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement089"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement089"
+        }
+      },
+      "91": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement090"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement090"
+        }
+      },
+      "92": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement091"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement091"
+        }
+      },
+      "93": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement092"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement092"
+        }
+      },
+      "94": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement093"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement093"
+        }
+      },
+      "95": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement094"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement094"
+        }
+      },
+      "96": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement095"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement095"
+        }
+      },
+      "97": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement096"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement096"
+        }
+      },
+      "98": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement097"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement097"
+        }
+      },
+      "99": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement098"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement098"
+        }
+      },
+      "100": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement099"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement099"
+        }
+      },
+      "101": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement100"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement100"
+        }
+      },
+      "102": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement101"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement101"
+        }
+      },
+      "103": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement102"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement102"
+        }
+      },
+      "104": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement103"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement103"
+        }
+      },
+      "105": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement104"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement104"
+        }
+      },
+      "106": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement105"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement105"
+        }
+      },
+      "107": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement106"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement106"
+        }
+      },
+      "108": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement107"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement107"
+        }
+      },
+      "109": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement108"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement108"
+        }
+      },
+      "110": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement109"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement109"
+        }
+      },
+      "111": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement110"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement110"
+        }
+      },
+      "112": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement111"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement111"
+        }
+      },
+      "113": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement112"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement112"
+        }
+      },
+      "114": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement113"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement113"
+        }
+      },
+      "115": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement114"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement114"
+        }
+      },
+      "116": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement115"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement115"
+        }
+      },
+      "117": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement116"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement116"
+        }
+      },
+      "118": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement117"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement117"
+        }
+      },
+      "119": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACETITLE",
+          "Replacement": "Achievement118"
+        },
+        "Replacement2": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAME",
+          "Replacement": "Achievement118"
+        }
+      }
+    }
+  },
+  "869284932": {
+    "FullySupported": true,
+    "Achievements": {
+      "11": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "19"
+        }
+      },
+      "10": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "18"
+        }
+      },
+      "8": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "20"
+        }
+      },
+      "6": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "21"
+        }
+      },
+      "1": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "22"
+        }
+      },
+      "2": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "23"
+        }
+      },
+      "3": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "24"
+        }
+      },
+      "4": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "25"
+        }
+      },
+      "5": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "26"
+        }
+      },
+      "7": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "27"
+        }
+      },
+      "9": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "28"
+        }
+      },
+      "12": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "29"
+        }
+      },
+      "13": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "30"
+        }
+      },
+      "14": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "16"
+        }
+      },
+      "15": {
+        "Replacement1": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "17"
+        }
+      }
+    }
+  },
   "SupportedTitleIDs": [
+    869284932,
+    312881568,
+    1936671821,
+    568182861,
+    891310449,
+    1074352212,
     1696012554,
     333628240,
     766737132,
