@@ -39,7 +39,7 @@ public class PersonResponse
     public object? PresenceDevices { get; set; }
 
     public bool IsBroadcasting { get; set; }
-    public bool IsCloaked { get; set; }
+    public bool? IsCloaked { get; set; }
     public bool IsQuarantined { get; set; }
     public bool IsXbox360Gamerpic { get; set; }
     public DateTime? LastSeenDateTimeUtc { get; set; }
@@ -465,7 +465,7 @@ public class OneCoreAchievementResponse // Xbox One Achievements
 public class Xbox360AchievementEntry
 {
     public int id {get; set;}
-    public int titleId {get; set;}
+    public long titleId {get; set;}
     public string name {get; set;}
     public int gamerscore {get; set;}
     public string description {get; set;}
