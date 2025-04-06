@@ -116,7 +116,7 @@ namespace XAU.ViewModels.Pages
             try
             {
                 GameName = "Name: " + GameInfoResponse.Titles[0].Name;
-                GameImage = GameInfoResponse.Titles[0].DisplayImage;
+                GameImage = GameInfoResponse.Titles[0].DisplayImage != "" ? GameInfoResponse.Titles[0].DisplayImage.ToString() : "pack://application:,,,/Assets/cirno.png";
                 GameTitleID = "Title ID: " + GameInfoResponse.Titles[0].TitleId;
                 GamePFN = "PFN: " + GameInfoResponse.Titles[0].Pfn;
                 GameType = "Type: " + GameInfoResponse.Titles[0].Type;
