@@ -1,7 +1,5 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
-using System.Net;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
