@@ -1,9 +1,14 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net.Http;
+using System.Net;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
 using XAU.Views.Pages;
+using System.Net;
+using System.Net.Http;
+using static XAU.ViewModels.Pages.GamesViewModel;
 namespace XAU.ViewModels.Pages
 {
     public partial class GamesViewModel(ISnackbarService snackbarService, INavigationService navigationService) : ObservableObject, INavigationAware, INotifyPropertyChanged
@@ -156,7 +161,8 @@ namespace XAU.ViewModels.Pages
                                 if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
                                     continue;
                                 AddGame(i);
-                            };
+                            }
+                            ;
                         }
                         break;
                     case 5:
@@ -308,27 +314,49 @@ namespace XAU.ViewModels.Pages
             }
         }
 
-        private void AddGame(int index)
+private void AddGame(int index)
+    {
+        var title = GamesResponse.Titles[index];
+        var EditedImage = !string.IsNullOrWhiteSpace(title.DisplayImage)
+            ? title.DisplayImage.ToString()
+            : "pack://application:,,,/Assets/cirno.png";
+        if (EditedImage.Contains("store-images.s-microsoft.com"))
         {
-            var title = GamesResponse.Titles[index];
-            var EditedImage = title.DisplayImage != "" ? title.DisplayImage.ToString() : "pack://application:,,,/Assets/cirno.png";
-            if (EditedImage.Contains("store-images.s-microsoft.com"))
-            {
-                EditedImage = EditedImage + "?w=256&h=256&format=jpg";
-            }
-            Games.Add(new Game()
-            {
-                Title = title.Name.ToString(),
-                CurrentAchievements = title.Achievement.CurrentAchievements.ToString(),
-                Gamerscore = title.Achievement.CurrentGamerscore.ToString() + "/" +
-                             title.Achievement.TotalGamerscore.ToString(),
-                Progress = title.Achievement.ProgressPercentage.ToString(),
-                Image = EditedImage, //"pack://application:,,,/Assets/cirno.png", //
-                Index = index.ToString()
-            });
+            EditedImage += "?w=256&h=256&format=jpg";
         }
+        if (IsUrl404(EditedImage))
+        {
+            EditedImage = "pack://application:,,,/Assets/cirno.png";
+        }
+        Games.Add(new Game()
+        {
+            Title = title.Name.ToString(),
+            CurrentAchievements = title.Achievement.CurrentAchievements.ToString(),
+            Gamerscore = title.Achievement.CurrentGamerscore.ToString() + "/" +
+                         title.Achievement.TotalGamerscore.ToString(),
+            Progress = title.Achievement.ProgressPercentage.ToString(),
+            Image = EditedImage,
+            Index = index.ToString()
+        });
+    }
 
-        [RelayCommand]
+    private bool IsUrl404(string url)
+    {
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                var response = client.GetAsync(url).Result;
+                return response.StatusCode == HttpStatusCode.NotFound;
+            }
+        }
+        catch
+        {
+            return true;
+        }
+    }
+
+    [RelayCommand]
         public void PageChanged()
         {
             if (PageReset)
