@@ -155,7 +155,7 @@
                             <Button Cursor="Hand" MinHeight="170" MinWidth="170" Click="ButtonBase_OnClick" MouseRightButtonDown="ButtonBase_RightClick" Content="{Binding Index}">
                                 <Button.Template>
                                     <ControlTemplate>
-                                        <ui:Image Source="{Binding Image, IsAsync=true}" Width="170" Height="170" CornerRadius="10" Margin="0,0,0,0" Background="White"/>
+                                        <ui:Image Source="{Binding Image, IsAsync=true}" Width="170" Height="170" CornerRadius="10" Margin="0,0,0,0" Image.ImageFailed="Image_ImageFailed" Background="White"/>
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
