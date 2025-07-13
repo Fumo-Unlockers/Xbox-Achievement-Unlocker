@@ -20630,7 +20630,7 @@
         "MetaDataReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEMETADATA",
-          "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"AllLegendaryModChallengesMet\": 4,\"AllModTypes\": 4,\"AssistABS\": 4,\"AssistDamage\": 4,\"AssistDrivingLine\": 4,\"AssistFriction\": 4,\"AssistRewind\": 4,\"AssistSTM\": 4,\"AssistSteering\": 4,\"AssistSuperEasy\": 4,\"AssistTCS\": 4,\"AssistTransmission\": 4,\"BaseBonusCreditsFromCards\": 4,\"CameraId\": 4,\"CarClassId\": 4,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 4,\"CarCountryId\": 4,\"CarDivisionId\": 4,\"CarDrivetrainId\": 4,\"CarEnginePlacementId\": 4,\"CarId\": 4,\"CarRegionId\": 4,\"CarYear\": 4,\"Card1Id\": 4,\"Card1Rarity\": 4,\"Card1Type\": 4,\"Card2Id\": 4,\"Card2Rarity\": 4,\"Card2Type\": 4,\"Card3Id\": 4,\"Card3Rarity\": 4,\"Card3Type\": 4,\"CardsUsed\": 4,\"CareerChampionshipId\": 4,\"CareerRaceId\": 4,\"CareerSeriesId\": 4,\"CarsPassed\": 4,\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DidMarshall\": 4,\"DidSpectate\": 4,\"DifficultyLevelId\": 4,\"DistanceDriftedMeters\": 4,\"DistanceDrivenMeters\": 4,\"DistanceLedMeters\": 4,\"DriverLevel\": 4,\"EndCondition\": 4,\"EnvironmentId\": 4,\"FamilyBodyId\": 4,\"FamilyModeId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameTypePreset\": 4,\"HadQuickstops\": 4,\"HopperCategoryId\": 4,\"HopperId\": 4,\"HopperIsDivision\": 4,\"IsMultiplayer\": 4,\"ManufacturerId\": 4,\"NoAssistsUsed\": 4,\"NumPerfectDrafts\": 4,\"NumPerfectDrifts\": 4,\"NumPerfectPasses\": 4,\"NumPerfectTurns\": 4,\"NumberOfOpponents\": 4,\"Place\": 4,\"RaceLength\": 4,\"RivalEventId\": 4,\"ScoringType\": 4,\"ShowcaseEventId\": 4,\"StartType\": 4,\"StartedLast\": 4,\"TrackCountryId\": 4,\"TrackId\": 4,\"TrackLength\": 4,\"TrackRegionId\": 4,\"TrackScenario\": 4,\"UsedAssists\": 4,\"UserLevel\": 4,\"WeatherConditionId\": 4,\"WeatherConditionsSeen\": 4}},\"measurements\": {\"f\": {\"BestLapScore\": 6,\"CreditMultiplierFromCards\": 6,\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},"
+          "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"AllLegendaryModChallengesMet\": 4,\"AllModTypes\": 4,\"AssistABS\": 4,\"AssistDamage\": 4,\"AssistDrivingLine\": 4,\"AssistFriction\": 4,\"AssistRewind\": 4,\"AssistSTM\": 4,\"AssistSteering\": 4,\"AssistSuperEasy\": 4,\"AssistTCS\": 4,\"AssistTransmission\": 4,\"BaseBonusCreditsFromCards\": 4,\"CameraId\": 4,\"CarClassId\": 4,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 4,\"CarCountryId\": 4,\"CarDivisionId\": 4,\"CarDrivetrainId\": 4,\"CarEnginePlacementId\": 4,\"CarId\": 4,\"CarRegionId\": 4,\"CarYear\": 4,\"Card1Id\": 4,\"Card1Rarity\": 4,\"Card1Type\": 4,\"Card2Id\": 4,\"Card2Rarity\": 4,\"Card2Type\": 4,\"Card3Id\": 4,\"Card3Rarity\": 4,\"Card3Type\": 4,\"CardsUsed\": 4,\"CareerChampionshipId\": 4,\"CareerRaceId\": 4,\"CareerSeriesId\": 4,\"CarsPassed\": 4,\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DidMarshall\": 4,\"DidSpectate\": 4,\"DifficultyLevelId\": 4,\"DistanceDriftedMeters\": 4,\"DistanceDrivenMeters\": 4,\"DistanceLedMeters\": 4,\"DriverLevel\": 4,\"EndCondition\": 4,\"EnvironmentId\": 4,\"FamilyBodyId\": 4,\"FamilyModeId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameTypePreset\": 4,\"HadQuickstops\": 4,\"HopperCategoryId\": 4,\"HopperId\": 4,\"HopperIsDivision\": 4,\"IsMultiplayer\": 4,\"ManufacturerId\": 4,\"NoAssistsUsed\": 4,\"NumPerfectDrafts\": 4,\"NumPerfectDrifts\": 4,\"NumPerfectPasses\": 4,\"NumPerfectTurns\": 4,\"NumberOfOpponents\": 4,\"Place\": 4,\"RaceLength\": 4,\"RivalEventId\": 4,\"ScoringType\": 4,\"ShowcaseEventId\": 4,\"StartType\": 4,\"StartedLast\": 4,\"TrackCountryId\": 4,\"TrackId\": 4,\"TrackLength\": 4,\"TrackRegionId\": 4,\"TrackScenario\": 4,\"UsedAssists\": 4,\"UserLevel\": 4,\"WeatherConditionId\": 4,\"WeatherConditionsSeen\": 4}},\"measurements\": {\"f\": {\"BestLapScore\": 6,\"CreditMultiplierFromCards\": 6,\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}}"
         },
         "DataReplacement": {
           "ReplacementType": "Replace",
@@ -20647,7 +20647,7 @@
         "MetaDataReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEMETADATA",
-          "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"AllLegendaryModChallengesMet\": 4,\"AllModTypes\": 4,\"AssistABS\": 4,\"AssistDamage\": 4,\"AssistDrivingLine\": 4,\"AssistFriction\": 4,\"AssistRewind\": 4,\"AssistSTM\": 4,\"AssistSteering\": 4,\"AssistSuperEasy\": 4,\"AssistTCS\": 4,\"AssistTransmission\": 4,\"BaseBonusCreditsFromCards\": 4,\"CameraId\": 4,\"CarClassId\": 4,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 4,\"CarCountryId\": 4,\"CarDivisionId\": 4,\"CarDrivetrainId\": 4,\"CarEnginePlacementId\": 4,\"CarId\": 4,\"CarRegionId\": 4,\"CarYear\": 4,\"Card1Id\": 4,\"Card1Rarity\": 4,\"Card1Type\": 4,\"Card2Id\": 4,\"Card2Rarity\": 4,\"Card2Type\": 4,\"Card3Id\": 4,\"Card3Rarity\": 4,\"Card3Type\": 4,\"CardsUsed\": 4,\"CareerChampionshipId\": 4,\"CareerRaceId\": 4,\"CareerSeriesId\": 4,\"CarsPassed\": 4,\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DidMarshall\": 4,\"DidSpectate\": 4,\"DifficultyLevelId\": 4,\"DistanceDriftedMeters\": 4,\"DistanceDrivenMeters\": 4,\"DistanceLedMeters\": 4,\"DriverLevel\": 4,\"EndCondition\": 4,\"EnvironmentId\": 4,\"FamilyBodyId\": 4,\"FamilyModeId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameTypePreset\": 4,\"HadQuickstops\": 4,\"HopperCategoryId\": 4,\"HopperId\": 4,\"HopperIsDivision\": 4,\"IsMultiplayer\": 4,\"ManufacturerId\": 4,\"NoAssistsUsed\": 4,\"NumPerfectDrafts\": 4,\"NumPerfectDrifts\": 4,\"NumPerfectPasses\": 4,\"NumPerfectTurns\": 4,\"NumberOfOpponents\": 4,\"Place\": 4,\"RaceLength\": 4,\"RivalEventId\": 4,\"ScoringType\": 4,\"ShowcaseEventId\": 4,\"StartType\": 4,\"StartedLast\": 4,\"TrackCountryId\": 4,\"TrackId\": 4,\"TrackLength\": 4,\"TrackRegionId\": 4,\"TrackScenario\": 4,\"UsedAssists\": 4,\"UserLevel\": 4,\"WeatherConditionId\": 4,\"WeatherConditionsSeen\": 4}},\"measurements\": {\"f\": {\"BestLapScore\": 6,\"CreditMultiplierFromCards\": 6,\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},"
+          "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"AllLegendaryModChallengesMet\": 4,\"AllModTypes\": 4,\"AssistABS\": 4,\"AssistDamage\": 4,\"AssistDrivingLine\": 4,\"AssistFriction\": 4,\"AssistRewind\": 4,\"AssistSTM\": 4,\"AssistSteering\": 4,\"AssistSuperEasy\": 4,\"AssistTCS\": 4,\"AssistTransmission\": 4,\"BaseBonusCreditsFromCards\": 4,\"CameraId\": 4,\"CarClassId\": 4,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 4,\"CarCountryId\": 4,\"CarDivisionId\": 4,\"CarDrivetrainId\": 4,\"CarEnginePlacementId\": 4,\"CarId\": 4,\"CarRegionId\": 4,\"CarYear\": 4,\"Card1Id\": 4,\"Card1Rarity\": 4,\"Card1Type\": 4,\"Card2Id\": 4,\"Card2Rarity\": 4,\"Card2Type\": 4,\"Card3Id\": 4,\"Card3Rarity\": 4,\"Card3Type\": 4,\"CardsUsed\": 4,\"CareerChampionshipId\": 4,\"CareerRaceId\": 4,\"CareerSeriesId\": 4,\"CarsPassed\": 4,\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DidMarshall\": 4,\"DidSpectate\": 4,\"DifficultyLevelId\": 4,\"DistanceDriftedMeters\": 4,\"DistanceDrivenMeters\": 4,\"DistanceLedMeters\": 4,\"DriverLevel\": 4,\"EndCondition\": 4,\"EnvironmentId\": 4,\"FamilyBodyId\": 4,\"FamilyModeId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameTypePreset\": 4,\"HadQuickstops\": 4,\"HopperCategoryId\": 4,\"HopperId\": 4,\"HopperIsDivision\": 4,\"IsMultiplayer\": 4,\"ManufacturerId\": 4,\"NoAssistsUsed\": 4,\"NumPerfectDrafts\": 4,\"NumPerfectDrifts\": 4,\"NumPerfectPasses\": 4,\"NumPerfectTurns\": 4,\"NumberOfOpponents\": 4,\"Place\": 4,\"RaceLength\": 4,\"RivalEventId\": 4,\"ScoringType\": 4,\"ShowcaseEventId\": 4,\"StartType\": 4,\"StartedLast\": 4,\"TrackCountryId\": 4,\"TrackId\": 4,\"TrackLength\": 4,\"TrackRegionId\": 4,\"TrackScenario\": 4,\"UsedAssists\": 4,\"UserLevel\": 4,\"WeatherConditionId\": 4,\"WeatherConditionsSeen\": 4}},\"measurements\": {\"f\": {\"BestLapScore\": 6,\"CreditMultiplierFromCards\": 6,\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}}"
         },
         "DataReplacement": {
           "ReplacementType": "Replace",
@@ -20664,12 +20664,760 @@
         "MetaDataReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEMETADATA",
-          "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"AllLegendaryModChallengesMet\": 4,\"AllModTypes\": 4,\"AssistABS\": 4,\"AssistDamage\": 4,\"AssistDrivingLine\": 4,\"AssistFriction\": 4,\"AssistRewind\": 4,\"AssistSTM\": 4,\"AssistSteering\": 4,\"AssistSuperEasy\": 4,\"AssistTCS\": 4,\"AssistTransmission\": 4,\"BaseBonusCreditsFromCards\": 4,\"CameraId\": 4,\"CarClassId\": 4,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 4,\"CarCountryId\": 4,\"CarDivisionId\": 4,\"CarDrivetrainId\": 4,\"CarEnginePlacementId\": 4,\"CarId\": 4,\"CarRegionId\": 4,\"CarYear\": 4,\"Card1Id\": 4,\"Card1Rarity\": 4,\"Card1Type\": 4,\"Card2Id\": 4,\"Card2Rarity\": 4,\"Card2Type\": 4,\"Card3Id\": 4,\"Card3Rarity\": 4,\"Card3Type\": 4,\"CardsUsed\": 4,\"CareerChampionshipId\": 4,\"CareerRaceId\": 4,\"CareerSeriesId\": 4,\"CarsPassed\": 4,\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DidMarshall\": 4,\"DidSpectate\": 4,\"DifficultyLevelId\": 4,\"DistanceDriftedMeters\": 4,\"DistanceDrivenMeters\": 4,\"DistanceLedMeters\": 4,\"DriverLevel\": 4,\"EndCondition\": 4,\"EnvironmentId\": 4,\"FamilyBodyId\": 4,\"FamilyModeId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameTypePreset\": 4,\"HadQuickstops\": 4,\"HopperCategoryId\": 4,\"HopperId\": 4,\"HopperIsDivision\": 4,\"IsMultiplayer\": 4,\"ManufacturerId\": 4,\"NoAssistsUsed\": 4,\"NumPerfectDrafts\": 4,\"NumPerfectDrifts\": 4,\"NumPerfectPasses\": 4,\"NumPerfectTurns\": 4,\"NumberOfOpponents\": 4,\"Place\": 4,\"RaceLength\": 4,\"RivalEventId\": 4,\"ScoringType\": 4,\"ShowcaseEventId\": 4,\"StartType\": 4,\"StartedLast\": 4,\"TrackCountryId\": 4,\"TrackId\": 4,\"TrackLength\": 4,\"TrackRegionId\": 4,\"TrackScenario\": 4,\"UsedAssists\": 4,\"UserLevel\": 4,\"WeatherConditionId\": 4,\"WeatherConditionsSeen\": 4}},\"measurements\": {\"f\": {\"BestLapScore\": 6,\"CreditMultiplierFromCards\": 6,\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}},"
+          "Replacement": "{\"f\": {\"baseData\": {\"f\": {\"properties\": {\"f\": {\"AllLegendaryModChallengesMet\": 4,\"AllModTypes\": 4,\"AssistABS\": 4,\"AssistDamage\": 4,\"AssistDrivingLine\": 4,\"AssistFriction\": 4,\"AssistRewind\": 4,\"AssistSTM\": 4,\"AssistSteering\": 4,\"AssistSuperEasy\": 4,\"AssistTCS\": 4,\"AssistTransmission\": 4,\"BaseBonusCreditsFromCards\": 4,\"CameraId\": 4,\"CarClassId\": 4,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 4,\"CarCountryId\": 4,\"CarDivisionId\": 4,\"CarDrivetrainId\": 4,\"CarEnginePlacementId\": 4,\"CarId\": 4,\"CarRegionId\": 4,\"CarYear\": 4,\"Card1Id\": 4,\"Card1Rarity\": 4,\"Card1Type\": 4,\"Card2Id\": 4,\"Card2Rarity\": 4,\"Card2Type\": 4,\"Card3Id\": 4,\"Card3Rarity\": 4,\"Card3Type\": 4,\"CardsUsed\": 4,\"CareerChampionshipId\": 4,\"CareerRaceId\": 4,\"CareerSeriesId\": 4,\"CarsPassed\": 4,\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DidMarshall\": 4,\"DidSpectate\": 4,\"DifficultyLevelId\": 4,\"DistanceDriftedMeters\": 4,\"DistanceDrivenMeters\": 4,\"DistanceLedMeters\": 4,\"DriverLevel\": 4,\"EndCondition\": 4,\"EnvironmentId\": 4,\"FamilyBodyId\": 4,\"FamilyModeId\": 4,\"Finished\": 4,\"GameMode\": 4,\"GameTypePreset\": 4,\"HadQuickstops\": 4,\"HopperCategoryId\": 4,\"HopperId\": 4,\"HopperIsDivision\": 4,\"IsMultiplayer\": 4,\"ManufacturerId\": 4,\"NoAssistsUsed\": 4,\"NumPerfectDrafts\": 4,\"NumPerfectDrifts\": 4,\"NumPerfectPasses\": 4,\"NumPerfectTurns\": 4,\"NumberOfOpponents\": 4,\"Place\": 4,\"RaceLength\": 4,\"RivalEventId\": 4,\"ScoringType\": 4,\"ShowcaseEventId\": 4,\"StartType\": 4,\"StartedLast\": 4,\"TrackCountryId\": 4,\"TrackId\": 4,\"TrackLength\": 4,\"TrackRegionId\": 4,\"TrackScenario\": 4,\"UsedAssists\": 4,\"UserLevel\": 4,\"WeatherConditionId\": 4,\"WeatherConditionsSeen\": 4}},\"measurements\": {\"f\": {\"BestLapScore\": 6,\"CreditMultiplierFromCards\": 6,\"TimeInSeconds\": 6,\"TopSpeed\": 6}}}}}"
         },
         "DataReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEDATA",
           "Replacement": "{\"baseType\": \"Microsoft.XboxLive.InGame\",\"baseData\": {\"name\": \"RaceEnd\",\"serviceConfigId\": \"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\": \"11111111-1111-1111-1111-111111111111\",\"titleId\": \"1999574456\",\"userId\": \"REPLACEXUID\",\"ver\": 1,\"properties\": {\"AllLegendaryModChallengesMet\": 0,\"AllModTypes\": 1,\"AssistABS\": 0,\"AssistDamage\": 0,\"AssistDrivingLine\": 0,\"AssistFriction\": 0,\"AssistRewind\": 0,\"AssistSTM\": 0,\"AssistSteering\": 0,\"AssistSuperEasy\": 0,\"AssistTCS\": 0,\"AssistTransmission\": 0,\"BaseBonusCreditsFromCards\": 0,\"CameraId\": 0,\"CarClassId\": 5,\"CarCollectionTierId\": 4,\"CarCollectionValue\": 565,\"CarCountryId\": 3,\"CarDivisionId\": 15,\"CarDrivetrainId\": 2,\"CarEnginePlacementId\": 3,\"CarId\": 2755,\"CarRegionId\": 2,\"CarYear\": 2018,\"Card1Id\": 0,\"Card1Rarity\": -1,\"Card1Type\": 0,\"Card2Id\": 0,\"Card2Rarity\": -1,\"Card2Type\": 0,\"Card3Id\": 0,\"Card3Rarity\": -1,\"Card3Type\": 0,\"CardsUsed\": 0,\"CareerChampionshipId\": 0,\"CareerRaceId\": 3001,\"CareerSeriesId\": 0,\"CarsPassed\": 23,\"ChallengeSet0\": -1,\"ChallengeSet1\": -1,\"ChallengeSet2\": -1,\"ChallengeSet3\": -1,\"ChallengeSet4\": -1,\"ChallengeSet5\": -1,\"ChallengeSet6\": -1,\"ChallengeSet7\": -1,\"ChallengeSet8\": -1,\"ChallengeSet9\": -1,\"DidMarshall\": -1,\"DidSpectate\": 0,\"DifficultyLevelId\": 2,\"DistanceDriftedMeters\": 7258,\"DistanceDrivenMeters\": 7068,\"DistanceLedMeters\": 4364,\"DriverLevel\": 0,\"EndCondition\": 1,\"EnvironmentId\": 113,\"FamilyBodyId\": 1,\"FamilyModeId\": 39,\"Finished\": 1,\"GameMode\": 12,\"GameTypePreset\": 0,\"HadQuickstops\": 0,\"HopperCategoryId\": -1,\"HopperId\": -1,\"HopperIsDivision\": -1,\"IsMultiplayer\": 1,\"ManufacturerId\": 39,\"NoAssistsUsed\": 0,\"NumPerfectDrafts\": 0,\"NumPerfectDrifts\": 0,\"NumPerfectPasses\": 0,\"NumPerfectTurns\": 1,\"NumberOfOpponents\": 23,\"Place\": 1,\"RaceLength\": 0,\"RivalEventId\": -1,\"ScoringType\": 0,\"ShowcaseEventId\": 0,\"StartType\": 2,\"StartedLast\": 1,\"TrackCountryId\": 24,\"TrackId\": 1130,\"TrackLength\": -1,\"TrackRegionId\": 2,\"TrackScenario\": 0,\"UsedAssists\": 1,\"UserLevel\": 0,\"WeatherConditionId\": 0,\"WeatherConditionsSeen\": 0},\"measurements\": {\"BestLapScore\": 169,\"CreditMultiplierFromCards\": 1,\"TimeInSeconds\": 171.70901489257812,\"TopSpeed\": 74.752403259277344}}}"
+        }
+      },
+      "412": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.Payouts"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\" :{\"baseData\" :{\"f\": {\"properties\": {\"f\": {\"ChallengeSet0\": 4,\"ChallengeSet1\": 4,\"ChallengeSet2\": 4,\"ChallengeSet3\": 4,\"ChallengeSet4\": 4,\"ChallengeSet5\": 4,\"ChallengeSet6\": 4,\"ChallengeSet7\": 4,\"ChallengeSet8\": 4,\"ChallengeSet9\": 4,\"DrivatarPayout\": 4,\"LayerGroupPayout\": 4,\"LiveryPayout\": 4,\"PhotoDownloads\": 4,\"ReplayDownloads\": 4,\"TuningPayout\": 4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"Payouts\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DrivatarPayout\":0,\"LayerGroupPayout\":0,\"LiveryPayout\":0,\"PhotoDownloads\":0,\"ReplayDownloads\":0,\"TuningPayout\":50000}}}"
+        }
+      },
+      "410": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.Payouts"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DrivatarPayout\":4,\"LayerGroupPayout\":4,\"LiveryPayout\":4,\"PhotoDownloads\":4,\"ReplayDownloads\":4,\"TuningPayout\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"Payouts\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DrivatarPayout\":0,\"LayerGroupPayout\":0,\"LiveryPayout\":50000,\"PhotoDownloads\":0,\"ReplayDownloads\":0,\"TuningPayout\":0}}}"
+        }
+      },
+      "399": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AllLegendaryModChallengesMet\":4,\"AllModTypes\":4,\"AssistABS\":4,\"AssistDamage\":4,\"AssistDrivingLine\":4,\"AssistFriction\":4,\"AssistRewind\":4,\"AssistSTM\":4,\"AssistSteering\":4,\"AssistSuperEasy\":4,\"AssistTCS\":4,\"AssistTransmission\":4,\"BaseBonusCreditsFromCards\":4,\"CameraId\":4,\"CarClassId\":4,\"CarCollectionTierId\":4,\"CarCollectionValue\":4,\"CarCountryId\":4,\"CarDivisionId\":4,\"CarDrivetrainId\":4,\"CarEnginePlacementId\":4,\"CarId\":4,\"CarRegionId\":4,\"CarYear\":4,\"Card1Id\":4,\"Card1Rarity\":4,\"Card1Type\":4,\"Card2Id\":4,\"Card2Rarity\":4,\"Card2Type\":4,\"Card3Id\":4,\"Card3Rarity\":4,\"Card3Type\":4,\"CardsUsed\":4,\"CareerChampionshipId\":4,\"CareerRaceId\":4,\"CareerSeriesId\":4,\"CarsPassed\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidMarshall\":4,\"DidSpectate\":4,\"DifficultyLevelId\":4,\"DistanceDriftedMeters\":4,\"DistanceDrivenMeters\":4,\"DistanceLedMeters\":4,\"DriverLevel\":4,\"EndCondition\":4,\"EnvironmentId\":4,\"FamilyBodyId\":4,\"FamilyModeId\":4,\"Finished\":4,\"GameMode\":4,\"GameTypePreset\":4,\"HadQuickstops\":4,\"HopperCategoryId\":4,\"HopperId\":4,\"HopperIsDivision\":4,\"IsMultiplayer\":4,\"ManufacturerId\":4,\"NoAssistsUsed\":4,\"NumPerfectDrafts\":4,\"NumPerfectDrifts\":4,\"NumPerfectPasses\":4,\"NumPerfectTurns\":4,\"NumberOfOpponents\":4,\"Place\":4,\"RaceLength\":4,\"RivalEventId\":4,\"ScoringType\":4,\"ShowcaseEventId\":4,\"StartType\":4,\"StartedLast\":4,\"TrackCountryId\":4,\"TrackId\":4,\"TrackLength\":4,\"TrackRegionId\":4,\"TrackScenario\":4,\"UsedAssists\":4,\"UserLevel\":4,\"WeatherConditionId\":4,\"WeatherConditionsSeen\":4}},\"measurements\":{\"f\":{\"BestLapScore\":6,\"CreditMultiplierFromCards\":6,\"TimeInSeconds\":6,\"TopSpeed\":6}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceEnd\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AllLegendaryModChallengesMet\":0,\"AllModTypes\":1,\"AssistABS\":0,\"AssistDamage\":0,\"AssistDrivingLine\":0,\"AssistFriction\":0,\"AssistRewind\":1,\"AssistSTM\":0,\"AssistSteering\":0,\"AssistSuperEasy\":1,\"AssistTCS\":0,\"AssistTransmission\":0,\"BaseBonusCreditsFromCards\":500000,\"CameraId\":3,\"CarClassId\":8,\"CarCollectionTierId\":4,\"CarCollectionValue\":50,\"CarCountryId\":5,\"CarDivisionId\":31,\"CarDrivetrainId\":2,\"CarEnginePlacementId\":2,\"CarId\":3202,\"CarRegionId\":1,\"CarYear\":2019,\"Card1Id\":130,\"Card1Rarity\":4,\"Card1Type\":0,\"Card2Id\":130,\"Card2Rarity\":4,\"Card2Type\":0,\"Card3Id\":220,\"Card3Rarity\":4,\"Card3Type\":0,\"CardsUsed\":3,\"CareerChampionshipId\":0,\"CareerRaceId\":-1,\"CareerSeriesId\":0,\"CarsPassed\":0,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidMarshall\":-1,\"DidSpectate\":0,\"DifficultyLevelId\":3,\"DistanceDriftedMeters\":2414,\"DistanceDrivenMeters\":2441,\"DistanceLedMeters\":2270,\"DriverLevel\":3,\"EndCondition\":1,\"EnvironmentId\":111,\"FamilyBodyId\":1,\"FamilyModeId\":1,\"Finished\":1,\"GameMode\":3,\"GameTypePreset\":1,\"HadQuickstops\":0,\"HopperCategoryId\":-1,\"HopperId\":-1,\"HopperIsDivision\":-1,\"IsMultiplayer\":0,\"ManufacturerId\":16,\"NoAssistsUsed\":0,\"NumPerfectDrafts\":0,\"NumPerfectDrifts\":0,\"NumPerfectPasses\":0,\"NumPerfectTurns\":0,\"NumberOfOpponents\":1,\"Place\":1,\"RaceLength\":0,\"RivalEventId\":-1,\"ScoringType\":0,\"ShowcaseEventId\":0,\"StartType\":2,\"StartedLast\":0,\"TrackCountryId\":10,\"TrackId\":1110,\"TrackLength\":-1,\"TrackRegionId\":3,\"TrackScenario\":0,\"UsedAssists\":1,\"UserLevel\":3,\"WeatherConditionId\":0,\"WeatherConditionsSeen\":160002},\"measurements\":{\"BestLapScore\":30,\"CreditMultiplierFromCards\":1,\"TimeInSeconds\":30.407394409179688,\"TopSpeed\":97.819694519042969}}}"
+        }
+      },
+      "364": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":1,\"NumCarsOwned\":100,\"Score\":50}}}"
+        }
+      },
+      "365": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":1,\"NumCarsOwned\":300,\"Score\":50}}}"
+        }
+      },
+      "366": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":1,\"NumCarsOwned\":500,\"Score\":50}}}"
+        }
+      },
+      "367": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":1,\"NumCarsOwned\":700,\"Score\":50}}}"
+        }
+      },
+      "372": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":2,\"NumCarsOwned\":50,\"Score\":1000}}}"
+        }
+      },
+      "373": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":3,\"NumCarsOwned\":50,\"Score\":1900}}}"
+        }
+      },
+      "374": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":4,\"NumCarsOwned\":50,\"Score\":4000}}}"
+        }
+      },
+      "375": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":5,\"NumCarsOwned\":50,\"Score\":8000}}}"
+        }
+      },
+      "376": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":6,\"NumCarsOwned\":50,\"Score\":12000}}}"
+        }
+      },
+      "377": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":7,\"NumCarsOwned\":50,\"Score\":16000}}}"
+        }
+      },
+      "378": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarCollectionScore"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CollectionTier\":4,\"NumCarsOwned\":4,\"Score\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarCollectionScore\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CollectionTier\":8,\"NumCarsOwned\":50,\"Score\":20000}}}"
+        }
+      },
+      "383": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":0,\"ChampionshipIdComplete\":1,\"ChampionshipsCompleted\":1,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "384": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":0,\"ChampionshipIdComplete\":2,\"ChampionshipsCompleted\":2,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "385": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":0,\"ChampionshipIdComplete\":3,\"ChampionshipsCompleted\":3,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "386": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":0,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "387": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":0,\"ChampionshipIdComplete\":5,\"ChampionshipsCompleted\":5,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "388": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":0,\"ChampionshipIdComplete\":6,\"ChampionshipsCompleted\":6,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "389": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":1,\"ChampionshipIdComplete\":1,\"ChampionshipsCompleted\":1,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "390": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":1,\"ChampionshipIdComplete\":2,\"ChampionshipsCompleted\":1,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "391": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":1,\"ChampionshipIdComplete\":3,\"ChampionshipsCompleted\":1,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "392": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":1,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":1,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "393": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":1,\"ChampionshipIdComplete\":5,\"ChampionshipsCompleted\":1,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "394": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":1,\"ChampionshipIdComplete\":6,\"ChampionshipsCompleted\":1,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":3}}}"
+        }
+      },
+      "395": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CareerResultsUpdate"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"ChampionshipHardComplete\":4,\"ChampionshipIdComplete\":4,\"ChampionshipsCompleted\":4,\"SeriesCompleted\":4,\"ShowcaseEventsCompleted\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CareerResultsUpdate\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"ChampionshipHardComplete\":0,\"ChampionshipIdComplete\":0,\"ChampionshipsCompleted\":0,\"SeriesCompleted\":2,\"ShowcaseEventsCompleted\":30}}}"
+        }
+      },
+      "414": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AllLegendaryModChallengesMet\":4,\"AllModTypes\":4,\"AssistABS\":4,\"AssistDamage\":4,\"AssistDrivingLine\":4,\"AssistFriction\":4,\"AssistRewind\":4,\"AssistSTM\":4,\"AssistSteering\":4,\"AssistSuperEasy\":4,\"AssistTCS\":4,\"AssistTransmission\":4,\"BaseBonusCreditsFromCards\":4,\"CameraId\":4,\"CarClassId\":4,\"CarCollectionTierId\":4,\"CarCollectionValue\":4,\"CarCountryId\":4,\"CarDivisionId\":4,\"CarDrivetrainId\":4,\"CarEnginePlacementId\":4,\"CarId\":4,\"CarRegionId\":4,\"CarYear\":4,\"Card1Id\":4,\"Card1Rarity\":4,\"Card1Type\":4,\"Card2Id\":4,\"Card2Rarity\":4,\"Card2Type\":4,\"Card3Id\":4,\"Card3Rarity\":4,\"Card3Type\":4,\"CardsUsed\":4,\"CareerChampionshipId\":4,\"CareerRaceId\":4,\"CareerSeriesId\":4,\"CarsPassed\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidMarshall\":4,\"DidSpectate\":4,\"DifficultyLevelId\":4,\"DistanceDriftedMeters\":4,\"DistanceDrivenMeters\":4,\"DistanceLedMeters\":4,\"DriverLevel\":4,\"EndCondition\":4,\"EnvironmentId\":4,\"FamilyBodyId\":4,\"FamilyModeId\":4,\"Finished\":4,\"GameMode\":4,\"GameTypePreset\":4,\"HadQuickstops\":4,\"HopperCategoryId\":4,\"HopperId\":4,\"HopperIsDivision\":4,\"IsMultiplayer\":4,\"ManufacturerId\":4,\"NoAssistsUsed\":4,\"NumPerfectDrafts\":4,\"NumPerfectDrifts\":4,\"NumPerfectPasses\":4,\"NumPerfectTurns\":4,\"NumberOfOpponents\":4,\"Place\":4,\"RaceLength\":4,\"RivalEventId\":4,\"ScoringType\":4,\"ShowcaseEventId\":4,\"StartType\":4,\"StartedLast\":4,\"TrackCountryId\":4,\"TrackId\":4,\"TrackLength\":4,\"TrackRegionId\":4,\"TrackScenario\":4,\"UsedAssists\":4,\"UserLevel\":4,\"WeatherConditionId\":4,\"WeatherConditionsSeen\":4}},\"measurements\":{\"f\":{\"BestLapScore\":6,\"CreditMultiplierFromCards\":6,\"TimeInSeconds\":6,\"TopSpeed\":6}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceEnd\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AllLegendaryModChallengesMet\":0,\"AllModTypes\":1,\"AssistABS\":0,\"AssistDamage\":0,\"AssistDrivingLine\":0,\"AssistFriction\":0,\"AssistRewind\":0,\"AssistSTM\":1,\"AssistSteering\":1,\"AssistSuperEasy\":0,\"AssistTCS\":1,\"AssistTransmission\":0,\"BaseBonusCreditsFromCards\":0,\"CameraId\":3,\"CarClassId\":2,\"CarCollectionTierId\":1,\"CarCollectionValue\":50,\"CarCountryId\":6,\"CarDivisionId\":28,\"CarDrivetrainId\":1,\"CarEnginePlacementId\":1,\"CarId\":2872,\"CarRegionId\":1,\"CarYear\":2019,\"Card1Id\":0,\"Card1Rarity\":-1,\"Card1Type\":0,\"Card2Id\":0,\"Card2Rarity\":-1,\"Card2Type\":0,\"Card3Id\":0,\"Card3Rarity\":-1,\"Card3Type\":0,\"CardsUsed\":0,\"CareerChampionshipId\":0,\"CareerRaceId\":-1,\"CareerSeriesId\":0,\"CarsPassed\":0,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidMarshall\":-1,\"DidSpectate\":0,\"DifficultyLevelId\":7,\"DistanceDriftedMeters\":2414,\"DistanceDrivenMeters\":2407,\"DistanceLedMeters\":4601,\"DriverLevel\":0,\"EndCondition\":1,\"EnvironmentId\":111,\"FamilyBodyId\":1,\"FamilyModeId\":1,\"Finished\":1,\"GameMode\":3,\"GameTypePreset\":0,\"HadQuickstops\":0,\"HopperCategoryId\":-1,\"HopperId\":-1,\"HopperIsDivision\":-1,\"IsMultiplayer\":0,\"ManufacturerId\":17,\"NoAssistsUsed\":0,\"NumPerfectDrafts\":0,\"NumPerfectDrifts\":0,\"NumPerfectPasses\":0,\"NumPerfectTurns\":0,\"NumberOfOpponents\":2,\"Place\":1,\"RaceLength\":0,\"RivalEventId\":-1,\"ScoringType\":0,\"ShowcaseEventId\":0,\"StartType\":2,\"StartedLast\":0,\"TrackCountryId\":10,\"TrackId\":1110,\"TrackLength\":-1,\"TrackRegionId\":3,\"TrackScenario\":0,\"UsedAssists\":1,\"UserLevel\":0,\"WeatherConditionId\":0,\"WeatherConditionsSeen\":0},\"measurements\":{\"BestLapScore\":47,\"CreditMultiplierFromCards\":1,\"TimeInSeconds\":47.587669372558594,\"TopSpeed\":63.826274871826172}}}"
+        }
+      },
+      "413": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.LapEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"BeatRival\":4,\"CarDivisionId\":4,\"CarId\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"CountryID\":4,\"EnvironmentId\":4,\"GameMode\":4,\"IsMultiplayer\":4,\"ManufacturerID\":4,\"NoAssistsUsed\":4,\"NumGoodDrafts\":4,\"NumGoodDrifts\":4,\"NumGoodPasses\":4,\"NumGoodTurns\":4,\"NumPerfectDrafts\":4,\"NumPerfectDrifts\":4,\"NumPerfectPasses\":4,\"NumPerfectTurns\":4,\"TrackId\":4,\"TrackScenario\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"LapEnd\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"BeatRival\":1,\"CarDivisionId\":11,\"CarId\":1429,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"CountryID\":10,\"EnvironmentId\":9,\"GameMode\":2,\"IsMultiplayer\":0,\"ManufacturerID\":9,\"NoAssistsUsed\":1,\"NumGoodDrafts\":0,\"NumGoodDrifts\":0,\"NumGoodPasses\":0,\"NumGoodTurns\":0,\"NumPerfectDrafts\":0,\"NumPerfectDrifts\":0,\"NumPerfectPasses\":0,\"NumPerfectTurns\":0,\"TrackId\":70,\"TrackScenario\":0}}}"
+        }
+      },
+      "380": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.UGCShares"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"LayerGroupShares\":4,\"LiveryShares\":4,\"PhotoShares\":4,\"ReplayShares\":4,\"TuneShares\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"UGCShares\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"LayerGroupShares\":0,\"LiveryShares\":0,\"PhotoShares\":1,\"ReplayShares\":0,\"TuneShares\":0}}}"
+        }
+      },
+      "381": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.UGCShares"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"LayerGroupShares\":4,\"LiveryShares\":4,\"PhotoShares\":4,\"ReplayShares\":4,\"TuneShares\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"UGCShares\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"LayerGroupShares\":0,\"LiveryShares\":0,\"PhotoShares\":0,\"ReplayShares\":1,\"TuneShares\":0}}}"
+        }
+      },
+      "409": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.UGCShares"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"LayerGroupShares\":4,\"LiveryShares\":4,\"PhotoShares\":4,\"ReplayShares\":4,\"TuneShares\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"UGCShares\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"LayerGroupShares\":0,\"LiveryShares\":1,\"PhotoShares\":0,\"ReplayShares\":0,\"TuneShares\":0}}}"
+        }
+      },
+      "411": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.UGCShares"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"LayerGroupShares\":4,\"LiveryShares\":4,\"PhotoShares\":4,\"ReplayShares\":4,\"TuneShares\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"UGCShares\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"LayerGroupShares\":0,\"LiveryShares\":0,\"PhotoShares\":0,\"ReplayShares\":0,\"TuneShares\":1}}}"
+        }
+      },
+      "405": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AllLegendaryModChallengesMet\":4,\"AllModTypes\":4,\"AssistABS\":4,\"AssistDamage\":4,\"AssistDrivingLine\":4,\"AssistFriction\":4,\"AssistRewind\":4,\"AssistSTM\":4,\"AssistSteering\":4,\"AssistSuperEasy\":4,\"AssistTCS\":4,\"AssistTransmission\":4,\"BaseBonusCreditsFromCards\":4,\"CameraId\":4,\"CarClassId\":4,\"CarCollectionTierId\":4,\"CarCollectionValue\":4,\"CarCountryId\":4,\"CarDivisionId\":4,\"CarDrivetrainId\":4,\"CarEnginePlacementId\":4,\"CarId\":4,\"CarRegionId\":4,\"CarYear\":4,\"Card1Id\":4,\"Card1Rarity\":4,\"Card1Type\":4,\"Card2Id\":4,\"Card2Rarity\":4,\"Card2Type\":4,\"Card3Id\":4,\"Card3Rarity\":4,\"Card3Type\":4,\"CardsUsed\":4,\"CareerChampionshipId\":4,\"CareerRaceId\":4,\"CareerSeriesId\":4,\"CarsPassed\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidMarshall\":4,\"DidSpectate\":4,\"DifficultyLevelId\":4,\"DistanceDriftedMeters\":4,\"DistanceDrivenMeters\":4,\"DistanceLedMeters\":4,\"DriverLevel\":4,\"EndCondition\":4,\"EnvironmentId\":4,\"FamilyBodyId\":4,\"FamilyModeId\":4,\"Finished\":4,\"GameMode\":4,\"GameTypePreset\":4,\"HadQuickstops\":4,\"HopperCategoryId\":4,\"HopperId\":4,\"HopperIsDivision\":4,\"IsMultiplayer\":4,\"ManufacturerId\":4,\"NoAssistsUsed\":4,\"NumPerfectDrafts\":4,\"NumPerfectDrifts\":4,\"NumPerfectPasses\":4,\"NumPerfectTurns\":4,\"NumberOfOpponents\":4,\"Place\":4,\"RaceLength\":4,\"RivalEventId\":4,\"ScoringType\":4,\"ShowcaseEventId\":4,\"StartType\":4,\"StartedLast\":4,\"TrackCountryId\":4,\"TrackId\":4,\"TrackLength\":4,\"TrackRegionId\":4,\"TrackScenario\":4,\"UsedAssists\":4,\"UserLevel\":4,\"WeatherConditionId\":4,\"WeatherConditionsSeen\":4}},\"measurements\":{\"f\":{\"BestLapScore\":6,\"CreditMultiplierFromCards\":6,\"TimeInSeconds\":6,\"TopSpeed\":6}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceEnd\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AllLegendaryModChallengesMet\":0,\"AllModTypes\":1,\"AssistABS\":0,\"AssistDamage\":0,\"AssistDrivingLine\":0,\"AssistFriction\":0,\"AssistRewind\":0,\"AssistSTM\":0,\"AssistSteering\":0,\"AssistSuperEasy\":1,\"AssistTCS\":0,\"AssistTransmission\":0,\"BaseBonusCreditsFromCards\":0,\"CameraId\":0,\"CarClassId\":6,\"CarCollectionTierId\":5,\"CarCollectionValue\":2700,\"CarCountryId\":2,\"CarDivisionId\":30,\"CarDrivetrainId\":3,\"CarEnginePlacementId\":2,\"CarId\":1328,\"CarRegionId\":2,\"CarYear\":2011,\"Card1Id\":0,\"Card1Rarity\":-1,\"Card1Type\":0,\"Card2Id\":0,\"Card2Rarity\":-1,\"Card2Type\":0,\"Card3Id\":0,\"Card3Rarity\":-1,\"Card3Type\":0,\"CardsUsed\":0,\"CareerChampionshipId\":0,\"CareerRaceId\":-1,\"CareerSeriesId\":0,\"CarsPassed\":0,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidMarshall\":-1,\"DidSpectate\":0,\"DifficultyLevelId\":0,\"DistanceDriftedMeters\":8142,\"DistanceDrivenMeters\":8148,\"DistanceLedMeters\":0,\"DriverLevel\":0,\"EndCondition\":2,\"EnvironmentId\":8,\"FamilyBodyId\":21,\"FamilyModeId\":1,\"Finished\":1,\"GameMode\":3,\"GameTypePreset\":0,\"HadQuickstops\":0,\"HopperCategoryId\":-1,\"HopperId\":-1,\"HopperIsDivision\":-1,\"IsMultiplayer\":0,\"ManufacturerId\":58,\"NoAssistsUsed\":0,\"NumPerfectDrafts\":0,\"NumPerfectDrifts\":0,\"NumPerfectPasses\":0,\"NumPerfectTurns\":0,\"NumberOfOpponents\":0,\"Place\":1,\"RaceLength\":0,\"RivalEventId\":-1,\"ScoringType\":3,\"ShowcaseEventId\":0,\"StartType\":2,\"StartedLast\":0,\"TrackCountryId\":2,\"TrackId\":101,\"TrackLength\":-1,\"TrackRegionId\":2,\"TrackScenario\":0,\"UsedAssists\":1,\"UserLevel\":0,\"WeatherConditionId\":0,\"WeatherConditionsSeen\":0},\"measurements\":{\"BestLapScore\":0,\"CreditMultiplierFromCards\":1,\"TimeInSeconds\":119.99478912353516,\"TopSpeed\":117.24414825439453}}}"
+        }
+      },
+      "415": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceStart"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidChangeWeather\":4,\"GameMode\":4,\"IsMultiplayer\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceStart\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidChangeWeather\":0,\"GameMode\":9,\"IsMultiplayer\":0}}}"
+        }
+      },
+      "406": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceStart"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidChangeWeather\":4,\"GameMode\":4,\"IsMultiplayer\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceStart\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidChangeWeather\":1,\"GameMode\":3,\"IsMultiplayer\":0}}}"
+        }
+      },
+      "400": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AllLegendaryModChallengesMet\":4,\"AllModTypes\":4,\"AssistABS\":4,\"AssistDamage\":4,\"AssistDrivingLine\":4,\"AssistFriction\":4,\"AssistRewind\":4,\"AssistSTM\":4,\"AssistSteering\":4,\"AssistSuperEasy\":4,\"AssistTCS\":4,\"AssistTransmission\":4,\"BaseBonusCreditsFromCards\":4,\"CameraId\":4,\"CarClassId\":4,\"CarCollectionTierId\":4,\"CarCollectionValue\":4,\"CarCountryId\":4,\"CarDivisionId\":4,\"CarDrivetrainId\":4,\"CarEnginePlacementId\":4,\"CarId\":4,\"CarRegionId\":4,\"CarYear\":4,\"Card1Id\":4,\"Card1Rarity\":4,\"Card1Type\":4,\"Card2Id\":4,\"Card2Rarity\":4,\"Card2Type\":4,\"Card3Id\":4,\"Card3Rarity\":4,\"Card3Type\":4,\"CardsUsed\":4,\"CareerChampionshipId\":4,\"CareerRaceId\":4,\"CareerSeriesId\":4,\"CarsPassed\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidMarshall\":4,\"DidSpectate\":4,\"DifficultyLevelId\":4,\"DistanceDriftedMeters\":4,\"DistanceDrivenMeters\":4,\"DistanceLedMeters\":4,\"DriverLevel\":4,\"EndCondition\":4,\"EnvironmentId\":4,\"FamilyBodyId\":4,\"FamilyModeId\":4,\"Finished\":4,\"GameMode\":4,\"GameTypePreset\":4,\"HadQuickstops\":4,\"HopperCategoryId\":4,\"HopperId\":4,\"HopperIsDivision\":4,\"IsMultiplayer\":4,\"ManufacturerId\":4,\"NoAssistsUsed\":4,\"NumPerfectDrafts\":4,\"NumPerfectDrifts\":4,\"NumPerfectPasses\":4,\"NumPerfectTurns\":4,\"NumberOfOpponents\":4,\"Place\":4,\"RaceLength\":4,\"RivalEventId\":4,\"ScoringType\":4,\"ShowcaseEventId\":4,\"StartType\":4,\"StartedLast\":4,\"TrackCountryId\":4,\"TrackId\":4,\"TrackLength\":4,\"TrackRegionId\":4,\"TrackScenario\":4,\"UsedAssists\":4,\"UserLevel\":4,\"WeatherConditionId\":4,\"WeatherConditionsSeen\":4}},\"measurements\":{\"f\":{\"BestLapScore\":6,\"CreditMultiplierFromCards\":6,\"TimeInSeconds\":6,\"TopSpeed\":6}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceEnd\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AllLegendaryModChallengesMet\":1,\"AllModTypes\":1,\"AssistABS\":0,\"AssistDamage\":0,\"AssistDrivingLine\":0,\"AssistFriction\":0,\"AssistRewind\":0,\"AssistSTM\":1,\"AssistSteering\":1,\"AssistSuperEasy\":0,\"AssistTCS\":1,\"AssistTransmission\":0,\"BaseBonusCreditsFromCards\":0,\"CameraId\":3,\"CarClassId\":6,\"CarCollectionTierId\":4,\"CarCollectionValue\":150,\"CarCountryId\":3,\"CarDivisionId\":24,\"CarDrivetrainId\":2,\"CarEnginePlacementId\":2,\"CarId\":2221,\"CarRegionId\":2,\"CarYear\":2014,\"Card1Id\":521,\"Card1Rarity\":4,\"Card1Type\":0,\"Card2Id\":0,\"Card2Rarity\":-1,\"Card2Type\":0,\"Card3Id\":522,\"Card3Rarity\":3,\"Card3Type\":0,\"CardsUsed\":0,\"CareerChampionshipId\":1,\"CareerRaceId\":2025,\"CareerSeriesId\":2025,\"CarsPassed\":5,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidMarshall\":-1,\"DidSpectate\":0,\"DifficultyLevelId\":0,\"DistanceDriftedMeters\":3915,\"DistanceDrivenMeters\":3889,\"DistanceLedMeters\":728,\"DriverLevel\":5,\"EndCondition\":1,\"EnvironmentId\":86,\"FamilyBodyId\":20,\"FamilyModeId\":1,\"Finished\":1,\"GameMode\":1,\"GameTypePreset\":0,\"HadQuickstops\":0,\"HopperCategoryId\":-1,\"HopperId\":-1,\"HopperIsDivision\":-1,\"IsMultiplayer\":0,\"ManufacturerId\":3,\"NoAssistsUsed\":0,\"NumPerfectDrafts\":0,\"NumPerfectDrifts\":0,\"NumPerfectPasses\":0,\"NumPerfectTurns\":1,\"NumberOfOpponents\":5,\"Place\":1,\"RaceLength\":0,\"RivalEventId\":-1,\"ScoringType\":0,\"ShowcaseEventId\":2025,\"StartType\":1,\"StartedLast\":0,\"TrackCountryId\":9,\"TrackId\":860,\"TrackLength\":-1,\"TrackRegionId\":2,\"TrackScenario\":0,\"UsedAssists\":1,\"UserLevel\":5,\"WeatherConditionId\":0,\"WeatherConditionsSeen\":1210626},\"measurements\":{\"BestLapScore\":97,\"CreditMultiplierFromCards\":1,\"TimeInSeconds\":114.75738525390625,\"TopSpeed\":66.028076171875}}}"
+        }
+      },
+      "397": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CardAcquired"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CardId\":4,\"CardRarity\":4,\"CardType\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CardAcquired\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CardId\":220,\"CardRarity\":4,\"CardType\":0,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1}}}"
+        }
+      },
+      "398": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CardDiscarded"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CardDiscarded\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1}}}"
+        }
+      },
+      "401": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AllLegendaryModChallengesMet\":4,\"AllModTypes\":4,\"AssistABS\":4,\"AssistDamage\":4,\"AssistDrivingLine\":4,\"AssistFriction\":4,\"AssistRewind\":4,\"AssistSTM\":4,\"AssistSteering\":4,\"AssistSuperEasy\":4,\"AssistTCS\":4,\"AssistTransmission\":4,\"BaseBonusCreditsFromCards\":4,\"CameraId\":4,\"CarClassId\":4,\"CarCollectionTierId\":4,\"CarCollectionValue\":4,\"CarCountryId\":4,\"CarDivisionId\":4,\"CarDrivetrainId\":4,\"CarEnginePlacementId\":4,\"CarId\":4,\"CarRegionId\":4,\"CarYear\":4,\"Card1Id\":4,\"Card1Rarity\":4,\"Card1Type\":4,\"Card2Id\":4,\"Card2Rarity\":4,\"Card2Type\":4,\"Card3Id\":4,\"Card3Rarity\":4,\"Card3Type\":4,\"CardsUsed\":4,\"CareerChampionshipId\":4,\"CareerRaceId\":4,\"CareerSeriesId\":4,\"CarsPassed\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidMarshall\":4,\"DidSpectate\":4,\"DifficultyLevelId\":4,\"DistanceDriftedMeters\":4,\"DistanceDrivenMeters\":4,\"DistanceLedMeters\":4,\"DriverLevel\":4,\"EndCondition\":4,\"EnvironmentId\":4,\"FamilyBodyId\":4,\"FamilyModeId\":4,\"Finished\":4,\"GameMode\":4,\"GameTypePreset\":4,\"HadQuickstops\":4,\"HopperCategoryId\":4,\"HopperId\":4,\"HopperIsDivision\":4,\"IsMultiplayer\":4,\"ManufacturerId\":4,\"NoAssistsUsed\":4,\"NumPerfectDrafts\":4,\"NumPerfectDrifts\":4,\"NumPerfectPasses\":4,\"NumPerfectTurns\":4,\"NumberOfOpponents\":4,\"Place\":4,\"RaceLength\":4,\"RivalEventId\":4,\"ScoringType\":4,\"ShowcaseEventId\":4,\"StartType\":4,\"StartedLast\":4,\"TrackCountryId\":4,\"TrackId\":4,\"TrackLength\":4,\"TrackRegionId\":4,\"TrackScenario\":4,\"UsedAssists\":4,\"UserLevel\":4,\"WeatherConditionId\":4,\"WeatherConditionsSeen\":4}},\"measurements\":{\"f\":{\"BestLapScore\":6,\"CreditMultiplierFromCards\":6,\"TimeInSeconds\":6,\"TopSpeed\":6}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceEnd\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AllLegendaryModChallengesMet\":0,\"AllModTypes\":1,\"AssistABS\":0,\"AssistDamage\":0,\"AssistDrivingLine\":0,\"AssistFriction\":0,\"AssistRewind\":0,\"AssistSTM\":0,\"AssistSteering\":0,\"AssistSuperEasy\":1,\"AssistTCS\":0,\"AssistTransmission\":0,\"BaseBonusCreditsFromCards\":0,\"CameraId\":0,\"CarClassId\":5,\"CarCollectionTierId\":5,\"CarCollectionValue\":400,\"CarCountryId\":3,\"CarDivisionId\":12,\"CarDrivetrainId\":2,\"CarEnginePlacementId\":2,\"CarId\":641,\"CarRegionId\":2,\"CarYear\":1998,\"Card1Id\":0,\"Card1Rarity\":-1,\"Card1Type\":0,\"Card2Id\":0,\"Card2Rarity\":-1,\"Card2Type\":0,\"Card3Id\":0,\"Card3Rarity\":-1,\"Card3Type\":0,\"CardsUsed\":0,\"CareerChampionshipId\":0,\"CareerRaceId\":-1,\"CareerSeriesId\":0,\"CarsPassed\":0,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidMarshall\":-1,\"DidSpectate\":0,\"DifficultyLevelId\":0,\"DistanceDriftedMeters\":390,\"DistanceDrivenMeters\":394,\"DistanceLedMeters\":0,\"DriverLevel\":5,\"EndCondition\":2,\"EnvironmentId\":9,\"FamilyBodyId\":11,\"FamilyModeId\":0,\"Finished\":1,\"GameMode\":3,\"GameTypePreset\":2,\"HadQuickstops\":0,\"HopperCategoryId\":-1,\"HopperId\":-1,\"HopperIsDivision\":-1,\"IsMultiplayer\":0,\"ManufacturerId\":39,\"NoAssistsUsed\":0,\"NumPerfectDrafts\":0,\"NumPerfectDrifts\":0,\"NumPerfectPasses\":0,\"NumPerfectTurns\":0,\"NumberOfOpponents\":0,\"Place\":1,\"RaceLength\":0,\"RivalEventId\":-1,\"ScoringType\":3,\"ShowcaseEventId\":0,\"StartType\":2,\"StartedLast\":0,\"TrackCountryId\":10,\"TrackId\":67,\"TrackLength\":-1,\"TrackRegionId\":3,\"TrackScenario\":0,\"UsedAssists\":1,\"UserLevel\":5,\"WeatherConditionId\":0,\"WeatherConditionsSeen\":1210626},\"measurements\":{\"BestLapScore\":0,\"CreditMultiplierFromCards\":1,\"TimeInSeconds\":29.990455627441406,\"TopSpeed\":31.137916564941406}}}"
+        }
+      },
+      "402": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AllLegendaryModChallengesMet\":4,\"AllModTypes\":4,\"AssistABS\":4,\"AssistDamage\":4,\"AssistDrivingLine\":4,\"AssistFriction\":4,\"AssistRewind\":4,\"AssistSTM\":4,\"AssistSteering\":4,\"AssistSuperEasy\":4,\"AssistTCS\":4,\"AssistTransmission\":4,\"BaseBonusCreditsFromCards\":4,\"CameraId\":4,\"CarClassId\":4,\"CarCollectionTierId\":4,\"CarCollectionValue\":4,\"CarCountryId\":4,\"CarDivisionId\":4,\"CarDrivetrainId\":4,\"CarEnginePlacementId\":4,\"CarId\":4,\"CarRegionId\":4,\"CarYear\":4,\"Card1Id\":4,\"Card1Rarity\":4,\"Card1Type\":4,\"Card2Id\":4,\"Card2Rarity\":4,\"Card2Type\":4,\"Card3Id\":4,\"Card3Rarity\":4,\"Card3Type\":4,\"CardsUsed\":4,\"CareerChampionshipId\":4,\"CareerRaceId\":4,\"CareerSeriesId\":4,\"CarsPassed\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidMarshall\":4,\"DidSpectate\":4,\"DifficultyLevelId\":4,\"DistanceDriftedMeters\":4,\"DistanceDrivenMeters\":4,\"DistanceLedMeters\":4,\"DriverLevel\":4,\"EndCondition\":4,\"EnvironmentId\":4,\"FamilyBodyId\":4,\"FamilyModeId\":4,\"Finished\":4,\"GameMode\":4,\"GameTypePreset\":4,\"HadQuickstops\":4,\"HopperCategoryId\":4,\"HopperId\":4,\"HopperIsDivision\":4,\"IsMultiplayer\":4,\"ManufacturerId\":4,\"NoAssistsUsed\":4,\"NumPerfectDrafts\":4,\"NumPerfectDrifts\":4,\"NumPerfectPasses\":4,\"NumPerfectTurns\":4,\"NumberOfOpponents\":4,\"Place\":4,\"RaceLength\":4,\"RivalEventId\":4,\"ScoringType\":4,\"ShowcaseEventId\":4,\"StartType\":4,\"StartedLast\":4,\"TrackCountryId\":4,\"TrackId\":4,\"TrackLength\":4,\"TrackRegionId\":4,\"TrackScenario\":4,\"UsedAssists\":4,\"UserLevel\":4,\"WeatherConditionId\":4,\"WeatherConditionsSeen\":4}},\"measurements\":{\"f\":{\"BestLapScore\":6,\"CreditMultiplierFromCards\":6,\"TimeInSeconds\":6,\"TopSpeed\":6}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceEnd\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AllLegendaryModChallengesMet\":0,\"AllModTypes\":1,\"AssistABS\":0,\"AssistDamage\":0,\"AssistDrivingLine\":0,\"AssistFriction\":0,\"AssistRewind\":0,\"AssistSTM\":0,\"AssistSteering\":0,\"AssistSuperEasy\":1,\"AssistTCS\":0,\"AssistTransmission\":0,\"BaseBonusCreditsFromCards\":0,\"CameraId\":0,\"CarClassId\":7,\"CarCollectionTierId\":5,\"CarCollectionValue\":1890,\"CarCountryId\":4,\"CarDivisionId\":30,\"CarDrivetrainId\":2,\"CarEnginePlacementId\":2,\"CarId\":2371,\"CarRegionId\":2,\"CarYear\":2014,\"Card1Id\":0,\"Card1Rarity\":-1,\"Card1Type\":0,\"Card2Id\":0,\"Card2Rarity\":-1,\"Card2Type\":0,\"Card3Id\":0,\"Card3Rarity\":-1,\"Card3Type\":0,\"CardsUsed\":0,\"CareerChampionshipId\":0,\"CareerRaceId\":-1,\"CareerSeriesId\":0,\"CarsPassed\":0,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidMarshall\":-1,\"DidSpectate\":0,\"DifficultyLevelId\":0,\"DistanceDriftedMeters\":274,\"DistanceDrivenMeters\":284,\"DistanceLedMeters\":0,\"DriverLevel\":5,\"EndCondition\":2,\"EnvironmentId\":11,\"FamilyBodyId\":1,\"FamilyModeId\":1,\"Finished\":1,\"GameMode\":3,\"GameTypePreset\":2,\"HadQuickstops\":0,\"HopperCategoryId\":-1,\"HopperId\":-1,\"HopperIsDivision\":-1,\"IsMultiplayer\":0,\"ManufacturerId\":13,\"NoAssistsUsed\":0,\"NumPerfectDrafts\":0,\"NumPerfectDrifts\":0,\"NumPerfectPasses\":0,\"NumPerfectTurns\":0,\"NumberOfOpponents\":0,\"Place\":1,\"RaceLength\":0,\"RivalEventId\":-1,\"ScoringType\":3,\"ShowcaseEventId\":0,\"StartType\":2,\"StartedLast\":0,\"TrackCountryId\":4,\"TrackId\":35,\"TrackLength\":-1,\"TrackRegionId\":2,\"TrackScenario\":0,\"UsedAssists\":1,\"UserLevel\":5,\"WeatherConditionId\":0,\"WeatherConditionsSeen\":1210626},\"measurements\":{\"BestLapScore\":0,\"CreditMultiplierFromCards\":1,\"TimeInSeconds\":29.990365982055664,\"TopSpeed\":31.085622787475586}}}"
+        }
+      },
+      "403": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AllLegendaryModChallengesMet\":4,\"AllModTypes\":4,\"AssistABS\":4,\"AssistDamage\":4,\"AssistDrivingLine\":4,\"AssistFriction\":4,\"AssistRewind\":4,\"AssistSTM\":4,\"AssistSteering\":4,\"AssistSuperEasy\":4,\"AssistTCS\":4,\"AssistTransmission\":4,\"BaseBonusCreditsFromCards\":4,\"CameraId\":4,\"CarClassId\":4,\"CarCollectionTierId\":4,\"CarCollectionValue\":4,\"CarCountryId\":4,\"CarDivisionId\":4,\"CarDrivetrainId\":4,\"CarEnginePlacementId\":4,\"CarId\":4,\"CarRegionId\":4,\"CarYear\":4,\"Card1Id\":4,\"Card1Rarity\":4,\"Card1Type\":4,\"Card2Id\":4,\"Card2Rarity\":4,\"Card2Type\":4,\"Card3Id\":4,\"Card3Rarity\":4,\"Card3Type\":4,\"CardsUsed\":4,\"CareerChampionshipId\":4,\"CareerRaceId\":4,\"CareerSeriesId\":4,\"CarsPassed\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidMarshall\":4,\"DidSpectate\":4,\"DifficultyLevelId\":4,\"DistanceDriftedMeters\":4,\"DistanceDrivenMeters\":4,\"DistanceLedMeters\":4,\"DriverLevel\":4,\"EndCondition\":4,\"EnvironmentId\":4,\"FamilyBodyId\":4,\"FamilyModeId\":4,\"Finished\":4,\"GameMode\":4,\"GameTypePreset\":4,\"HadQuickstops\":4,\"HopperCategoryId\":4,\"HopperId\":4,\"HopperIsDivision\":4,\"IsMultiplayer\":4,\"ManufacturerId\":4,\"NoAssistsUsed\":4,\"NumPerfectDrafts\":4,\"NumPerfectDrifts\":4,\"NumPerfectPasses\":4,\"NumPerfectTurns\":4,\"NumberOfOpponents\":4,\"Place\":4,\"RaceLength\":4,\"RivalEventId\":4,\"ScoringType\":4,\"ShowcaseEventId\":4,\"StartType\":4,\"StartedLast\":4,\"TrackCountryId\":4,\"TrackId\":4,\"TrackLength\":4,\"TrackRegionId\":4,\"TrackScenario\":4,\"UsedAssists\":4,\"UserLevel\":4,\"WeatherConditionId\":4,\"WeatherConditionsSeen\":4}},\"measurements\":{\"f\":{\"BestLapScore\":6,\"CreditMultiplierFromCards\":6,\"TimeInSeconds\":6,\"TopSpeed\":6}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceEnd\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AllLegendaryModChallengesMet\":0,\"AllModTypes\":1,\"AssistABS\":0,\"AssistDamage\":0,\"AssistDrivingLine\":0,\"AssistFriction\":0,\"AssistRewind\":0,\"AssistSTM\":0,\"AssistSteering\":0,\"AssistSuperEasy\":1,\"AssistTCS\":0,\"AssistTransmission\":0,\"BaseBonusCreditsFromCards\":0,\"CameraId\":0,\"CarClassId\":5,\"CarCollectionTierId\":4,\"CarCollectionValue\":485,\"CarCountryId\":5,\"CarDivisionId\":46,\"CarDrivetrainId\":3,\"CarEnginePlacementId\":1,\"CarId\":2618,\"CarRegionId\":1,\"CarYear\":2017,\"Card1Id\":0,\"Card1Rarity\":-1,\"Card1Type\":0,\"Card2Id\":0,\"Card2Rarity\":-1,\"Card2Type\":0,\"Card3Id\":0,\"Card3Rarity\":-1,\"Card3Type\":0,\"CardsUsed\":0,\"CareerChampionshipId\":0,\"CareerRaceId\":-1,\"CareerSeriesId\":0,\"CarsPassed\":0,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidMarshall\":-1,\"DidSpectate\":0,\"DifficultyLevelId\":0,\"DistanceDriftedMeters\":324,\"DistanceDrivenMeters\":348,\"DistanceLedMeters\":0,\"DriverLevel\":5,\"EndCondition\":2,\"EnvironmentId\":20,\"FamilyBodyId\":1,\"FamilyModeId\":21,\"Finished\":1,\"GameMode\":3,\"GameTypePreset\":2,\"HadQuickstops\":0,\"HopperCategoryId\":-1,\"HopperId\":-1,\"HopperIsDivision\":-1,\"IsMultiplayer\":0,\"ManufacturerId\":31,\"NoAssistsUsed\":0,\"NumPerfectDrafts\":0,\"NumPerfectDrifts\":0,\"NumPerfectPasses\":0,\"NumPerfectTurns\":0,\"NumberOfOpponents\":0,\"Place\":1,\"RaceLength\":0,\"RivalEventId\":-1,\"ScoringType\":3,\"ShowcaseEventId\":0,\"StartType\":2,\"StartedLast\":0,\"TrackCountryId\":5,\"TrackId\":37,\"TrackLength\":-1,\"TrackRegionId\":1,\"TrackScenario\":2,\"UsedAssists\":1,\"UserLevel\":5,\"WeatherConditionId\":0,\"WeatherConditionsSeen\":1210626},\"measurements\":{\"BestLapScore\":0,\"CreditMultiplierFromCards\":1,\"TimeInSeconds\":29.990383148193359,\"TopSpeed\":27.791501998901367}}}"
+        }
+      },
+      "408": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.RaceEnd"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"AllLegendaryModChallengesMet\":4,\"AllModTypes\":4,\"AssistABS\":4,\"AssistDamage\":4,\"AssistDrivingLine\":4,\"AssistFriction\":4,\"AssistRewind\":4,\"AssistSTM\":4,\"AssistSteering\":4,\"AssistSuperEasy\":4,\"AssistTCS\":4,\"AssistTransmission\":4,\"BaseBonusCreditsFromCards\":4,\"CameraId\":4,\"CarClassId\":4,\"CarCollectionTierId\":4,\"CarCollectionValue\":4,\"CarCountryId\":4,\"CarDivisionId\":4,\"CarDrivetrainId\":4,\"CarEnginePlacementId\":4,\"CarId\":4,\"CarRegionId\":4,\"CarYear\":4,\"Card1Id\":4,\"Card1Rarity\":4,\"Card1Type\":4,\"Card2Id\":4,\"Card2Rarity\":4,\"Card2Type\":4,\"Card3Id\":4,\"Card3Rarity\":4,\"Card3Type\":4,\"CardsUsed\":4,\"CareerChampionshipId\":4,\"CareerRaceId\":4,\"CareerSeriesId\":4,\"CarsPassed\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"DidMarshall\":4,\"DidSpectate\":4,\"DifficultyLevelId\":4,\"DistanceDriftedMeters\":4,\"DistanceDrivenMeters\":4,\"DistanceLedMeters\":4,\"DriverLevel\":4,\"EndCondition\":4,\"EnvironmentId\":4,\"FamilyBodyId\":4,\"FamilyModeId\":4,\"Finished\":4,\"GameMode\":4,\"GameTypePreset\":4,\"HadQuickstops\":4,\"HopperCategoryId\":4,\"HopperId\":4,\"HopperIsDivision\":4,\"IsMultiplayer\":4,\"ManufacturerId\":4,\"NoAssistsUsed\":4,\"NumPerfectDrafts\":4,\"NumPerfectDrifts\":4,\"NumPerfectPasses\":4,\"NumPerfectTurns\":4,\"NumberOfOpponents\":4,\"Place\":4,\"RaceLength\":4,\"RivalEventId\":4,\"ScoringType\":4,\"ShowcaseEventId\":4,\"StartType\":4,\"StartedLast\":4,\"TrackCountryId\":4,\"TrackId\":4,\"TrackLength\":4,\"TrackRegionId\":4,\"TrackScenario\":4,\"UsedAssists\":4,\"UserLevel\":4,\"WeatherConditionId\":4,\"WeatherConditionsSeen\":4}},\"measurements\":{\"f\":{\"BestLapScore\":6,\"CreditMultiplierFromCards\":6,\"TimeInSeconds\":6,\"TopSpeed\":6}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"RaceEnd\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"AllLegendaryModChallengesMet\":0,\"AllModTypes\":1,\"AssistABS\":0,\"AssistDamage\":0,\"AssistDrivingLine\":0,\"AssistFriction\":0,\"AssistRewind\":0,\"AssistSTM\":0,\"AssistSteering\":0,\"AssistSuperEasy\":1,\"AssistTCS\":0,\"AssistTransmission\":0,\"BaseBonusCreditsFromCards\":0,\"CameraId\":3,\"CarClassId\":6,\"CarCollectionTierId\":4,\"CarCollectionValue\":200,\"CarCountryId\":10,\"CarDivisionId\":24,\"CarDrivetrainId\":2,\"CarEnginePlacementId\":1,\"CarId\":2226,\"CarRegionId\":3,\"CarYear\":2014,\"Card1Id\":0,\"Card1Rarity\":-1,\"Card1Type\":0,\"Card2Id\":0,\"Card2Rarity\":-1,\"Card2Type\":0,\"Card3Id\":0,\"Card3Rarity\":-1,\"Card3Type\":0,\"CardsUsed\":0,\"CareerChampionshipId\":2,\"CareerRaceId\":2008,\"CareerSeriesId\":2008,\"CarsPassed\":11,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"DidMarshall\":-1,\"DidSpectate\":0,\"DifficultyLevelId\":0,\"DistanceDriftedMeters\":483541,\"DistanceDrivenMeters\":477085,\"DistanceLedMeters\":478058,\"DriverLevel\":5,\"EndCondition\":1,\"EnvironmentId\":66,\"FamilyBodyId\":20,\"FamilyModeId\":6,\"Finished\":1,\"GameMode\":1,\"GameTypePreset\":0,\"HadQuickstops\":0,\"HopperCategoryId\":-1,\"HopperId\":-1,\"HopperIsDivision\":-1,\"IsMultiplayer\":0,\"ManufacturerId\":9,\"NoAssistsUsed\":0,\"NumPerfectDrafts\":17,\"NumPerfectDrifts\":0,\"NumPerfectPasses\":0,\"NumPerfectTurns\":99,\"NumberOfOpponents\":23,\"Place\":1,\"RaceLength\":2,\"RivalEventId\":-1,\"ScoringType\":0,\"ShowcaseEventId\":2008,\"StartType\":2,\"StartedLast\":0,\"TrackCountryId\":17,\"TrackId\":530,\"TrackLength\":-1,\"TrackRegionId\":2,\"TrackScenario\":0,\"UsedAssists\":1,\"UserLevel\":5,\"WeatherConditionId\":0,\"WeatherConditionsSeen\":1210626},\"measurements\":{\"BestLapScore\":154,\"CreditMultiplierFromCards\":1,\"TimeInSeconds\":10956.35546875,\"TopSpeed\":70.995063781738281}}}"
+        }
+      },
+      "363": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTFM7",
+          "Replacement": "Microsoft.XboxLive.T1999574456.CarSoldInAuction"
+        },
+        "MetaDataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEMETADATA",
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"CarId\":4,\"ChallengeSet0\":4,\"ChallengeSet1\":4,\"ChallengeSet2\":4,\"ChallengeSet3\":4,\"ChallengeSet4\":4,\"ChallengeSet5\":4,\"ChallengeSet6\":4,\"ChallengeSet7\":4,\"ChallengeSet8\":4,\"ChallengeSet9\":4,\"HighestBid\":4}}}}}"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEDATA",
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"CarSoldInAuction\",\"serviceConfigId\":\"00000000-0000-0000-0000-0000772f15b8\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":\"1999574456\",\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"CarId\":2873,\"ChallengeSet0\":-1,\"ChallengeSet1\":-1,\"ChallengeSet2\":-1,\"ChallengeSet3\":-1,\"ChallengeSet4\":-1,\"ChallengeSet5\":-1,\"ChallengeSet6\":-1,\"ChallengeSet7\":-1,\"ChallengeSet8\":-1,\"ChallengeSet9\":-1,\"HighestBid\":25000}}}"
         }
       }
     }
