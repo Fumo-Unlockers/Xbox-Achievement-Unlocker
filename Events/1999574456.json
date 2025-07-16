@@ -15,7 +15,7 @@
         "privacy": {
             "isRequired": false
         },
-        "metadata": REPLACEMETADATA
+        "metadata": REPLACEMETADATA,
             "policies": 0
         },
         "os": {
