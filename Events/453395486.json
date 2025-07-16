@@ -1,0 +1,52 @@
+{
+    "ver": "4.0",
+    "name": "REPLACEEVENTUCH",
+    "time": "REPLACETIME",
+    "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
+    "ext": {
+        "utc": {
+            "shellId": 1,
+            "eventFlags": 1,
+            "pgName": "XBOX",
+            "flags": 1,
+            "epoch": "1",
+            "seq": REPLACESEQ
+        },
+        "privacy": {
+            "dataType": 1,
+            "isRequired": false
+        },
+        "metadata": REPLACEMETADATA,
+        "os": {
+            "bootId": 1,
+            "name": "Windows",
+            "ver": "1",
+            "expId": "1"
+        },
+        "app": {
+            "id": "U:CleverEndeavourGames.cf64bd62-6903-4fe1-b4ff-9d545_1.12.536.0_x64__ac6mpv00qcagt!Game",
+            "ver": "1.12.536.0_x64_!2024/10/12:16:59:11!0!ultimate chicken horse.exe",
+            "is1P": 1,
+            "asId": 1
+        },
+        "device": {
+            "localId": "s:11111111-1111-1111-1111-111111111111",
+            "deviceClass": "Windows.Desktop"
+        },
+        "protocol": {
+            "devMake": "1",
+            "devModel": "1",
+            "ticketKeys": [
+                "1",
+                "1"
+            ]
+        },
+        "user": {
+            "localId": "m:1111111111111111"
+        },
+        "loc": {
+            "tz": "00:00"
+        }
+    },
+    "data": REPLACEDATA
+}
