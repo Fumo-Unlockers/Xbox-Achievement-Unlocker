@@ -35069,7 +35069,7 @@
     }
   },
   "930893366": {
-    "FullySupported": false,
+    "FullySupported": true,
     "Achievements": {
       "2": {
         "EventReplacement": {
