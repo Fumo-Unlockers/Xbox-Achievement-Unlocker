@@ -1,6 +1,6 @@
 {
     "ver": "4.0",
-    "name": "REPLACEEVENTFM7",
+    "name": "REPLACEEVENTNAME",
     "time": "REPLACETIME",
     "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
     "ext": {
@@ -13,10 +13,13 @@
             "seq": REPLACESEQ
         },
         "privacy": {
+            "dataType": 33554432,
             "isRequired": false
         },
-        "metadata": REPLACEMETADATA,
-            "policies": 0
+        "metadata": REPLACEMETADATA
+            },
+            "privTags": 33554432,
+            "policies": 1
         },
         "os": {
             "bootId": 1,
@@ -25,8 +28,8 @@
             "expId": "1"
         },
         "app": {
-            "id": "U:Microsoft.ApolloBaseGame_1.174.4791.2_x64__8wekyb3d8bbwe!forzamotorsport7",
-            "ver": "1.174.4791.2_x64_!2019/07/26:00:08:29!3CC2D5B!forzamotorsport7.exe",
+            "id": "U:3498DillyFrameGames.BunnyFactory_2.3.0.0_x64__68kqxp8n1zmtj!AppBunnyFactoryShipping",
+            "ver": "2.3.0.0_x64_!2022/04/03:16:45:20!4662F3D!bunnyfactory-wingdk-shipping.exe",
             "is1P": 1,
             "asId": 1
         },

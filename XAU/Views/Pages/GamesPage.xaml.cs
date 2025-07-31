@@ -1,6 +1,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Wpf.Ui.Controls;
 using XAU.ViewModels.Pages;
 
@@ -52,6 +53,14 @@ namespace XAU.Views.Pages
         {
             ButtonBase selectedGame = sender as ButtonBase;
             ViewModel.CopyToClipboard(selectedGame.Content.ToString());
+        }
+
+        private void Image_ImageFailed(object sender, RoutedEventArgs e)
+        {
+            if (sender is Wpf.Ui.Controls.Image uiImage)
+            {
+                uiImage.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/cirno.png"));
+            }
         }
     }
 }
