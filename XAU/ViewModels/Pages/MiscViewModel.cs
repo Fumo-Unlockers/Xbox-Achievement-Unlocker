@@ -18,7 +18,7 @@ namespace XAU.ViewModels.Pages
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
-        private Lazy<TrueAchievementRestApi> _taRestApi = new Lazy<TrueAchievementRestApi>();
+        private Lazy<DBoxRestApi> _dboxRestApi = new Lazy<DBoxRestApi>();
 
 
 
@@ -197,9 +197,9 @@ namespace XAU.ViewModels.Pages
         #endregion
 
         #region GameSearch
-        [ObservableProperty] private List<string> _tSearchGameLinks = new List<string>();
+        [ObservableProperty] private JObject _tSearchResponse = new JObject();
+        [ObservableProperty] private List<string> _tSearchTitleNames = new List<string>();
         [ObservableProperty] private string _tSearchText = "";
-        [ObservableProperty] private List<string> _tSearchGameNames = new List<string>();
         [ObservableProperty] private string _tSearchGameImage = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _tSearchGameName = "Name: ";
         [ObservableProperty] private string _tSearchGameTitleID = "";
@@ -208,42 +208,74 @@ namespace XAU.ViewModels.Pages
         {
             try
             {
-                var response = await _taRestApi.Value.SearchAsync(TSearchText);
-                TSearchGameNames = response.Item1;
-                TSearchGameLinks = response.Item2;
+                var response = await _dboxRestApi.Value.SearchAsync(TSearchText);
+
+                var items = response["items"] as JArray;
+                if (items == null || items.Count == 0)
+                {
+                    _snackbarService.Show("Error", $"No results were found for {TSearchText}",
+                        ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    TSearchTitleNames = new List<string>();
+                    TSearchResponse = response;
+                    return;
+                }
+
+                // Sort items alphabetically by "name"
+                var sortedItems = new JArray(items
+                    .OrderBy(item => item["name"]?.ToString() ?? string.Empty, StringComparer.OrdinalIgnoreCase));
+
+                // Update TSearchResponse with sorted items
+                response["items"] = sortedItems;
+                TSearchResponse = response;
+
+                // Create TSearchTitleNames list from sorted items
+                TSearchTitleNames = sortedItems
+                    .Select(item => item["name"]?.ToString() ?? string.Empty)
+                    .Where(name => !string.IsNullOrWhiteSpace(name))
+                    .ToList();
             }
             catch
             {
-                _snackbarService.Show("Error: No Results", $"No results were found for {TSearchText}",
+                _snackbarService.Show("Error", $"No results were found for {TSearchText}",
                     ControlAppearance.Danger,
                     new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                return;
+                TSearchTitleNames = new List<string>();
+                TSearchResponse = new JObject();
             }
         }
 
-        public async void DisplayGameInfo(int index)
+        public void DisplayGameInfo(int index)
         {
             try
             {
-                var titleId = await _taRestApi.Value.GetGameLinkAsync(_xboxRestAPI.Value, TSearchGameLinks[index]);
-                TSearchGameName = "Name: " + TSearchGameNames[index];
-                TSearchGameTitleID = titleId;
-                if (titleId == "-1")
+                var items = TSearchResponse["items"] as JArray;
+                if (items == null || items.Count <= index)
+                {
+                    _snackbarService.Show("Error", "No game found at the selected index.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
+                var item = items[index];
+                var titleIdHex = item["title_id"]?.ToString() ?? "0";
+                var titleIdBase10 = long.TryParse(titleIdHex, System.Globalization.NumberStyles.HexNumber, null, out var base10Id)
+                    ? base10Id.ToString()
+                    : "-1";
+
+                TSearchGameName = "Name: " + (item["name"]?.ToString() ?? "Unknown");
+                TSearchGameTitleID = titleIdBase10;
+
+                if (titleIdBase10 == "-1")
                 {
                     _snackbarService.Show("Error: TitleID not found",
-                        $"The TitleID for {TSearchGameNames[index]} was not available via TrueAchievement Search",
+                        $"The TitleID for {TSearchGameName} was not available or invalid.",
                         ControlAppearance.Danger,
                         new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                    return;
                 }
             }
             catch
             {
-                _snackbarService.Show("Error: No Store Page",
-                    $"This Game does not have a store page listed.",
-                    ControlAppearance.Danger,
-                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                return;
+                _snackbarService.Show("Error", "Failed to display game info.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
         }
         #endregion
