@@ -1,0 +1,81 @@
+{
+    "ver": "4.0",
+    "name": "Microsoft.XboxLive.T595091631.SnakeActivateAchievement",
+    "time": "REPLACETIME",
+    "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
+    "ext": {
+        "utc": {
+            "shellId": 1,
+            "eventFlags": 1,
+            "pgName": "XBOX",
+            "flags": 1,
+            "epoch": "1",
+            "seq": REPLACESEQ
+        },
+        "privacy": {
+            "isRequired": false
+        },
+        "metadata": {
+            "f": {
+                "baseData": {
+                    "f": {
+                        "properties": {
+                            "f": {
+                                "AchievementIndex": 4,
+                                "Done": 4
+                            }
+                        }
+                    }
+                }
+            },
+            "policies": 0
+        },
+        "os": {
+            "bootId": 1,
+            "name": "Windows",
+            "ver": "1",
+            "expId": "1"
+        },
+        "app": {
+            "id": "U:SumoDigitalLtd.48576635C2674_1.0.42.2_x64__fxgztw5m4nn00!AppSumoDigitalLtd.SnakePass",
+            "ver": "1.0.42.2_x64_!2018/01/24:06:45:27!2EE75C8!snakepass-uwp64-shipping.exe",
+            "is1P": 1,
+            "asId": 1
+        },
+        "device": {
+            "localId": "s:11111111-1111-1111-1111-111111111111",
+            "deviceClass": "Windows.Desktop"
+        },
+        "protocol": {
+            "devMake": "1",
+            "devModel": "1",
+            "ticketKeys": [
+                "1",
+                "1"
+            ]
+        },
+        "user": {
+            "localId": "m:11111111111111111"
+        },
+        "loc": {
+            "tz": "00:00"
+        }
+    },
+    "data": {
+        "baseType": "Microsoft.XboxLive.InGame",
+        "baseData": {
+            "name": "SnakeActivateAchievement",
+            "serviceConfigId": "77e40100-9bea-4c67-a1f5-31a6237860af",
+            "playerSessionId": "11111111-1111-1111-1111-111111111111",
+            "titleId": "595091631",
+            "userId": "REPLACEXUID",
+            "ver": 1,
+            "properties": {
+                "AchievementIndex": REPLACECRITERIA1,
+                "Done": 100,
+                "PlayerSessionId": "{00000000-0000-0000-0000-000000000000}",
+                "UserId": "REPLACEXUID"
+            }
+        }
+    }
+}
