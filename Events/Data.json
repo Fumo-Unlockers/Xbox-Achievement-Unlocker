@@ -36090,6 +36090,548 @@
       }
     }
   },
+  "979032440": {
+    "FullySupported": true,
+    "Achievements": {
+      "1": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "1"
+        }
+      },
+      "2": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "2"
+        }
+      },
+      "3": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "3"
+        }
+      },
+      "4": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "4"
+        }
+      },
+      "5": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "5"
+        }
+      },
+      "6": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "6"
+        }
+      },
+      "7": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "7"
+        }
+      },
+      "8": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "8"
+        }
+      },
+      "9": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "9"
+        }
+      },
+      "10": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "10"
+        }
+      },
+      "11": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "11"
+        }
+      },
+      "12": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "12"
+        }
+      },
+      "13": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "13"
+        }
+      },
+      "14": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "14"
+        }
+      },
+      "15": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "15"
+        }
+      },
+      "16": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "16"
+        }
+      },
+      "17": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "17"
+        }
+      },
+      "18": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "18"
+        }
+      },
+      "19": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "19"
+        }
+      },
+      "20": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "20"
+        }
+      },
+      "21": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "21"
+        }
+      },
+      "22": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "22"
+        }
+      },
+      "23": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "23"
+        }
+      },
+      "24": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "24"
+        }
+      },
+      "25": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "25"
+        }
+      },
+      "26": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "26"
+        }
+      },
+      "27": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "27"
+        }
+      },
+      "28": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "28"
+        }
+      },
+      "29": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "29"
+        }
+      },
+      "30": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "30"
+        }
+      },
+      "31": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "31"
+        }
+      },
+      "32": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "32"
+        }
+      },
+      "33": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "33"
+        }
+      },
+      "34": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "34"
+        }
+      },
+      "35": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "35"
+        }
+      },
+      "36": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "36"
+        }
+      },
+      "37": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "37"
+        }
+      },
+      "38": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "38"
+        }
+      },
+      "39": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "39"
+        }
+      },
+      "40": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "40"
+        }
+      },
+      "41": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "41"
+        }
+      },
+      "42": {
+        "Replacement": {
+          "ReplacementType": "Replace",
+          "Target": "ACHID",
+          "Replacement": "42"
+        }
+      }
+    }
+  },
+  "595091631": {
+    "FullySupported": true,
+    "Achievements": {
+      "14": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "0"
+        }
+      },
+      "15": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "1"
+        }
+      },
+      "16": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "2"
+        }
+      },
+      "17": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "3"
+        }
+      },
+      "18": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "4"
+        }
+      },
+      "19": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "5"
+        }
+      },
+      "20": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "6"
+        }
+      },
+      "21": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "7"
+        }
+      },
+      "22": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "8"
+        }
+      },
+      "23": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "9"
+        }
+      },
+      "24": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "10"
+        }
+      },
+      "25": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "11"
+        }
+      },
+      "26": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "12"
+        }
+      },
+      "27": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "13"
+        }
+      },
+      "28": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "14"
+        }
+      },
+      "29": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "15"
+        }
+      },
+      "30": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "16"
+        }
+      },
+      "31": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "17"
+        }
+      },
+      "32": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "18"
+        }
+      },
+      "33": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "19"
+        }
+      },
+      "34": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "20"
+        }
+      },
+      "35": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "21"
+        }
+      },
+      "36": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "22"
+        }
+      },
+      "37": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "23"
+        }
+      },
+      "38": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "24"
+        }
+      },
+      "39": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "25"
+        }
+      },
+      "40": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "26"
+        }
+      },
+      "41": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "27"
+        }
+      },
+      "42": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "28"
+        }
+      },
+      "43": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "29"
+        }
+      },
+      "44": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "30"
+        }
+      },
+      "45": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "31"
+        }
+      },
+      "46": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "32"
+        }
+      },
+      "47": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACECRITERIA1",
+          "Replacement": "33"
+        }
+      }
+    }
+  },
   "SupportedTitleIDs": [
     456990021,
     826545257,
@@ -36152,6 +36694,8 @@
     1945255835,
     2030417191,
     453395486,
-    930893366
+    930893366,
+    979032440,
+    595091631
   ]
 }
