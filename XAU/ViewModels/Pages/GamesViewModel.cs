@@ -310,20 +310,36 @@ namespace XAU.ViewModels.Pages
 
         private void AddGame(int index)
         {
-            var title = GamesResponse.Titles[index];
-            var EditedImage = title.DisplayImage != "" ? title.DisplayImage.ToString() : "pack://application:,,,/Assets/cirno.png";
-            if (EditedImage.Contains("store-images.s-microsoft.com"))
+            // Safety check to prevent crashing if the index is out of bounds
+            if (GamesResponse?.Titles == null || index < 0 || index >= GamesResponse.Titles.Count)
             {
-                EditedImage = EditedImage + "?w=256&h=256&format=jpg";
+                return;
+            }
+
+            var title = GamesResponse.Titles[index];
+            string editedImage = !string.IsNullOrEmpty(title.DisplayImage)
+                ? title.DisplayImage
+                : "pack://application:,,,/Assets/cirno.png"; 
+            if (editedImage.Contains("store-images.s-microsoft.com"))
+            {
+                if (editedImage.Contains("?"))
+                {
+                    // If they do, append with '&'
+                    editedImage += "&w=256&h=256&format=jpg";
+                }
+                else
+                {
+                    // If not, start them with '?'
+                    editedImage += "?w=256&h=256&format=jpg";
+                }
             }
             Games.Add(new Game()
             {
-                Title = title.Name.ToString(),
-                CurrentAchievements = title.Achievement.CurrentAchievements.ToString(),
-                Gamerscore = title.Achievement.CurrentGamerscore.ToString() + "/" +
-                             title.Achievement.TotalGamerscore.ToString(),
-                Progress = title.Achievement.ProgressPercentage.ToString(),
-                Image = EditedImage, //"pack://application:,,,/Assets/cirno.png", //
+                Title = title.Name,
+                CurrentAchievements = title.Achievement?.CurrentAchievements.ToString() ?? "0",
+                Gamerscore = $"{title.Achievement?.CurrentGamerscore ?? 0}/{title.Achievement?.TotalGamerscore ?? 0}",
+                Progress = title.Achievement?.ProgressPercentage.ToString() ?? "0",
+                Image = editedImage,
                 Index = index.ToString()
             });
         }

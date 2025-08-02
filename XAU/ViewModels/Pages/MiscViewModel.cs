@@ -14,18 +14,18 @@ namespace XAU.ViewModels.Pages
 {
     public partial class MiscViewModel : ObservableObject, INavigationAware
     {
-        private readonly IContentDialogService _contentDialogService;
+        // THIS IS THE FIX, PART 1: Make the service publicly accessible
+        public IContentDialogService ContentDialogService { get; }
         private readonly ISnackbarService _snackbarService;
-        private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
-        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
-        private Lazy<DBoxRestApi> _dboxRestApi = new Lazy<DBoxRestApi>();
+        private readonly TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
+        private readonly Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
+        private readonly Lazy<DBoxRestApi> _dboxRestApi = new Lazy<DBoxRestApi>();
 
-
-
-        public MiscViewModel(ISnackbarService snackbarService)
+        // Constructor updated to assign the public property
+        public MiscViewModel(IContentDialogService contentDialogService, ISnackbarService snackbarService)
         {
+            ContentDialogService = contentDialogService;
             _snackbarService = snackbarService;
-            _contentDialogService = new ContentDialogService();
         }
 
         public void OnNavigatedTo()
@@ -384,6 +384,149 @@ namespace XAU.ViewModels.Pages
             catch (Exception ex)
             {
                 _snackbarService.Show("Error", "Failed to export games list: " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+        }
+        #endregion
+        #region GetUnlockOrder
+        [ObservableProperty] private string _titleIdInput;
+        [ObservableProperty] private string _unlockOrderText;
+        private string _currentTitleId;
+
+        [RelayCommand]
+        public async Task GetUnlockOrder()
+        {
+            if (!HomeViewModel.InitComplete || string.IsNullOrWhiteSpace(HomeViewModel.XAUTH))
+            {
+                _snackbarService.Show("Error", "Please log in first.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
+            string titleId = TitleIdInput?.Trim();
+            if (string.IsNullOrWhiteSpace(titleId))
+            {
+                _snackbarService.Show("Error", "Title ID cannot be empty.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
+            // This code will now work because the service is configured by the View.
+            var xuidTextBox = new Wpf.Ui.Controls.TextBox { PlaceholderText = "Paste the XUID of the user (e.g., 2533274987111111)" };
+            var xuidDialog = new ContentDialog(ContentDialogService.GetContentPresenter())
+            {
+                Title = "Enter Target XUID",
+                Content = xuidTextBox,
+                PrimaryButtonText = "Submit",
+                CloseButtonText = "Cancel"
+            };
+
+            if (await xuidDialog.ShowAsync() != ContentDialogResult.Primary) return;
+
+            string targetXuid = xuidTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(targetXuid) || !long.TryParse(targetXuid, out _))
+            {
+                _snackbarService.Show("Error", "Invalid XUID.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
+            _currentTitleId = titleId;
+            string unlockFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "UnlockOrder");
+
+            try
+            {
+                AchievementsResponse achievements = await _xboxRestAPI.Value.GetAchievementsForTitleAsync(targetXuid, titleId);
+                if (achievements?.achievements == null || !achievements.achievements.Any())
+                {
+                    _snackbarService.Show("Error", "No achievements found for this title and XUID.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
+                var unlockedAchievements = achievements.achievements
+                    .Where(a => a.progressState == "Achieved" && !string.IsNullOrEmpty(a.progression?.timeUnlocked))
+                    .Select(a => (Id: a.id, Name: a.name, Date: DateTime.Parse(a.progression.timeUnlocked)))
+                    .OrderBy(a => a.Date).ToList();
+
+                if (unlockedAchievements.Count < 1)
+                {
+                    _snackbarService.Show("Error", "No unlocked achievements with timestamps found.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
+                var random = new Random();
+                var delays = unlockedAchievements.Zip(unlockedAchievements.Skip(1), (prev, curr) => (curr.Date - prev.Date).TotalSeconds).Select(delay =>
+                {
+                    if (delay <= 0.0) return 1.0;
+                    if (delay > 43200.0) return (double)random.Next(1980, 8100);
+                    return delay;
+                }).ToList();
+
+                double originalTotalHours = delays.Sum() / 3600.0;
+
+                var confirmDialog = new ContentDialog(ContentDialogService.GetContentPresenter())
+                {
+                    Title = "Confirm Unlock Duration",
+                    Content = $"Calculated duration is {originalTotalHours:F2} hours. Keep or set custom duration?",
+                    PrimaryButtonText = "Keep",
+                    SecondaryButtonText = "Custom",
+                    CloseButtonText = "Cancel"
+                };
+
+                var confirmResult = await confirmDialog.ShowAsync();
+                if (confirmResult == ContentDialogResult.Primary || confirmResult == ContentDialogResult.Secondary)
+                {
+                    double scaleFactor = 1.0;
+                    if (confirmResult == ContentDialogResult.Secondary)
+                    {
+                        var hoursTextBox = new Wpf.Ui.Controls.TextBox { PlaceholderText = "Enter total hours (e.g., 24)" };
+                        var hoursDialog = new ContentDialog(ContentDialogService.GetContentPresenter())
+                        {
+                            Title = "Enter Custom Duration",
+                            Content = hoursTextBox,
+                            PrimaryButtonText = "Submit",
+                            CloseButtonText = "Cancel"
+                        };
+
+                        if (await hoursDialog.ShowAsync() == ContentDialogResult.Primary && double.TryParse(hoursTextBox.Text, out double customHours) && customHours > 0)
+                        {
+                            scaleFactor = customHours / (originalTotalHours > 0 ? originalTotalHours : 1.0);
+                        }
+                        else
+                        {
+                            _snackbarService.Show("Info", "Invalid input. Using calculated duration.", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Info24), _snackbarDuration);
+                        }
+                    }
+
+                    for (int i = 0; i < delays.Count; i++)
+                    {
+                        delays[i] *= scaleFactor;
+                        if (Math.Abs(delays[i] % 60.0) < 0.1) delays[i] += random.NextDouble() * 20.0 - 10.0;
+                    }
+
+                    var unlockOrder = new List<string> { "ID|Name|Delay" };
+                    unlockOrder.Add($"{unlockedAchievements[0].Id}|{unlockedAchievements[0].Name}|00:00:00");
+
+                    double cumulativeDelay = 0.0;
+                    for (int i = 0; i < delays.Count; i++)
+                    {
+                        cumulativeDelay += delays[i];
+                        TimeSpan timeSpan = TimeSpan.FromSeconds(cumulativeDelay);
+                        string display = $"{(int)timeSpan.TotalHours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
+                        unlockOrder.Add($"{unlockedAchievements[i + 1].Id}|{unlockedAchievements[i + 1].Name}|{display}");
+                    }
+
+                    Directory.CreateDirectory(unlockFolder);
+                    string unlockFile = Path.Combine(unlockFolder, $"{titleId}.txt");
+                    await File.WriteAllLinesAsync(unlockFile, unlockOrder);
+
+                    UnlockOrderText = string.Join(Environment.NewLine, unlockOrder);
+                    _snackbarService.Show("Success", $"Unlock order saved to {unlockFile}", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                }
+                else
+                {
+                    _snackbarService.Show("Cancelled", "Unlock order generation cancelled.", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Info24), _snackbarDuration);
+                }
+            }
+            catch (Exception ex)
+            {
+                _snackbarService.Show("Error", $"Failed to generate unlock order: {ex.Message}", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
         }
         #endregion
