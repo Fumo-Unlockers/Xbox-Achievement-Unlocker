@@ -51,6 +51,10 @@ namespace XAU.Views.Pages
         {
             await ViewModel.ExportToCsvAsync();
         }
+        private async void GetUnlockOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            await this.ViewModel.GetUnlockOrder();
+        }
 
     }
 }
