@@ -42,5 +42,10 @@ namespace XAU.Views.Pages
 
             }
         }
+
+        private void AutoUnlockToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

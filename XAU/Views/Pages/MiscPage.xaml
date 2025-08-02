@@ -207,7 +207,49 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-        </TabControl>
+            <!-- Unlock Order Tab -->
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="ClipboardTextLtr24" />
+                        <TextBlock Text="Unlock Order" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
+                    <TextBlock Grid.Row="0" Text="Enter the Title ID of the game to generate an unlock order based on a target user's achievements." TextWrapping="Wrap" Margin="0,0,0,10"/>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <ui:TextBox
+                            x:Name="TitleIdInputBox"
+                            PlaceholderText="Enter Title ID"
+                            MinWidth="200"
+                            Text="{Binding ViewModel.TitleIdInput, Mode=TwoWay}"
+                            VerticalAlignment="Center"/>
+                        <ui:Button
+                            Content="Generate Unlock Order"
+                            Icon="{ui:SymbolIcon ArrowDownload24}"
+                            Command="{Binding ViewModel.GetUnlockOrderCommand}"
+                            IsEnabled="{Binding ViewModel.IsInitialized}"
+                            Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <ui:TextBox
+                        Grid.Row="2"
+                        Text="{Binding ViewModel.UnlockOrderText, Mode=OneWay}"
+                        IsReadOnly="True"
+                        AcceptsReturn="True"
+                        VerticalScrollBarVisibility="Auto"
+                        Margin="0,15,0,0"
+                        PlaceholderText="Generated unlock order will appear here..." />
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <ContentPresenter x:Name="RootContentPresenter" />
     </Grid>
 </Page>
