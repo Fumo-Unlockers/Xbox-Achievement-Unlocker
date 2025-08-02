@@ -107,15 +107,29 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
             <TextBlock
-                Grid.Row="1"
-                Grid.Column="3"
-                Margin="10,0,10,0"
-                Text="{Binding ViewModel.GameName}"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                TextWrapping="Wrap"
-                TextAlignment="Center"
-                />
+        Grid.Row="1"
+        Grid.Column="3"
+        Margin="10,0,10,0"
+        Text="{Binding ViewModel.GameName}"
+        VerticalAlignment="Center"
+        HorizontalAlignment="Center"
+        TextWrapping="Wrap"
+        TextAlignment="Center"
+        />
+
+
+            <TextBlock
+        p:Grid.Column="2"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        FontSize="14"
+        FontWeight="SemiBold"
+        Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"
+        Text="{Binding ViewModel.NextAchievementStatus}"
+        Visibility="{Binding ViewModel.IsAutoUnlocking, Converter={StaticResource BooleanToVisibilityConverter}}"
+        TextWrapping="Wrap"
+        TextAlignment="Center"
+        />
             <ui:Button
                 Grid.Row="0"
                 Grid.Column="4"
@@ -127,6 +141,15 @@
                 HorizontalAlignment="Right"
                 Command="{Binding ViewModel.UnlockAllCommand}"
             />
+            <ui:Button
+    x:Name="AutoUnlockToggleButton"
+    Padding="10,5,8,5"
+    Margin="16,0,17,0"
+    HorizontalAlignment="Stretch"
+    Content="{Binding ViewModel.AutoUnlockButtonText}"
+    Command="{p:Binding ViewModel.AutoUnlockCommand, Mode=OneWay}"
+                IsEnabled="{Binding ViewModel.IsAutoUnlockEnabled}" p:Grid.Column="2" p:Grid.Row="1" Height="28"
+    />
             <ui:Button
                 Grid.Row="1"
                 Grid.Column="4"
