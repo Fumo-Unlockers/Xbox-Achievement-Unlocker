@@ -1,20 +1,34 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Windows.Data;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Wpf.Ui.Controls;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls;
 using Wpf.Ui.Services;
+using XAU.ViewModels.Pages;
+using static XAU.ViewModels.Pages.AchievementsViewModel;
 
 namespace XAU.ViewModels.Pages
 {
     public partial class AchievementsViewModel : ObservableObject, INavigationAware
     {
+        private int _autoUnlockResumeIndex = 0;
+        private TimeSpan _autoUnlockResumeDelay = TimeSpan.Zero;
+        [ObservableProperty]
+        private string _autoUnlockButtonText = "Auto Unlock";
+        [ObservableProperty]
+        private bool _isAutoUnlocking = true;
+        [ObservableProperty]
+        private string _nextAchievementStatus = "";
+        [ObservableProperty]
+        private bool _isAutoUnlockEnabled = true;
+        private CancellationTokenSource _autoUnlockCancellationTokenSource;
         [ObservableProperty] private bool _isInitialized = false;
         [ObservableProperty] private string _titleIDOverride = "0";
         [ObservableProperty] private bool _unlockable = false;
@@ -817,6 +831,96 @@ namespace XAU.ViewModels.Pages
             }
 
             await Task.CompletedTask;
+        }
+        [RelayCommand]
+        public async Task AutoUnlock()
+        {
+            var unlockOrderDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "UnlockOrder");
+            var unlockOrderFile = Path.Combine(unlockOrderDirectory, $"{TitleIDOverride}.txt");
+
+            if (!File.Exists(unlockOrderFile))
+            {
+                _snackbarService.Show("Error", "Unlock order file not found for this TitleID.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
+            var lines = await File.ReadAllLinesAsync(unlockOrderFile);
+            var achievementsToUnlock = new List<(string id, string name, TimeSpan delay)>();
+
+            foreach (var line in lines.Skip(1)) // Skip header row
+            {
+                var parts = line.Split('|');
+                if (parts.Length == 3 && !string.IsNullOrWhiteSpace(parts[0]) && TimeSpan.TryParse(parts[2], out var delay))
+                {
+                    // Store the name along with id and delay
+                    achievementsToUnlock.Add((parts[0].Trim(), parts[1].Trim(), delay));
+                }
+            }
+
+            if (!achievementsToUnlock.Any())
+            {
+                _snackbarService.Show("Error", "No valid achievements found in the unlock order file.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
+            IsAutoUnlocking = true;
+            _autoUnlockCancellationTokenSource = new CancellationTokenSource();
+            _snackbarService.Show("Auto-Unlock Started", "Unlocking achievements based on the order file.", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Play24), _snackbarDuration);
+
+            try
+            {
+                TimeSpan cumulativeDelay = TimeSpan.Zero;
+                foreach (var (id, name, delay) in achievementsToUnlock)
+                {
+                    _autoUnlockCancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    TimeSpan timeToWait = delay - cumulativeDelay;
+
+                    // This is the new countdown loop
+                    while (timeToWait > TimeSpan.Zero)
+                    {
+                        NextAchievementStatus = $"Next: '{name}' in {timeToWait:hh\\:mm\\:ss}";
+                        await Task.Delay(1000, _autoUnlockCancellationTokenSource.Token); // Wait for 1 second
+                        timeToWait = timeToWait.Subtract(TimeSpan.FromSeconds(1));
+                    }
+
+                    var achievementToUnlock = DGAchievements.FirstOrDefault(a => a.ID.ToString() == id && a.IsUnlockable);
+                    if (achievementToUnlock != null)
+                    {
+                        NextAchievementStatus = $"Unlocking: '{achievementToUnlock.Name}'...";
+                        await _xboxRestAPI.Value.UnlockTitleBasedAchievementAsync(
+                            AchievementResponse.achievements[0].serviceConfigId,
+                            AchievementResponse.achievements[0].titleAssociations[0].id,
+                            HomeViewModel.XUIDOnly,
+                            id,
+                            HomeViewModel.Settings.FakeSignatureEnabled);
+
+                        achievementToUnlock.IsUnlockable = false;
+                        achievementToUnlock.ProgressState = StringConstants.Achieved;
+                        achievementToUnlock.DateUnlocked = DateTime.Now;
+
+                        _snackbarService.Show("Achievement Unlocked", $"{achievementToUnlock.Name} has been unlocked.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), TimeSpan.FromSeconds(1));
+                        CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
+                    }
+
+                    cumulativeDelay = delay;
+                }
+                _snackbarService.Show("Auto-Unlock Complete", "All achievements from the file have been processed.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.CheckmarkCircle24), _snackbarDuration);
+            }
+            catch (OperationCanceledException)
+            {
+                _snackbarService.Show("Auto-Unlock Canceled", "The auto-unlock process was canceled.", ControlAppearance.Caution, new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+            }
+            catch (Exception ex)
+            {
+                _snackbarService.Show("Auto-Unlock Error", $"An error occurred: {ex.Message}", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+            finally
+            {
+                IsAutoUnlocking = false;
+                NextAchievementStatus = ""; // Clear the status text
+                _autoUnlockCancellationTokenSource.Dispose();
+            }
         }
     }
 }
