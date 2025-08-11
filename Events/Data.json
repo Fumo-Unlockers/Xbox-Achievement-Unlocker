@@ -36826,17 +36826,17 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTMSC",
-          "Replacement": ""
+          "Replacement": "Microsoft.XboxLive.T85494077.BoardCleared"
         },
         "MetaDataReplacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACEMETADATA",
-          "Replacement": ""
+          "Replacement": "{\"f\":{\"baseData\":{\"f\":{\"properties\":{\"f\":{\"Count\":4,\"GameMode\":4,\"ClearedWithPeaks\":4}}}}},\"policies\":1}"
         },
         "DataReplacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACEDATA",
-          "Replacement": ""
+          "Replacement": "{\"baseType\":\"Microsoft.XboxLive.InGame\",\"baseData\":{\"name\":\"BoardCleared\",\"serviceConfigId\":\"2eba0100-c9de-47f7-bfaa-6def0518893d\",\"playerSessionId\":\"11111111-1111-1111-1111-111111111111\",\"titleId\":85494077,\"userId\":\"REPLACEXUID\",\"ver\":1,\"properties\":{\"Count\":100,\"GameMode\":4,\"ClearedWithPeaks\":0},\"measurements\":{}}}"
         }
       },
       "17": {
