@@ -1,0 +1,51 @@
+{
+    "ver": "4.0",
+    "name": "REPLACEEVENTMSC",
+    "time": "REPLACETIME",
+    "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
+    "ext": {
+        "utc": {
+            "shellId": 1,
+            "eventFlags": 1,
+            "pgName": "XBOX",
+            "flags": 1,
+            "epoch": "1",
+            "seq": REPLACESEQ
+        },
+        "privacy": {
+            "isRequired": false
+        },
+        "metadata": REPLACEMETADATA,
+        "os": {
+            "bootId": 1,
+            "name": "Windows",
+            "ver": "1",
+            "expId": "1"
+        },
+        "app": {
+            "id": "U:Microsoft.MicrosoftSolitaireCollection_4.23.7100.0_x64__8wekyb3d8bbwe!App",
+            "ver": "4.23.7100.0_x64_!2025/07/11:01:04:47!0!solitaire.exe",
+            "is1P": 1,
+            "asId": 1
+        },
+        "device": {
+            "localId": "s:5F885A49-7DE3-47FE-8CFD-B9E228D065FE",
+            "deviceClass": "Windows.Desktop"
+        },
+        "protocol": {
+            "devMake": "1",
+            "devModel": "1",
+            "ticketKeys": [
+                "1",
+                "1"
+            ]
+        },
+        "user": {
+            "localId": "m:1111111111111111"
+        },
+        "loc": {
+            "tz": "00:00"
+        }
+    },
+    "data": REPLACEDATA
+}
