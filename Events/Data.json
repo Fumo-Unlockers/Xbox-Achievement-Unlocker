@@ -7367,12 +7367,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.EducationNation"
+          "Replacement": "Microsoft.XboxLive.T748474487.GraduationNationAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "EducationNation"
+          "Replacement": "GraduationNationAchievement"
         }
       },
       "104": {
@@ -7559,24 +7559,24 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.TheSweetestCity"
+          "Replacement": "Microsoft.XboxLive.T748474487.TheSwessetestCityAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "TheSweetestCity"
+          "Replacement": "TheSwessetestCityAchievement"
         }
       },
       "120": {
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACCSEEVENT",
-          "Replacement": "Microsoft.XboxLive.T748474487.GarbageCollectionIssuesAchievement"
+          "Replacement": "Microsoft.XboxLive.T748474487.GarbageCollectionAchievement"
         },
         "Replacement1": {
           "ReplacementType": "Replace",
           "Target": "REPLACECCSCRITERA",
-          "Replacement": "GarbageCollectionIssuesAchievement"
+          "Replacement": "GarbageCollectionAchievement"
         }
       },
       "121": {
