@@ -1,0 +1,61 @@
+{
+    "ver": "4.0",
+    "name": "REPLACEEVENTRR",
+    "time": "REPLACETIME",
+    "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
+    "ext": {
+        "utc": {
+            "eventFlags": 1,
+            "pgName": "XBOX",
+            "flags": 1,
+            "epoch": "1",
+            "seq": REPLACESEQ
+        },
+        "privacy": {
+            "isRequired": false
+        },
+        "os": {
+            "bootId": 1,
+            "name": "Windows",
+            "ver": "1",
+            "expId": "1"
+        },
+        "app": {
+            "id": "U:Codeglue.RocketRiot_1.1.5729.0_x86__y4gp74q5ezwe0!App",
+            "ver": "1.1.5729.0_x86_!2017/01/25:14:45:17!0!rocketriot.exe",
+            "is1P": 1,
+            "asId": 1
+        },
+        "metadata": {
+            "policies": 1
+        },
+        "device": {
+            "localId": "s:11111111-1111-1111-1111-111111111111",
+            "deviceClass": "Windows.Desktop"
+        },
+        "protocol": {
+            "devMake": "1",
+            "devModel": "1",
+            "ticketKeys": [
+                "1"
+            ]
+        },
+        "user": {
+            "localId": "m:1111111111111111"
+        },
+        "loc": {
+            "tz": "00:00"
+        }
+    },
+    "data": {
+        "baseType": "Microsoft.XboxLive.InGame",
+        "baseData": {
+            "name": "REPLACENAME",
+            "serviceConfigId": "1d0b0100-1132-4a63-bc2a-aec214f2b414",
+            "playerSessionId": "11111111-1111-1111-1111-111111111111",
+            "titleId": "351450132",
+            "userId": "REPLACEXUID",
+            "ver": 1
+        }
+    }
+}
