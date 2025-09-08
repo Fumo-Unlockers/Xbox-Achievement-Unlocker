@@ -1,6 +1,9 @@
 using HtmlAgilityPack;
+using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
+using System.Data;
 using System.Diagnostics;
+using System.DirectoryServices;
 using System.IO;
 using System.Text;
 using System.Windows.Input;
@@ -18,7 +21,6 @@ namespace XAU.ViewModels.Pages
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
-        private Lazy<DBoxRestApi> _dboxRestApi = new Lazy<DBoxRestApi>();
 
 
 
@@ -197,87 +199,126 @@ namespace XAU.ViewModels.Pages
         #endregion
 
         #region GameSearch
-        [ObservableProperty] private JObject _tSearchResponse = new JObject();
+        [ObservableProperty] private List<GameItem> _tSearchResults = new List<GameItem>();
         [ObservableProperty] private List<string> _tSearchTitleNames = new List<string>();
         [ObservableProperty] private string _tSearchText = "";
-        [ObservableProperty] private string _tSearchGameImage = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _tSearchGameName = "Name: ";
         [ObservableProperty] private string _tSearchGameTitleID = "";
+        [ObservableProperty] private string _tSearchGameTitleBased = "Title Based: Unknown";
+
+        private string GetDatabasePath()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "TitleSearch", "xbox_games.db");
+        }
+
         [RelayCommand]
         public async Task SearchGame()
         {
             try
             {
-                var response = await _dboxRestApi.Value.SearchAsync(TSearchText);
-
-                var items = response["items"] as JArray;
-                if (items == null || items.Count == 0)
+                if (string.IsNullOrWhiteSpace(TSearchText))
                 {
-                    _snackbarService.Show("Error", $"No results were found for {TSearchText}",
-                        ControlAppearance.Danger,
-                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     TSearchTitleNames = new List<string>();
-                    TSearchResponse = response;
+                    TSearchResults = new List<GameItem>();
                     return;
                 }
 
-                // Sort items alphabetically by "name"
-                var sortedItems = new JArray(items
-                    .OrderBy(item => item["name"]?.ToString() ?? string.Empty, StringComparer.OrdinalIgnoreCase));
+                string dbPath = GetDatabasePath();
 
-                // Update TSearchResponse with sorted items
-                response["items"] = sortedItems;
-                TSearchResponse = response;
+                if (!File.Exists(dbPath))
+                {
+                    _snackbarService.Show("Error", "Game database not found. Please wait for it to download.",
+                        ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
 
-                // Create TSearchTitleNames list from sorted items
-                TSearchTitleNames = sortedItems
-                    .Select(item => item["name"]?.ToString() ?? string.Empty)
-                    .Where(name => !string.IsNullOrWhiteSpace(name))
-                    .ToList();
+                var results = await Task.Run(() => SearchGamesInDatabase(dbPath, TSearchText));
+
+                if (!results.Any())
+                {
+                    _snackbarService.Show("Error", $"No results were found for '{TSearchText}'",
+                        ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    TSearchTitleNames = new List<string>();
+                    TSearchResults = new List<GameItem>();
+                    return;
+                }
+
+                results = results.OrderBy(game => game.Title, StringComparer.OrdinalIgnoreCase).ToList();
+
+                TSearchResults = results;
+                TSearchTitleNames = results.Select(game => game.Title).ToList();
             }
-            catch
+            catch (Exception ex)
             {
-                _snackbarService.Show("Error", $"No results were found for {TSearchText}",
+                _snackbarService.Show("Error", $"Search failed: {ex.Message}",
                     ControlAppearance.Danger,
                     new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 TSearchTitleNames = new List<string>();
-                TSearchResponse = new JObject();
+                TSearchResults = new List<GameItem>();
             }
+        }
+
+        private List<GameItem> SearchGamesInDatabase(string dbPath, string searchText)
+        {
+            var results = new List<GameItem>();
+
+            using var connection = new SqliteConnection($"Data Source={dbPath}");
+            connection.Open();
+
+            // Search for games that contain the search text (case-insensitive)
+            string sql = @"
+                    SELECT title, titleId, isTitleBased 
+                    FROM games 
+                    WHERE title LIKE @searchText 
+                    ORDER BY title COLLATE NOCASE
+                    LIMIT 100";
+
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("@searchText", $"%{searchText}%");
+
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                results.Add(new GameItem
+                {
+                    Title = reader.GetString("title"),
+                    TitleId = reader.GetString("titleId"),
+                    IsTitleBased = reader.GetInt32("isTitleBased") == 1
+                });
+            }
+
+            return results;
         }
 
         public void DisplayGameInfo(int index)
         {
             try
             {
-                var items = TSearchResponse["items"] as JArray;
-                if (items == null || items.Count <= index)
+                if (TSearchResults == null || TSearchResults.Count <= index || index < 0)
                 {
-                    _snackbarService.Show("Error", "No game found at the selected index.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    _snackbarService.Show("Error", "No game found at the selected index.",
+                        ControlAppearance.Danger,
+                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                     return;
                 }
 
-                var item = items[index];
-                var titleIdHex = item["title_id"]?.ToString() ?? "0";
-                var titleIdBase10 = long.TryParse(titleIdHex, System.Globalization.NumberStyles.HexNumber, null, out var base10Id)
-                    ? base10Id.ToString()
-                    : "-1";
+                var selectedGame = TSearchResults[index];
 
-                TSearchGameName = "Name: " + (item["name"]?.ToString() ?? "Unknown");
-                TSearchGameTitleID = titleIdBase10;
+                TSearchGameName = selectedGame.Title;
+                TSearchGameTitleID = selectedGame.TitleId;
+                TSearchGameTitleBased = $"Title Based: {(selectedGame.IsTitleBased ? "True" : "False")}";
 
-                if (titleIdBase10 == "-1")
-                {
-                    _snackbarService.Show("Error: TitleID not found",
-                        $"The TitleID for {TSearchGameName} was not available or invalid.",
-                        ControlAppearance.Danger,
-                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                }
             }
-            catch
+            catch (Exception ex)
             {
-                _snackbarService.Show("Error", "Failed to display game info.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                _snackbarService.Show("Error", "Failed to display game info.",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
         }
+
         #endregion
 
         #region GamertagSearch

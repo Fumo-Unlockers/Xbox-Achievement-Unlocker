@@ -247,6 +247,67 @@ namespace XAU.ViewModels.Pages
             _snackbarService.Show("Events Update Complete", "Events have been updated to the latest version.", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
         }
 
+        private async void CheckForXboxGamesDatabaseUpdate()
+        {
+            try
+            {
+                var fileInfo = await _gitHubRestAPI.Value.GetXboxGamesDatabaseInfoAsync();
+                if (fileInfo == null)
+                {
+                    _snackbarService.Show("Error", "Could not check for database updates.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
+                string titleSearchPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "TitleSearch");
+                string shaFilePath = Path.Combine(titleSearchPath, "xbox_games_sha.txt");
+                string dbFilePath = Path.Combine(titleSearchPath, "xbox_games.db");
+
+                Directory.CreateDirectory(titleSearchPath);
+
+                string currentSha = string.Empty;
+                try
+                {
+                    if (File.Exists(shaFilePath))
+                    {
+                        currentSha = (await File.ReadAllTextAsync(shaFilePath)).Trim();
+                    }
+                }
+                catch { }
+
+                if (string.IsNullOrEmpty(currentSha) || !currentSha.Equals(fileInfo.Sha, StringComparison.OrdinalIgnoreCase))
+                {
+                    _snackbarService.Show("Database Update", "New Xbox games database available. Downloading...", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+
+                    using var client = new HttpClient();
+                    var response = await client.GetAsync(fileInfo.DownloadUrl);
+                    response.EnsureSuccessStatusCode();
+
+                    var content = await response.Content.ReadAsByteArrayAsync();
+
+                    await File.WriteAllBytesAsync(dbFilePath, content);
+
+                    try
+                    {
+                        await File.WriteAllTextAsync(shaFilePath, fileInfo.Sha);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Failed to store database SHA: {ex.Message}");
+                    }
+
+                    _snackbarService.Show("Success", "Xbox games database updated successfully!", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                }
+                else
+                {
+                    Console.WriteLine("Xbox games database is up to date.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _snackbarService.Show("Error", $"Database update check failed: {ex.Message}", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+        }
+
         #endregion
 
         private async Task InitializeViewModel()
@@ -295,6 +356,7 @@ namespace XAU.ViewModels.Pages
 
             }
             CheckForEventUpdates();
+            CheckForXboxGamesDatabaseUpdate();
             LoadSettings();
             _isInitialized = true;
             if (Settings.AutoLaunchXboxAppEnabled && Process.GetProcessesByName(ProcessNames.XboxPcApp).Length == 0)
