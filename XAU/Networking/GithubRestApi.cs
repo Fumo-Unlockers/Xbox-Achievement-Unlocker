@@ -53,4 +53,15 @@ public class GithubRestApi
         var responseString = await _httpClient.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Events-Data/meta.json");
         return JsonConvert.DeserializeObject<EventsUpdateResponse>(responseString);
     }
+
+
+    public async Task<GitHubFile?> GetXboxGamesDatabaseInfoAsync()
+    {
+        SetDefaultHeaders();
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubApi);
+        var responseString = await _httpClient.GetStringAsync("https://api.github.com/repos/Fumo-Unlockers/XboxGames/contents");
+        var files = JsonConvert.DeserializeObject<List<GitHubFile>>(responseString);
+        return files?.FirstOrDefault(f => f.Name.Equals("xbox_games.db", StringComparison.OrdinalIgnoreCase));
+    }
+
 }
