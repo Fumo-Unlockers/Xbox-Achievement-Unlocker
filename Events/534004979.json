@@ -1,0 +1,63 @@
+{
+    "ver": "4.0",
+    "name": "Microsoft.XboxLive.T534004979.REPLACEEVENTMUWG",
+    "time": "REPLACETIME",
+    "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
+    "ext": {
+        "utc": {
+            "shellId": 1,
+            "eventFlags": 1,
+            "pgName": "XBOX",
+            "flags": 1,
+            "epoch": "1",
+            "seq": REPLACESEQ
+        },
+        "privacy": {
+            "isRequired": false
+        },
+        "os": {
+            "bootId": 1,
+            "name": "Windows",
+            "ver": "1",
+            "expId": "1"
+        },
+        "app": {
+            "id": "U:Microsoft.Studios.Wordament_4.6.6031.0_x64__8wekyb3d8bbwe!App",
+            "ver": "4.6.6031.0_x64_!2025/06/03:17:54:19!4F3E9!microsoft ultimate word games.exe",
+            "is1P": 1,
+            "asId": 1
+        },
+        "metadata": {
+            "policies": 1
+        },
+        "device": {
+            "localId": "s:11111111-1111-1111-1111-111111111111",
+            "deviceClass": "Windows.Desktop"
+        },
+        "protocol": {
+            "devMake": "1",
+            "devModel": "1",
+            "ticketKeys": [
+                "1",
+                "1"
+            ]
+        },
+        "user": {
+            "localId": "m:1111111111111111"
+        },
+        "loc": {
+            "tz": "00:00"
+        }
+    },
+    "data": {
+        "baseType": "Microsoft.XboxLive.InGame",
+        "baseData": {
+            "name": "REPLACENAMEMUWG",
+            "serviceConfigId": "1ca90100-b851-45eb-8d49-3ebc1fd444f3",
+            "playerSessionId": "11111111-1111-1111-1111-111111111111",
+            "titleId": "534004979",
+            "userId": "REPLACEXUID",
+            "ver": 1
+        }
+    }
+}

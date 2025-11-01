@@ -38349,7 +38349,469 @@
       }
     }
   },
+  "534004979": {
+    "FullySupported": true,
+    "Achievements": {
+      "2": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.GlobalWordFoundCount"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "GlobalWordFoundCount"
+        }
+      },
+      "3": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.DailyChallengeTotalBronzeBadges"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "DailyChallengeTotalBronzeBadges"
+        }
+      },
+      "4": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.DailyChallengeTotalSilverBadges"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "DailyChallengeTotalSilverBadges"
+        }
+      },
+      "5": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.DailyChallengeTotalGoldBadges"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "DailyChallengeTotalGoldBadges"
+        }
+      },
+      "6": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.DailyChallengeTotalDiamondBadges"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "DailyChallengeTotalDiamondBadges"
+        }
+      },
+      "7": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentTotalStarsEarned"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentTotalStarsEarned"
+        }
+      },
+      "8": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentTenSecondsWordRushAccomplished"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentTenSecondsWordRushAccomplished"
+        }
+      },
+      "9": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentTotalMultiplayerGameFinished"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentTotalMultiplayerGameFinished"
+        }
+      },
+      "10": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentTotalThemedWordsFound"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentTotalThemedWordsFound"
+        }
+      },
+      "11": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.JumbleTotalStarsEarned"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "JumbleTotalStarsEarned"
+        }
+      },
+      "12": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.JumbleTotalExpertWordFound"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "JumbleTotalExpertWordFound"
+        }
+      },
+      "13": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.CrosswordsTotalStarsEarned"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "CrosswordsTotalStarsEarned"
+        }
+      },
+      "14": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.CrosswordsBonusPackCompletedCount"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "CrosswordsBonusPackCompletedCount"
+        }
+      },
+      "15": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentTotalStarsEarned"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentTotalStarsEarned"
+        }
+      },
+      "16": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentAdventureMapCompletedCount"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentAdventureMapCompletedCount"
+        }
+      },
+      "17": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979. WordamentAdventureMapCompleted"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": " WordamentAdventureMapCompleted"
+        }
+      },
+      "18": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentAdventureMapCompletedCount"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentAdventureMapCompletedCount"
+        }
+      },
+      "20": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.DCGameStarted"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "DCGameStarted"
+        }
+      },
+      "21": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.DailyChallengeWonCount"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "DailyChallengeWonCount"
+        }
+      },
+      "22": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.DailyChallengeTotalPerfects"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "DailyChallengeTotalPerfects"
+        }
+      },
+      "23": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentExpertTitleEarned"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentExpertTitleEarned"
+        }
+      },
+      "24": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentHighScoringWordFound"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentHighScoringWordFound"
+        }
+      },
+      "25": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentNoStarsWordRushAccomplished"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "WordamentNoStarsWordRushAccomplished"
+        }
+      },
+      "26": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.JumbleAllExpertWordsFound"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "JumbleAllExpertWordsFound"
+        }
+      },
+      "27": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.JumbleLongestFirstFound"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "JumbleLongestFirstFound"
+        }
+      },
+      "28": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.JumbleQuickplayFinished"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "JumbleQuickplayFinished"
+        }
+      },
+      "29": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.JumbleBonusSolvedFirst"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "JumbleBonusSolvedFirst"
+        }
+      },
+      "30": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.JumbleExpertTitleEarned"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "JumbleExpertTitleEarned"
+        }
+      },
+      "31": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.CrosswordsThreeStarsNoHintsEarned"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "CrosswordsThreeStarsNoHintsEarned"
+        }
+      },
+      "32": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.CrosswordsCleanSweepValidated"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "CrosswordsCleanSweepValidated"
+        }
+      },
+      "33": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.CrosswordsLongClueFound"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "CrosswordsLongClueFound"
+        }
+      },
+      "34": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.CrosswordsEdgedCluesFound"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "CrosswordsEdgedCluesFound"
+        }
+      },
+      "35": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.CrosswordsExpertTitleEarned"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "CrosswordsExpertTitleEarned"
+        }
+      },
+      "36": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.GlobalHatTrickCompleted"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "GlobalHatTrickCompleted"
+        }
+      },
+      "37": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.GlobalBonusPuzzleUnlocked"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "GlobalBonusPuzzleUnlocked"
+        }
+      },
+      "38": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.GlobalGateUnlocked"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "GlobalGateUnlocked"
+        }
+      },
+      "39": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.DailyChallengesFiveDaysPlayed"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "DailyChallengesFiveDaysPlayed"
+        }
+      },
+      "40": {
+        "EventReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEEVENTMUWG",
+          "Replacement": "Microsoft.XboxLive.T534004979.DailyChallengesFullMonthPlayed"
+        },
+        "DataReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACENAMEMUWG",
+          "Replacement": "DailyChallengesFullMonthPlayed"
+        }
+      }
+    }
+  },
   "SupportedTitleIDs": [
+    534004979,
     498311847,
     456990021,
     826545257,
