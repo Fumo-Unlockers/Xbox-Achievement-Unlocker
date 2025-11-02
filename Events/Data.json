@@ -38536,12 +38536,12 @@
         "EventReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACEEVENTMUWG",
-          "Replacement": "Microsoft.XboxLive.T534004979. WordamentAdventureMapCompleted"
+          "Replacement": "Microsoft.XboxLive.T534004979.WordamentAdventureMapPerfectCount"
         },
         "DataReplacement": {
           "ReplacementType": "Replace",
           "Target": "REPLACENAMEMUWG",
-          "Replacement": " WordamentAdventureMapCompleted"
+          "Replacement": "WordamentAdventureMapPerfectCount"
         }
       },
       "18": {
