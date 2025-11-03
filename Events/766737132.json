@@ -1,6 +1,6 @@
 {
     "ver": "4.0",
-    "name": "Microsoft.XboxLive.T766737132.CustomGameComplete",
+    "name": "Microsoft.XboxLive.T766737132.REPLACEEVENTNAME",
     "time": "REPLACETIME",
     "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
     "ext": {
@@ -15,30 +15,7 @@
         "privacy": {
             "isRequired": false
         },
-        "metadata": {
-            "f": {
-                "baseData": {
-                    "f": {
-                        "properties": {
-                            "f": {
-                                "Headshots": 4,
-                                "MapObjectCount": 4,
-                                "NumPlayers": 4,
-                                "PlayerCreatedMap": 4,
-                                "UserCreatedMap": 4,
-                                "Won": 4
-                            }
-                        },
-                        "measurements": {
-                            "f": {
-                                "KDA": 6
-                            }
-                        }
-                    }
-                }
-            },
-            "policies": 0
-        },
+        "metadata": REPLACEMETADATA,
         "os": {
             "bootId": 1,
             "name": "Windows",
@@ -69,26 +46,5 @@
             "tz": "00:00"
         }
     },
-    "data": {
-        "baseType": "Microsoft.XboxLive.InGame",
-        "baseData": {
-            "name": "CustomGameComplete",
-            "serviceConfigId": "e51a0100-805a-4b6c-b777-5d492db37aec",
-            "playerSessionId": "11111111-1111-1111-1111-111111111111",
-            "titleId": "766737132",
-            "userId": "REPLACEXUID",
-            "ver": 1,
-            "properties": {
-                "Headshots": 0,
-                "MapObjectCount": 50,
-                "NumPlayers": "REPLACEPLAYERS",
-                "PlayerCreatedMap": 1,
-                "UserCreatedMap": 1,
-                "Won": 1
-            },
-            "measurements": {
-                "KDA": -1
-            }
-        }
-    }
+    "data": REPLACEDATA
 }
