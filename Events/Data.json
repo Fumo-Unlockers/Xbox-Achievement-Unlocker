@@ -38349,7 +38349,237 @@
       }
     }
   },
+  "908546367": {
+    "FullySupported": true,
+    "Achievements": {
+      "39": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "1"
+        }
+      },
+      "40": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "31"
+        }
+      },
+      "41": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "2"
+        }
+      },
+      "42": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "3"
+        }
+      },
+      "43": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "4"
+        }
+      },
+      "44": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "5"
+        }
+      },
+      "45": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "6"
+        }
+      },
+      "46": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "7"
+        }
+      },
+      "47": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "8"
+        }
+      },
+      "48": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "9"
+        }
+      },
+      "49": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "10"
+        }
+      },
+      "50": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "11"
+        }
+      },
+      "51": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "12"
+        }
+      },
+      "52": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "13"
+        }
+      },
+      "53": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "15"
+        }
+      },
+      "54": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "14"
+        }
+      },
+      "55": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "16"
+        }
+      },
+      "56": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "17"
+        }
+      },
+      "57": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "18"
+        }
+      },
+      "58": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "19"
+        }
+      },
+      "59": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "20"
+        }
+      },
+      "60": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "21"
+        }
+      },
+      "61": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "22"
+        }
+      },
+      "62": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "23"
+        }
+      },
+      "63": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "24"
+        }
+      },
+      "64": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "25"
+        }
+      },
+      "65": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "26"
+        }
+      },
+      "66": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "27"
+        }
+      },
+      "67": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "28"
+        }
+      },
+      "68": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "29"
+        }
+      },
+      "69": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "30"
+        }
+      },
+      "70": {
+        "CriteriaReplacement": {
+          "ReplacementType": "Replace",
+          "Target": "REPLACEID",
+          "Replacement": "32"
+        }
+      }
+    }
+  },
   "SupportedTitleIDs": [
+    908546367,
     498311847,
     456990021,
     826545257,
