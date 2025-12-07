@@ -480,10 +480,20 @@ namespace XAU.ViewModels.Pages
                 _snackbarService.Show("Warning: Unsupported Game", $"This tool does not support this Event Based title", ControlAppearance.Caution,
                     new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
             }
-            else if (IsEventBased && EventsData.FullySupported == false)
+            else if (IsEventBased)
             {
-                _snackbarService.Show("Warning: Partially Unsupported Game", $"This tool does not fully support this title. Not all achievements are unlockable", ControlAppearance.Caution,
-                                       new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+                try
+                {
+                    if (EventsData != null && EventsData.FullySupported != null && EventsData.FullySupported == false)
+                    {
+                        _snackbarService.Show("Warning: Partially Unsupported Game", $"This tool does not fully support this title. Not all achievements are unlockable", ControlAppearance.Caution,
+                                               new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+                    }
+                }
+                catch
+                {
+                    // EventsData doesn't have FullySupported property, ignore
+                }
             }
 
             if (HomeViewModel.Settings.UnlockAllEnabled && Unlockable && !IsEventBased)
@@ -553,74 +563,423 @@ namespace XAU.ViewModels.Pages
                 }
 
                 // TODO: move this over to the rest api?
-                var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
-                DateTime timestamp = DateTime.UtcNow;
-                foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()])
+                var achievementData = EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()];
+                
+                // Get loop count (default to 1 if not specified)
+                int loopCount = 1;
+                if (achievementData.Loop != null)
                 {
-                    var ReplacementData = i.Value;
-                    switch (ReplacementData.ReplacementType.ToString())
+                    loopCount = int.Parse((string)achievementData.Loop);
+                }
+                else if (achievementData.loop != null)
+                {
+                    loopCount = int.Parse((string)achievementData.loop);
+                }
+                
+                // Check if new structure with Request1, Request2, etc exists
+                bool hasRequestStructure = false;
+                bool hasDirectReplacements = false;
+                
+                foreach (var prop in achievementData)
+                {
+                    string propName = (string)prop.Name;
+                    if (propName.StartsWith("Request"))
                     {
-                        case "Replace":
-                            {
-                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
-                                break;
-                            }
-                        case "RangeInt":
-                            {
-                                int min = ReplacementData.Min;
-                                int max = ReplacementData.Max;
-                                Random random = new Random();
-                                int randomint = random.Next(min, max);
-                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomint.ToString());
-                                break;
-                            }
-                        case "RangeFloat":
-                            {
-                                float min = ReplacementData.Min;
-                                float max = ReplacementData.Max;
-                                Random random = new Random();
-                                float randomfloat = (float)random.NextDouble() * (max - min) + min;
-                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomfloat.ToString());
-                                break;
-                            }
-                        case "StupidFuckingLDAPTimestamp":
-                            {
-                                long ldapTimestamp = DateTime.Now.ToFileTime();
-                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ldapTimestamp.ToString());
-                                break;
-                            }
-                        default:
-                            {
-                                _snackbarService.Show("Error: Bad Achievement Data", "Something went wrong with the achievement data", ControlAppearance.Danger,
-                                                                                  new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                                return;
-                            }
-
+                        hasRequestStructure = true;
+                        break;
+                    }
+                    if (propName == "EventReplacement" || propName == "DataReplacement" || propName == "MetaDataReplacement")
+                    {
+                        hasDirectReplacements = true;
                     }
                 }
-                requestbody = requestbody.Replace("REPLACETIME", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
-                requestbody = requestbody.Replace("REPLACESEQ", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
-                requestbody = requestbody.Replace("REPLACEXUID", HomeViewModel.XUIDOnly);
-                requestbody = JObject.Parse(requestbody).ToString(Formatting.None);
-                var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
-                try
+                
+                if (hasRequestStructure)
                 {
-                    await _xboxRestAPI.Value.UnlockEventBasedAchievement(EventsToken, bodyconverted);
-
-                    _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
-                        ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                    DGAchievements[AchievementIndex].IsUnlockable = false;
-                    DGAchievements[AchievementIndex].ProgressState = "Achieved";
-                    DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
-                    CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
+                    // New multi-request structure
+                    // Each Request is processed ONCE in sequential order
+                    // Request1 = 1st request, Request2 = 2nd request, etc.
+                    
+                    // First, collect any achievement-level replacements (outside of Request nodes)
+                    var achievementLevelReplacements = new List<dynamic>();
+                    foreach (var prop in achievementData)
+                    {
+                        string propName = (string)prop.Name;
+                        // Skip Loop, Request nodes, and non-Replacement properties
+                        if (propName == "Loop" || propName == "loop" || propName.StartsWith("Request"))
+                            continue;
+                        
+                        // This is an achievement-level replacement
+                        if (propName.EndsWith("Replacement") && prop.Value.ReplacementType != null)
+                        {
+                            achievementLevelReplacements.Add(prop);
+                        }
+                    }
+                    
+                    // Sort requests to ensure they're processed in order (Request, Request1, Request2, etc.)
+                    var sortedRequests = new List<dynamic>();
+                    foreach (var requestNode in achievementData)
+                    {
+                        string requestName = requestNode.Name;
+                        if (requestName.StartsWith("Request"))
+                        {
+                            sortedRequests.Add(requestNode);
+                        }
+                    }
+                    
+                    // Sort by request number
+                    sortedRequests.Sort((a, b) => 
+                    {
+                        string nameA = (string)a.Name;
+                        string nameB = (string)b.Name;
+                        
+                        // Extract number from "Request1", "Request2", etc.
+                        // If it's just "Request" with no number, treat it as 0
+                        string numA = nameA.Replace("Request", "");
+                        string numB = nameB.Replace("Request", "");
+                        
+                        int intA = string.IsNullOrEmpty(numA) ? 0 : (int.TryParse(numA, out int tempA) ? tempA : 999);
+                        int intB = string.IsNullOrEmpty(numB) ? 0 : (int.TryParse(numB, out int tempB) ? tempB : 999);
+                        
+                        return intA.CompareTo(intB);
+                    });
+                    
+                    // Process each request ONCE in sequential order
+                    foreach (var requestNode in sortedRequests)
+                    {
+                        string requestName = requestNode.Name;
+                        dynamic requestData = requestNode.Value;
+                        
+                        // Read fresh template for this request
+                        var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
+                        DateTime timestamp = DateTime.UtcNow;
+                        
+                        // FIRST: Apply achievement-level replacements (shared across all requests)
+                        foreach (var prop in achievementLevelReplacements)
+                        {
+                            var ReplacementData = prop.Value;
+                            
+                            if (ReplacementData.ReplacementType != null)
+                            {
+                                switch (ReplacementData.ReplacementType.ToString())
+                                {
+                                    case "Replace":
+                                        requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
+                                        break;
+                                    case "RangeInt":
+                                        {
+                                            int min = ReplacementData.Min;
+                                            int max = ReplacementData.Max;
+                                            Random random = new Random();
+                                            int randomint = random.Next(min, max);
+                                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomint.ToString());
+                                            break;
+                                        }
+                                    case "RangeFloat":
+                                        {
+                                            float min = ReplacementData.Min;
+                                            float max = ReplacementData.Max;
+                                            Random random = new Random();
+                                            float randomfloat = (float)random.NextDouble() * (max - min) + min;
+                                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomfloat.ToString());
+                                            break;
+                                        }
+                                    case "StupidFuckingLDAPTimestamp":
+                                        {
+                                            long ldapTimestamp = DateTime.Now.ToFileTime();
+                                            requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ldapTimestamp.ToString());
+                                            break;
+                                        }
+                                }
+                            }
+                        }
+                        
+                        // SECOND: Apply request-specific replacements (works 1:1 with hasDirectReplacements logic)
+                        // Apply EventReplacement (check for both simple and ReplacementType structure)
+                        if (requestData.EventReplacement != null)
+                        {
+                            string target, replacement;
+                            if (requestData.EventReplacement.ReplacementType != null)
+                            {
+                                target = requestData.EventReplacement.Target.ToString();
+                                replacement = requestData.EventReplacement.Replacement.ToString();
+                            }
+                            else
+                            {
+                                target = requestData.EventReplacement.Target.ToString();
+                                replacement = requestData.EventReplacement.Replacement.ToString();
+                            }
+                            requestbody = requestbody.Replace(target, replacement);
+                        }
+                        
+                        // Apply DataReplacement (check for both simple and ReplacementType structure)
+                        if (requestData.DataReplacement != null)
+                        {
+                            string target, replacement;
+                            if (requestData.DataReplacement.ReplacementType != null)
+                            {
+                                target = requestData.DataReplacement.Target.ToString();
+                                replacement = requestData.DataReplacement.Replacement.ToString();
+                            }
+                            else
+                            {
+                                target = requestData.DataReplacement.Target.ToString();
+                                replacement = requestData.DataReplacement.Replacement.ToString();
+                            }
+                            requestbody = requestbody.Replace(target, replacement);
+                        }
+                        
+                        // Apply MetaDataReplacement (check for both simple and ReplacementType structure)
+                        if (requestData.MetaDataReplacement != null)
+                        {
+                            string target, replacement;
+                            if (requestData.MetaDataReplacement.ReplacementType != null)
+                            {
+                                target = requestData.MetaDataReplacement.Target.ToString();
+                                replacement = requestData.MetaDataReplacement.Replacement.ToString();
+                            }
+                            else
+                            {
+                                target = requestData.MetaDataReplacement.Target.ToString();
+                                replacement = requestData.MetaDataReplacement.Replacement.ToString();
+                            }
+                            requestbody = requestbody.Replace(target, replacement);
+                        }
+                        
+                        // Apply common replacements
+                        requestbody = requestbody.Replace("REPLACETIME", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
+                        requestbody = requestbody.Replace("REPLACESEQ", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
+                        requestbody = requestbody.Replace("REPLACEXUID", HomeViewModel.XUIDOnly);
+                        
+                        // Validate and compact JSON before sending
+                        try
+                        {
+                            var settings = new JsonLoadSettings
+                            {
+                                DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Replace
+                            };
+                            requestbody = JObject.Parse(requestbody, settings).ToString(Formatting.None);
+                        }
+                        catch (JsonReaderException ex)
+                        {
+                            _snackbarService.Show("Error: Invalid JSON Template", 
+                                $"Template file has invalid JSON in {requestName}: {ex.Message}", ControlAppearance.Danger,
+                                new SymbolIcon(SymbolRegular.ErrorCircle24), TimeSpan.FromSeconds(5));
+                            return;
+                        }
+                        
+                        var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
+                        
+                        try
+                        {
+                            await _xboxRestAPI.Value.UnlockEventBasedAchievement(EventsToken, bodyconverted);
+                        }
+                        catch
+                        {
+                            _snackbarService.Show("Error: Achievement Not Unlocked",
+                                $"{DGAchievements[AchievementIndex].Name} was not unlocked during {requestName}", ControlAppearance.Danger,
+                                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                            return;
+                        }
+                        
+                        await Task.Delay(1000);
+                    }
                 }
-                catch
+                else if (hasDirectReplacements)
                 {
-                    _snackbarService.Show("Error: Achievement Not Unlocked",
-                        $"{DGAchievements[AchievementIndex].Name} was not unlocked", ControlAppearance.Danger,
-                        new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    // Direct replacement structure (EventReplacement, DataReplacement, MetaDataReplacement at top level)
+                    for (int loopIndex = 0; loopIndex < loopCount; loopIndex++)
+                    {
+                        var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
+                        DateTime timestamp = DateTime.UtcNow;
+                        
+                        // Apply EventReplacement (check for both simple and ReplacementType structure)
+                        if (achievementData.EventReplacement != null)
+                        {
+                            string target, replacement;
+                            if (achievementData.EventReplacement.ReplacementType != null)
+                            {
+                                // New structure: {"ReplacementType": "Replace", "Target": "...", "Replacement": "..."}
+                                target = achievementData.EventReplacement.Target.ToString();
+                                replacement = achievementData.EventReplacement.Replacement.ToString();
+                            }
+                            else
+                            {
+                                // Old structure: {"Target": "...", "Replacement": "..."}
+                                target = achievementData.EventReplacement.Target.ToString();
+                                replacement = achievementData.EventReplacement.Replacement.ToString();
+                            }
+                            requestbody = requestbody.Replace(target, replacement);
+                        }
+                        
+                        // Apply DataReplacement (check for both simple and ReplacementType structure)
+                        if (achievementData.DataReplacement != null)
+                        {
+                            string target, replacement;
+                            if (achievementData.DataReplacement.ReplacementType != null)
+                            {
+                                // New structure: {"ReplacementType": "Replace", "Target": "...", "Replacement": "..."}
+                                target = achievementData.DataReplacement.Target.ToString();
+                                replacement = achievementData.DataReplacement.Replacement.ToString();
+                            }
+                            else
+                            {
+                                // Old structure: {"Target": "...", "Replacement": "..."}
+                                target = achievementData.DataReplacement.Target.ToString();
+                                replacement = achievementData.DataReplacement.Replacement.ToString();
+                            }
+                            requestbody = requestbody.Replace(target, replacement);
+                        }
+                        
+                        // Apply MetaDataReplacement (check for both simple and ReplacementType structure)
+                        if (achievementData.MetaDataReplacement != null)
+                        {
+                            string target, replacement;
+                            if (achievementData.MetaDataReplacement.ReplacementType != null)
+                            {
+                                // New structure: {"ReplacementType": "Replace", "Target": "...", "Replacement": "..."}
+                                target = achievementData.MetaDataReplacement.Target.ToString();
+                                replacement = achievementData.MetaDataReplacement.Replacement.ToString();
+                            }
+                            else
+                            {
+                                // Old structure: {"Target": "...", "Replacement": "..."}
+                                target = achievementData.MetaDataReplacement.Target.ToString();
+                                replacement = achievementData.MetaDataReplacement.Replacement.ToString();
+                            }
+                            requestbody = requestbody.Replace(target, replacement);
+                        }
+                        
+                        // Apply common replacements
+                        requestbody = requestbody.Replace("REPLACETIME", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
+                        requestbody = requestbody.Replace("REPLACESEQ", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
+                        requestbody = requestbody.Replace("REPLACEXUID", HomeViewModel.XUIDOnly);
+                        
+                        // Validate and compact JSON before sending
+                        try
+                        {
+                            var settings = new JsonLoadSettings
+                            {
+                                DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Replace
+                            };
+                            requestbody = JObject.Parse(requestbody, settings).ToString(Formatting.None);
+                        }
+                        catch (JsonReaderException ex)
+                        {
+                            _snackbarService.Show("Error: Invalid JSON Template", 
+                                $"Template file has invalid JSON: {ex.Message}", ControlAppearance.Danger,
+                                new SymbolIcon(SymbolRegular.ErrorCircle24), TimeSpan.FromSeconds(5));
+                            return;
+                        }
+                        
+                        var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
+                        
+                        try
+                        {
+                            await _xboxRestAPI.Value.UnlockEventBasedAchievement(EventsToken, bodyconverted);
+                        }
+                        catch
+                        {
+                            _snackbarService.Show("Error: Achievement Not Unlocked",
+                                $"{DGAchievements[AchievementIndex].Name} was not unlocked", ControlAppearance.Danger,
+                                new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                            return;
+                        }
+                        
+                        await Task.Delay(1000);
+                    }
+                }
+                else
+                {
+                    // Original structure with ReplacementType
+                    var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
+                    DateTime timestamp = DateTime.UtcNow;
+                    foreach (var i in achievementData)
+                    {
+                        string propName = (string)i.Name;
+                        if (propName == "Loop" || propName == "loop")
+                            continue;
+                            
+                        var ReplacementData = i.Value;
+                        switch (ReplacementData.ReplacementType.ToString())
+                        {
+                            case "Replace":
+                                {
+                                    requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
+                                    break;
+                                }
+                            case "RangeInt":
+                                {
+                                    int min = ReplacementData.Min;
+                                    int max = ReplacementData.Max;
+                                    Random random = new Random();
+                                    int randomint = random.Next(min, max);
+                                    requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomint.ToString());
+                                    break;
+                                }
+                            case "RangeFloat":
+                                {
+                                    float min = ReplacementData.Min;
+                                    float max = ReplacementData.Max;
+                                    Random random = new Random();
+                                    float randomfloat = (float)random.NextDouble() * (max - min) + min;
+                                    requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomfloat.ToString());
+                                    break;
+                                }
+                            case "StupidFuckingLDAPTimestamp":
+                                {
+                                    long ldapTimestamp = DateTime.Now.ToFileTime();
+                                    requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ldapTimestamp.ToString());
+                                    break;
+                                }
+                            default:
+                                {
+                                    _snackbarService.Show("Error: Bad Achievement Data", "Something went wrong with the achievement data", ControlAppearance.Danger,
+                                                                                      new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                                    return;
+                                }
+                        }
+                    }
+                    requestbody = requestbody.Replace("REPLACETIME", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
+                    requestbody = requestbody.Replace("REPLACESEQ", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
+                    requestbody = requestbody.Replace("REPLACEXUID", HomeViewModel.XUIDOnly);
+                    
+                    try
+                    {
+                        var settings = new JsonLoadSettings
+                        {
+                            DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Replace
+                        };
+                        requestbody = JObject.Parse(requestbody, settings).ToString(Formatting.None);
+                    }
+                    catch (JsonReaderException ex)
+                    {
+                        _snackbarService.Show("Error: Invalid JSON Template", 
+                            $"Template file has invalid JSON: {ex.Message}", ControlAppearance.Danger,
+                            new SymbolIcon(SymbolRegular.ErrorCircle24), TimeSpan.FromSeconds(5));
+                        return;
+                    }
+                    
+                    var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
+                    try
+                    {
+                        await _xboxRestAPI.Value.UnlockEventBasedAchievement(EventsToken, bodyconverted);
+                    }
+                    catch
+                    {
+                        _snackbarService.Show("Error: Achievement Not Unlocked",
+                            $"{DGAchievements[AchievementIndex].Name} was not unlocked", ControlAppearance.Danger,
+                            new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                        return;
+                    }
                 }
 
+                _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
+                    ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                DGAchievements[AchievementIndex].IsUnlockable = false;
+                DGAchievements[AchievementIndex].ProgressState = "Achieved";
+                DGAchievements[AchievementIndex].DateUnlocked = DateTime.Now;
+                CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             }
 
         }
