@@ -18,6 +18,12 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      - name: Ensure submodules are initialized and at the recorded commit
+        run: |
+          # sync submodule URLs, init and update to the recorded gitlinks
+          git submodule sync --recursive
+          git submodule update --init --recursive --force
+
       - name: Install zip
         run: sudo apt-get install zip
 
