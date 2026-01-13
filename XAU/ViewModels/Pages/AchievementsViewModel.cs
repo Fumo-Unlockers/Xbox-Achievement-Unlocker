@@ -43,6 +43,10 @@ namespace XAU.ViewModels.Pages
         private dynamic EventsData = (dynamic)(new JObject());
         public static string EventsToken;
 
+        //AUTO UNLOCKER
+        public int ReaminingAchivement = 0;
+        public bool AutoAchivementEnable = false;
+
         public AchievementsViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
             _snackbarService = snackbarService;
@@ -113,7 +117,10 @@ namespace XAU.ViewModels.Pages
                 InitializeViewModel();
         }
 
-        public void OnNavigatedFrom() { }
+        public void OnNavigatedFrom() { 
+            if (AutoAchivementEnable == true)
+                AutoAchivementEnable = false;
+        }
 
         private async void InitializeViewModel()
         {
@@ -624,7 +631,69 @@ namespace XAU.ViewModels.Pages
             }
 
         }
+        public bool UpdateRemains()
+        {
+            int BuffRemainAchivement = 0;
 
+
+            foreach (DGAchievement achievement in DGAchievements)
+                if (achievement.ProgressState != StringConstants.Achieved)
+                    BuffRemainAchivement++;
+
+            if (BuffRemainAchivement > 0)
+            {
+                ReaminingAchivement = BuffRemainAchivement;
+                return true;
+            }
+
+            return false;
+        }
+        public bool AutoUnlocker(int TypeOrder)
+        {
+
+            if (TypeOrder == -1 || !IsInitialized)
+                return false;
+
+            
+            bool AchievementFound = false;
+            float BestPercentage = (TypeOrder == 1) ? 100.0f : 0.0f; // Ascending or Descending
+            DGAchievement AchievementSelected = null;
+
+            foreach (DGAchievement achievement in DGAchievements)
+            {
+                if (achievement.ProgressState != StringConstants.Achieved)
+                {
+                    float Percent = achievement.RarityPercentage;
+                    
+
+                    // Initialisation ou comparaison
+                    if ((TypeOrder == 1 && Percent < BestPercentage) ||
+                        (TypeOrder != 1 && Percent > BestPercentage))
+                    {
+                        AchievementFound = true;
+                        BestPercentage = Percent;
+                        AchievementSelected = achievement;
+                    }
+                }
+            }
+
+            
+            if (AchievementFound && AchievementSelected != null)
+            {
+
+                UpdateRemains();
+                ReaminingAchivement--;
+
+                Debug.WriteLine("best achivement:" + AchievementSelected.Name);
+                UnlockAchievement(AchievementSelected.Index);
+                return true;
+            }
+            else
+            {
+                Debug.WriteLine("best achivement: NO FIND");
+                return false;
+            }
+        }
         [RelayCommand]
         public async Task UnlockAll()
         {

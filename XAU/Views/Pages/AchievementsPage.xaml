@@ -137,6 +137,27 @@
                 HorizontalAlignment="Stretch"
                 Command="{Binding ViewModel.RefreshAchievementsCommand}"
             />
+<p:Label x:Name="UAtext" 
+    p:Grid.Column="2"
+    Margin="65,31,0,19"
+    Content="Minute"
+    HorizontalAlignment="Left" p:Grid.Row="1"/>
+<p:Label x:Name="EtaAutoAchivement"
+    p:Grid.Column="2"
+    Margin="131,0,0,0"
+    Content="STOPED"
+    HorizontalAlignment="Left" Height="24" VerticalAlignment="Center" Visibility="Hidden"/>
+<p:ComboBox x:Name="comboBoxUA" p:Grid.Column="2" Margin="16,0,0,0" p:Grid.Row="2" Width="117" HorizontalAlignment="Left" Height="34" Visibility="Hidden"/>
+<p:Label x:Name="MinuteText" 
+    p:Grid.Column="2"
+    Content="Minute"
+    HorizontalAlignment="Left" p:Grid.Row="1" Height="24" VerticalAlignment="Center" Margin="83,0,0,0" Visibility="Hidden"/>
+<p:CheckBox x:Name="EnableAutoUnlocker" Content="Enable Auto" VerticalAlignment="Top" Checked="checkBox_Checked_1" Unchecked="checkBox_Checked_1" IsChecked="False" p:Grid.Column="2" Margin="16,3,0,0" />
+<p:Label x:Name="RemainLabel"
+    p:Grid.Column="2"
+    Margin="131,22,0,0"
+    Content="Remains "
+    HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" p:Grid.RowSpan="2" Visibility="Hidden"/>
         </Grid>
         <DataGrid Grid.Row="1"  
                   VerticalScrollBarVisibility="Visible" 
