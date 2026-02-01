@@ -360,6 +360,8 @@ namespace XAU.ViewModels.Pages
             CheckForEventUpdates();
             CheckForXboxGamesDatabaseUpdate();
             LoadSettings();
+            if (Settings.OAuthLogin)
+                OAuthLogin();
             _isInitialized = true;
             if (Settings.AutoLaunchXboxAppEnabled && Process.GetProcessesByName(ProcessNames.XboxPcApp).Length == 0)
             {
