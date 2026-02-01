@@ -1,6 +1,8 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
 using Memory;
@@ -530,7 +532,8 @@ namespace XAU.ViewModels.Pages
             if (LoginText == "Logout")
             {
                 oauth.Signout();
-                File.Delete(AuthFilePath);
+                try { File.Delete(AuthFilePath); } catch { }
+                ClearProfileState();
                 LoginText = "Login";
                 return;
             }
@@ -539,20 +542,60 @@ namespace XAU.ViewModels.Pages
             //check for previous session auth otherwise do interactive login (should almost certainly make this more secure
             if (File.Exists(AuthFilePath))
             {
-                MicrosoftOAuthResponse response = readSession();
+                MicrosoftOAuthResponse? response = null;
                 try
                 {
-                    response = await oauth.AuthenticateSilently(response?.RefreshToken);
-                    writeSession(response);
-                    _snackbarService.Show("Success", "Logged in with previous session", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                    GenerateTokens(response);
+                    response = readSession();
                 }
                 catch
                 {
-                    _snackbarService.Show("Session invalid", "You are required to log in again as the session has expired", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                    response = await oauth.AuthenticateInteractively();
+                    // auth.json corrupted or invalid format
+                    try { File.Delete(AuthFilePath); } catch { }
+                    _snackbarService.Show("Session invalid", "Saved session could not be read. Please log in again.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
                 }
 
+                // Skip silent auth if no session or token is already expired (avoids confusing "Session invalid" after failed silent auth)
+                if (response != null && (!response.Validate() || string.IsNullOrEmpty(response.RefreshToken)))
+                {
+                    try { File.Delete(AuthFilePath); } catch { }
+                    if (!response.Validate())
+                        _snackbarService.Show("Session expired", "Your saved session has expired. Please log in again.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    response = null;
+                }
+
+                if (response != null)
+                {
+                    try
+                    {
+                        response = await oauth.AuthenticateSilently(response.RefreshToken!);
+                        writeSession(response);
+                        _snackbarService.Show("Success", "Logged in with previous session", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                        GenerateTokens(response);
+                    }
+                    catch
+                    {
+                        _snackbarService.Show("Session invalid", "You are required to log in again as the session has expired", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                        ClearProfileState();
+                        response = await oauth.AuthenticateInteractively();
+                        writeSession(response);
+                        GenerateTokens(response);
+                    }
+                }
+                else
+                {
+                    ClearProfileState();
+                    try
+                    {
+                        response = await oauth.AuthenticateInteractively();
+                        writeSession(response);
+                        _snackbarService.Show("Success", "Logged in", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                        GenerateTokens(response);
+                    }
+                    catch
+                    {
+                        _snackbarService.Show("Error", "Failed to authenticate", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    }
+                }
             }
             else
             {
@@ -584,6 +627,23 @@ namespace XAU.ViewModels.Pages
             try
             {
                 XAUTH = $"XBL3.0 x={sisuResult.AuthorizationToken.XuiClaims.UserHash};{sisuResult.AuthorizationToken.Token}";
+                var xui = sisuResult.AuthorizationToken.XuiClaims;
+                XUIDOnly = xui?.XboxUserId ?? "";
+                if (!string.IsNullOrEmpty(XUIDOnly))
+                {
+                    IsLoggedIn = true;
+                    XAUTHTested = true;
+                    if (Settings.PrivacyMode)
+                    {
+                        GamerTag = "Gamertag: Hidden";
+                        Xuid = "XUID: Hidden";
+                    }
+                    else
+                    {
+                        GamerTag = $"Gamertag: {xui?.Gamertag ?? "Unknown"}";
+                        Xuid = $"XUID: {XUIDOnly}";
+                    }
+                }
             }
             catch
             {
@@ -607,18 +667,66 @@ namespace XAU.ViewModels.Pages
             }
             LoginText = "Logout";
             XauthWorker_ProgressChanged(null, null);
+            if (IsLoggedIn && !GrabbedProfile)
+                GrabProfile();
         }
+        private void ClearProfileState()
+        {
+            IsLoggedIn = false;
+            XAUTHTested = false;
+            GrabbedProfile = false;
+            XAUTH = "";
+            XUIDOnly = "";
+            GamerTag = "Gamertag: Unknown   ";
+            Xuid = "XUID: Unknown";
+            GamerPic = "pack://application:,,,/Assets/cirno.png";
+            GamerScore = "Gamerscore: Unknown";
+            ProfileRep = "Reputation: Unknown";
+            AccountTier = "Tier: Unknown";
+            CurrentlyPlaying = "Currently Playing: Unknown";
+            ActiveDevice = "Active Device: Unknown";
+            IsVerified = "Verified: Unknown";
+            Location = "Location: Unknown";
+            Tenure = "Tenure: Unknown";
+            Following = "Following: Unknown";
+            Followers = "Followers: Unknown";
+            Gamepass = "Gamepass: Unknown";
+            Bio = "Bio: Unknown";
+            Watermarks.Clear();
+            XauthWorker_ProgressChanged(null, null);
+        }
+
+        private static readonly byte[] AuthFileMagic = Encoding.ASCII.GetBytes("XAU1");
+        private static readonly byte[] AuthDpapiEntropy = Encoding.UTF8.GetBytes("XAU-Auth-v1");
+
         private MicrosoftOAuthResponse readSession()
         {
-            var file = File.ReadAllText(AuthFilePath);
-            var response = JsonConvert.DeserializeObject<MicrosoftOAuthResponse>(file);
-
+            var raw = File.ReadAllBytes(AuthFilePath);
+            string json;
+            if (raw.Length >= AuthFileMagic.Length && raw.AsSpan(0, AuthFileMagic.Length).SequenceEqual(AuthFileMagic))
+            {
+                var encrypted = raw.AsSpan(AuthFileMagic.Length).ToArray();
+                var plain = ProtectedData.Unprotect(encrypted, AuthDpapiEntropy, DataProtectionScope.CurrentUser);
+                json = Encoding.UTF8.GetString(plain);
+            }
+            else
+            {
+                json = Encoding.UTF8.GetString(raw);
+            }
+            var response = JsonConvert.DeserializeObject<MicrosoftOAuthResponse>(json);
             return response;
         }
+
         private void writeSession(MicrosoftOAuthResponse response)
         {
             var json = JsonConvert.SerializeObject(response);
-            File.WriteAllText(AuthFilePath, json);
+            var plain = Encoding.UTF8.GetBytes(json);
+            var encrypted = ProtectedData.Protect(plain, AuthDpapiEntropy, DataProtectionScope.CurrentUser);
+            using (var fs = new FileStream(AuthFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                fs.Write(AuthFileMagic, 0, AuthFileMagic.Length);
+                fs.Write(encrypted, 0, encrypted.Length);
+            }
         }
 
         #endregion
