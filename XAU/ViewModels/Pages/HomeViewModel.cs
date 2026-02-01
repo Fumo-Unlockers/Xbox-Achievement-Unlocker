@@ -539,7 +539,7 @@ namespace XAU.ViewModels.Pages
             }
             Settings.OAuthLogin = true;
 
-            //check for previous session auth otherwise do interactive login (should almost certainly make this more secure
+            //check for previous session auth otherwise do interactive login
             if (File.Exists(AuthFilePath))
             {
                 MicrosoftOAuthResponse? response = null;
