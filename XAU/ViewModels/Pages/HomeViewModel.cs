@@ -539,78 +539,76 @@ namespace XAU.ViewModels.Pages
             }
             Settings.OAuthLogin = true;
 
-            //check for previous session auth otherwise do interactive login
-            if (File.Exists(AuthFilePath))
+            // Use saved session if valid; otherwise interactive login
+            MicrosoftOAuthResponse? response = await TryRestoreSessionAsync();
+            if (response == null)
+                response = await TryInteractiveLoginAsync();
+        }
+
+        private void DeleteAuthFile()
+        {
+            try { File.Delete(AuthFilePath); } catch { }
+        }
+
+        private void CompleteLogin(MicrosoftOAuthResponse response, string? successMessage = null)
+        {
+            writeSession(response);
+            if (!string.IsNullOrEmpty(successMessage))
+                _snackbarService.Show("Success", successMessage, ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+            GenerateTokens(response);
+        }
+
+        private async Task<MicrosoftOAuthResponse?> TryRestoreSessionAsync()
+        {
+            if (!File.Exists(AuthFilePath))
+                return null;
+
+            MicrosoftOAuthResponse? response;
+            try
             {
-                MicrosoftOAuthResponse? response = null;
-                try
-                {
-                    response = readSession();
-                }
-                catch
-                {
-                    // auth.json corrupted or invalid format
-                    try { File.Delete(AuthFilePath); } catch { }
-                    _snackbarService.Show("Session invalid", "Saved session could not be read. Please log in again.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                }
-
-                // Skip silent auth if no session or token is already expired (avoids confusing "Session invalid" after failed silent auth)
-                if (response != null && (!response.Validate() || string.IsNullOrEmpty(response.RefreshToken)))
-                {
-                    try { File.Delete(AuthFilePath); } catch { }
-                    if (!response.Validate())
-                        _snackbarService.Show("Session expired", "Your saved session has expired. Please log in again.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                    response = null;
-                }
-
-                if (response != null)
-                {
-                    try
-                    {
-                        response = await oauth.AuthenticateSilently(response.RefreshToken!);
-                        writeSession(response);
-                        _snackbarService.Show("Success", "Logged in with previous session", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                        GenerateTokens(response);
-                    }
-                    catch
-                    {
-                        _snackbarService.Show("Session invalid", "You are required to log in again as the session has expired", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                        ClearProfileState();
-                        response = await oauth.AuthenticateInteractively();
-                        writeSession(response);
-                        GenerateTokens(response);
-                    }
-                }
-                else
-                {
-                    ClearProfileState();
-                    try
-                    {
-                        response = await oauth.AuthenticateInteractively();
-                        writeSession(response);
-                        _snackbarService.Show("Success", "Logged in", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                        GenerateTokens(response);
-                    }
-                    catch
-                    {
-                        _snackbarService.Show("Error", "Failed to authenticate", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                    }
-                }
+                response = readSession();
             }
-            else
+            catch
             {
-                try
-                {
+                DeleteAuthFile();
+                _snackbarService.Show("Session invalid", "Saved session could not be read. Please log in again.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return null;
+            }
 
-                    MicrosoftOAuthResponse response = await oauth.AuthenticateInteractively();
-                    writeSession(response);
-                    _snackbarService.Show("Success", "Logged in", ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                    GenerateTokens(response);
-                }
-                catch
-                {
-                    _snackbarService.Show("Error", "Failed to authenticate", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                }
+            if (response == null || !response.Validate() || string.IsNullOrEmpty(response.RefreshToken))
+            {
+                DeleteAuthFile();
+                if (response != null && !response.Validate())
+                    _snackbarService.Show("Session expired", "Your saved session has expired. Please log in again.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return null;
+            }
+
+            try
+            {
+                response = await oauth.AuthenticateSilently(response.RefreshToken!);
+                CompleteLogin(response, "Logged in with previous session");
+                return response;
+            }
+            catch
+            {
+                _snackbarService.Show("Session invalid", "You are required to log in again as the session has expired", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                ClearProfileState();
+                return await TryInteractiveLoginAsync();
+            }
+        }
+
+        private async Task<MicrosoftOAuthResponse?> TryInteractiveLoginAsync()
+        {
+            try
+            {
+                var response = await oauth.AuthenticateInteractively();
+                CompleteLogin(response, "Logged in");
+                return response;
+            }
+            catch
+            {
+                _snackbarService.Show("Error", "Failed to authenticate", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return null;
             }
         }
 
