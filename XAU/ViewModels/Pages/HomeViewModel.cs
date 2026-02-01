@@ -633,6 +633,7 @@ namespace XAU.ViewModels.Pages
                 {
                     IsLoggedIn = true;
                     XAUTHTested = true;
+                    InitComplete = true;
                     if (Settings.PrivacyMode)
                     {
                         GamerTag = "Gamertag: Hidden";
