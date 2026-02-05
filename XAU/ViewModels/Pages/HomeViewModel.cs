@@ -769,7 +769,7 @@ namespace XAU.ViewModels.Pages
                     // Populate user profile details
                     GamerTag = $"Gamertag: {person?.Gamertag ?? "Unknown"}";
                     Xuid = $"XUID: {person?.Xuid ?? "Unknown"}";
-                    GamerPic = person?.DisplayPicRaw ?? "pack://application:,,,/Assets/default.png";
+                    GamerPic = (person?.DisplayPicRaw?.Replace("&mode=Padding", "")) ?? "pack://application:,,,/Assets/default.png";
                     GamerScore = $"Gamerscore: {person?.GamerScore ?? "Unknown"}";
                     ProfileRep = $"Reputation: {person?.XboxOneRep ?? "Unknown"}";
                     AccountTier = $"Tier: {person?.Detail?.AccountTier ?? "Unknown"}";
