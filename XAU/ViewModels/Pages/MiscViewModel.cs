@@ -350,7 +350,7 @@ namespace XAU.ViewModels.Pages
             GamertagXuid = profileUsers["id"]?.ToString() ?? string.Empty;
             GamertagName = "Gamertag: " + profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "Gamertag")?["value"]?.ToString() ?? "Unknown";
             GamertagScore = "Gamerscore: " + profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "Gamerscore")?["value"]?.ToString() ?? "Unknown";
-            GamertagImage = profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "GameDisplayPicRaw")?["value"]?.ToString() ?? string.Empty;
+            GamertagImage = profileUsers["settings"]?.FirstOrDefault(setting => setting["id"]?.ToString() == "GameDisplayPicRaw")?["value"]?.ToString()?.Replace("&mode=Padding", "") ?? string.Empty;
 
         }
 
