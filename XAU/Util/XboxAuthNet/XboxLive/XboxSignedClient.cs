@@ -53,4 +53,10 @@ public class XboxSignedClient
 
     public Task<XboxSisuResponse> SisuAuth(XboxSisuAuthRequest request) =>
         request.Send(_httpClient, _signer);
+
+    public Task<XboxAuthResponse> RequestXstsToken(XboxXstsRequest request) =>
+        request.Send(_httpClient);
+
+    public Task<XboxAuthResponse> RequestSignedXstsToken(XboxSignedXstsRequest request) =>
+        request.Send(_httpClient, _signer);
 }

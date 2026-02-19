@@ -351,7 +351,16 @@ public class XboxRestAPI
 
         SetDefaultEventBasedHeaders();
         _eventBasedClient.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
-        await _eventBasedClient.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
+        var response = await _eventBasedClient.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
+        var responseBody = await response.Content.ReadAsStringAsync();
+        Console.WriteLine($"[Events] POST {BasicXboxAPIUris.TelemetryUrl} => {(int)response.StatusCode} {response.StatusCode}");
+        Console.WriteLine($"[Events] Response: {responseBody}");
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine($"[Events] Response headers:");
+            foreach (var header in response.Headers)
+                Console.WriteLine($"  {header.Key}: {string.Join(", ", header.Value)}");
+        }
     }
 
     public async Task<GamePassProducts?> GetTitleIdsFromGamePass(string prodId)

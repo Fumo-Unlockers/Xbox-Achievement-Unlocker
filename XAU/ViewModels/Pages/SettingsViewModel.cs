@@ -27,6 +27,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private bool _useAcrylic;
         [ObservableProperty] private bool _privacyMode;
         [ObservableProperty] private bool _oAuthLogin;
+        [ObservableProperty] private bool _autoGrabEventsToken;
         [ObservableProperty] private string _xauth;
 
         [ObservableProperty] private bool _serverEnabled;
@@ -54,7 +55,8 @@ namespace XAU.ViewModels.Pages
                 RegionOverride = RegionOverride,
                 UseAcrylic = UseAcrylic,
                 PrivacyMode = PrivacyMode,
-                OAuthLogin = OAuthLogin
+                OAuthLogin = OAuthLogin,
+                AutoGrabEventsToken = AutoGrabEventsToken
             };
             string settingsJson = JsonConvert.SerializeObject(settings);
             File.WriteAllText(SettingsFilePath, settingsJson);
@@ -175,6 +177,7 @@ namespace XAU.ViewModels.Pages
             PrivacyMode = HomeViewModel.Settings.PrivacyMode;
             Xauth = HomeViewModel.XAUTH;
             OAuthLogin = HomeViewModel.Settings.OAuthLogin;
+            AutoGrabEventsToken = HomeViewModel.Settings.AutoGrabEventsToken;
         }
 
         private string GetAssemblyVersion()
