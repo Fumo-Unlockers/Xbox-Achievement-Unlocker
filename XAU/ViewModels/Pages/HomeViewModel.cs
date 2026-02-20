@@ -558,10 +558,9 @@ namespace XAU.ViewModels.Pages
         private static readonly string EventsLogPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "events_debug.log");
 
-        private static void EventsLog(string msg)
+        public static void EventsLog(string msg)
         {
             var line = $"[{DateTime.Now:HH:mm:ss}] {msg}";
-            Debug.WriteLine($"[EventsToken] {msg}");
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(EventsLogPath)!);

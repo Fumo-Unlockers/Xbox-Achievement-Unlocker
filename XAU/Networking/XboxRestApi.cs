@@ -353,13 +353,13 @@ public class XboxRestAPI
         _eventBasedClient.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
         var response = await _eventBasedClient.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
         var responseBody = await response.Content.ReadAsStringAsync();
-        Console.WriteLine($"[Events] POST {BasicXboxAPIUris.TelemetryUrl} => {(int)response.StatusCode} {response.StatusCode}");
-        Console.WriteLine($"[Events] Response: {responseBody}");
+        HomeViewModel.EventsLog($"POST {BasicXboxAPIUris.TelemetryUrl} => {(int)response.StatusCode} {response.StatusCode}");
+        HomeViewModel.EventsLog($"Response: {responseBody}");
         if (!response.IsSuccessStatusCode)
         {
-            Console.WriteLine($"[Events] Response headers:");
+            HomeViewModel.EventsLog("Response headers:");
             foreach (var header in response.Headers)
-                Console.WriteLine($"  {header.Key}: {string.Join(", ", header.Value)}");
+                HomeViewModel.EventsLog($"  {header.Key}: {string.Join(", ", header.Value)}");
         }
     }
 
