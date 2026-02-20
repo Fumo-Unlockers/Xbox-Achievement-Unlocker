@@ -139,8 +139,16 @@ namespace XAU.Views.Pages
         {
             if (HomeViewModel.IsEventsTokenValid())
             {
-                EventsTokenStatus.Text = "Valid Token";
-                EventsTokenStatus.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Green);
+                if (HomeViewModel.IsEventsTokenExpired())
+                {
+                    EventsTokenStatus.Text = "Expired";
+                    EventsTokenStatus.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Red);
+                }
+                else
+                {
+                    EventsTokenStatus.Text = "Valid Token";
+                    EventsTokenStatus.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Green);
+                }
             }
             else if (!string.IsNullOrEmpty(AchievementsViewModel.EventsToken))
             {
@@ -151,6 +159,40 @@ namespace XAU.Views.Pages
             {
                 EventsTokenStatus.Text = "No Token";
                 EventsTokenStatus.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Red);
+            }
+
+            UpdateEventsTokenTimestamps();
+        }
+
+        private void UpdateEventsTokenTimestamps()
+        {
+            var obtained = HomeViewModel.EventsTokenObtainedAtUtc;
+            var expires = HomeViewModel.EventsTokenExpiresAtUtc;
+
+            if (obtained == DateTime.MinValue || string.IsNullOrEmpty(AchievementsViewModel.EventsToken))
+            {
+                EventsTokenCreated.Text = "N/A";
+                EventsTokenCreated.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Gray);
+                EventsTokenExpires.Text = "N/A";
+                EventsTokenExpires.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Gray);
+                return;
+            }
+
+            EventsTokenCreated.Text = obtained.ToLocalTime().ToString("g");
+            EventsTokenCreated.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+
+            if (expires.HasValue)
+            {
+                var expiresLocal = expires.Value.ToLocalTime();
+                EventsTokenExpires.Text = expiresLocal.ToString("g");
+                EventsTokenExpires.Foreground = expires.Value < DateTime.UtcNow
+                    ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Red)
+                    : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.White);
+            }
+            else
+            {
+                EventsTokenExpires.Text = "N/A";
+                EventsTokenExpires.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Gray);
             }
         }
 

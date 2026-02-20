@@ -278,7 +278,7 @@
                     </Grid>
                 </ui:Anchor>
                 <ui:Anchor
-                    Margin="-16,0,-16,-16"
+                    Margin="-16,0,-16,0"
                     Padding="16"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -293,11 +293,33 @@
                         <ui:Button Grid.Column="0" x:Name="GrabEventsTokenButton" Content="Manually Refresh Token" Click="GrabEventsToken_OnClick" />
                         <TextBlock Grid.Column="1" />
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="Auto Refresh (~23 hours)" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <TextBlock Text="Auto Refresh" VerticalAlignment="Center" Margin="0,0,8,0" />
                             <ui:ToggleSwitch
                                 Command="{Binding ViewModel.SaveSettingsCommand}"
                                 IsChecked="{Binding ViewModel.AutoGrabEventsToken, Mode=TwoWay}" />
                         </StackPanel>
+                    </Grid>
+                </ui:Anchor>
+                <ui:Anchor
+                    Margin="-16,0,-16,-16"
+                    Padding="16"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="Transparent"
+                    BorderThickness="0,1,0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Created: " VerticalAlignment="Center" />
+                        <ui:TextBlock Grid.Column="1" x:Name="EventsTokenCreated" Text="N/A" VerticalAlignment="Center" Margin="0,0,24,0" />
+                        <TextBlock Grid.Column="2" />
+                        <TextBlock Grid.Column="3" Text="Expires: " VerticalAlignment="Center" />
+                        <ui:TextBlock Grid.Column="4" x:Name="EventsTokenExpires" Text="N/A" VerticalAlignment="Center" />
                     </Grid>
                 </ui:Anchor>
             </StackPanel>

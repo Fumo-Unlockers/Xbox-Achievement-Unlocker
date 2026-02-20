@@ -528,13 +528,20 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                if (EventsToken == null)
+                if (EventsToken == null || HomeViewModel.IsEventsTokenExpired())
                 {
+                    var title = EventsToken == null
+                        ? "Error: You have not set an events token"
+                        : "Error: Your events token has expired";
+                    var content = EventsToken == null
+                        ? "To unlock event based games you must supply an events token. Please refer to the guide for more information.\nPressing the \"Open Guide\" button will open the documentation and guide in your default browser."
+                        : "Your events token has expired and needs to be refreshed. Go to Settings to manually refresh or enable auto-refresh.\nPressing the \"Open Guide\" button will open the documentation and guide in your default browser.";
+
                     ContentDialogResult result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
                         {
-                            Title = "Error: You have not set an events token",
-                            Content = "To unlock event based games you must supply an events token. Please refer to the guide for more information.\nPressing the \"Open Guide\" button will open the documentation and guide in your default browser.",
+                            Title = title,
+                            Content = content,
                             PrimaryButtonText = "Open Guide",
                             CloseButtonText = "Close",
                         });

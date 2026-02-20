@@ -799,6 +799,29 @@ namespace XAU.ViewModels.Pages
                 && token.StartsWith("x:XBL3.0 x=")
                 && token.Length > 30;
         }
+
+        /// <summary>
+        /// Returns whether the current events token has exceeded its max age.
+        /// </summary>
+        public static bool IsEventsTokenExpired()
+        {
+            if (_eventsTokenObtainedAt == DateTime.MinValue)
+                return false; // no timestamp means we can't determine expiry
+            return (DateTime.UtcNow - _eventsTokenObtainedAt) > EventsTokenMaxAge;
+        }
+
+        /// <summary>
+        /// The UTC time the current events token was obtained.
+        /// </summary>
+        public static DateTime EventsTokenObtainedAtUtc => _eventsTokenObtainedAt;
+
+        /// <summary>
+        /// The UTC time the current events token is expected to expire.
+        /// </summary>
+        public static DateTime? EventsTokenExpiresAtUtc =>
+            _eventsTokenObtainedAt == DateTime.MinValue
+                ? null
+                : _eventsTokenObtainedAt + EventsTokenMaxAge;
         #endregion
 
         #region OAuthLogin
