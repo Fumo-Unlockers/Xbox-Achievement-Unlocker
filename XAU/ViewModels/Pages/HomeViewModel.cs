@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using System.Text;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
@@ -82,13 +82,22 @@ namespace XAU.ViewModels.Pages
         private readonly IContentDialogService _contentDialogService;
 
         private const string XAuthScanPattern = "58 42 4C 33 2E 30 20 78 3D";
-        // "x:XBL3.0 x=" - events-specific token prefix used in the tickets header
-        private const string EventsTokenScanPattern = "78 3A 58 42 4C 33 2E 30 20 78 3D";
-        // UTF-16LE versions for scanning managed (.NET/WinRT) strings
-        // "XBL3.0 x=" in UTF-16LE: each ASCII char followed by 0x00
-        private const string XAuthScanPatternW = "58 00 42 00 4C 00 33 00 2E 00 30 00 20 00 78 00 3D 00";
-        // "x:XBL3.0 x=" in UTF-16LE
-        private const string EventsTokenScanPatternW = "78 00 3A 00 58 00 42 00 4C 00 33 00 2E 00 30 00 20 00 78 00 3D 00";
+
+        // ETW network capture settings
+        private static readonly string EtwSessionName = "XAU_EventsTokenCapture";
+        private static readonly string EtwTempDir = Path.Combine(Path.GetTempPath(), "XAU_ETW");
+        private static readonly string EtwEtlPath = Path.Combine(EtwTempDir, "capture.etl");
+
+        // Regex patterns for extracting tokens from ETL binary data
+        private static readonly Regex TicketHeaderRegex = new Regex(
+            @"""(\d{5,12})""\s*=\s*""(x:XBL3\.0 x=[^""]{100,})""",
+            RegexOptions.Compiled);
+        private static readonly Regex BareTokenRegex = new Regex(
+            @"x:XBL3\.0 x=[\w;+/=\-\.]{100,}",
+            RegexOptions.Compiled);
+        private static readonly Regex OneCollectorUrlRegex = new Regex(
+            @"v20\.events\.data\.microsoft\.com|OneCollector",
+            RegexOptions.Compiled);
 
         [RelayCommand]
         private void RefreshProfile()
@@ -97,7 +106,6 @@ namespace XAU.ViewModels.Pages
         }
 
         Mem m = new Mem();
-        Mem eventsMem = new Mem();
         public BackgroundWorker XauthWorker = new BackgroundWorker();
         public BackgroundWorker EventsTokenWorker = new BackgroundWorker();
         bool IsAttached = false;
@@ -625,18 +633,20 @@ namespace XAU.ViewModels.Pages
                     else
                         EventsLog("Token missing/invalid, refreshing...");
 
-                    // DiagTrack memory scan for GRTS tokens
-                    var diagToken = ScanDiagTrackForToken();
-                    if (!string.IsNullOrEmpty(diagToken))
+                    // Keep capturing until we get a token or settings change
+                    while (Settings.AutoGrabEventsToken && IsLoggedIn)
                     {
-                        AchievementsViewModel.EventsToken = diagToken;
-                        _eventsTokenObtainedAt = DateTime.UtcNow;
-                        PersistEventsToken();
-                        EventsLog("DiagTrack scan success.");
-                    }
-                    else
-                    {
-                        EventsLog("DiagTrack scan found no token.");
+                        var token = CaptureEventsTokenViaEtw(20);
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            AchievementsViewModel.EventsToken = token;
+                            _eventsTokenObtainedAt = DateTime.UtcNow;
+                            PersistEventsToken();
+                            EventsLog("ETW capture success.");
+                            break;
+                        }
+                        EventsLog("ETW capture found no token, retrying in 5s...");
+                        Thread.Sleep(5000);
                     }
                 }
 
@@ -646,13 +656,25 @@ namespace XAU.ViewModels.Pages
         }
 
         /// <summary>
-        /// Launches Solitaire (if needed), scans its memory for the events token,
-        /// and closes it again if we launched it.
+        /// Launches Solitaire (if needed), then continuously captures ETW network traffic
+        /// and scans for the events token until one is found or Solitaire exits.
         /// </summary>
         private void GrabEventsTokenFromSolitaire()
         {
             bool alreadyRunning = Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0;
             EventsLog($"Solitaire already running: {alreadyRunning}");
+
+            // Start ETW capture FIRST — the token is sent in the initial telemetry burst
+            // when Solitaire contacts Xbox Live, which happens within seconds of launch.
+            EventsLog("Starting ETW before Solitaire launch...");
+            EtwCleanup();
+            string method = EtwStart();
+            if (method == null)
+            {
+                EventsLog("Failed to start ETW trace (not running as admin?)");
+                return;
+            }
+            EventsLog($"ETW started via {method}");
 
             if (!alreadyRunning)
             {
@@ -671,6 +693,8 @@ namespace XAU.ViewModels.Pages
                 catch (Exception ex)
                 {
                     EventsLog($"Failed to launch Solitaire: {ex.Message}");
+                    EtwStop(method);
+                    EtwCleanupFiles();
                     return;
                 }
 
@@ -689,55 +713,57 @@ namespace XAU.ViewModels.Pages
                 {
                     EventsLog("Solitaire never appeared after 15s");
                     solitaireLaunchedByUs = false;
+                    EtwStop(method);
+                    EtwCleanupFiles();
                     return;
                 }
             }
 
-            // Give Xbox Live services time to initialise and fire initial telemetry events.
-            // The events XSTS token only appears in memory after the game actually sends events,
-            // which can take 20-40s after launch (Xbox Live init + first telemetry batch).
-            EventsLog("Waiting 20s for Xbox Live init + initial events...");
-            Thread.Sleep(20000);
+            // Wait for Xbox Live init + initial telemetry burst (token is sent here)
+            EventsLog("Waiting 25s for Xbox Live init + telemetry events...");
+            Thread.Sleep(25000);
 
-            // Retry the scan over ~2 minutes - events may not fire immediately
-            const int maxAttempts = 18;
-            for (int attempt = 0; attempt < maxAttempts; attempt++)
+            // Stop first capture and try to extract
+            EtwStop(method);
+            Thread.Sleep(2000);
+
+            string token = EtwExtractTokens();
+            EtwCleanupFiles();
+
+            if (!string.IsNullOrEmpty(token))
             {
-                EventsLog($"Scan attempt {attempt + 1}/{maxAttempts}");
-
-                if (!string.IsNullOrEmpty(AchievementsViewModel.EventsToken))
-                {
-                    EventsLog("Token already set externally, done");
-                    eventsTokenFound = true;
-                    break;
-                }
-
-                string token = ScanDiagTrackForToken();
-                if (!string.IsNullOrEmpty(token))
-                {
-                    EventsLog("DiagTrack token found.");
-                    AchievementsViewModel.EventsToken = token;
-                    _eventsTokenObtainedAt = DateTime.UtcNow;
-                    eventsTokenFound = true;
-                    break;
-                }
-
-                token = ScanSolitaireForToken();
-                if (!string.IsNullOrEmpty(token))
-                {
-                    EventsLog("Solitaire token found.");
-                    AchievementsViewModel.EventsToken = token;
-                    _eventsTokenObtainedAt = DateTime.UtcNow;
-                    eventsTokenFound = true;
-                    break;
-                }
-
-                EventsLog("No token found, retrying in 7s...");
-                Thread.Sleep(7000);
+                EventsLog($"ETW capture success on initial capture, len={token.Length}");
+                AchievementsViewModel.EventsToken = token;
+                _eventsTokenObtainedAt = DateTime.UtcNow;
+                eventsTokenFound = true;
             }
+            else
+            {
+                // Loop: keep capturing while Solitaire is running
+                EventsLog("Initial capture found nothing, entering continuous scan loop...");
+                int attempt = 0;
+                while (!eventsTokenFound && Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0)
+                {
+                    attempt++;
+                    EventsLog($"Capture attempt {attempt}...");
 
-            if (!eventsTokenFound)
-                EventsLog("All scan attempts failed (scanned for ~2.5 minutes)");
+                    token = CaptureEventsTokenViaEtw(20);
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        EventsLog($"ETW capture success on attempt {attempt}, len={token.Length}");
+                        AchievementsViewModel.EventsToken = token;
+                        _eventsTokenObtainedAt = DateTime.UtcNow;
+                        eventsTokenFound = true;
+                        break;
+                    }
+
+                    // Brief pause before next capture
+                    Thread.Sleep(3000);
+                }
+
+                if (!eventsTokenFound)
+                    EventsLog("Solitaire exited before token was found");
+            }
 
             // Close Solitaire if we launched it
             if (solitaireLaunchedByUs)
@@ -752,86 +778,7 @@ namespace XAU.ViewModels.Pages
             }
         }
 
-        private string ScanSolitaireForToken()
-        {
-            var procs = Process.GetProcessesByName(ProcessNames.Solitaire);
-            if (procs.Length == 0)
-            {
-                EventsLog("ScanSolitaire: no Solitaire process found");
-                return null;
-            }
-
-            int pid = procs[0].Id;
-            EventsLog($"ScanSolitaire: found PID {pid}");
-
-            try
-            {
-                if (!eventsMem.OpenProcess(pid, out string failReason))
-                {
-                    EventsLog($"ScanSolitaire: OpenProcess failed: {failReason}");
-                    return null;
-                }
-
-                // UTF-16 scan for "XBL3.0 x=" with events RP filtering
-                var resultsW = eventsMem.AoBScan(0, long.MaxValue, XAuthScanPatternW, true, true, true, false).Result;
-                EventsLog($"ScanSolitaire: UTF-16 found {resultsW.Count()} matches");
-                if (resultsW.Any())
-                {
-                    string token = FindFallbackEventsToken(resultsW, Encoding.Unicode);
-                    if (token != null)
-                        return "x:" + token;
-                }
-
-                // ASCII scan for "XBL3.0 x=" with events RP filtering
-                var results = eventsMem.AoBScan(0, long.MaxValue, XAuthScanPattern, true, true, true, false).Result;
-                EventsLog($"ScanSolitaire: ASCII found {results.Count()} matches");
-                if (results.Any())
-                {
-                    string token = FindFallbackEventsToken(results, Encoding.UTF8);
-                    if (token != null)
-                        return "x:" + token;
-                }
-            }
-            catch (Exception ex)
-            {
-                EventsLog($"ScanSolitaire: exception: {ex.Message}");
-            }
-
-            return null;
-        }
-
-        private string FindFallbackEventsToken(IEnumerable<long> addresses, Encoding encoding)
-        {
-            var frequency = new Dictionary<string, int>();
-            foreach (var address in addresses)
-            {
-                string raw = eventsMem.ReadString(address.ToString("X"), length: 10000, stringEncoding: encoding);
-                if (string.IsNullOrEmpty(raw) || !raw.StartsWith("XBL3.0"))
-                    continue;
-
-                string str = raw;
-                int quoteIdx = str.IndexOf('"');
-                if (quoteIdx > 0)
-                    str = str.Substring(0, quoteIdx);
-
-                if (str.Length < 100 || !IsEventsRpToken(str))
-                    continue;
-
-                if (!frequency.ContainsKey(str))
-                    frequency[str] = 1;
-                else
-                    frequency[str]++;
-            }
-
-            if (frequency.Count == 0)
-                return null;
-
-            var best = frequency.OrderByDescending(p => p.Value).First();
-            EventsLog($"FindFallbackEventsToken: found {frequency.Count} candidate(s), best count={best.Value}");
-            return best.Key;
-        }
-
-        #region DiagTrack Scanning
+        #region ETW Token Capture
 
         // Events RP x5t — used to distinguish events tokens from XAUTH tokens.
         // This is the certificate thumbprint for events.xboxlive.com; it appears
@@ -872,195 +819,344 @@ namespace XAU.ViewModels.Pages
             }
         }
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern bool OpenProcessToken(IntPtr ProcessHandle, uint DesiredAccess, out IntPtr TokenHandle);
-
-        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        private static extern bool LookupPrivilegeValue(string lpSystemName, string lpName, out long lpLuid);
-
-        [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern bool AdjustTokenPrivileges(IntPtr TokenHandle, bool DisableAll, ref TOKEN_PRIVILEGES NewState, int BufferLength, IntPtr PreviousState, IntPtr ReturnLength);
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct TOKEN_PRIVILEGES
-        {
-            public uint PrivilegeCount;
-            public long Luid;
-            public uint Attributes;
-        }
-
-        private static bool EnableSeDebugPrivilege()
+        private static (int exitCode, string stdout, string stderr) RunShellCommand(string fileName, string args, int timeoutMs = 30000)
         {
             try
             {
-                if (!OpenProcessToken(Process.GetCurrentProcess().Handle, 0x0028, out IntPtr tokenHandle))
-                    return false;
-                if (!LookupPrivilegeValue(null, "SeDebugPrivilege", out long luid))
-                    return false;
-                var tp = new TOKEN_PRIVILEGES { PrivilegeCount = 1, Luid = luid, Attributes = 0x00000002 };
-                return AdjustTokenPrivileges(tokenHandle, false, ref tp, 0, IntPtr.Zero, IntPtr.Zero);
-            }
-            catch { return false; }
-        }
-
-        /// <summary>
-        /// Finds the PID of the svchost process hosting the DiagTrack (Connected User Experiences and Telemetry) service.
-        /// DiagTrack is the service that sends telemetry events to OneCollector and holds the GRTS events tokens in memory.
-        /// </summary>
-        private static int GetDiagTrackPid()
-        {
-            try
-            {
-                using var searcher = new System.Management.ManagementObjectSearcher(
-                    "SELECT ProcessId FROM Win32_Service WHERE Name = 'DiagTrack'");
-                foreach (var obj in searcher.Get())
+                var psi = new ProcessStartInfo
                 {
-                    var pid = Convert.ToInt32(obj["ProcessId"]);
-                    if (pid > 0) return pid;
-                }
+                    FileName = fileName,
+                    Arguments = args,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                };
+                using var proc = Process.Start(psi);
+                string stdout = proc.StandardOutput.ReadToEnd();
+                string stderr = proc.StandardError.ReadToEnd();
+                proc.WaitForExit(timeoutMs);
+                return (proc.ExitCode, stdout, stderr);
             }
             catch (Exception ex)
             {
-                EventsLog($"GetDiagTrackPid WMI error: {ex.Message}");
+                return (-1, "", ex.Message);
             }
-            return 0;
         }
 
-        /// <summary>
-        /// Scans the DiagTrack svchost process memory for GRTS events tokens.
-        /// The DiagTrack service holds fully formatted "x:XBL3.0 x={hash};{JWE}" tokens in memory.
-        /// We filter by the events RP certificate thumbprint (x5t) to distinguish from XAUTH tokens.
-        /// Requires admin privileges (SeDebugPrivilege) since DiagTrack runs as SYSTEM.
-        /// </summary>
-        private string ScanDiagTrackForToken()
+        private static void EtwCleanup()
         {
-            int pid = GetDiagTrackPid();
-            if (pid == 0)
-            {
-                EventsLog("ScanDiagTrack: DiagTrack service not found or not running");
-                return null;
-            }
-            EventsLog($"ScanDiagTrack: DiagTrack PID={pid}");
+            try { RunShellCommand("netsh", "trace stop", 15000); } catch { }
+            try { RunShellCommand("logman", $"stop {EtwSessionName} -ets", 10000); } catch { }
+        }
 
-            if (!EnableSeDebugPrivilege())
-            {
-                EventsLog("ScanDiagTrack: Failed to enable SeDebugPrivilege (not running as admin?)");
-                return null;
-            }
+        private string EtwStart()
+        {
+            Directory.CreateDirectory(EtwTempDir);
 
-            Mem diagMem = new Mem();
-            try
-            {
-                if (!diagMem.OpenProcess(pid, out string failReason))
-                {
-                    EventsLog($"ScanDiagTrack: OpenProcess failed: {failReason}");
-                    return null;
-                }
+            // Try netsh trace (captures most HTTP traffic including WinHTTP)
+            var (code, stdout, stderr) = RunShellCommand("netsh",
+                $"trace start scenario=InternetClient_dbg capture=no tracefile=\"{EtwEtlPath}\" maxsize=256 overwrite=yes report=disabled",
+                15000);
+            EventsLog($"netsh trace start: exit={code}, stdout={stdout.Trim()}, stderr={stderr.Trim()}");
+            if (code == 0)
+                return "netsh";
 
-                // UTF-16 "x:XBL3.0 x=" (most common in DiagTrack memory)
-                var resultsW = diagMem.AoBScan(0, long.MaxValue, EventsTokenScanPatternW, true, true, true, false).Result;
-                string eventsToken = FindEventsRpToken(diagMem, resultsW, Encoding.Unicode);
-                if (eventsToken != null) return eventsToken;
+            // Try logman with WinHttp provider
+            (code, stdout, stderr) = RunShellCommand("logman",
+                $"start {EtwSessionName} -p Microsoft-Windows-WinHttp 0xFFFFFFFF 0xFF -o \"{EtwEtlPath}\" -ets",
+                10000);
+            EventsLog($"logman WinHttp: exit={code}, stdout={stdout.Trim()}, stderr={stderr.Trim()}");
+            if (code == 0)
+                return "logman-winhttp";
 
-                // ASCII "x:XBL3.0 x="
-                var results = diagMem.AoBScan(0, long.MaxValue, EventsTokenScanPattern, true, true, true, false).Result;
-                eventsToken = FindEventsRpToken(diagMem, results, Encoding.UTF8);
-                if (eventsToken != null) return eventsToken;
+            // Try logman with WinINet provider
+            (code, stdout, stderr) = RunShellCommand("logman",
+                $"start {EtwSessionName} -p Microsoft-Windows-WinINet 0xFFFFFFFF 0xFF -o \"{EtwEtlPath}\" -ets",
+                10000);
+            EventsLog($"logman WinINet: exit={code}, stdout={stdout.Trim()}, stderr={stderr.Trim()}");
+            if (code == 0)
+                return "logman-wininet";
 
-                // Broad: "XBL3.0 x=" UTF-16
-                var broadW = diagMem.AoBScan(0, long.MaxValue, XAuthScanPatternW, true, true, true, false).Result;
-                eventsToken = FindEventsRpTokenBroad(diagMem, broadW, Encoding.Unicode);
-                if (eventsToken != null) return eventsToken;
-
-                // Broad: "XBL3.0 x=" ASCII
-                var broadA = diagMem.AoBScan(0, long.MaxValue, XAuthScanPattern, true, true, true, false).Result;
-                eventsToken = FindEventsRpTokenBroad(diagMem, broadA, Encoding.UTF8);
-                if (eventsToken != null) return eventsToken;
-
-                EventsLog("ScanDiagTrack: no token found");
-            }
-            catch (Exception ex)
-            {
-                EventsLog($"ScanDiagTrack: exception: {ex.Message}");
-            }
+            EventsLog("All ETW start methods failed");
             return null;
         }
 
-        /// <summary>
-        /// Filters scanned tokens to find one encrypted for the events RP (x5t starts with "9wLGzMJDNz").
-        /// This distinguishes real GRTS events tokens from XAUTH tokens which have a different x5t.
-        /// </summary>
-        private string FindEventsRpToken(Mem mem, IEnumerable<long> addresses, Encoding encoding)
+        private void EtwStop(string method)
         {
-            var candidates = new Dictionary<string, int>();
-            foreach (var address in addresses)
+            if (method == "netsh")
             {
-                string raw = mem.ReadString(address.ToString("X"), length: 8000, stringEncoding: encoding);
-                if (string.IsNullOrEmpty(raw) || !raw.StartsWith("x:XBL3.0"))
-                    continue;
-
-                string token = raw;
-                int quoteIdx = token.IndexOf('"');
-                if (quoteIdx > 0)
-                    token = token.Substring(0, quoteIdx);
-
-                if (token.Length < 100 || !IsEventsRpToken(token))
-                    continue;
-
-                if (!candidates.ContainsKey(token))
-                    candidates[token] = 1;
-                else
-                    candidates[token]++;
+                var (code, _, _) = RunShellCommand("netsh", "trace stop", 30000);
+                EventsLog($"netsh trace stop: exit={code}");
             }
-
-            if (candidates.Count == 0)
-                return null;
-
-            foreach (var c in candidates.OrderByDescending(p => p.Value))
+            else if (method != null)
             {
-                int semi = c.Key.IndexOf(';');
-                string hash = semi > 0 ? c.Key.Substring(c.Key.IndexOf("x=") + 2, semi - c.Key.IndexOf("x=") - 2) : "?";
-                EventsLog($"FindEventsRpToken: candidate hash={hash}, len={c.Key.Length}, count={c.Value}");
+                var (code, _, _) = RunShellCommand("logman", $"stop {EtwSessionName} -ets", 15000);
+                EventsLog($"logman stop: exit={code}");
             }
-
-            var best = candidates.OrderByDescending(p => p.Value).First();
-            return best.Key;
         }
 
-        /// <summary>
-        /// Like FindEventsRpToken but for broader "XBL3.0 x=" matches (without x: prefix).
-        /// Prepends "x:" to form the full events token format.
-        /// </summary>
-        private string FindEventsRpTokenBroad(Mem mem, IEnumerable<long> addresses, Encoding encoding)
+        private string CaptureEventsTokenViaEtw(int captureSeconds)
         {
-            var candidates = new Dictionary<string, int>();
-            foreach (var address in addresses)
+            EventsLog($"Starting ETW capture for {captureSeconds}s...");
+
+            EtwCleanup();
+
+            string method = EtwStart();
+            if (method == null)
             {
-                string raw = mem.ReadString(address.ToString("X"), length: 8000, stringEncoding: encoding);
-                if (string.IsNullOrEmpty(raw) || !raw.StartsWith("XBL3.0"))
-                    continue;
+                EventsLog("Failed to start ETW trace (not running as admin?)");
+                return null;
+            }
+            EventsLog($"ETW started via {method}");
 
-                string token = raw;
-                int quoteIdx = token.IndexOf('"');
-                if (quoteIdx > 0)
-                    token = token.Substring(0, quoteIdx);
+            Thread.Sleep(captureSeconds * 1000);
 
-                if (token.Length < 100 || !IsEventsRpToken(token))
-                    continue;
+            EtwStop(method);
 
-                token = "x:" + token;
-                if (!candidates.ContainsKey(token))
-                    candidates[token] = 1;
-                else
-                    candidates[token]++;
+            // Give it a moment to flush
+            Thread.Sleep(2000);
+
+            string token = EtwExtractTokens();
+
+            EtwCleanupFiles();
+
+            return token;
+        }
+
+        private string EtwExtractTokens()
+        {
+            if (!File.Exists(EtwEtlPath))
+            {
+                EventsLog("ETL file not found");
+                return null;
             }
 
-            if (candidates.Count == 0)
-                return null;
+            var fileSize = new FileInfo(EtwEtlPath).Length;
+            EventsLog($"ETL file size: {fileSize / 1024}KB");
 
-            var best = candidates.OrderByDescending(p => p.Value).First();
-            EventsLog($"FindEventsRpTokenBroad: found {candidates.Count} candidate(s), best count={best.Value}");
-            return best.Key;
+            const int chunkSize = 64 * 1024 * 1024; // 64MB
+            const int overlap = 8 * 1024; // 8KB overlap
+            var candidates = new List<(string token, int score)>();
+
+            int totalXblHits = 0;
+
+            using (var fs = new FileStream(EtwEtlPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                byte[] buffer = new byte[chunkSize + overlap];
+                long position = 0;
+                int chunkNum = 0;
+
+                while (position < fs.Length)
+                {
+                    fs.Position = position;
+                    int bytesRead = fs.Read(buffer, 0, buffer.Length);
+                    if (bytesRead == 0) break;
+
+                    // Work directly from buffer (avoid extra copy)
+                    string ascii = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+
+                    // Diagnostic: count raw "XBL3.0" occurrences
+                    int xblCount = 0;
+                    int searchIdx = 0;
+                    while ((searchIdx = ascii.IndexOf("XBL3.0", searchIdx, StringComparison.Ordinal)) >= 0)
+                    {
+                        xblCount++;
+                        searchIdx += 6;
+                    }
+                    totalXblHits += xblCount;
+                    EventsLog($"Chunk {chunkNum}: {bytesRead / 1024}KB, XBL3.0 hits={xblCount}, regex searching...");
+
+                    SearchForTokens(ascii, candidates);
+
+                    // UTF-16 → strip null bytes to get ASCII
+                    string stripped = StripNullBytes(buffer, bytesRead);
+                    SearchForTokens(stripped, candidates);
+
+                    EventsLog($"Chunk {chunkNum}: candidates so far={candidates.Count}");
+
+                    position += chunkSize;
+                    chunkNum++;
+                }
+            }
+
+            EventsLog($"Total XBL3.0 hits across all chunks: {totalXblHits}");
+
+            if (candidates.Count == 0)
+            {
+                EventsLog($"No regex candidates found (XBL3.0 hits={totalXblHits}). Trying IndexOf fallback...");
+
+                // Fallback: re-read and use IndexOf to extract tokens directly
+                if (totalXblHits > 0)
+                {
+                    using var fs2 = new FileStream(EtwEtlPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    byte[] allBytes = new byte[fs2.Length];
+                    fs2.Read(allBytes, 0, allBytes.Length);
+                    string stripped = StripNullBytes(allBytes, allBytes.Length);
+
+                    string marker = "x:XBL3.0 x=";
+                    int idx = 0;
+                    int found = 0;
+                    while ((idx = stripped.IndexOf(marker, idx, StringComparison.Ordinal)) >= 0)
+                    {
+                        // Extract up to 4000 chars from this position
+                        int maxLen = Math.Min(4000, stripped.Length - idx);
+                        string raw = stripped.Substring(idx, maxLen);
+                        string token = CleanToken(raw);
+                        if (token != null)
+                        {
+                            int score = ScoreCandidate(stripped, idx, token, null);
+                            candidates.Add((token, score));
+                            found++;
+                            EventsLog($"IndexOf fallback found token: len={token.Length}, score={score}");
+                        }
+                        else
+                        {
+                            // Log why CleanToken rejected it
+                            int endSnip = Math.Min(80, raw.Length);
+                            EventsLog($"IndexOf hit rejected by CleanToken at pos={idx}, start: {raw.Substring(0, endSnip)}");
+                        }
+                        idx += marker.Length;
+                    }
+                    EventsLog($"IndexOf fallback: {found} tokens from {totalXblHits} XBL3.0 hits");
+                }
+
+                if (candidates.Count == 0)
+                {
+                    EventsLog("No token candidates found in ETL");
+                    return null;
+                }
+            }
+
+            // Sort by score descending
+            candidates.Sort((a, b) => b.score.CompareTo(a.score));
+
+            EventsLog($"Found {candidates.Count} candidate(s):");
+            foreach (var (token, score) in candidates.Take(5))
+            {
+                int semi = token.IndexOf(';');
+                string hash = semi > 0 ? token.Substring(token.IndexOf("x=") + 2, semi - token.IndexOf("x=") - 2) : "?";
+                EventsLog($"  score={score}, len={token.Length}, hash={hash}");
+            }
+
+            // Validate the best candidates
+            foreach (var (token, score) in candidates)
+            {
+                if (IsEventsRpToken(token))
+                {
+                    EventsLog($"Candidate validated (x5t check passed), score={score}, len={token.Length}");
+                    return token;
+                }
+            }
+
+            EventsLog("No candidate passed x5t validation");
+            return null;
+        }
+
+        private void SearchForTokens(string text, List<(string token, int score)> candidates)
+        {
+            // Search with ticket header pattern (has title ID context)
+            foreach (Match match in TicketHeaderRegex.Matches(text))
+            {
+                string titleId = match.Groups[1].Value;
+                string token = CleanToken(match.Groups[2].Value);
+                if (token == null) continue;
+
+                int score = ScoreCandidate(text, match.Index, token, titleId);
+                candidates.Add((token, score));
+            }
+
+            // Search with bare token pattern
+            foreach (Match match in BareTokenRegex.Matches(text))
+            {
+                string token = CleanToken(match.Value);
+                if (token == null) continue;
+
+                // Skip if already found via ticket header
+                if (candidates.Any(c => c.token == token)) continue;
+
+                int score = ScoreCandidate(text, match.Index, token, null);
+                candidates.Add((token, score));
+            }
+        }
+
+        private static string CleanToken(string raw)
+        {
+            if (string.IsNullOrEmpty(raw)) return null;
+
+            // Trim at first non-token character
+            int end = raw.Length;
+            for (int i = 0; i < raw.Length; i++)
+            {
+                char c = raw[i];
+                if (c < 0x20 || c > 0x7E || c == '"' || c == '\'' || c == '<' || c == '>' || c == '{' || c == '}')
+                {
+                    end = i;
+                    break;
+                }
+            }
+
+            string token = raw.Substring(0, end).TrimEnd();
+            if (!token.StartsWith("x:XBL3.0 x=")) return null;
+            if (token.Length < 100) return null;
+            if (!token.Contains(';')) return null;
+
+            return token;
+        }
+
+        private int ScoreCandidate(string text, int matchIndex, string token, string titleId)
+        {
+            int score = 0;
+
+            // OneCollector URL proximity (+5000)
+            int searchStart = Math.Max(0, matchIndex - 2000);
+            int searchLen = Math.Min(4000, text.Length - searchStart);
+            string vicinity = text.Substring(searchStart, searchLen);
+            if (OneCollectorUrlRegex.IsMatch(vicinity))
+                score += 5000;
+
+            // Has ticket ID context (+2000)
+            if (!string.IsNullOrEmpty(titleId))
+                score += 2000;
+
+            // Proper x:XBL3.0 prefix (+1000)
+            if (token.StartsWith("x:XBL3.0 x="))
+                score += 1000;
+
+            // Length bonus (longer tokens are more likely complete)
+            score += token.Length / 10;
+
+            return score;
+        }
+
+        private static string StripNullBytes(byte[] data, int length)
+        {
+            var sb = new StringBuilder(length / 2);
+            for (int i = 0; i < length; i++)
+            {
+                if (data[i] != 0 && data[i] >= 0x20 && data[i] <= 0x7E)
+                    sb.Append((char)data[i]);
+            }
+            return sb.ToString();
+        }
+
+        private void EtwCleanupFiles()
+        {
+            try
+            {
+                if (Directory.Exists(EtwTempDir))
+                {
+                    foreach (var file in Directory.GetFiles(EtwTempDir))
+                    {
+                        try { File.Delete(file); } catch { }
+                    }
+                    try { Directory.Delete(EtwTempDir, true); } catch { }
+                }
+            }
+            catch (Exception ex)
+            {
+                EventsLog($"Cleanup error: {ex.Message}");
+            }
         }
 
         #endregion
