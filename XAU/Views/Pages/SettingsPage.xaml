@@ -233,8 +233,8 @@
             </ui:CardControl.Header>
             <ui:TextBox x:Name="XauthTextBox" TextChanged="XauthTextBox_OnTextChanged" />
         </ui:CardControl>
-        <ui:CardControl Margin="4,2">
-            <ui:CardControl.Header>
+        <ui:CardExpander Margin="4,2" SizeChanged="EventsBoxGrid_OnSizeChanged">
+            <ui:CardExpander.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -243,46 +243,65 @@
                     <ui:TextBlock
                         Grid.Row="0"
                         FontTypography="Body"
-                        Text="Auto Grab Events Token"
+                        Text="Events Token Settings"
                         TextWrapping="WrapWithOverflow" />
                     <ui:TextBlock
                         Grid.Row="1"
                         Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                        Text="Requires Administrator and Solitaire. Flip a card to speed it up."
+                        Text="Requires running XAU as an administrator. Flip a card in Solitaire to speed it up."
                         TextWrapping="WrapWithOverflow" />
                 </Grid>
-            </ui:CardControl.Header>
-            <ui:ToggleSwitch Command="{Binding ViewModel.SaveSettingsCommand}" IsChecked="{Binding ViewModel.AutoGrabEventsToken, Mode=TwoWay}" />
-        </ui:CardControl>
-        <ui:CardControl Margin="4,2" SizeChanged="EventsBoxGrid_OnSizeChanged">
-            <ui:CardControl.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <ui:TextBlock
-                        Grid.Row="0"
-                        FontTypography="Body"
-                        Text="Events Token"
-                        TextWrapping="WrapWithOverflow" />
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+            </ui:CardExpander.Header>
+            <StackPanel>
+                <ui:Anchor
+                    Margin="-16,-16,-16,0"
+                    Padding="16"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="Transparent"
+                    BorderThickness="0,1,0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Status: " VerticalAlignment="Center" />
                         <ui:TextBlock
-                            Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                            Text="Status: "
-                            TextWrapping="WrapWithOverflow" />
-                        <ui:TextBlock
+                            Grid.Column="1"
                             x:Name="EventsTokenStatus"
                             Text="No Token"
+                            VerticalAlignment="Center"
+                            Margin="0,0,12,0"
                             TextWrapping="WrapWithOverflow" />
-                    </StackPanel>
-                </Grid>
-            </ui:CardControl.Header>
-            <StackPanel Orientation="Horizontal">
-                <ui:TextBox x:Name="EventsTokenBox" MaxLines="1" VerticalAlignment="Center" TextChanged="EventsToken_OnTextChanged" />
-                <ui:Button x:Name="GrabEventsTokenButton" Content="Grab from Game (Admin)" Margin="8,0,0,0" Click="GrabEventsToken_OnClick" />
+                        <ui:TextBox Grid.Column="2" x:Name="EventsTokenBox" MaxLines="1" VerticalAlignment="Center" TextChanged="EventsToken_OnTextChanged" />
+                    </Grid>
+                </ui:Anchor>
+                <ui:Anchor
+                    Margin="-16,0,-16,-16"
+                    Padding="16"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Background="Transparent"
+                    BorderThickness="0,1,0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ui:Button Grid.Column="0" x:Name="GrabEventsTokenButton" Content="Manually Refresh Token" Click="GrabEventsToken_OnClick" />
+                        <TextBlock Grid.Column="1" />
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Auto Refresh (~23 hours)" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <ui:ToggleSwitch
+                                Command="{Binding ViewModel.SaveSettingsCommand}"
+                                IsChecked="{Binding ViewModel.AutoGrabEventsToken, Mode=TwoWay}" />
+                        </StackPanel>
+                    </Grid>
+                </ui:Anchor>
             </StackPanel>
-        </ui:CardControl>
+        </ui:CardExpander>
         <ui:CardExpander Margin="4,2">
             <ui:CardExpander.Header>
                 <Grid>
