@@ -759,22 +759,32 @@ namespace XAU.ViewModels.Pages
         }
 
         /// <summary>
-        /// Manually triggers a scan (from the "Grab from Game" button).
+        /// Manually triggers a scan (from the "Manually Refresh Token" button).
         /// Works regardless of the auto-grab setting.
         /// </summary>
+        public bool ManualScanRunning { get; private set; }
+
         public void ScanForEventsTokenManual()
         {
             eventsTokenFound = false;
             AchievementsViewModel.EventsToken = null;
             _eventsTokenObtainedAt = DateTime.MinValue;
+            ManualScanRunning = true;
 
             System.Threading.Tasks.Task.Run(() =>
             {
-                GrabEventsTokenFromSolitaire();
-                if (!string.IsNullOrEmpty(AchievementsViewModel.EventsToken))
+                try
                 {
-                    _eventsTokenObtainedAt = DateTime.UtcNow;
-                    PersistEventsToken();
+                    GrabEventsTokenFromSolitaire();
+                    if (!string.IsNullOrEmpty(AchievementsViewModel.EventsToken))
+                    {
+                        _eventsTokenObtainedAt = DateTime.UtcNow;
+                        PersistEventsToken();
+                    }
+                }
+                finally
+                {
+                    ManualScanRunning = false;
                 }
             });
         }
