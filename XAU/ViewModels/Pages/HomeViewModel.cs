@@ -2,8 +2,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text.RegularExpressions;
 using System.Text;
+using XAU.Util.Etw;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
 using Memory;
@@ -82,22 +82,6 @@ namespace XAU.ViewModels.Pages
         private readonly IContentDialogService _contentDialogService;
 
         private const string XAuthScanPattern = "58 42 4C 33 2E 30 20 78 3D";
-
-        // ETW network capture settings
-        private static readonly string EtwSessionName = "XAU_EventsTokenCapture";
-        private static readonly string EtwTempDir = Path.Combine(Path.GetTempPath(), "XAU_ETW");
-        private static readonly string EtwEtlPath = Path.Combine(EtwTempDir, "capture.etl");
-
-        // Regex patterns for extracting tokens from ETL binary data
-        private static readonly Regex TicketHeaderRegex = new Regex(
-            @"""(\d{5,12})""\s*=\s*""(x:XBL3\.0 x=[^""]{100,})""",
-            RegexOptions.Compiled);
-        private static readonly Regex BareTokenRegex = new Regex(
-            @"x:XBL3\.0 x=[\w;+/=\-\.]{100,}",
-            RegexOptions.Compiled);
-        private static readonly Regex OneCollectorUrlRegex = new Regex(
-            @"v20\.events\.data\.microsoft\.com|OneCollector",
-            RegexOptions.Compiled);
 
         [RelayCommand]
         private void RefreshProfile()
@@ -635,7 +619,7 @@ namespace XAU.ViewModels.Pages
                     // Keep capturing until we get a token or settings change
                     while (Settings.AutoGrabEventsToken && IsLoggedIn)
                     {
-                        var token = CaptureEventsTokenViaEtw(20);
+                        var token = EtwTokenCapture.Capture(20);
                         if (!string.IsNullOrEmpty(token))
                         {
                             AchievementsViewModel.EventsToken = token;
@@ -666,8 +650,8 @@ namespace XAU.ViewModels.Pages
             // Start ETW capture FIRST — the token is sent in the initial telemetry burst
             // when Solitaire contacts Xbox Live, which happens within seconds of launch.
             EventsLog("Starting ETW before Solitaire launch...");
-            EtwCleanup();
-            string method = EtwStart();
+            EtwTokenCapture.Cleanup();
+            string method = EtwTokenCapture.Start();
             if (method == null)
             {
                 EventsLog("Failed to start ETW trace (not running as admin?)");
@@ -692,8 +676,8 @@ namespace XAU.ViewModels.Pages
                 catch (Exception ex)
                 {
                     EventsLog($"Failed to launch Solitaire: {ex.Message}");
-                    EtwStop(method);
-                    EtwCleanupFiles();
+                    EtwTokenCapture.Stop(method);
+                    EtwTokenCapture.CleanupFiles();
                     return;
                 }
 
@@ -712,8 +696,8 @@ namespace XAU.ViewModels.Pages
                 {
                     EventsLog("Solitaire never appeared after 15s");
                     solitaireLaunchedByUs = false;
-                    EtwStop(method);
-                    EtwCleanupFiles();
+                    EtwTokenCapture.Stop(method);
+                    EtwTokenCapture.CleanupFiles();
                     return;
                 }
             }
@@ -723,11 +707,11 @@ namespace XAU.ViewModels.Pages
             Thread.Sleep(25000);
 
             // Stop first capture and try to extract
-            EtwStop(method);
+            EtwTokenCapture.Stop(method);
             Thread.Sleep(2000);
 
-            string token = EtwExtractTokens();
-            EtwCleanupFiles();
+            string token = EtwTokenCapture.ExtractTokens();
+            EtwTokenCapture.CleanupFiles();
 
             if (!string.IsNullOrEmpty(token))
             {
@@ -746,7 +730,7 @@ namespace XAU.ViewModels.Pages
                     attempt++;
                     EventsLog($"Capture attempt {attempt}...");
 
-                    token = CaptureEventsTokenViaEtw(20);
+                    token = EtwTokenCapture.Capture(20);
                     if (!string.IsNullOrEmpty(token))
                     {
                         EventsLog($"ETW capture success on attempt {attempt}, len={token.Length}");
@@ -776,389 +760,6 @@ namespace XAU.ViewModels.Pages
                 solitaireLaunchedByUs = false;
             }
         }
-
-        #region ETW Token Capture
-
-        // Events RP x5t — used to distinguish events tokens from XAUTH tokens.
-        // This is the certificate thumbprint for events.xboxlive.com; it appears
-        // in the decoded JWE header JSON as "x5t":"9wLGzMJDNz..."
-        private const string EventsRpX5t = "9wLGzMJDNz";
-
-        /// <summary>
-        /// Checks whether a token was encrypted for the events RP by decoding
-        /// the JWE header and verifying the x5t certificate thumbprint.
-        /// Token format: "x:XBL3.0 x={hash};{JWE}" or "XBL3.0 x={hash};{JWE}"
-        /// </summary>
-        private static bool IsEventsRpToken(string token)
-        {
-            try
-            {
-                int semiIdx = token.IndexOf(';');
-                if (semiIdx < 0) return false;
-
-                string jwe = token.Substring(semiIdx + 1);
-                int dotIdx = jwe.IndexOf('.');
-                if (dotIdx <= 0) return false;
-
-                string headerB64 = jwe.Substring(0, dotIdx);
-                // Base64url → standard Base64
-                string padded = headerB64.Replace('-', '+').Replace('_', '/');
-                switch (padded.Length % 4)
-                {
-                    case 2: padded += "=="; break;
-                    case 3: padded += "="; break;
-                }
-
-                string headerJson = Encoding.UTF8.GetString(Convert.FromBase64String(padded));
-                return headerJson.Contains(EventsRpX5t);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private static (int exitCode, string stdout, string stderr) RunShellCommand(string fileName, string args, int timeoutMs = 30000)
-        {
-            try
-            {
-                var psi = new ProcessStartInfo
-                {
-                    FileName = fileName,
-                    Arguments = args,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                };
-                using var proc = Process.Start(psi);
-                string stdout = proc.StandardOutput.ReadToEnd();
-                string stderr = proc.StandardError.ReadToEnd();
-                proc.WaitForExit(timeoutMs);
-                return (proc.ExitCode, stdout, stderr);
-            }
-            catch (Exception ex)
-            {
-                return (-1, "", ex.Message);
-            }
-        }
-
-        private static void EtwCleanup()
-        {
-            try { RunShellCommand("netsh", "trace stop", 15000); } catch { }
-            try { RunShellCommand("logman", $"stop {EtwSessionName} -ets", 10000); } catch { }
-        }
-
-        private string EtwStart()
-        {
-            Directory.CreateDirectory(EtwTempDir);
-
-            // Try netsh trace (captures most HTTP traffic including WinHTTP)
-            var (code, stdout, stderr) = RunShellCommand("netsh",
-                $"trace start scenario=InternetClient_dbg capture=no tracefile=\"{EtwEtlPath}\" maxsize=256 overwrite=yes report=disabled",
-                15000);
-            EventsLog($"netsh trace start: exit={code}, stdout={stdout.Trim()}, stderr={stderr.Trim()}");
-            if (code == 0)
-                return "netsh";
-
-            // Try logman with WinHttp provider
-            (code, stdout, stderr) = RunShellCommand("logman",
-                $"start {EtwSessionName} -p Microsoft-Windows-WinHttp 0xFFFFFFFF 0xFF -o \"{EtwEtlPath}\" -ets",
-                10000);
-            EventsLog($"logman WinHttp: exit={code}, stdout={stdout.Trim()}, stderr={stderr.Trim()}");
-            if (code == 0)
-                return "logman-winhttp";
-
-            // Try logman with WinINet provider
-            (code, stdout, stderr) = RunShellCommand("logman",
-                $"start {EtwSessionName} -p Microsoft-Windows-WinINet 0xFFFFFFFF 0xFF -o \"{EtwEtlPath}\" -ets",
-                10000);
-            EventsLog($"logman WinINet: exit={code}, stdout={stdout.Trim()}, stderr={stderr.Trim()}");
-            if (code == 0)
-                return "logman-wininet";
-
-            EventsLog("All ETW start methods failed");
-            return null;
-        }
-
-        private void EtwStop(string method)
-        {
-            if (method == "netsh")
-            {
-                var (code, _, _) = RunShellCommand("netsh", "trace stop", 30000);
-                EventsLog($"netsh trace stop: exit={code}");
-            }
-            else if (method != null)
-            {
-                var (code, _, _) = RunShellCommand("logman", $"stop {EtwSessionName} -ets", 15000);
-                EventsLog($"logman stop: exit={code}");
-            }
-        }
-
-        private string CaptureEventsTokenViaEtw(int captureSeconds)
-        {
-            EventsLog($"Starting ETW capture for {captureSeconds}s...");
-
-            EtwCleanup();
-
-            string method = EtwStart();
-            if (method == null)
-            {
-                EventsLog("Failed to start ETW trace (not running as admin?)");
-                return null;
-            }
-            EventsLog($"ETW started via {method}");
-
-            Thread.Sleep(captureSeconds * 1000);
-
-            EtwStop(method);
-
-            // Give it a moment to flush
-            Thread.Sleep(2000);
-
-            string token = EtwExtractTokens();
-
-            EtwCleanupFiles();
-
-            return token;
-        }
-
-        private string EtwExtractTokens()
-        {
-            if (!File.Exists(EtwEtlPath))
-            {
-                EventsLog("ETL file not found");
-                return null;
-            }
-
-            var fileSize = new FileInfo(EtwEtlPath).Length;
-            EventsLog($"ETL file size: {fileSize / 1024}KB");
-
-            const int chunkSize = 64 * 1024 * 1024; // 64MB
-            const int overlap = 8 * 1024; // 8KB overlap
-            var candidates = new List<(string token, int score)>();
-
-            int totalXblHits = 0;
-
-            using (var fs = new FileStream(EtwEtlPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                byte[] buffer = new byte[chunkSize + overlap];
-                long position = 0;
-                int chunkNum = 0;
-
-                while (position < fs.Length)
-                {
-                    fs.Position = position;
-                    int bytesRead = fs.Read(buffer, 0, buffer.Length);
-                    if (bytesRead == 0) break;
-
-                    // Work directly from buffer (avoid extra copy)
-                    string ascii = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-
-                    // Diagnostic: count raw "XBL3.0" occurrences
-                    int xblCount = 0;
-                    int searchIdx = 0;
-                    while ((searchIdx = ascii.IndexOf("XBL3.0", searchIdx, StringComparison.Ordinal)) >= 0)
-                    {
-                        xblCount++;
-                        searchIdx += 6;
-                    }
-                    totalXblHits += xblCount;
-                    EventsLog($"Chunk {chunkNum}: {bytesRead / 1024}KB, XBL3.0 hits={xblCount}, regex searching...");
-
-                    SearchForTokens(ascii, candidates);
-
-                    // UTF-16 → strip null bytes to get ASCII
-                    string stripped = StripNullBytes(buffer, bytesRead);
-                    SearchForTokens(stripped, candidates);
-
-                    EventsLog($"Chunk {chunkNum}: candidates so far={candidates.Count}");
-
-                    position += chunkSize;
-                    chunkNum++;
-                }
-            }
-
-            EventsLog($"Total XBL3.0 hits across all chunks: {totalXblHits}");
-
-            if (candidates.Count == 0)
-            {
-                EventsLog($"No regex candidates found (XBL3.0 hits={totalXblHits}). Trying IndexOf fallback...");
-
-                // Fallback: re-read and use IndexOf to extract tokens directly
-                if (totalXblHits > 0)
-                {
-                    using var fs2 = new FileStream(EtwEtlPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    byte[] allBytes = new byte[fs2.Length];
-                    fs2.Read(allBytes, 0, allBytes.Length);
-                    string stripped = StripNullBytes(allBytes, allBytes.Length);
-
-                    string marker = "x:XBL3.0 x=";
-                    int idx = 0;
-                    int found = 0;
-                    while ((idx = stripped.IndexOf(marker, idx, StringComparison.Ordinal)) >= 0)
-                    {
-                        // Extract up to 4000 chars from this position
-                        int maxLen = Math.Min(4000, stripped.Length - idx);
-                        string raw = stripped.Substring(idx, maxLen);
-                        string token = CleanToken(raw);
-                        if (token != null)
-                        {
-                            int score = ScoreCandidate(stripped, idx, token, null);
-                            candidates.Add((token, score));
-                            found++;
-                            EventsLog($"IndexOf fallback found token: len={token.Length}, score={score}");
-                        }
-                        else
-                        {
-                            // Log why CleanToken rejected it
-                            int endSnip = Math.Min(80, raw.Length);
-                            EventsLog($"IndexOf hit rejected by CleanToken at pos={idx}, start: {raw.Substring(0, endSnip)}");
-                        }
-                        idx += marker.Length;
-                    }
-                    EventsLog($"IndexOf fallback: {found} tokens from {totalXblHits} XBL3.0 hits");
-                }
-
-                if (candidates.Count == 0)
-                {
-                    EventsLog("No token candidates found in ETL");
-                    return null;
-                }
-            }
-
-            // Sort by score descending
-            candidates.Sort((a, b) => b.score.CompareTo(a.score));
-
-            EventsLog($"Found {candidates.Count} candidate(s):");
-            foreach (var (token, score) in candidates.Take(5))
-            {
-                int semi = token.IndexOf(';');
-                string hash = semi > 0 ? token.Substring(token.IndexOf("x=") + 2, semi - token.IndexOf("x=") - 2) : "?";
-                EventsLog($"  score={score}, len={token.Length}, hash={hash}");
-            }
-
-            // Validate the best candidates
-            foreach (var (token, score) in candidates)
-            {
-                if (IsEventsRpToken(token))
-                {
-                    EventsLog($"Candidate validated (x5t check passed), score={score}, len={token.Length}");
-                    return token;
-                }
-            }
-
-            EventsLog("No candidate passed x5t validation");
-            return null;
-        }
-
-        private void SearchForTokens(string text, List<(string token, int score)> candidates)
-        {
-            // Search with ticket header pattern (has title ID context)
-            foreach (Match match in TicketHeaderRegex.Matches(text))
-            {
-                string titleId = match.Groups[1].Value;
-                string token = CleanToken(match.Groups[2].Value);
-                if (token == null) continue;
-
-                int score = ScoreCandidate(text, match.Index, token, titleId);
-                candidates.Add((token, score));
-            }
-
-            // Search with bare token pattern
-            foreach (Match match in BareTokenRegex.Matches(text))
-            {
-                string token = CleanToken(match.Value);
-                if (token == null) continue;
-
-                // Skip if already found via ticket header
-                if (candidates.Any(c => c.token == token)) continue;
-
-                int score = ScoreCandidate(text, match.Index, token, null);
-                candidates.Add((token, score));
-            }
-        }
-
-        private static string CleanToken(string raw)
-        {
-            if (string.IsNullOrEmpty(raw)) return null;
-
-            // Trim at first non-token character
-            int end = raw.Length;
-            for (int i = 0; i < raw.Length; i++)
-            {
-                char c = raw[i];
-                if (c < 0x20 || c > 0x7E || c == '"' || c == '\'' || c == '<' || c == '>' || c == '{' || c == '}')
-                {
-                    end = i;
-                    break;
-                }
-            }
-
-            string token = raw.Substring(0, end).TrimEnd();
-            if (!token.StartsWith("x:XBL3.0 x=")) return null;
-            if (token.Length < 100) return null;
-            if (!token.Contains(';')) return null;
-
-            return token;
-        }
-
-        private int ScoreCandidate(string text, int matchIndex, string token, string titleId)
-        {
-            int score = 0;
-
-            // OneCollector URL proximity (+5000)
-            int searchStart = Math.Max(0, matchIndex - 2000);
-            int searchLen = Math.Min(4000, text.Length - searchStart);
-            string vicinity = text.Substring(searchStart, searchLen);
-            if (OneCollectorUrlRegex.IsMatch(vicinity))
-                score += 5000;
-
-            // Has ticket ID context (+2000)
-            if (!string.IsNullOrEmpty(titleId))
-                score += 2000;
-
-            // Proper x:XBL3.0 prefix (+1000)
-            if (token.StartsWith("x:XBL3.0 x="))
-                score += 1000;
-
-            // Length bonus (longer tokens are more likely complete)
-            score += token.Length / 10;
-
-            return score;
-        }
-
-        private static string StripNullBytes(byte[] data, int length)
-        {
-            var sb = new StringBuilder(length / 2);
-            for (int i = 0; i < length; i++)
-            {
-                if (data[i] != 0 && data[i] >= 0x20 && data[i] <= 0x7E)
-                    sb.Append((char)data[i]);
-            }
-            return sb.ToString();
-        }
-
-        private void EtwCleanupFiles()
-        {
-            try
-            {
-                if (Directory.Exists(EtwTempDir))
-                {
-                    foreach (var file in Directory.GetFiles(EtwTempDir))
-                    {
-                        try { File.Delete(file); } catch { }
-                    }
-                    try { Directory.Delete(EtwTempDir, true); } catch { }
-                }
-            }
-            catch (Exception ex)
-            {
-                EventsLog($"Cleanup error: {ex.Message}");
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// Manually triggers a scan (from the "Grab from Game" button).
