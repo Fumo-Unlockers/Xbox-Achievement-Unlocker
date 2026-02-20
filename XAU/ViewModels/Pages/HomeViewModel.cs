@@ -530,13 +530,10 @@ namespace XAU.ViewModels.Pages
         #region EventsToken
         private bool solitaireLaunchedByUs = false;
 
-        // How often the worker loop checks
         private static readonly TimeSpan EventsTokenCheckInterval = TimeSpan.FromMinutes(10);
-        // How old a token can be before we proactively refresh it (~24h XSTS expiry, refresh early)
         private static readonly TimeSpan EventsTokenMaxAge = TimeSpan.FromHours(23);
 
         private static DateTime _eventsTokenObtainedAt = DateTime.MinValue;
-        // The user hash for the events relying party - used to identify the correct token in memory
         private static string _eventsUserHash = null;
 
         private static readonly string EventsLogPath = Path.Combine(
@@ -550,7 +547,7 @@ namespace XAU.ViewModels.Pages
                 Directory.CreateDirectory(Path.GetDirectoryName(EventsLogPath)!);
                 File.AppendAllText(EventsLogPath, line + Environment.NewLine);
             }
-            catch { /* best-effort */ }
+            catch { }
         }
 
 
