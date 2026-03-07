@@ -10,6 +10,7 @@ using Wpf.Ui.Controls;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Services;
+using XAU.Views.Pages;
 
 namespace XAU.ViewModels.Pages
 {
@@ -43,14 +44,16 @@ namespace XAU.ViewModels.Pages
         private dynamic EventsData = (dynamic)(new JObject());
         public static string EventsToken;
 
-        public AchievementsViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
+        public AchievementsViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService, INavigationService navigationService)
         {
             _snackbarService = snackbarService;
             _contentDialogService = contentDialogService;
+            _navigationService = navigationService;
         }
 
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;
+        private readonly INavigationService _navigationService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
 
         public class DGAchievement
@@ -528,27 +531,24 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                if (EventsToken == null)
+                if (EventsToken == null || HomeViewModel.IsEventsTokenExpired())
                 {
                     ContentDialogResult result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
                         {
-                            Title = "Error: You have not set an events token",
-                            Content = "To unlock event based games you must supply an events token. Please refer to the guide for more information.\nPressing the \"Open Guide\" button will open the documentation and guide in your default browser.",
-                            PrimaryButtonText = "Open Guide",
+                            Title = EventsToken == null
+                                ? "Error: You have not set an events token"
+                                : "Error: Your events token has expired",
+                            Content = EventsToken == null
+                                ? "To unlock event based games you must supply an events token. You can set one up in Settings."
+                                : "Your events token has expired and needs to be refreshed before unlocking.",
+                            PrimaryButtonText = "Go to Settings",
                             CloseButtonText = "Close",
                         });
 
-                    switch (result)
-                    {
-                        case ContentDialogResult.Primary:
-                            var sInfo = new System.Diagnostics.ProcessStartInfo(OpenableLinks.EventsDocumentationUrl)
-                            {
-                                UseShellExecute = true,
-                            };
-                            System.Diagnostics.Process.Start(sInfo);
-                            break;
-                    }
+                    if (result == ContentDialogResult.Primary)
+                        _navigationService.Navigate(typeof(SettingsPage));
+
                     return;
                 }
 

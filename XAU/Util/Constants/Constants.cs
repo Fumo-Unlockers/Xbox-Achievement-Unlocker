@@ -80,6 +80,12 @@ public struct InterpolatedXboxAPIUrls
 public struct ProcessNames
 {
     public const string XboxPcApp = @"XboxPcApp";
+    public const string Solitaire = @"Solitaire";
+}
+
+public struct AppLaunchUris
+{
+    public const string Solitaire = @"shell:appsFolder\Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe!App";
 }
 
 public struct EventsUrls

@@ -7,5 +7,6 @@
         public const string XboxAppIOS = "000000004c12ae6f";
         public const string XboxGamepassIOS = "000000004c20a908";
         public const string XboxAppPC = "000000004424da1f";
+        public const string Solitaire = "00000000440c1a11";
     }
 }

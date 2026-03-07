@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using XAU.Util.Etw;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
 using Memory;
@@ -18,6 +19,7 @@ using XboxAuthNet.OAuth;
 using XboxAuthNet.OAuth.CodeFlow;
 using XboxAuthNet.XboxLive;
 using XboxAuthNet.XboxLive.Requests;
+using XboxAuthNet.XboxLive.Responses;
 
 namespace XAU.ViewModels.Pages
 {
@@ -89,8 +91,10 @@ namespace XAU.ViewModels.Pages
 
         Mem m = new Mem();
         public BackgroundWorker XauthWorker = new BackgroundWorker();
+        public BackgroundWorker EventsTokenWorker = new BackgroundWorker();
         bool IsAttached = false;
         bool GrabbedProfile = false;
+        bool eventsTokenFound = false;
         public static bool XAUTHTested = false;
         public static string XAUTH = "";
         public static string XUIDOnly;
@@ -320,6 +324,7 @@ namespace XAU.ViewModels.Pages
             XauthWorker.RunWorkerCompleted += XauthWorker_RunWorkerCompleted;
             XauthWorker.WorkerReportsProgress = true;
             XauthWorker.RunWorkerAsync();
+            EventsTokenWorker.DoWork += EventsTokenWorker_DoWork;
             if (!File.Exists(SettingsFilePath))
             {
                 if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -505,6 +510,10 @@ namespace XAU.ViewModels.Pages
                 IsLoggedIn = true;
                 XAUTHTested = true;
                 InitComplete = true;
+
+                // Start the events token worker to periodically check/refresh the token
+                if (Settings.AutoGrabEventsToken && !EventsTokenWorker.IsBusy)
+                    EventsTokenWorker.RunWorkerAsync();
             }
             catch (HttpRequestException ex)
             {
@@ -516,6 +525,303 @@ namespace XAU.ViewModels.Pages
                 }
             }
         }
+        #endregion
+
+        #region EventsToken
+        private bool solitaireLaunchedByUs = false;
+
+        private static readonly TimeSpan EventsTokenCheckInterval = TimeSpan.FromMinutes(10);
+        private static readonly TimeSpan EventsTokenMaxAge = TimeSpan.FromHours(23);
+
+        private static DateTime _eventsTokenObtainedAt = DateTime.MinValue;
+        private static string _eventsUserHash = null;
+
+        private static readonly string EventsLogPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "events_debug.log");
+
+        public static void EventsLog(string msg)
+        {
+            var line = $"[{DateTime.Now:HH:mm:ss}] {msg}";
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(EventsLogPath)!);
+                File.AppendAllText(EventsLogPath, line + Environment.NewLine);
+            }
+            catch { }
+        }
+
+
+        public void PersistEventsToken()
+        {
+            try
+            {
+                Settings.CachedEventsToken = AchievementsViewModel.EventsToken;
+                Settings.EventsTokenObtainedAt = _eventsTokenObtainedAt;
+                Settings.EventsUserHash = _eventsUserHash;
+                var json = JsonConvert.SerializeObject(Settings);
+                File.WriteAllText(SettingsFilePath, json);
+            }
+            catch { }
+        }
+
+        public void EventsTokenWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                EventsTokenWorkerLoop();
+            }
+            catch (Exception ex)
+            {
+                EventsLog($"Worker crashed: {ex.Message}");
+            }
+        }
+
+        private void EventsTokenWorkerLoop()
+        {
+            EventsLog("Worker started");
+            // Wait for login before scanning
+            while (!IsLoggedIn)
+            {
+                Thread.Sleep(2000);
+            }
+            EventsLog("Logged in, entering refresh loop");
+
+            // If a token already exists (e.g. from OAuth or cache), mark it as fresh
+            if (!string.IsNullOrEmpty(AchievementsViewModel.EventsToken) && _eventsTokenObtainedAt == DateTime.MinValue)
+                _eventsTokenObtainedAt = DateTime.UtcNow;
+
+            while (true)
+            {
+                if (!Settings.AutoGrabEventsToken || !IsLoggedIn)
+                {
+                    Thread.Sleep(5000);
+                    continue;
+                }
+
+                var currentToken = AchievementsViewModel.EventsToken;
+                bool isEmpty = string.IsNullOrEmpty(currentToken);
+                bool isValid = !isEmpty && IsEventsTokenValid();
+                var tokenAge = DateTime.UtcNow - _eventsTokenObtainedAt;
+                bool isExpired = !isEmpty && isValid && tokenAge > EventsTokenMaxAge;
+
+                EventsLog($"Check: empty={isEmpty}, valid={isValid}, age={tokenAge.TotalMinutes:F0}m, expired={isExpired}");
+
+                if (isEmpty || !isValid || isExpired)
+                {
+                    if (isExpired)
+                        EventsLog($"Token expired (age: {tokenAge.TotalMinutes:F0}m > {EventsTokenMaxAge.TotalMinutes:F0}m), refreshing...");
+                    else
+                        EventsLog("Token missing/invalid, refreshing...");
+
+                    // Keep capturing until we get a token or settings change
+                    while (Settings.AutoGrabEventsToken && IsLoggedIn)
+                    {
+                        var token = EtwTokenCapture.Capture(20);
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            AchievementsViewModel.EventsToken = token;
+                            _eventsTokenObtainedAt = DateTime.UtcNow;
+                            PersistEventsToken();
+                            EventsLog("ETW capture success.");
+                            break;
+                        }
+                        EventsLog("ETW capture found no token, retrying in 5s...");
+                        Thread.Sleep(5000);
+                    }
+                }
+
+                EventsLog($"Sleeping {EventsTokenCheckInterval.TotalMinutes:F0}m...");
+                Thread.Sleep(EventsTokenCheckInterval);
+            }
+        }
+
+        /// <summary>
+        /// Launches Solitaire (if needed), then continuously captures ETW network traffic
+        /// and scans for the events token until one is found or Solitaire exits.
+        /// </summary>
+        private void GrabEventsTokenFromSolitaire()
+        {
+            bool alreadyRunning = Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0;
+            EventsLog($"Solitaire already running: {alreadyRunning}");
+
+            // Start ETW capture FIRST — the token is sent in the initial telemetry burst
+            // when Solitaire contacts Xbox Live, which happens within seconds of launch.
+            EventsLog("Starting ETW before Solitaire launch...");
+            EtwTokenCapture.Cleanup();
+            string method = EtwTokenCapture.Start();
+            if (method == null)
+            {
+                EventsLog("Failed to start ETW trace (not running as admin?)");
+                return;
+            }
+            EventsLog($"ETW started via {method}");
+
+            if (!alreadyRunning)
+            {
+                try
+                {
+                    EventsLog("Launching Solitaire...");
+                    var p = new Process();
+                    p.StartInfo = new ProcessStartInfo
+                    {
+                        UseShellExecute = true,
+                        FileName = AppLaunchUris.Solitaire
+                    };
+                    p.Start();
+                    solitaireLaunchedByUs = true;
+                }
+                catch (Exception ex)
+                {
+                    EventsLog($"Failed to launch Solitaire: {ex.Message}");
+                    EtwTokenCapture.Stop(method);
+                    EtwTokenCapture.CleanupFiles();
+                    return;
+                }
+
+                // Wait for the process to appear
+                for (int i = 0; i < 15; i++)
+                {
+                    Thread.Sleep(1000);
+                    if (Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0)
+                    {
+                        EventsLog($"Solitaire process appeared after {i + 1}s");
+                        break;
+                    }
+                }
+
+                if (Process.GetProcessesByName(ProcessNames.Solitaire).Length == 0)
+                {
+                    EventsLog("Solitaire never appeared after 15s");
+                    solitaireLaunchedByUs = false;
+                    EtwTokenCapture.Stop(method);
+                    EtwTokenCapture.CleanupFiles();
+                    return;
+                }
+            }
+
+            // Wait for Xbox Live init + initial telemetry burst (token is sent here)
+            EventsLog("Waiting 25s for Xbox Live init + telemetry events...");
+            Thread.Sleep(25000);
+
+            // Stop first capture and try to extract
+            EtwTokenCapture.Stop(method);
+            Thread.Sleep(2000);
+
+            string token = EtwTokenCapture.ExtractTokens();
+            EtwTokenCapture.CleanupFiles();
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                EventsLog($"ETW capture success on initial capture, len={token.Length}");
+                AchievementsViewModel.EventsToken = token;
+                _eventsTokenObtainedAt = DateTime.UtcNow;
+                eventsTokenFound = true;
+            }
+            else
+            {
+                // Loop: keep capturing while Solitaire is running
+                EventsLog("Initial capture found nothing, entering continuous scan loop...");
+                int attempt = 0;
+                while (!eventsTokenFound && Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0)
+                {
+                    attempt++;
+                    EventsLog($"Capture attempt {attempt}...");
+
+                    token = EtwTokenCapture.Capture(20);
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        EventsLog($"ETW capture success on attempt {attempt}, len={token.Length}");
+                        AchievementsViewModel.EventsToken = token;
+                        _eventsTokenObtainedAt = DateTime.UtcNow;
+                        eventsTokenFound = true;
+                        break;
+                    }
+
+                    // Brief pause before next capture
+                    Thread.Sleep(3000);
+                }
+
+                if (!eventsTokenFound)
+                    EventsLog("Solitaire exited before token was found");
+            }
+
+            // Close Solitaire if we launched it
+            if (solitaireLaunchedByUs)
+            {
+                try
+                {
+                    foreach (var proc in Process.GetProcessesByName(ProcessNames.Solitaire))
+                        proc.Kill();
+                }
+                catch { }
+                solitaireLaunchedByUs = false;
+            }
+        }
+
+        /// <summary>
+        /// Manually triggers a scan (from the "Manually Refresh Token" button).
+        /// Works regardless of the auto-grab setting.
+        /// </summary>
+        public bool ManualScanRunning { get; private set; }
+
+        public void ScanForEventsTokenManual()
+        {
+            eventsTokenFound = false;
+            AchievementsViewModel.EventsToken = null;
+            _eventsTokenObtainedAt = DateTime.MinValue;
+            ManualScanRunning = true;
+
+            System.Threading.Tasks.Task.Run(() =>
+            {
+                try
+                {
+                    GrabEventsTokenFromSolitaire();
+                    if (!string.IsNullOrEmpty(AchievementsViewModel.EventsToken))
+                    {
+                        _eventsTokenObtainedAt = DateTime.UtcNow;
+                        PersistEventsToken();
+                    }
+                }
+                finally
+                {
+                    ManualScanRunning = false;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Returns whether the current events token looks structurally valid.
+        /// </summary>
+        public static bool IsEventsTokenValid()
+        {
+            var token = AchievementsViewModel.EventsToken;
+            return !string.IsNullOrWhiteSpace(token)
+                && token.StartsWith("x:XBL3.0 x=")
+                && token.Length > 30;
+        }
+
+        /// <summary>
+        /// Returns whether the current events token has exceeded its max age.
+        /// </summary>
+        public static bool IsEventsTokenExpired()
+        {
+            if (_eventsTokenObtainedAt == DateTime.MinValue)
+                return false; // no timestamp means we can't determine expiry
+            return (DateTime.UtcNow - _eventsTokenObtainedAt) > EventsTokenMaxAge;
+        }
+
+        /// <summary>
+        /// The UTC time the current events token was obtained.
+        /// </summary>
+        public static DateTime EventsTokenObtainedAtUtc => _eventsTokenObtainedAt;
+
+        /// <summary>
+        /// The UTC time the current events token is expected to expire.
+        /// </summary>
+        public static DateTime? EventsTokenExpiresAtUtc =>
+            _eventsTokenObtainedAt == DateTime.MinValue
+                ? null
+                : _eventsTokenObtainedAt + EventsTokenMaxAge;
         #endregion
 
         #region OAuthLogin
@@ -650,26 +956,14 @@ namespace XAU.ViewModels.Pages
             {
                 _snackbarService.Show("Error", "Failed to generate XAUTH", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
-            deviceToken = await xboxSignedClient.RequestDeviceToken(XboxDeviceTypes.Win32, "0.0.0");
-            sisuResult = await xboxSignedClient.SisuAuth(new XboxSisuAuthRequest
-            {
-                AccessToken = response.AccessToken,
-                ClientId = XboxGameTitles.XboxAppPC,
-                DeviceToken = deviceToken.Token,
-                RelyingParty = XboxAuthConstants.XboxEventsRelyingParty,
-            });
-            try
-            {
-                AchievementsViewModel.EventsToken = $"x:XBL3.0 x={sisuResult.AuthorizationToken.XuiClaims.UserHash};{sisuResult.AuthorizationToken.Token}";
-            }
-            catch
-            {
-                _snackbarService.Show("Error", "Failed to generate Events Token", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-            }
             LoginText = "Logout";
             XauthWorker_ProgressChanged(null, null);
             if (IsLoggedIn && !GrabbedProfile)
                 GrabProfile();
+
+            // Start the events token worker to periodically check/refresh the token
+            if (Settings.AutoGrabEventsToken && !EventsTokenWorker.IsBusy)
+                EventsTokenWorker.RunWorkerAsync();
         }
         private void ClearProfileState()
         {
@@ -694,6 +988,9 @@ namespace XAU.ViewModels.Pages
             Gamepass = "Gamepass: Unknown";
             Bio = "Bio: Unknown";
             Watermarks.Clear();
+            AchievementsViewModel.EventsToken = null;
+            _eventsTokenObtainedAt = DateTime.MinValue;
+            _eventsUserHash = null;
             XauthWorker_ProgressChanged(null, null);
         }
 
@@ -881,6 +1178,27 @@ namespace XAU.ViewModels.Pages
             Settings.UseAcrylic = settings.UseAcrylic;
             Settings.PrivacyMode = settings.PrivacyMode;
             Settings.OAuthLogin = settings.OAuthLogin;
+            Settings.AutoGrabEventsToken = settings.AutoGrabEventsToken;
+            Settings.CachedEventsToken = settings.CachedEventsToken;
+            Settings.EventsTokenObtainedAt = settings.EventsTokenObtainedAt;
+            Settings.EventsUserHash = settings.EventsUserHash;
+            _eventsUserHash = settings.EventsUserHash;
+
+            // Restore cached events token if it's still fresh
+            if (!string.IsNullOrEmpty(settings.CachedEventsToken) && settings.EventsTokenObtainedAt.HasValue)
+            {
+                var age = DateTime.UtcNow - settings.EventsTokenObtainedAt.Value;
+                if (age < EventsTokenMaxAge)
+                {
+                    AchievementsViewModel.EventsToken = settings.CachedEventsToken;
+                    _eventsTokenObtainedAt = settings.EventsTokenObtainedAt.Value;
+                    EventsLog($"Restored cached events token (age: {age.TotalHours:F1}h)");
+                }
+                else
+                {
+                    EventsLog($"Cached events token expired (age: {age.TotalHours:F1}h), will re-grab");
+                }
+            }
         }
 
         #endregion
