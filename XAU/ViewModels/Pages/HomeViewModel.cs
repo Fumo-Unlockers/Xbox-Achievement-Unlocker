@@ -444,52 +444,57 @@ namespace XAU.ViewModels.Pages
             if (!XauthWorker.IsBusy)
                 XauthWorker.RunWorkerAsync();
         }
+        
         private async void GetXAUTH()
         {
-            IEnumerable<long> XauthScanList = await m.AoBScan(XAuthScanPattern, true);
-            string[] XauthStrings = new string[XauthScanList.Count()];
-            var i = 0;
-            foreach (var address in XauthScanList)
-            {
-                XauthStrings[i] = m.ReadString(address.ToString("X"), length: 10000);
-                i++;
-            }
-
-            Dictionary<string, int> frequency = new Dictionary<string, int>();
-            foreach (string str in XauthStrings)
-            {
-                if (!frequency.ContainsKey(str))
-                {
-                    frequency[str] = 1;
-                }
-                else
-                {
-                    frequency[str]++;
-                }
-            }
-
-            if (XauthStrings.Length == 0)
-            {
+        
+            if (!m.OpenProcess("XboxPcAppFT"))
+            return;
+        
+        try
+        {
+            string startPattern = "41 75 74 68 6F 72 69 7A 61 74 69 6F 6E 3A 20 58 42 4C 33 2E 30 20 78 3D";
+            long startAddress = (await m.AoBScan(startPattern, true, true)).FirstOrDefault();
+            if (startAddress == 0)
                 return;
-            }
 
-            string mostCommon = XauthStrings[0];
-            int highestFrequency = 0;
-            foreach (KeyValuePair<string, int> pair in frequency)
-            {
-                if (pair.Value > highestFrequency)
-                {
-                    mostCommon = pair.Key;
-                    highestFrequency = pair.Value;
-                }
-            }
+            long tokenStart = startAddress + 15;
+            string tokenStartHex = tokenStart.ToString("X");
 
-            if (highestFrequency > 3)
+            string endPattern = "0D 0A 43 6F 6E 74 65 6E 74 2D 4C 65 6E 67 74 68 3A 20";
+            var endAddresses = await m.AoBScan(endPattern, true, true);
+            
+            long endAddress = 0;
+            foreach (var addr in endAddresses)
             {
-                XAUTH = mostCommon;
-                XAUTHTested = false;
+            if (addr > startAddress)
+            {
+                endAddress = addr;
+                break;
             }
         }
+
+            if (endAddress == 0)
+            return;
+
+            long tokenLength = endAddress - startAddress - 15;
+            if (tokenLength <= 0 || tokenLength > 5000)
+                return;
+
+            string token = m.ReadString(tokenStartHex, length: (int)tokenLength);
+
+            if (string.IsNullOrEmpty(token) || !token.StartsWith("XBL3.0 x="))
+                return;
+
+            XAUTH = token;
+            XAUTHTested = false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[GetXAUTH] Error: {ex.Message}");
+            }
+        }
+        
         private async void TestXAUTH()
         {
             try
