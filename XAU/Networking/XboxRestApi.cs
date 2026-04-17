@@ -139,7 +139,8 @@ public class XboxRestAPI
             TitleIds = new List<string>() { titleId }
         };
 
-        var gameTitleResponse = await _httpClient.PostAsync(string.Format(InterpolatedXboxAPIUrls.TitleUrl, xuid), new StringContent(JsonConvert.SerializeObject(gameTitleRequest), Encoding.UTF8, HeaderValues.Accept)).Result.Content.ReadAsStringAsync();
+        var gameTitleHttpResponse = await _httpClient.PostAsync(string.Format(InterpolatedXboxAPIUrls.TitleUrl, xuid), new StringContent(JsonConvert.SerializeObject(gameTitleRequest), Encoding.UTF8, HeaderValues.Accept));
+        var gameTitleResponse = await gameTitleHttpResponse.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<GameTitle>(gameTitleResponse);
     }
 
@@ -152,7 +153,8 @@ public class XboxRestAPI
         }
 
         SetDefaultHeaders();
-        var gpuResponse = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.GamepassMembershipUrl, xuid)).Result.Content.ReadAsStringAsync();
+        var gpuHttpResponse = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.GamepassMembershipUrl, xuid));
+        var gpuResponse = await gpuHttpResponse.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<Gamepass>(gpuResponse);
     }
 
@@ -211,9 +213,9 @@ public class XboxRestAPI
             Xuids = new List<string>() { xuid },
             Stats = new List<GameStat>() { stat }
         };
-        var response = await _httpClient
-                .PostAsync(BasicXboxAPIUris.UserStatsUrl, new StringContent(JsonConvert.SerializeObject(gameStatsRequest), Encoding.UTF8, HeaderValues.Accept)).Result.Content
-                .ReadAsStringAsync();
+        var httpResponse = await _httpClient
+                .PostAsync(BasicXboxAPIUris.UserStatsUrl, new StringContent(JsonConvert.SerializeObject(gameStatsRequest), Encoding.UTF8, HeaderValues.Accept));
+        var response = await httpResponse.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<GameStatsResponse>(response);
     }
 
@@ -267,7 +269,8 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
 
-        var response = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId)).Result.Content.ReadAsStringAsync();
+        var httpResponse = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId));
+        var response = await httpResponse.Content.ReadAsStringAsync();
         var achievements = JsonConvert.DeserializeObject<AchievementsResponse>(response);
         return achievements;
     }
@@ -283,7 +286,8 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
-        var response = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievements360Url, xuid, titleId)).Result.Content.ReadAsStringAsync();
+        var httpResponse = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievements360Url, xuid, titleId));
+        var response = await httpResponse.Content.ReadAsStringAsync();
         var achievements = JsonConvert.DeserializeObject<Xbox360AchievementResponse>(response);
         return achievements;
     }
@@ -376,9 +380,10 @@ public class XboxRestAPI
         {
             Products = new List<string>() { prodId }
         };
-        var titleIDsResponse = await _httpClient.PostAsync(
+        var titleIDsHttpResponse = await _httpClient.PostAsync(
                     BasicXboxAPIUris.GamepassCatalogUrl,
-                    new StringContent(JsonConvert.SerializeObject(gamepassProducts))).Result.Content.ReadAsStringAsync();
+                    new StringContent(JsonConvert.SerializeObject(gamepassProducts)));
+        var titleIDsResponse = await titleIDsHttpResponse.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<GamePassProducts>(titleIDsResponse);
     }
 }
