@@ -25,7 +25,7 @@ jobs:
 
     - name: Get latest commit hash
       id: get-hash
-      run: echo "::set-output name=hash::$(git rev-parse HEAD)"
+      run: echo "hash=$(git rev-parse HEAD)" >> $env:GITHUB_OUTPUT
 
     - name: Replace ToolVersion with commit hash
       run: |
