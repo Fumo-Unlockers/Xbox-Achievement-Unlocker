@@ -26,16 +26,31 @@
                         <TextBlock Text="Spoofer" />
                     </StackPanel>
                 </TabItem.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="0" Text="{Binding ViewModel.SpoofingText}" />
+                <DockPanel>
+                    <Border
+                        DockPanel.Dock="Top"
+                        Margin="0,0,0,10"
+                        Padding="12,8"
+                        Background="#332B1B00"
+                        BorderBrush="#FFB800"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Visibility="{Binding ViewModel.OAuthWarningVisibility}">
+                        <TextBlock
+                            FontSize="12"
+                            TextWrapping="Wrap"
+                            Text="OAuth login is enabled. OAuth tokens do not have sufficient scope to register presence or time played with Xbox Live. The spoofing timer will count up locally, but the change will not reach Microsoft's servers. To use this feature, disable OAuth in Settings and sign in via the Xbox app, or paste a manually obtained XAUTH token." />
+                    </Border>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="0" Text="{Binding ViewModel.SpoofingText}" />
                     <Button
                         Grid.Row="0"
                         Grid.Column="1"
@@ -115,7 +130,8 @@
                         VerticalAlignment="Top"
                         Content="{Binding ViewModel.GameTime}" />
 
-                </Grid>
+                    </Grid>
+                </DockPanel>
             </TabItem>
 
             <TabItem>
