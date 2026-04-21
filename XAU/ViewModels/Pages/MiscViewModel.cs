@@ -34,9 +34,6 @@ namespace XAU.ViewModels.Pages
         {
             if (!IsInitialized && HomeViewModel.InitComplete)
                 InitializeViewModel();
-            OAuthWarningVisibility = (HomeViewModel.Settings?.OAuthLogin ?? false)
-                ? System.Windows.Visibility.Visible
-                : System.Windows.Visibility.Collapsed;
         }
 
         public void OnNavigatedFrom()
@@ -59,7 +56,6 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _gameGamerscore = "Gamerscore: ?/?";
         [ObservableProperty] private string? _gameImage = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string _gameTime = "Time Played: ";
-        [ObservableProperty] private System.Windows.Visibility _oAuthWarningVisibility = System.Windows.Visibility.Collapsed;
         [ObservableProperty] private bool _isInitialized = false;
         [ObservableProperty] private string _currentSpoofingID = "";
         [ObservableProperty] private string _newSpoofingID = "";
@@ -93,6 +89,15 @@ namespace XAU.ViewModels.Pages
                 await _xboxRestAPI.Value.StopHeartbeatAsync(HomeViewModel.XUIDOnly);
                 return;
             }
+
+            if (HomeViewModel.Settings?.OAuthLogin ?? false)
+            {
+                _snackbarService.Show("Warning: OAuth Token Limitation",
+                    "OAuth tokens lack the scope to register presence. The timer will count up locally but will not reach Xbox Live servers.",
+                    ControlAppearance.Caution,
+                    new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+            }
+
             HomeViewModel.SpoofedTitleID = NewSpoofingID;
 
             if (HomeViewModel.SpoofingStatus == 2)
