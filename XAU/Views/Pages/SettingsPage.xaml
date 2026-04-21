@@ -61,7 +61,7 @@
                     <ui:TextBlock
                         Grid.Row="1"
                         Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                        Text="Hide your profile info in the home page. Requires a refresh if info is already grabbed."
+                        Text="Automatically spoofs the title ID when you open a game's achievements page."
                         TextWrapping="WrapWithOverflow" />
                 </Grid>
             </ui:CardControl.Header>
