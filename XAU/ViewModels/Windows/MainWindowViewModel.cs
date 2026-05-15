@@ -79,17 +79,6 @@ namespace XAU.ViewModels.Windows
                 Icon = new SymbolIcon { Symbol = SymbolRegular.MoreCircle24 },
                 TargetPageType = typeof(Views.Pages.MiscPage)
             }
-            #if DEBUG
-            ,
-            new NavigationViewItem()
-            {
-                Content = "Debug",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Bug24 },
-                TargetPageType = typeof(Views.Pages.DebugPage)
-            }
-            #endif
-
-
         };
 
         [ObservableProperty]
