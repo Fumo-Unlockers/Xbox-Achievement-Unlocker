@@ -20,6 +20,11 @@ namespace Memory
     {
         public Proc mProc = new Proc();
 
+        private void ResetProcessState()
+        {
+            mProc = new Proc();
+        }
+
         public UIntPtr VirtualQueryEx(IntPtr hProcess, UIntPtr lpAddress, out MEMORY_BASIC_INFORMATION lpBuffer)
         {
             UIntPtr retVal;
@@ -73,24 +78,40 @@ namespace Memory
             {
                 FailReason = "OpenProcess given proc ID 0.";
                 Debug.WriteLine("ERROR: OpenProcess given proc ID 0.");
+                ResetProcessState();
                 return false;
             }
 
 
-            if (mProc.Process != null && mProc.Process.Id == pid)
+            if (mProc?.Process != null)
             {
-                FailReason = "mProc.Process is null";
-                return true;
+                try
+                {
+                    if (mProc.Process.Id == pid && !mProc.Process.HasExited && mProc.Handle != IntPtr.Zero)
+                    {
+                        FailReason = "";
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("WARNING: Existing process state was stale. " + ex.Message);
+                    ResetProcessState();
+                }
             }
 
             try
             {
+                if (mProc == null)
+                    ResetProcessState();
+
                 mProc.Process = Process.GetProcessById(pid);
 
                 if (mProc.Process != null && !mProc.Process.Responding)
                 {
                     Debug.WriteLine("ERROR: OpenProcess: Process is not responding or null.");
                     FailReason = "Process is not responding or null.";
+                    ResetProcessState();
                     return false;
                 }
 
@@ -101,7 +122,7 @@ namespace Memory
                     var eCode = Marshal.GetLastWin32Error();
                     Debug.WriteLine("ERROR: OpenProcess has failed opening a handle to the target process (GetLastWin32ErrorCode: " + eCode + ")");
                     Process.LeaveDebugMode();
-                    mProc = null;
+                    ResetProcessState();
                     FailReason = "failed opening a handle to the target process(GetLastWin32ErrorCode: " + eCode + ")";
                     return false;
                 }
@@ -121,6 +142,7 @@ namespace Memory
             {
                 Debug.WriteLine("ERROR: OpenProcess has crashed. " + ex);
                 FailReason = "OpenProcess has crashed. " + ex;
+                ResetProcessState();
                 return false;
             }
         }
@@ -352,7 +374,10 @@ namespace Memory
         /// <returns></returns>
         public IntPtr GetModuleAddressByName(string name)
         {
-            return mProc.Process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, name, StringComparison.OrdinalIgnoreCase)).BaseAddress;
+            if (mProc?.Process == null)
+                return IntPtr.Zero;
+
+            return mProc.Process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, name, StringComparison.OrdinalIgnoreCase))?.BaseAddress ?? IntPtr.Zero;
         }
 
         /// <summary>
