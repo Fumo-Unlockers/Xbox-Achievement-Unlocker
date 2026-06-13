@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Data;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
@@ -10,7 +11,6 @@ namespace XAU.ViewModels.Pages
     {
         [ObservableProperty] private string _xuidOverride = "0";
         [ObservableProperty] private ObservableCollection<Game> _games = new ObservableCollection<Game>();
-        [ObservableProperty] private ObservableCollection<Game> _gamesPaged = new ObservableCollection<Game>();
         [ObservableProperty] private string _searchLabel = "Search 0 Games";
         [ObservableProperty] private GridLength _gamesListHeight = new GridLength(0, GridUnitType.Star);
         [ObservableProperty] private GridLength _loadingHeight = new GridLength(1, GridUnitType.Star);
@@ -18,14 +18,9 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _searchText = "";
         [ObservableProperty] private List<string> _filterOptions = new List<string>() { "All", "Xbox One/Series", "PC", "Xbox 360", "Win32", "Incomplete Games" };
         [ObservableProperty] private int _filterIndex = 0;
-        [ObservableProperty] private int _numPages = 0;
-        [ObservableProperty] private ObservableCollection<string> _pageOptions = new ObservableCollection<string>();
-        [ObservableProperty] private int _currentPage = 0;
         [ObservableProperty] private bool _isInitialized = false;
 
         TitlesList GamesResponse = new TitlesList();
-        public bool PageReset = true;
-
 
         public class Game
         {
@@ -36,12 +31,18 @@ namespace XAU.ViewModels.Pages
             public required string Progress { get; set; }
             public required string Index { get; set; }
 
+            // Precomputed once at build time so filtering stays allocation-free
+            internal string TitleLower = "";
+            internal bool IsXboxConsole;
+            internal bool IsPC;
+            internal bool IsXbox360;
+            internal bool IsWin32;
+            internal bool IsIncomplete;
         }
 
         // TODO: this needs to be updated if language changes
         private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
 
-        private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService = snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
 
@@ -80,23 +81,129 @@ namespace XAU.ViewModels.Pages
             }
 
             Games.Clear();
-            GamesPaged.Clear();
             LoadingStart();
+            // JSON deserialization runs on the threadpool (see GetGamesListAsync),
+            // so the UI thread stays free while thousands of titles are parsed.
             GamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(XuidOverride) ?? new TitlesList();
-            LoadGame();
+
+            // Build into a plain List first, then assign a single ObservableCollection.
+            // Constructing it from a pre-built list copies the backing storage in bulk
+            // (no per-item CollectionChanged events), and the assignment raises exactly
+            // one PropertyChanged -> the ListBox re-binds once. This is O(1) UI work
+            // instead of O(n) notifications from Add()-ing thousands of items one at a
+            // time, which is what made the initial load slow for large libraries.
+            var list = new List<Game>(GamesResponse.Titles.Count);
+            BuildGamesInto(list);
+            Games = new ObservableCollection<Game>(list);
+
+            SearchLabel = $"Search {Games.Count} Games";
+            ApplyGamesFilter();
+            LoadingEnd();
         }
 
-        private void LoadGame()
+        private void BuildGamesInto(List<Game> list)
         {
-            if (SearchText.Length > 0)
+            for (int i = 0; i < GamesResponse.Titles.Count; i++)
             {
-                SearchAndFilterGames();
-            }
-            else
-            {
-                FilterGames();
+                var title = GamesResponse.Titles[i];
+                var achievement = title.Achievement;
+
+                var EditedImage = !string.IsNullOrEmpty(title.DisplayImage) ? title.DisplayImage! : "pack://application:,,,/Assets/cirno.png";
+                if (EditedImage.Contains("store-images.s-microsoft.com"))
+                {
+                    EditedImage += "?w=256&h=256&format=jpg";
+                }
+
+                // Single pass over the device list instead of 5 separate Contains() scans.
+                bool isXboxConsole = false, isPC = false, isXbox360 = false, isWin32 = false;
+                foreach (var device in title.Devices)
+                {
+                    switch (device)
+                    {
+                        case "XboxSeries":
+                        case "XboxOne":
+                            isXboxConsole = true;
+                            break;
+                        case "PC":
+                            isPC = true;
+                            break;
+                        case "Xbox360":
+                            isXbox360 = true;
+                            break;
+                        case "Win32":
+                            isWin32 = true;
+                            break;
+                    }
+                }
+
+                // ProgressPercentage is already a double; no need to round-trip via string.
+                var progress = achievement?.ProgressPercentage ?? 0;
+                var name = title.Name ?? "";
+
+                list.Add(new Game()
+                {
+                    Title = name,
+                    CurrentAchievements = (achievement?.CurrentAchievements ?? 0).ToString(),
+                    Gamerscore = (achievement?.CurrentGamerscore ?? 0) + "/" +
+                                 (achievement?.TotalGamerscore ?? 0),
+                    Progress = progress.ToString(),
+                    Image = EditedImage,
+                    Index = i.ToString(),
+                    TitleLower = name.ToLowerInvariant(),
+                    IsXboxConsole = isXboxConsole,
+                    IsPC = isPC,
+                    IsXbox360 = isXbox360,
+                    IsWin32 = isWin32,
+                    IsIncomplete = progress < 100
+                });
             }
         }
+
+        // Filtering is done entirely through the ICollectionView predicate against the
+        // precomputed Game fields, so it is O(n) with no allocations and never rebuilds
+        // the bound collection. Virtualization means only visible cards are realized.
+        private void ApplyGamesFilter()
+        {
+            var view = CollectionViewSource.GetDefaultView(Games);
+            var filterIndex = FilterIndex;
+            var searchLower = (SearchText ?? "").ToLowerInvariant();
+
+            // No filter active -> drop the predicate so the view skips iterating every
+            // item entirely. This avoids an O(n) pass on the common initial load and the
+            // default "All" view, which matters for libraries with thousands of titles.
+            if (filterIndex == 0 && searchLower.Length == 0)
+            {
+                view.Filter = null;
+                return;
+            }
+
+            view.Filter = obj =>
+            {
+                var g = (Game)obj;
+                switch (filterIndex)
+                {
+                    case 1:
+                        if (!g.IsXboxConsole) return false;
+                        break;
+                    case 2:
+                        if (!g.IsPC) return false;
+                        break;
+                    case 3:
+                        if (!g.IsXbox360) return false;
+                        break;
+                    case 4:
+                        if (!g.IsWin32) return false;
+                        break;
+                    case 5:
+                        if (!g.IsIncomplete) return false;
+                        break;
+                }
+                if (searchLower.Length > 0 && !g.TitleLower.Contains(searchLower))
+                    return false;
+                return true;
+            };
+        }
+
         public async Task OpenAchievements(string index)
         {
             AchievementsViewModel.TitleID = GamesResponse.Titles[int.Parse(index)].TitleId;
@@ -105,111 +212,13 @@ namespace XAU.ViewModels.Pages
             navigationService.Navigate(typeof(AchievementsPage));
             await Task.CompletedTask;
         }
+
         [RelayCommand]
         public void SearchAndFilterGames()
         {
-            Games.Clear();
-            GamesPaged.Clear();
-            LoadingStart();
-            if (FilterIndex != 0)
-            {
-                switch (FilterIndex)
-                {
-                    case 1:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (GamesResponse.Titles[i].Devices.Contains("XboxSeries") || GamesResponse.Titles[i].Devices.Contains("XboxOne"))
-                            {
-                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            }
-                        }
-                        break;
-                    case 2:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (GamesResponse.Titles[i].Devices.Contains("PC"))
-                            {
-                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            }
-                        }
-                        break;
-                    case 3:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (GamesResponse.Titles[i].Devices.Contains("Xbox360"))
-                            {
-                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            }
-                        }
-                        break;
-                    case 4:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (GamesResponse.Titles[i].Devices.Contains("Win32"))
-                            {
-                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            };
-                        }
-                        break;
-                    case 5:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (double.TryParse(GamesResponse.Titles[i].Achievement.ProgressPercentage.ToString(), out double progress) && progress < 100)
-                            {
-                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            }
-
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                {
-                    var title = GamesResponse.Titles[i];
-                    if (!title.Name.ToLower().Contains(SearchText.ToLower()))
-                        continue;
-                    AddGame(i);
-
-                }
-            }
-
-            LoadingEnd();
-            SearchLabel = $"Search {GamesResponse.Titles.Count.ToString()} Games";
-            if (Games.Count() == 0)
-            {
-                _snackbarService.Show("Error", $"No Games Found", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                NumPages = 0;
+            if (!IsInitialized)
                 return;
-            }
-            NumPages = (int)Math.Ceiling(Games.Count / 252.0);
-            PageReset = true;
-            PageOptions.Clear();
-            for (int i = 1; i <= NumPages; i++)
-            {
-                PageOptions.Add(i.ToString());
-            }
-            PageReset = true;
-            CurrentPage = 0;
-            GamesPaged.Clear();
-            for (int i = ((252 * CurrentPage)); i < (252 * (CurrentPage + 1)); i++)
-            {
-                if (Games.Count > i)
-                {
-                    GamesPaged.Add(Games[i]);
-                }
-            }
+            ApplyGamesFilter();
         }
 
         [RelayCommand]
@@ -219,133 +228,7 @@ namespace XAU.ViewModels.Pages
             {
                 return;
             }
-
-            if (SearchText.Length > 0)
-            {
-                SearchAndFilterGames();
-                return;
-            }
-            GamesPaged.Clear();
-            LoadingStart();
-            Games.Clear();
-            if (FilterIndex != 0)
-            {
-                switch (FilterIndex)
-                {
-                    case 1:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (GamesResponse.Titles[i].Devices.Contains("XboxSeries") || GamesResponse.Titles[i].Devices.Contains("XboxOne"))
-                                AddGame(i);
-                        }
-                        break;
-                    case 2:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (GamesResponse.Titles[i].Devices.Contains("PC"))
-                                AddGame(i);
-                        }
-                        break;
-                    case 3:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (GamesResponse.Titles[i].Devices.Contains("Xbox360"))
-                                AddGame(i);
-                        }
-                        break;
-                    case 4:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (GamesResponse.Titles[i].Devices.Contains("Win32"))
-                                AddGame(i);
-                        }
-                        break;
-                    case 5:
-                        for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                        {
-                            if (double.TryParse(GamesResponse.Titles[i].Achievement.ProgressPercentage.ToString(), out double progress) && progress < 100)
-                            {
-                                if (!GamesResponse.Titles[i].Name.ToLower().Contains(SearchText.ToLower()))
-                                    continue;
-                                AddGame(i);
-                            }
-                        }
-                        break;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < GamesResponse.Titles.Count; i++)
-                {
-                    AddGame(i);
-                }
-            }
-
-            LoadingEnd();
-            SearchLabel = $"Search {GamesResponse.Titles.Count.ToString()} Games";
-            if (Games.Count() == 0)
-            {
-                _snackbarService.Show("Error", $"No Games Found", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                NumPages = 0;
-                return;
-            }
-            NumPages = (int)Math.Ceiling(Games.Count / 252.0);
-            PageReset = true;
-            PageOptions.Clear();
-            for (int i = 1; i <= NumPages; i++)
-            {
-                PageOptions.Add(i.ToString());
-            }
-            PageReset = true;
-            CurrentPage = 0;
-            GamesPaged.Clear();
-            for (int i = ((252 * CurrentPage)); i < (252 * (CurrentPage + 1)); i++)
-            {
-                if (Games.Count > i)
-                {
-                    GamesPaged.Add(Games[i]);
-                }
-            }
-        }
-
-        private void AddGame(int index)
-        {
-            var title = GamesResponse.Titles[index];
-            var EditedImage = !string.IsNullOrEmpty(title.DisplayImage?.ToString()) ? title.DisplayImage.ToString() : "pack://application:,,,/Assets/cirno.png";
-            if (EditedImage.Contains("store-images.s-microsoft.com"))
-            {
-                EditedImage = EditedImage + "?w=256&h=256&format=jpg";
-            }
-            Games.Add(new Game()
-            {
-                Title = title.Name.ToString(),
-                CurrentAchievements = title.Achievement.CurrentAchievements.ToString(),
-                Gamerscore = title.Achievement.CurrentGamerscore.ToString() + "/" +
-                             title.Achievement.TotalGamerscore.ToString(),
-                Progress = title.Achievement.ProgressPercentage.ToString(),
-                Image = EditedImage, //"pack://application:,,,/Assets/cirno.png", //
-                Index = index.ToString()
-            });
-        }
-
-        [RelayCommand]
-        public void PageChanged()
-        {
-            if (PageReset)
-            {
-                PageReset = false;
-                return;
-            }
-            GamesPaged.Clear();
-            LoadingStart();
-            for (int i = ((252 * (CurrentPage))); i < (252 * (CurrentPage + 1)); i++)
-            {
-                if (Games.Count > i)
-                {
-                    GamesPaged.Add(Games[i]);
-                }
-            }
-            LoadingEnd();
+            ApplyGamesFilter();
         }
 
         public void LoadingStart()

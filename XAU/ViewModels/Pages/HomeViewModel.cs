@@ -115,62 +115,91 @@ namespace XAU.ViewModels.Pages
         public void OnNavigatedFrom() { }
 
         #region Update
-        private async Task CheckForToolUpdates()
+        private async void CheckForToolUpdates()
         {
             if (ToolVersion == "EmptyDevToolVersion")
                 return;
 
-            if (ToolVersion.Contains("DEV"))
-            {
-                var jsonResponse = await _gitHubRestAPI.Value.GetDevToolVersionAsync();
+            // Pre-release builds report "PRE-<commit>"; anything else is treated as a
+            // standard release. Pre-releases are looked up via the prerelease list, while
+            // standard builds use /releases/latest (which EXCLUDES pre-releases, so users
+            // on a standard release are never offered a pre-release build).
+            var isPreRelease = ToolVersion.StartsWith("PRE-");
 
-                if (("DEV-" + jsonResponse.LatestBuildVersion.ToString()) != ToolVersion)
+            try
+            {
+                GitHubRelease? release;
+                try
                 {
-                    var result = await _contentDialogService.ShowSimpleDialogAsync(
-                        new SimpleContentDialogCreateOptions()
-                        {
-                            Title = $"Version {jsonResponse.LatestBuildVersion.ToString()} available to download",
-                            Content = "Would you like to update to this version?",
-                            PrimaryButtonText = "Update",
-                            CloseButtonText = "Cancel"
-                        }
-                    );
-                    if (result == ContentDialogResult.Primary)
+                    release = isPreRelease
+                        ? await _gitHubRestAPI.Value.GetLatestPreReleaseAsync()
+                        : await _gitHubRestAPI.Value.GetLatestReleaseAsync();
+                }
+                catch (Exception ex)
+                {
+                    EventsLog($"Update check failed: {ex.Message}");
+                    _snackbarService.Show("Update check failed", "Could not reach GitHub to check for updates.",
+                        ControlAppearance.Caution, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                    return;
+                }
+
+                if (release?.TagName == null)
+                    return;
+                if (release.TagName == ToolVersion)
+                    return;
+
+                var changelog = new System.Windows.Controls.ScrollViewer
+                {
+                    MaxHeight = 320,
+                    VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto,
+                    Margin = new Thickness(0, 8, 0, 0),
+                    Content = new System.Windows.Controls.TextBlock
                     {
-                        _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                        string sourceFile = jsonResponse.DownloadURL.ToString();
-                        string destFile = @"XAU-new.exe";
-                        var fileDownloader = new FileDownloader();
-                        await fileDownloader.DownloadFileAsync(new Uri(sourceFile).ToString(), destFile, UpdateTool);
+                        Text = string.IsNullOrWhiteSpace(release.Body)
+                            ? "No changelog provided for this release."
+                            : release.Body,
+                        TextWrapping = TextWrapping.Wrap
                     }
+                };
+
+                var result = await _contentDialogService.ShowSimpleDialogAsync(
+                    new SimpleContentDialogCreateOptions()
+                    {
+                        Title = string.IsNullOrWhiteSpace(release.Name)
+                            ? $"Version {release.TagName} available to download"
+                            : release.Name,
+                        Content = changelog,
+                        PrimaryButtonText = "Update",
+                        CloseButtonText = "Cancel"
+                    }
+                );
+                if (result == ContentDialogResult.Primary)
+                {
+                    var url = release.Assets?.FirstOrDefault()?.BrowserDownloadUrl;
+                    if (string.IsNullOrEmpty(url))
+                    {
+                        _snackbarService.Show("Update", "No downloadable build was found for this release.",
+                            ControlAppearance.Caution, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                        return;
+                    }
+                    await DownloadAndApplyUpdateAsync(url);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                var jsonResponse = await _gitHubRestAPI.Value.GetReleaseVersionAsync();
-
-                if (jsonResponse[0].tag_name.ToString() != ToolVersion)
-                {
-                    var result = await _contentDialogService.ShowSimpleDialogAsync(
-                        new SimpleContentDialogCreateOptions()
-                        {
-                            Title = $"Version {jsonResponse[0].tag_name.ToString()} available to download",
-                            Content = "Would you like to update to this version?",
-                            PrimaryButtonText = "Update",
-                            CloseButtonText = "Cancel"
-                        }
-                    );
-                    if (result == ContentDialogResult.Primary)
-                    {
-                        _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                        string sourceFile = jsonResponse[0].assets[0].browser_download_url.ToString();
-                        string destFile = @"XAU-new.exe";
-                        var fileDownloader = new FileDownloader();
-                        await fileDownloader.DownloadFileAsync(sourceFile, destFile, UpdateTool);
-                    }
-                }
+                EventsLog($"Update check crashed: {ex.Message}");
             }
+        }
 
+        private async Task DownloadAndApplyUpdateAsync(string? sourceUrl)
+        {
+            if (string.IsNullOrEmpty(sourceUrl))
+                return;
+            _snackbarService.Show("Downloading update...", "Please wait", ControlAppearance.Info,
+                new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+            string destFile = @"XAU-new.exe";
+            var fileDownloader = new FileDownloader();
+            await fileDownloader.DownloadFileAsync(new Uri(sourceUrl).ToString(), destFile, UpdateTool);
         }
         private async void CheckForEventUpdates()
         {
@@ -318,7 +347,7 @@ namespace XAU.ViewModels.Pages
 
         private async Task InitializeViewModel()
         {
-            await CheckForToolUpdates();
+            CheckForToolUpdates();
             XauthWorker.DoWork += XauthWorker_DoWork;
             XauthWorker.ProgressChanged += XauthWorker_ProgressChanged;
             XauthWorker.RunWorkerCompleted += XauthWorker_RunWorkerCompleted;

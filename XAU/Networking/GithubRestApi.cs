@@ -1,7 +1,6 @@
 using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 public class GithubRestApi
 {
@@ -14,7 +13,10 @@ public class GithubRestApi
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
         };
-        _httpClient = new HttpClient(handler);
+        _httpClient = new HttpClient(handler)
+        {
+            Timeout = TimeSpan.FromSeconds(15)
+        };
     }
 
     private void SetDefaultHeaders()
@@ -27,23 +29,25 @@ public class GithubRestApi
             "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
     }
 
-    public async Task<VersionResponse?> GetDevToolVersionAsync()
+    public async Task<GitHubRelease?> GetLatestReleaseAsync()
     {
         SetDefaultHeaders();
-        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubRaw);
+        _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubApi);
         var responseString =
-            await _httpClient.GetStringAsync("https://raw.githubusercontent.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/Pre-Release/info.json");
-        return JsonConvert.DeserializeObject<VersionResponse>(responseString);
+            await _httpClient.GetStringAsync("https://api.github.com/repos/Fumo-Unlockers/Xbox-Achievement-unlocker/releases/latest");
+        return JsonConvert.DeserializeObject<GitHubRelease>(responseString);
     }
 
-    public async Task<dynamic> GetReleaseVersionAsync()
+    // /releases/latest excludes pre-releases, so to find the newest pre-release we list
+    // all releases (returned newest-first) and pick the first one flagged as a prerelease.
+    public async Task<GitHubRelease?> GetLatestPreReleaseAsync()
     {
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubApi);
         var responseString =
             await _httpClient.GetStringAsync("https://api.github.com/repos/Fumo-Unlockers/Xbox-Achievement-unlocker/releases");
-        var jsonResponse = (dynamic)JArray.Parse(responseString);
-        return jsonResponse;
+        var releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(responseString);
+        return releases?.FirstOrDefault(r => r.Prerelease && r.TagName != null);
     }
 
     public async Task<EventsUpdateResponse?> CheckForEventUpdatesAsync()

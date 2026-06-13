@@ -78,7 +78,7 @@
                 Text="{Binding ViewModel.SearchText, Mode=TwoWay, IsAsync=true}"
                 TextAlignment="Center"
                 ClearButtonEnabled="False" 
-                KeyDown="SearchBox_OnKeyDownAsync"
+                KeyDown="SearchBox_OnKeyDown"
             ></ui:TextBox>
             <ui:Button
                 Grid.Row="1"
@@ -145,6 +145,9 @@
                   AutoGenerateColumns="False"  
                   ItemsSource="{Binding ViewModel.DGAchievements}" 
                   IsReadOnly="True"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   CanUserReorderColumns="False"

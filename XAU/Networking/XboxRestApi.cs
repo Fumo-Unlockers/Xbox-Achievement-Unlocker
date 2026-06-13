@@ -171,7 +171,9 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.TitleHub);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
         var responseString = await _httpClient.GetStringAsync(string.Format(InterpolatedXboxAPIUrls.TitlesUrl, xuid));
-        return JsonConvert.DeserializeObject<TitlesList>(responseString);
+        // Parsing thousands of titles is CPU-bound; run it off the captured
+        // (UI) synchronization context so the caller's UI thread stays responsive.
+        return await Task.Run(() => JsonConvert.DeserializeObject<TitlesList>(responseString));
     }
 
     public async Task<JObject?> GetGamertagProfileAsync(string gamertag)

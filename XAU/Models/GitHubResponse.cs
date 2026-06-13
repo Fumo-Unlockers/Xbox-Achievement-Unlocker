@@ -6,12 +6,6 @@ public class EventsUpdateResponse
     public string? DataVersion { get; set; }
 }
 
-public class VersionResponse
-{
-    public string? DownloadURL { get; set; }
-    public string? LatestBuildVersion { get; set; }
-}
-
 
 public class GitHubFile
 {
@@ -29,4 +23,37 @@ public class GitHubFile
 
     [JsonProperty("download_url")]
     public string DownloadUrl { get; set; }
+}
+
+public class GitHubReleaseAsset
+{
+    [JsonProperty("name")]
+    public string? Name { get; set; }
+
+    [JsonProperty("browser_download_url")]
+    public string? BrowserDownloadUrl { get; set; }
+}
+
+public class GitHubRelease
+{
+    [JsonProperty("tag_name")]
+    public string? TagName { get; set; }
+
+    [JsonProperty("name")]
+    public string? Name { get; set; }
+
+    [JsonProperty("body")]
+    public string? Body { get; set; }
+
+    [JsonProperty("html_url")]
+    public string? HtmlUrl { get; set; }
+
+    [JsonProperty("assets")]
+    public List<GitHubReleaseAsset>? Assets { get; set; } = new();
+
+    [JsonProperty("draft")]
+    public bool Draft { get; set; }
+
+    [JsonProperty("prerelease")]
+    public bool Prerelease { get; set; }
 }
