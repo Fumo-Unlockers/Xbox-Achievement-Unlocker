@@ -81,18 +81,21 @@ jobs:
       run: |
         $version = "${{ steps.ver.outputs.version }}"
 
-        # Find the previous standard (non-prerelease) release tag.
-        $prevTag = ""
-        $prevJson = gh release list --repo "$env:GITHUB_REPOSITORY" --exclude-drafts --exclude-prereleases --json tagName --limit 1
+        # Find when the previous standard (non-prerelease) release was published.
+        # Range by the release DATE (not the tag): old release tags here are
+        # orphaned (not ancestors of HEAD) after a history rewrite, so a
+        # <tag>..HEAD range would return the entire history.
+        $since = ""
+        $prevJson = gh release list --repo "$env:GITHUB_REPOSITORY" --exclude-drafts --exclude-prereleases --json publishedAt --limit 1
         if ($prevJson) {
           $parsed = $prevJson | ConvertFrom-Json
-          if ($parsed) { $prevTag = $parsed[0].tagName }
+          if ($parsed) { $since = $parsed[0].publishedAt }
         }
-        Write-Host "Previous standard release tag: '$prevTag'"
+        Write-Host "Previous standard release publishedAt: '$since'"
 
-        # Gather commit subjects since that tag (or from full history on the first release).
-        if ($prevTag -and (git rev-parse --verify --quiet "refs/tags/$prevTag")) {
-          $commits = git log "$prevTag..HEAD" --no-merges --pretty=format:"- %s"
+        # Commits after the previous release (or full history on the first release).
+        if ($since) {
+          $commits = git log --since="$since" --no-merges --pretty=format:"- %s"
         } else {
           Write-Host "No previous standard release found; using full history."
           $commits = git log --no-merges --max-count=200 --pretty=format:"- %s"
