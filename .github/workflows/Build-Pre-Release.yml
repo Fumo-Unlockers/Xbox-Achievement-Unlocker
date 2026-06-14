@@ -38,8 +38,10 @@ jobs:
       run: |
         $content = Get-Content -Path "${{github.workspace}}/XAU/ViewModels/Pages/HomeViewModel.cs" -Raw
         $content = $content -replace 'public static string ToolVersion = "EmptyDevToolVersion";', 'public static string ToolVersion = "PRE-${{ steps.get-hash.outputs.hash }}";'
-        $content = $content -replace 'Tool Version: \{System\.Reflection\.Assembly\.GetExecutingAssembly\(\)\.GetName\(\)\.Version\}', 'Tool Version: PRE-${{ steps.get-hash.outputs.hash }}'
         Set-Content -Path "${{github.workspace}}/XAU/ViewModels/Pages/HomeViewModel.cs" -Value $content
+        $mw = Get-Content -Path "${{github.workspace}}/XAU/ViewModels/Windows/MainWindowViewModel.cs" -Raw
+        $mw = $mw -replace 'Tool Version: \{System\.Reflection\.Assembly\.GetExecutingAssembly\(\)\.GetName\(\)\.Version\}', 'Tool Version: PRE-${{ steps.get-hash.outputs.hash }}'
+        Set-Content -Path "${{github.workspace}}/XAU/ViewModels/Windows/MainWindowViewModel.cs" -Value $mw
 
     - name: Restore dependencies
       run: dotnet restore /p:EnableWindowsTargeting=true
