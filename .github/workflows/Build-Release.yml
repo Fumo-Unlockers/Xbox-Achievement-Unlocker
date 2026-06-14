@@ -56,6 +56,7 @@ jobs:
         }
         Write-Host "Will create standard release $version."
         echo "should_release=true" >> $env:GITHUB_OUTPUT
+        exit 0
 
     - name: Restore dependencies
       if: steps.ver.outputs.should_release == 'true'
