@@ -1,0 +1,108 @@
+name: Build Release
+
+on:
+  push:
+    branches: [ Main ]
+    paths-ignore:
+      - '**.md'
+      - '**/ISSUE_TEMPLATE/**'
+      - '**.json'
+      - '.gitignore'
+      - '.gitattributes'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Determine release version
+      id: ver
+      shell: pwsh
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        $content = Get-Content -Path "XAU/ViewModels/Pages/HomeViewModel.cs" -Raw
+        if (-not ($content -match 'public static string ToolVersion = "([^"]+)";')) {
+          Write-Host "ToolVersion line not found. Skipping release."
+          echo "should_release=false" >> $env:GITHUB_OUTPUT
+          exit 0
+        }
+        $version = $Matches[1]
+        Write-Host "ToolVersion = $version"
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+
+        if ([string]::IsNullOrWhiteSpace($version) -or $version -eq "EmptyDevToolVersion" -or $version.Contains("DEV")) {
+          Write-Host "Placeholder/dev version ($version). Skipping release."
+          echo "should_release=false" >> $env:GITHUB_OUTPUT
+          exit 0
+        }
+        gh release view "$version" --repo "$env:GITHUB_REPOSITORY" 2>$null
+        if ($LASTEXITCODE -eq 0) {
+          Write-Host "Release $version already exists. Skipping."
+          echo "should_release=false" >> $env:GITHUB_OUTPUT
+          exit 0
+        }
+        Write-Host "Will create standard release $version."
+        echo "should_release=true" >> $env:GITHUB_OUTPUT
+
+    - name: Restore dependencies
+      if: steps.ver.outputs.should_release == 'true'
+      run: dotnet restore /p:EnableWindowsTargeting=true
+
+    - name: Build
+      if: steps.ver.outputs.should_release == 'true'
+      run: dotnet publish XAU.sln -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:PublishReadyToRun=false /p:IncludeAllContentForSelfExtract=true /p:EnableWindowsTargeting=true -o ./publish
+
+    - name: Stage executable
+      if: steps.ver.outputs.should_release == 'true'
+      shell: pwsh
+      run: |
+        Remove-Item -Path "${{ github.workspace }}/XAU.exe" -ErrorAction Ignore
+        Copy-Item -Path "./publish/XAU.exe" -Destination "${{ github.workspace }}/XAU.exe"
+
+    - name: Create standard release
+      if: steps.ver.outputs.should_release == 'true'
+      shell: pwsh
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        $version = "${{ steps.ver.outputs.version }}"
+
+        # Find the previous standard (non-prerelease) release tag.
+        $prevTag = ""
+        $prevJson = gh release list --repo "$env:GITHUB_REPOSITORY" --exclude-drafts --exclude-prereleases --json tagName --limit 1
+        if ($prevJson) {
+          $parsed = $prevJson | ConvertFrom-Json
+          if ($parsed) { $prevTag = $parsed[0].tagName }
+        }
+        Write-Host "Previous standard release tag: '$prevTag'"
+
+        # Gather commit subjects since that tag (or from full history on the first release).
+        if ($prevTag -and (git rev-parse --verify --quiet "refs/tags/$prevTag")) {
+          $commits = git log "$prevTag..HEAD" --no-merges --pretty=format:"- %s"
+        } else {
+          Write-Host "No previous standard release found; using full history."
+          $commits = git log --no-merges --max-count=200 --pretty=format:"- %s"
+        }
+        if (-not $commits) { $commits = @("- $version release") }
+        $body = $commits -join "`n"
+        Set-Content -Path "release-notes.txt" -Value $body -Encoding utf8
+
+        Write-Host "Release notes:`n$body"
+        gh release create "$version" "${{ github.workspace }}/XAU.exe" `
+          --repo "$env:GITHUB_REPOSITORY" `
+          --title "$version" `
+          --notes-file "release-notes.txt" `
+          --latest

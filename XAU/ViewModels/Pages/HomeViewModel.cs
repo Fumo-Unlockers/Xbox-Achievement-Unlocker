@@ -31,7 +31,7 @@ namespace XAU.ViewModels.Pages
 
     public partial class HomeViewModel : ObservableObject, INavigationAware
     {
-        public static string ToolVersion = "EmptyDevToolVersion";
+        public static string ToolVersion = "26.06.14";
         public static string EventsVersion = "1.0";
 
         //attach vars
@@ -148,6 +148,9 @@ namespace XAU.ViewModels.Pages
             else
             {
                 var jsonResponse = await _gitHubRestAPI.Value.GetReleaseVersionAsync();
+
+                if (jsonResponse.Count == 0)
+                    return;
 
                 if (jsonResponse[0].tag_name.ToString() != ToolVersion)
                 {

@@ -42,8 +42,9 @@ public class GithubRestApi
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.GitHubApi);
         var responseString =
             await _httpClient.GetStringAsync("https://api.github.com/repos/Fumo-Unlockers/Xbox-Achievement-unlocker/releases");
-        var jsonResponse = (dynamic)JArray.Parse(responseString);
-        return jsonResponse;
+        var allReleases = JArray.Parse(responseString);
+        var stableReleases = new JArray(allReleases.Where(r => !(bool)r["prerelease"]));
+        return (dynamic)stableReleases;
     }
 
     public async Task<EventsUpdateResponse?> CheckForEventUpdatesAsync()
