@@ -237,7 +237,7 @@ public class XboxRestAPI
             _spooferClient.DefaultRequestHeaders.Add("Signature", signature);
 
         await _spooferClient.PostAsync(url,
-            new StringContent(body, Encoding.UTF8, "application/json; charset=UTF-8"));
+            new StringContent(body, Encoding.UTF8, "application/json"));
     }
 
     public async Task StopHeartbeatAsync(string xuid)
