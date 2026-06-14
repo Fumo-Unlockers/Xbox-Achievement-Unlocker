@@ -28,7 +28,6 @@ struct HeaderValues
     public const string AcceptEncoding = @"gzip, deflate";
     public const string Accept = @"application/json";
     public const string KeepAlive = @"Keep-Alive";
-    public const string Signature = @"RGFtbklHb3R0YU1ha2VUaGlzU3RyaW5nU3VwZXJMb25nSHVoLkRvbnRFdmVuS25vd1doYXRTaG91bGRCZUhlcmVEcmFmZlN0cmluZw==";
 
 }
 
@@ -73,7 +72,7 @@ public struct InterpolatedXboxAPIUrls
     public const string QueryAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements?titleId={1}&maxItems=1000";
     public const string QueryAchievements360Url = "https://achievements.xboxlive.com/users/xuid({0})/titleachievements?titleId={1}&maxItems=1000";
     public const string UpdateAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements/{1}/update";
-    public const string HeartbeatUrl = "https://presence-heartbeat.xboxlive.com/users/xuid({0})/devices/current/";
+    public const string HeartbeatUrl = "https://userpresence.xboxlive.com/users/xuid({0})/devices/current/titles/current";
     public const string GamertagSearch = "https://profile.xboxlive.com/users/gt({0})/profile/settings?settings=GameDisplayPicRaw,Gamerscore,Gamertag";
 }
 

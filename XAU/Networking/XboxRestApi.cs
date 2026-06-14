@@ -223,40 +223,37 @@ public class XboxRestAPI
 
     public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId)
     {
-        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(spoofedTitleId))
-        {
-            // Don't send a request if we don't have the details
+        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(spoofedTitleId) || !long.TryParse(spoofedTitleId, out var numericId))
             return;
-        }
+
+        var url = string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid);
+        var body = JsonConvert.SerializeObject(new HeartbeatRequest { id = numericId });
+        var signature = XAU.Services.WamAuthService.SignRequest("POST", url, body);
 
         SetDefaultSpooferHeaders();
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-        var heartbeatRequest = new HeartbeatRequest()
-        {
-            titles = new List<TitleRequest>()
-            {
-                new TitleRequest()
-                {
-                    id = spoofedTitleId
-                }
-            }
-        };
-        await _spooferClient.PostAsync(
-        string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid),
-        new StringContent(JsonConvert.SerializeObject(heartbeatRequest), Encoding.UTF8, HeaderValues.Accept));
+        _spooferClient.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
+        if (signature != null)
+            _spooferClient.DefaultRequestHeaders.Add("Signature", signature);
+
+        await _spooferClient.PostAsync(url,
+            new StringContent(body, Encoding.UTF8, "application/json; charset=UTF-8"));
     }
 
     public async Task StopHeartbeatAsync(string xuid)
     {
         if (string.IsNullOrWhiteSpace(xuid))
-        {
-            // Don't send a request if we don't have the details
             return;
-        }
+
+        var url = string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid);
+        var signature = XAU.Services.WamAuthService.SignRequest("DELETE", url, "");
 
         SetDefaultSpooferHeaders();
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-        await _spooferClient.DeleteAsync(string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid));
+        if (signature != null)
+            _spooferClient.DefaultRequestHeaders.Add("Signature", signature);
+
+        await _spooferClient.DeleteAsync(url);
     }
 
     public async Task<AchievementsResponse?> GetAchievementsForTitleAsync(string xuid, string titleId)
@@ -294,13 +291,13 @@ public class XboxRestAPI
         return achievements;
     }
 
-    public async Task UnlockTitleBasedAchievementAsync(string serviceConfigId, string titleId, string xuid, string achievementId, bool useFakeSignature = false)
+    public async Task UnlockTitleBasedAchievementAsync(string serviceConfigId, string titleId, string xuid, string achievementId)
     {
         // only unlock the specified achievement
-        await UnlockTitleBasedAchievementsAsync(serviceConfigId, titleId, xuid, new List<string>() { achievementId }, useFakeSignature);
+        await UnlockTitleBasedAchievementsAsync(serviceConfigId, titleId, xuid, new List<string>() { achievementId });
     }
 
-    public async Task UnlockTitleBasedAchievementsAsync(string serviceConfigId, string titleId, string xuid, List<string> achievementIds, bool useFakeSignature = false)
+    public async Task UnlockTitleBasedAchievementsAsync(string serviceConfigId, string titleId, string xuid, List<string> achievementIds)
     {
         if (string.IsNullOrWhiteSpace(serviceConfigId) || string.IsNullOrWhiteSpace(titleId) || string.IsNullOrWhiteSpace(xuid) || achievementIds.Count == 0)
         {
@@ -313,11 +310,6 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
         _httpClient.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
-
-        if (useFakeSignature)
-        {
-            _httpClient.DefaultRequestHeaders.Add(HeaderNames.Signature, HeaderValues.Signature);
-        }
 
         // Split the requests into 50 achievements each. Anything over 100 seems to BadRequest. TODO: look into
         // headers and see if we can send long data or w/e
@@ -335,10 +327,16 @@ public class XboxRestAPI
             };
 
             var unlockBodyStr = JsonConvert.SerializeObject(unlockRequest);
-            var bodyconverted = new StringContent(unlockBodyStr, Encoding.UTF8, HeaderValues.Accept);
+            var url = string.Format(InterpolatedXboxAPIUrls.UpdateAchievementsUrl, xuid, serviceConfigId);
+            var signature = XAU.Services.WamAuthService.SignRequest("POST", url, unlockBodyStr);
+            if (signature != null)
+                _httpClient.DefaultRequestHeaders.Add(HeaderNames.Signature, signature);
 
-            var response = await _httpClient.PostAsync(
-                string.Format(InterpolatedXboxAPIUrls.UpdateAchievementsUrl, xuid, serviceConfigId), bodyconverted);
+            var response = await _httpClient.PostAsync(url,
+                new StringContent(unlockBodyStr, Encoding.UTF8, HeaderValues.Accept));
+            if (signature != null)
+                _httpClient.DefaultRequestHeaders.Remove(HeaderNames.Signature);
+
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new HttpRequestException($"Failed to unlock achievement(s) for title {titleId} with status code {response.StatusCode}");

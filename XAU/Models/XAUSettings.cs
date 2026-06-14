@@ -6,13 +6,7 @@ public class XAUSettings
     public bool AutoSpooferEnabled { get; set; }
     public bool AutoLaunchXboxAppEnabled { get; set; }
     public bool LaunchHidden { get; set; }
-    public bool FakeSignatureEnabled { get; set; }
     public bool RegionOverride { get; set; }
     public bool UseAcrylic { get; set; }
     public bool PrivacyMode { get; set; }
-    public bool OAuthLogin { get; set; }
-    public bool AutoGrabEventsToken { get; set; }
-    public string? CachedEventsToken { get; set; }
-    public DateTime? EventsTokenObtainedAt { get; set; }
-    public string? EventsUserHash { get; set; }
 }

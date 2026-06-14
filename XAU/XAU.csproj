@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -40,10 +40,6 @@
   <ItemGroup>
     <Resource Include="Assets\cirno.png" />
     <Resource Include="Assets\G.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Util\XboxAuthNet\Platforms\" />
   </ItemGroup>
 
 </Project>

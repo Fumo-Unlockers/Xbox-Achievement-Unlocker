@@ -16,17 +16,7 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-
     <Grid>
-        <ui:TextBlock 
-            Text="{Binding ViewModel.Attached}"
-            Foreground="{Binding ViewModel.AttachedColor}"
-        ></ui:TextBlock>
-        <ui:TextBlock 
-            Padding="0, 30, 0, 0"
-            Text="{Binding ViewModel.LoggedIn}"
-            Foreground="{Binding ViewModel.LoggedInColor}"
-        ></ui:TextBlock>
         <ui:Image
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
@@ -139,7 +129,7 @@
             VerticalAlignment="Top"
             Padding="17, 5, 17, 5"
             Content="{Binding ViewModel.LoginText, Mode=OneWay}"
-            Command="{Binding ViewModel.OAuthLoginCommand, Mode=OneWay}"/>
+            Command="{Binding ViewModel.LoginWithWamCommand, Mode=OneWay}"/>
         <ui:Button
             HorizontalAlignment="Right"
             VerticalAlignment="Top"

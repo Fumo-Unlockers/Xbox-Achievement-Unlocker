@@ -22,13 +22,9 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private bool _autoSpooferEnabled;
         [ObservableProperty] private bool _autoLaunchXboxAppEnabled;
         [ObservableProperty] private bool _launchHidden;
-        [ObservableProperty] private bool _fakeSignatureEnabled;
         [ObservableProperty] private bool _regionOverride;
         [ObservableProperty] private bool _useAcrylic;
         [ObservableProperty] private bool _privacyMode;
-        [ObservableProperty] private bool _oAuthLogin;
-        [ObservableProperty] private bool _autoGrabEventsToken;
-        [ObservableProperty] private string _xauth;
 
         [ObservableProperty] private bool _serverEnabled;
         [ObservableProperty] private string _serverPort = "1337";
@@ -36,9 +32,6 @@ namespace XAU.ViewModels.Pages
 
         private HttpServer? _httpServer;
         private bool _disposed;
-
-        public static bool ManualXauth = false;
-        public RoutedEventHandler OnNavigatedToEvent = null!;
 
         [RelayCommand]
         public void SaveSettings()
@@ -51,12 +44,9 @@ namespace XAU.ViewModels.Pages
                 AutoSpooferEnabled = AutoSpooferEnabled,
                 AutoLaunchXboxAppEnabled = AutoLaunchXboxAppEnabled,
                 LaunchHidden = LaunchHidden,
-                FakeSignatureEnabled = FakeSignatureEnabled,
                 RegionOverride = RegionOverride,
                 UseAcrylic = UseAcrylic,
-                PrivacyMode = PrivacyMode,
-                OAuthLogin = OAuthLogin,
-                AutoGrabEventsToken = AutoGrabEventsToken
+                PrivacyMode = PrivacyMode
             };
             string settingsJson = JsonConvert.SerializeObject(settings);
             File.WriteAllText(SettingsFilePath, settingsJson);
@@ -137,8 +127,6 @@ namespace XAU.ViewModels.Pages
             {
                 InitializeViewModel();
             }
-
-            OnNavigatedToEvent.Invoke(this, new RoutedEventArgs());
         }
 
         public void OnNavigatedFrom()
@@ -171,13 +159,9 @@ namespace XAU.ViewModels.Pages
             AutoSpooferEnabled = HomeViewModel.Settings.AutoSpooferEnabled;
             AutoLaunchXboxAppEnabled = HomeViewModel.Settings.AutoLaunchXboxAppEnabled;
             LaunchHidden = HomeViewModel.Settings.LaunchHidden;
-            FakeSignatureEnabled = HomeViewModel.Settings.FakeSignatureEnabled;
             RegionOverride = HomeViewModel.Settings.RegionOverride;
             UseAcrylic = HomeViewModel.Settings.UseAcrylic;
             PrivacyMode = HomeViewModel.Settings.PrivacyMode;
-            Xauth = HomeViewModel.XAUTH;
-            OAuthLogin = HomeViewModel.Settings.OAuthLogin;
-            AutoGrabEventsToken = HomeViewModel.Settings.AutoGrabEventsToken;
         }
 
         private string GetAssemblyVersion()

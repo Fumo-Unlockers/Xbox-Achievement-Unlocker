@@ -167,32 +167,25 @@ namespace XAU.ViewModels.Pages
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            TimeSpan spoofingTime = stopwatch.Elapsed;
-            SpoofingText = $"Spoofing {GameName} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
+            SpoofingText = "Spoofing started...";
             await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
-            var i = 0;
-            Thread.Sleep(1000);
+            var lastHeartbeat = DateTime.UtcNow;
             SpoofingUpdate = false;
             while (!SpoofingUpdate)
             {
-                if (i == 300)
+                await Task.Delay(1000);
+                if (SpoofingUpdate)
+                {
+                    HomeViewModel.SpoofingStatus = 0;
+                    HomeViewModel.SpoofedTitleID = "0";
+                    break;
+                }
+                    SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name} For: {stopwatch.Elapsed.ToString(@"hh\:mm\:ss")}";
+                if ((DateTime.UtcNow - lastHeartbeat).TotalSeconds >= 300)
                 {
                     await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
-                    i = 0;
+                    lastHeartbeat = DateTime.UtcNow;
                 }
-                else
-                {
-                    if (SpoofingUpdate)
-                    {
-                        HomeViewModel.SpoofingStatus = 0;
-                        HomeViewModel.SpoofedTitleID = "0";
-                        break;
-                    }
-                    spoofingTime = stopwatch.Elapsed;
-                    SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
-                    i++;
-                }
-                Thread.Sleep(1000);
             }
         }
 

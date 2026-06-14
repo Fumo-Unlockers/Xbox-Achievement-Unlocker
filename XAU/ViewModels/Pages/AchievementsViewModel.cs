@@ -210,26 +210,12 @@ namespace XAU.ViewModels.Pages
         public async Task Spoofing()
         {
             await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
-            var i = 0;
-            Thread.Sleep(1000);
             SpoofingUpdate = false;
             while (!SpoofingUpdate)
             {
-                if (i == 300)
-                {
-                    await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
-                    i = 0;
-                }
-                else
-                {
-                    if (SpoofingUpdate)
-                    {
-
-                        break;
-                    }
-                    i++;
-                }
-                Thread.Sleep(1000);
+                await Task.Delay(TimeSpan.FromSeconds(300));
+                if (SpoofingUpdate) break;
+                await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
             }
         }
 
@@ -502,7 +488,7 @@ namespace XAU.ViewModels.Pages
             {
                 try
                 {
-                    await _xboxRestAPI.Value.UnlockTitleBasedAchievementAsync(AchievementResponse.achievements[0].serviceConfigId, AchievementResponse.achievements[0].titleAssociations[0].id, HomeViewModel.XUIDOnly, DGAchievements[AchievementIndex].ID.ToString(), HomeViewModel.Settings.FakeSignatureEnabled);
+                    await _xboxRestAPI.Value.UnlockTitleBasedAchievementAsync(AchievementResponse.achievements[0].serviceConfigId, AchievementResponse.achievements[0].titleAssociations[0].id, HomeViewModel.XUIDOnly, DGAchievements[AchievementIndex].ID.ToString());
 
                     _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
                         ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
@@ -532,17 +518,13 @@ namespace XAU.ViewModels.Pages
             }
             else
             {
-                if (EventsToken == null || HomeViewModel.IsEventsTokenExpired())
+                if (EventsToken == null)
                 {
                     ContentDialogResult result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
                         {
-                            Title = EventsToken == null
-                                ? "Error: You have not set an events token"
-                                : "Error: Your events token has expired",
-                            Content = EventsToken == null
-                                ? "To unlock event based games you must supply an events token. You can set one up in Settings."
-                                : "Your events token has expired and needs to be refreshed before unlocking.",
+                            Title = "Error: You have not set an events token",
+                            Content = "To unlock event based games you must supply an events token. Log in via WAM to obtain one.",
                             PrimaryButtonText = "Go to Settings",
                             CloseButtonText = "Close",
                         });
@@ -633,7 +615,7 @@ namespace XAU.ViewModels.Pages
             try
             {
                 await _xboxRestAPI.Value.UnlockTitleBasedAchievementsAsync(serviceConfigId: AchievementResponse.achievements[0].serviceConfigId,
-                    titleId: AchievementResponse.achievements[0].titleAssociations[0].id, xuid: HomeViewModel.XUIDOnly, achievementIds: lockedAchievementIds, useFakeSignature: HomeViewModel.Settings.FakeSignatureEnabled);
+                    titleId: AchievementResponse.achievements[0].titleAssociations[0].id, xuid: HomeViewModel.XUIDOnly, achievementIds: lockedAchievementIds);
 
                 _snackbarService.Show("All Achievements Unlocked", $"All Achievements for this game have been unlocked",
                     ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
