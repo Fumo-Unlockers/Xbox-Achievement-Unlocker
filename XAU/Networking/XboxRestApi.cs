@@ -21,7 +21,7 @@ public class XboxRestAPI
 
     public XboxRestAPI(string xauth)
     {
-        _xauth = xauth;
+        _xauth = SanitizeXauth(xauth);
         _requestedResponseLanguage = HomeViewModel.Settings.RegionOverride ? "en-GB" : System.Globalization.CultureInfo.CurrentCulture.Name;
         var handler = new HttpClientHandler()
         {
@@ -56,6 +56,60 @@ public class XboxRestAPI
             Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
         }
 #endif
+    }
+
+    public static string SanitizeXauthPublic(string xauth) => SanitizeXauth(xauth);
+
+    public static string GetSpoofAuth() =>
+        string.IsNullOrWhiteSpace(HomeViewModel.SpoofXAUTH) ? HomeViewModel.XAUTH : HomeViewModel.SpoofXAUTH;
+
+    private static string SanitizeXauth(string xauth)
+    {
+        if (string.IsNullOrWhiteSpace(xauth))
+        {
+            return "";
+        }
+
+        var trimmed = xauth.Trim();
+        var startIndex = trimmed.IndexOf("XBL3.0 x=", StringComparison.Ordinal);
+        if (startIndex < 0)
+        {
+            return trimmed;
+        }
+
+        var semicolonIndex = trimmed.IndexOf(';', startIndex);
+        if (semicolonIndex < 0)
+        {
+            return trimmed.Substring(startIndex).Trim();
+        }
+
+        var endIndex = semicolonIndex + 1;
+        while (endIndex < trimmed.Length)
+        {
+            var c = trimmed[endIndex];
+            if (char.IsWhiteSpace(c) || c == '\0')
+            {
+                break;
+            }
+
+            if (char.IsLetterOrDigit(c) || c is '-' or '_' or '.' or '=')
+            {
+                endIndex++;
+                continue;
+            }
+
+            break;
+        }
+
+        return trimmed.Substring(startIndex, endIndex - startIndex);
+    }
+
+    private void SetHeartbeatHeaders()
+    {
+        _spooferClient.DefaultRequestHeaders.Clear();
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, _xauth);
     }
 
     private void SetDefaultSpooferHeaders()
@@ -219,42 +273,191 @@ public class XboxRestAPI
         return JsonConvert.DeserializeObject<GameStatsResponse>(response);
     }
 
-    public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId)
+    private void SetPresenceHeaders()
     {
-        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(spoofedTitleId))
+        _spooferClient.DefaultRequestHeaders.Clear();
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _requestedResponseLanguage);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, _xauth);
+    }
+
+    private async Task<SpoofResult> PostSpoofAsync(string url, string requestBody, string apiName)
+    {
+        var response = await _spooferClient.PostAsync(
+            url,
+            new StringContent(requestBody, Encoding.UTF8, HeaderValues.Accept));
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+#if DEBUG
+        Console.WriteLine($"{apiName} {(int)response.StatusCode} {response.StatusCode}: {responseBody}");
+#endif
+
+        if (response.IsSuccessStatusCode)
         {
-            // Don't send a request if we don't have the details
-            return;
+            return SpoofResult.Ok();
         }
 
-        SetDefaultSpooferHeaders();
-        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-        var heartbeatRequest = new HeartbeatRequest()
+        return SpoofResult.Fail($"{apiName} {(int)response.StatusCode} {response.StatusCode}: {responseBody}");
+    }
+
+    public async Task<SpoofResult> SendHeartbeatAsync(string xuid, string spoofedTitleId)
+    {
+        spoofedTitleId = spoofedTitleId.Trim();
+        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(spoofedTitleId))
         {
-            titles = new List<TitleRequest>()
-            {
-                new TitleRequest()
-                {
-                    id = spoofedTitleId
-                }
-            }
+            return SpoofResult.Fail("Missing XUID or Title ID.");
+        }
+
+        if (string.IsNullOrWhiteSpace(_xauth))
+        {
+            return SpoofResult.Fail("Missing XAUTH token. Log in again.");
+        }
+
+        if (!ulong.TryParse(spoofedTitleId, out var titleId))
+        {
+            return SpoofResult.Fail("Title ID must be numeric.");
+        }
+
+        SetHeartbeatHeaders();
+        var requestBody =
+            $"{{\"titles\":[{{\"expiration\":600,\"id\":{titleId},\"state\":\"active\",\"sandbox\":\"RETAIL\"}}]}}";
+        return await PostSpoofAsync(
+            string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid),
+            requestBody,
+            "Heartbeat");
+    }
+
+    public async Task<SpoofResult> SendHeartbeatMeAsync(string spoofedTitleId)
+    {
+        spoofedTitleId = spoofedTitleId.Trim();
+        if (string.IsNullOrWhiteSpace(spoofedTitleId))
+        {
+            return SpoofResult.Fail("Missing Title ID.");
+        }
+
+        if (string.IsNullOrWhiteSpace(_xauth))
+        {
+            return SpoofResult.Fail("Missing XAUTH token. Log in again.");
+        }
+
+        if (!ulong.TryParse(spoofedTitleId, out var titleId))
+        {
+            return SpoofResult.Fail("Title ID must be numeric.");
+        }
+
+        SetHeartbeatHeaders();
+        var requestBody =
+            $"{{\"titles\":[{{\"expiration\":600,\"id\":{titleId},\"state\":\"active\",\"sandbox\":\"RETAIL\"}}]}}";
+        return await PostSpoofAsync(InterpolatedXboxAPIUrls.HeartbeatMeUrl, requestBody, "Heartbeat (me)");
+    }
+
+    public async Task<SpoofResult> SendPresenceAsync(string xuid, string spoofedTitleId)
+    {
+        spoofedTitleId = spoofedTitleId.Trim();
+        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(spoofedTitleId))
+        {
+            return SpoofResult.Fail("Missing XUID or Title ID.");
+        }
+
+        if (!ulong.TryParse(spoofedTitleId, out var titleId))
+        {
+            return SpoofResult.Fail("Title ID must be numeric.");
+        }
+
+        SetPresenceHeaders();
+        var presenceRequest = new PresenceTitleRequest()
+        {
+            id = titleId
         };
-        await _spooferClient.PostAsync(
-        string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid),
-        new StringContent(JsonConvert.SerializeObject(heartbeatRequest), Encoding.UTF8, HeaderValues.Accept));
+
+        return await PostSpoofAsync(
+            string.Format(InterpolatedXboxAPIUrls.PresenceUrl, xuid),
+            JsonConvert.SerializeObject(presenceRequest),
+            "Presence");
+    }
+
+    public async Task<SpoofResult> SendPresenceMeAsync(string spoofedTitleId)
+    {
+        spoofedTitleId = spoofedTitleId.Trim();
+        if (string.IsNullOrWhiteSpace(spoofedTitleId))
+        {
+            return SpoofResult.Fail("Missing Title ID.");
+        }
+
+        if (!ulong.TryParse(spoofedTitleId, out var titleId))
+        {
+            return SpoofResult.Fail("Title ID must be numeric.");
+        }
+
+        SetPresenceHeaders();
+        var presenceRequest = new PresenceTitleRequest()
+        {
+            id = titleId
+        };
+
+        return await PostSpoofAsync(
+            InterpolatedXboxAPIUrls.PresenceMeUrl,
+            JsonConvert.SerializeObject(presenceRequest),
+            "Presence (me)");
+    }
+
+    public async Task<SpoofResult> SendSpoofAsync(string xuid, string spoofedTitleId)
+    {
+        if (string.IsNullOrWhiteSpace(_xauth))
+        {
+            return SpoofResult.Fail("Missing XAUTH token. Log in again.");
+        }
+
+        var attempts = new List<SpoofResult>();
+
+        var presence = await SendPresenceAsync(xuid, spoofedTitleId);
+        if (presence.Success)
+        {
+            _ = await SendHeartbeatAsync(xuid, spoofedTitleId);
+            return presence;
+        }
+        attempts.Add(presence);
+
+        var presenceMe = await SendPresenceMeAsync(spoofedTitleId);
+        if (presenceMe.Success)
+        {
+            _ = await SendHeartbeatAsync(xuid, spoofedTitleId);
+            return presenceMe;
+        }
+        attempts.Add(presenceMe);
+
+        var heartbeat = await SendHeartbeatAsync(xuid, spoofedTitleId);
+        if (heartbeat.Success)
+        {
+            return heartbeat;
+        }
+        attempts.Add(heartbeat);
+
+        var heartbeatMe = await SendHeartbeatMeAsync(spoofedTitleId);
+        if (heartbeatMe.Success)
+        {
+            return heartbeatMe;
+        }
+        attempts.Add(heartbeatMe);
+
+        return SpoofResult.Fail(string.Join(" | ", attempts.Select(a => a.Error).Where(e => !string.IsNullOrWhiteSpace(e))));
     }
 
     public async Task StopHeartbeatAsync(string xuid)
     {
         if (string.IsNullOrWhiteSpace(xuid))
         {
-            // Don't send a request if we don't have the details
             return;
         }
 
-        SetDefaultSpooferHeaders();
-        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+        SetHeartbeatHeaders();
         await _spooferClient.DeleteAsync(string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid));
+        await _spooferClient.DeleteAsync(InterpolatedXboxAPIUrls.HeartbeatMeUrl);
+
+        SetPresenceHeaders();
+        await _spooferClient.DeleteAsync(string.Format(InterpolatedXboxAPIUrls.PresenceUrl, xuid));
+        await _spooferClient.DeleteAsync(InterpolatedXboxAPIUrls.PresenceMeUrl);
     }
 
     public async Task<AchievementsResponse?> GetAchievementsForTitleAsync(string xuid, string titleId)

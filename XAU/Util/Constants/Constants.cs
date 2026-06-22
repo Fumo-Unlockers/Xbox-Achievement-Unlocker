@@ -48,6 +48,8 @@ struct Hosts
     public const string PeopleHub = @"peoplehub.xboxlive.com";
     public const string TitleHub = @"titlehub.xboxlive.com";
     public const string Telemetry = @"v20.events.data.microsoft.com";
+    public const string PresenceHeartbeat = @"presence-heartbeat.xboxlive.com";
+    public const string UserPresence = @"userpresence.xboxlive.com";
     public const string GitHubApi = @"api.github.com";
     public const string GitHubRaw = @"raw.githubusercontent.com";
 
@@ -73,7 +75,10 @@ public struct InterpolatedXboxAPIUrls
     public const string QueryAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements?titleId={1}&maxItems=1000";
     public const string QueryAchievements360Url = "https://achievements.xboxlive.com/users/xuid({0})/titleachievements?titleId={1}&maxItems=1000";
     public const string UpdateAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements/{1}/update";
-    public const string HeartbeatUrl = "https://presence-heartbeat.xboxlive.com/users/xuid({0})/devices/current/";
+    public const string HeartbeatUrl = "https://presence-heartbeat.xboxlive.com/users/xuid({0})/devices/current";
+    public const string HeartbeatMeUrl = "https://presence-heartbeat.xboxlive.com/users/me/devices/current";
+    public const string PresenceUrl = "https://userpresence.xboxlive.com/users/xuid({0})/devices/current/titles/current";
+    public const string PresenceMeUrl = "https://userpresence.xboxlive.com/users/me/devices/current/titles/current";
     public const string GamertagSearch = "https://profile.xboxlive.com/users/gt({0})/profile/settings?settings=GameDisplayPicRaw,Gamerscore,Gamertag";
 }
 

@@ -1,5 +1,7 @@
 // TODO: Clean up, set names, default fields, minor renames, etc.
 
+using Newtonsoft.Json;
+
 public class GameTitleRequest
 {
     public string? Pfns { get; set; }
@@ -43,9 +45,31 @@ public class HeartbeatRequest
 public class TitleRequest
 {
     public int expiration { get; set; } = 600;
-    public string? id { get; set; }
+
+    [JsonProperty("id")]
+    public ulong id { get; set; }
+
     public string state { get; set; } = "active";
     public string sandbox { get; set; } = "RETAIL";
+}
+
+public class PresenceTitleRequest
+{
+    [JsonProperty("id")]
+    public ulong id { get; set; }
+
+    public string state { get; set; } = "active";
+    public string placement { get; set; } = "full";
+}
+
+public readonly struct SpoofResult
+{
+    public bool Success { get; init; }
+    public string? Error { get; init; }
+
+    public static SpoofResult Ok() => new() { Success = true };
+
+    public static SpoofResult Fail(string error) => new() { Success = false, Error = error };
 }
 
 public class GamepassProductsRequest

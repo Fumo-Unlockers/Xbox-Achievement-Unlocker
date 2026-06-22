@@ -85,7 +85,7 @@ namespace XAU.Views.Pages
                 return;
             }
 
-            HomeViewModel.XAUTH = XauthTextBox.Text;
+            HomeViewModel.XAUTH = XboxRestAPI.SanitizeXauthPublic(XauthTextBox.Text);
             SettingsViewModel.ManualXauth = true;
             HomeViewModel.XAUTHTested = false;
         }

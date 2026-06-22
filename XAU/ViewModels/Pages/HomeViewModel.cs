@@ -97,6 +97,7 @@ namespace XAU.ViewModels.Pages
         bool eventsTokenFound = false;
         public static bool XAUTHTested = false;
         public static string XAUTH = "";
+        public static string SpoofXAUTH = "";
         public static string XUIDOnly;
         public static bool InitComplete = false;
         private bool _isInitialized = false;
@@ -392,9 +393,9 @@ namespace XAU.ViewModels.Pages
         #region Xauth
         public void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (!Settings.OAuthLogin)
+            while (true)
             {
-                if (!m.OpenProcess((ProcessNames.XboxPcApp)))
+                if (!m.OpenProcess(ProcessNames.XboxPcApp))
                 {
                     IsAttached = false;
                     Thread.Sleep(1000);
@@ -403,10 +404,10 @@ namespace XAU.ViewModels.Pages
                 {
                     IsAttached = true;
                 }
+
                 Thread.Sleep(1000);
                 XauthWorker.ReportProgress(0);
             }
-            Thread.Sleep(5000);
         }
         public void XauthWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
@@ -420,6 +421,10 @@ namespace XAU.ViewModels.Pages
                         GrabProfile();
                     LoggedIn = "Logged In";
                     LoggedInColor = new SolidColorBrush(Colors.Green);
+                    if (Settings.OAuthLogin && !SettingsViewModel.ManualXauth)
+                    {
+                        _ = TryRefreshSpoofTokenFromXboxAppAsync();
+                    }
                 }
                 else
                 {
@@ -447,19 +452,29 @@ namespace XAU.ViewModels.Pages
             if (!XauthWorker.IsBusy)
                 XauthWorker.RunWorkerAsync();
         }
-        private async void GetXAUTH()
+        private static async Task<string?> ScanXauthFromXboxAppAsync(Mem mem)
         {
-            IEnumerable<long> XauthScanList = await m.AoBScan(XAuthScanPattern, true);
-            string[] XauthStrings = new string[XauthScanList.Count()];
-            var i = 0;
-            foreach (var address in XauthScanList)
+            if (!mem.OpenProcess(ProcessNames.XboxPcApp))
             {
-                XauthStrings[i] = m.ReadString(address.ToString("X"), length: 10000);
+                return null;
+            }
+
+            IEnumerable<long> xauthScanList = await mem.AoBScan(XAuthScanPattern, true);
+            string[] xauthStrings = new string[xauthScanList.Count()];
+            var i = 0;
+            foreach (var address in xauthScanList)
+            {
+                xauthStrings[i] = mem.ReadString(address.ToString("X"), length: 10000);
                 i++;
             }
 
+            if (xauthStrings.Length == 0)
+            {
+                return null;
+            }
+
             Dictionary<string, int> frequency = new Dictionary<string, int>();
-            foreach (string str in XauthStrings)
+            foreach (string str in xauthStrings)
             {
                 if (!frequency.ContainsKey(str))
                 {
@@ -471,12 +486,7 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            if (XauthStrings.Length == 0)
-            {
-                return;
-            }
-
-            string mostCommon = XauthStrings[0];
+            string mostCommon = xauthStrings[0];
             int highestFrequency = 0;
             foreach (KeyValuePair<string, int> pair in frequency)
             {
@@ -487,11 +497,38 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            if (highestFrequency > 3)
+            if (highestFrequency <= 3)
             {
-                XAUTH = mostCommon;
-                XAUTHTested = false;
+                return null;
             }
+
+            return XboxRestAPI.SanitizeXauthPublic(mostCommon);
+        }
+
+        public static async Task<bool> TryRefreshSpoofTokenFromXboxAppAsync()
+        {
+            var mem = new Mem();
+            var token = await ScanXauthFromXboxAppAsync(mem);
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return false;
+            }
+
+            SpoofXAUTH = token;
+            return true;
+        }
+
+        private async void GetXAUTH()
+        {
+            var token = await ScanXauthFromXboxAppAsync(m);
+            if (token == null)
+            {
+                return;
+            }
+
+            XAUTH = token;
+            SpoofXAUTH = token;
+            XAUTHTested = false;
         }
         private async void TestXAUTH()
         {
@@ -513,6 +550,7 @@ namespace XAU.ViewModels.Pages
                 IsLoggedIn = true;
                 XAUTHTested = true;
                 InitComplete = true;
+                SpoofXAUTH = XAUTH;
 
                 // Start the events token worker to periodically check/refresh the token
                 if (Settings.AutoGrabEventsToken && !EventsTokenWorker.IsBusy)
@@ -925,17 +963,19 @@ namespace XAU.ViewModels.Pages
 
         private async void GenerateTokens(MicrosoftOAuthResponse response)
         {
-            var deviceToken = await xboxSignedClient.RequestDeviceToken(XboxDeviceTypes.Win32, "0.0.0");
+            var deviceTokenResponse = await xboxSignedClient.RequestDeviceToken(XboxDeviceTypes.Win32, "0.0.0");
+            var deviceToken = deviceTokenResponse.Token;
             var sisuResult = await xboxSignedClient.SisuAuth(new XboxSisuAuthRequest
             {
                 AccessToken = response.AccessToken,
                 ClientId = XboxGameTitles.XboxAppPC,
-                DeviceToken = deviceToken.Token,
+                DeviceToken = deviceToken,
                 RelyingParty = XboxAuthConstants.XboxLiveRelyingParty,
             });
             try
             {
                 XAUTH = $"XBL3.0 x={sisuResult.AuthorizationToken.XuiClaims.UserHash};{sisuResult.AuthorizationToken.Token}";
+                SpoofXAUTH = await BuildSpoofXauthAsync(sisuResult, deviceToken) ?? XAUTH;
                 var xui = sisuResult.AuthorizationToken.XuiClaims;
                 XUIDOnly = xui?.XboxUserId ?? "";
                 if (!string.IsNullOrEmpty(XUIDOnly))
@@ -968,12 +1008,73 @@ namespace XAU.ViewModels.Pages
             if (Settings.AutoGrabEventsToken && !EventsTokenWorker.IsBusy)
                 EventsTokenWorker.RunWorkerAsync();
         }
+        private async Task<string?> BuildSpoofXauthAsync(XboxSisuResponse sisuResult, string deviceToken)
+        {
+            if (sisuResult.UserToken?.Token == null)
+            {
+                return null;
+            }
+
+            var relyingParties = new[]
+            {
+                XboxAuthConstants.XboxUserPresenceRelyingParty,
+                "https://userpresence.xboxlive.com",
+                XboxAuthConstants.XboxLiveRelyingParty,
+            };
+
+            foreach (var relyingParty in relyingParties)
+            {
+                try
+                {
+                    var signedXsts = await xboxSignedClient.RequestSignedXstsToken(new XboxSignedXstsRequest
+                    {
+                        UserToken = sisuResult.UserToken.Token,
+                        DeviceToken = deviceToken,
+                        TitleToken = sisuResult.TitleToken?.Token,
+                        RelyingParty = relyingParty,
+                    });
+
+                    if (signedXsts?.Token != null && signedXsts.XuiClaims?.UserHash != null)
+                    {
+                        return $"XBL3.0 x={signedXsts.XuiClaims.UserHash};{signedXsts.Token}";
+                    }
+                }
+                catch
+                {
+                    // Try the next relying party / auth method.
+                }
+
+                try
+                {
+                    var xsts = await xboxAuthClient.RequestXsts(new XboxXstsRequest
+                    {
+                        UserToken = sisuResult.UserToken.Token,
+                        DeviceToken = deviceToken,
+                        TitleToken = sisuResult.TitleToken?.Token,
+                        RelyingParty = relyingParty,
+                    });
+
+                    if (xsts?.Token != null && xsts.XuiClaims?.UserHash != null)
+                    {
+                        return $"XBL3.0 x={xsts.XuiClaims.UserHash};{xsts.Token}";
+                    }
+                }
+                catch
+                {
+                    // Try the next relying party.
+                }
+            }
+
+            return null;
+        }
+
         private void ClearProfileState()
         {
             IsLoggedIn = false;
             XAUTHTested = false;
             GrabbedProfile = false;
             XAUTH = "";
+            SpoofXAUTH = "";
             XUIDOnly = "";
             GamerTag = "Gamertag: Unknown   ";
             Xuid = "XUID: Unknown";
