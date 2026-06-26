@@ -17,11 +17,15 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       mc:Ignorable="d">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
 
     <Grid
           Height="{Binding ElementName=AchievementsPagen, Path=ActualHeight}"
           Width="{Binding ElementName=AchievementsPagen, Path=ActualWidth}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -78,7 +82,7 @@
                 Text="{Binding ViewModel.SearchText, Mode=TwoWay, IsAsync=true}"
                 TextAlignment="Center"
                 ClearButtonEnabled="False" 
-                KeyDown="SearchBox_OnKeyDown"
+                KeyDown="SearchBox_OnKeyDownAsync"
             ></ui:TextBox>
             <ui:Button
                 Grid.Row="1"
@@ -138,16 +142,168 @@
                 Command="{Binding ViewModel.RefreshAchievementsCommand}"
             />
         </Grid>
-        <DataGrid Grid.Row="1"  
-                  VerticalScrollBarVisibility="Visible" 
+
+        <Border Grid.Row="1"
+                Margin="0,2,0,10"
+                CornerRadius="12"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                Visibility="{Binding ViewModel.IsAutoUnlockerEnabled, Converter={StaticResource BoolToVis}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Width="4" CornerRadius="12,0,0,12"
+                        Background="{DynamicResource AccentFillColorDefaultBrush}"/>
+
+                <Grid Grid.Column="1" Margin="18,16,18,16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="34" Height="34" CornerRadius="8"
+                                Margin="0,0,12,0" VerticalAlignment="Center"
+                                Background="{DynamicResource AccentFillColorDefaultBrush}">
+                            <ui:SymbolIcon Symbol="Rocket24" FontSize="18"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <ui:TextBlock Text="Auto Unlocker" FontTypography="BodyStrong"/>
+                            <ui:TextBlock Text="Natural-timeline achievement unlocking"
+                                          FontTypography="Caption"
+                                          Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        </StackPanel>
+                        <ui:ProgressRing Grid.Column="2" Width="20" Height="20" Margin="0,0,10,0"
+                                         IsIndeterminate="True" VerticalAlignment="Center"
+                                         Visibility="{Binding ViewModel.AutoRunning, Converter={StaticResource BoolToVis}}"/>
+                        <Border Grid.Column="3" CornerRadius="11" Padding="12,4" VerticalAlignment="Center"
+                                Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                            <ui:TextBlock Text="{Binding ViewModel.AutoStatusText}"
+                                          FontTypography="Caption"
+                                          Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        </Border>
+                    </Grid>
+
+                    <Border Grid.Row="1" Height="1" Margin="0,14,0,14"
+                            Background="{DynamicResource CardStrokeColorDefaultBrush}"/>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <ui:Button MinWidth="124" Appearance="Primary"
+                                   Content="{Binding ViewModel.AutoStartPauseLabel}"
+                                   Command="{Binding ViewModel.ToggleAutoUnlockerCommand}"/>
+                        <ui:Button Margin="8,0,0,0" Appearance="Danger"
+                                   Icon="{ui:SymbolIcon Stop24}" Content="Stop"
+                                   Visibility="{Binding ViewModel.AutoRunning, Converter={StaticResource BoolToVis}}"
+                                   Command="{Binding ViewModel.StopAutoUnlockerCommand}"/>
+                        <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon PersonAdd24}"
+                                   Content="Get Unlock Order"
+                                   IsEnabled="{Binding ViewModel.AutoControlsEnabled}"
+                                   Command="{Binding ViewModel.GetUnlockOrderCommand}"/>
+                        <ui:Button Margin="8,0,0,0" Icon="{ui:SymbolIcon TaskListAdd24}"
+                                   Content="Add to Queue"
+                                   IsEnabled="{Binding ViewModel.AutoControlsEnabled}"
+                                   Command="{Binding ViewModel.AddToQueueCommand}"/>
+                    </StackPanel>
+
+                    <Border Grid.Row="3" Margin="0,14,0,0" Padding="14,12" CornerRadius="8"
+                            Background="{DynamicResource ControlFillColorDefaultBrush}"
+                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1"
+                            Visibility="{Binding ViewModel.AutoRunning, Converter={StaticResource BoolToVis}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ui:TextBlock Grid.Row="0" Text="NOW UNLOCKING"
+                                          FontTypography="Caption"
+                                          Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                            <Grid Grid.Row="1" Margin="0,4,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ui:TextBlock Grid.Column="0" VerticalAlignment="Center"
+                                              TextTrimming="CharacterEllipsis" FontTypography="BodyStrong"
+                                              Text="{Binding ViewModel.AutoCurrentAchievement}"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                            Margin="12,0,0,0" VerticalAlignment="Center">
+                                    <ui:SymbolIcon Symbol="Timer24" FontSize="18" Margin="0,0,6,0"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
+                                    <ui:TextBlock VerticalAlignment="Center" FontTypography="Title"
+                                                  Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"
+                                                  Text="{Binding ViewModel.AutoCountdownText}"/>
+                                </StackPanel>
+                            </Grid>
+                            <ProgressBar Grid.Row="2" Margin="0,10,0,0" Height="6"
+                                         Minimum="0" Maximum="1" Value="{Binding ViewModel.AutoProgressValue}"/>
+                            <ui:TextBlock Grid.Row="3" Margin="0,6,0,0" HorizontalAlignment="Right"
+                                          FontTypography="Caption"
+                                          Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                          Text="{Binding ViewModel.AutoEstimateText}"/>
+                        </Grid>
+                    </Border>
+
+                    <Grid Grid.Row="4" Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:Button Grid.Column="0" Icon="{ui:SymbolIcon Filter24}" Content="Edit Skip List"
+                                   IsEnabled="{Binding ViewModel.AutoControlsEnabled}"
+                                   Command="{Binding ViewModel.EditSkipListCommand}"/>
+                        <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="{ui:SymbolIcon Timer24}" Content="Edit Delays"
+                                   IsEnabled="{Binding ViewModel.AutoControlsEnabled}"
+                                   Command="{Binding ViewModel.EditDelaysCommand}"/>
+                        <Border Grid.Column="3" CornerRadius="8" Padding="10,4"
+                                Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="ArrowRepeatAll24" FontSize="14" Margin="0,0,6,0"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                                <ui:TextBlock Text="Loop ×" VerticalAlignment="Center" Margin="0,0,6,0"
+                                              Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                                <ui:TextBox Width="46"
+                                            Text="{Binding ViewModel.AutoLoopCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            ToolTip="Repeat counter-based event achievements this many times (default 1)."/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <DataGrid Grid.Row="2"
+                  VerticalScrollBarVisibility="Visible"
                   HorizontalScrollBarVisibility="Visible"
-                  Margin="0,5,0,5" 
-                  AutoGenerateColumns="False"  
-                  ItemsSource="{Binding ViewModel.DGAchievements}" 
-                  IsReadOnly="True"
+                  Margin="0,5,0,5"
+                  AutoGenerateColumns="False"
                   EnableRowVirtualization="True"
                   VirtualizingPanel.IsVirtualizing="True"
                   VirtualizingPanel.VirtualizationMode="Recycling"
+                  ItemsSource="{Binding ViewModel.DGAchievements}" 
+                  IsReadOnly="True"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   CanUserReorderColumns="False"
@@ -177,6 +333,23 @@
                 <DataGridTextColumn Header="Percentage" Binding="{Binding RarityPercentage}" Width="0.13*"/>
                 <DataGridTextColumn Header="Rarity" Binding="{Binding RarityCategory}" Width="0.11*"/>
                 <DataGridTextColumn Header="State" Binding="{Binding ProgressState}" Width="0.12*"/>
+                <!-- Coluna Category: "Easy Unlock"/"Hard Unlock" (vazia em jogos comuns). -->
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="0.16*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <!-- Marca de verificação: ✓ confirmado / ⏳ pendente. -->
+                <DataGridTextColumn Header="✓" Binding="{Binding VerifyState}" Width="0.04*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn Header="Unlock" Width="0.13*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -67,12 +67,18 @@ namespace XAU.ViewModels.Windows
                 Icon = new SymbolIcon { Symbol = SymbolRegular.Trophy24 },
                 TargetPageType = typeof(Views.Pages.AchievementsPage)
             },
-            /*new NavigationViewItem()
+            new NavigationViewItem()
             {
-                Content = "Stats",
+                Content = "Queue",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.TaskListLtr24 },
+                TargetPageType = typeof(Views.Pages.QueuePage)
+            },
+            new NavigationViewItem()
+            {
+                Content = "Stat Editor",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.DataHistogram24 },
                 TargetPageType = typeof(Views.Pages.StatsPage)
-            },*/
+            },
             new NavigationViewItem()
             {
                 Content = "Misc",

@@ -1,0 +1,266 @@
+<Page
+    x:Class="XAU.Views.Pages.QueuePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:XAU.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="QueuePage"
+    d:DataContext="{d:DesignInstance local:QueuePage, IsDesignTimeCreatable=False}"
+    d:DesignHeight="760"
+    d:DesignWidth="820"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Page.Resources>
+
+    <Grid Margin="14">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+
+                <TextBlock Text="Game Queue" FontSize="28" FontWeight="Bold" />
+                <TextBlock
+                    Margin="0,2,0,14"
+                    FontSize="14"
+                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                    Text="Search a game, mirror a player's unlock order, fine-tune it, then queue it up." />
+
+                <ui:Card Padding="16" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="1 · Find a game" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:TextBox
+                                Grid.Column="0"
+                                PlaceholderText="Search by game name…"
+                                IsEnabled="{Binding ViewModel.CanEdit, Mode=OneWay}"
+                                Text="{Binding ViewModel.SearchText, UpdateSourceTrigger=PropertyChanged}">
+                                <ui:TextBox.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding ViewModel.SearchGamesCommand}" />
+                                </ui:TextBox.InputBindings>
+                            </ui:TextBox>
+                            <ui:Button
+                                Grid.Column="1"
+                                Margin="8,0,0,0"
+                                Content="Search"
+                                Icon="{ui:SymbolIcon Search24}"
+                                IsEnabled="{Binding ViewModel.CanEdit, Mode=OneWay}"
+                                Command="{Binding ViewModel.SearchGamesCommand, Mode=OneWay}" />
+                        </Grid>
+
+                        <ListView
+                            Margin="0,10,0,0"
+                            MaxHeight="190"
+                            BorderThickness="0"
+                            ItemsSource="{Binding ViewModel.SearchResults, Mode=OneWay}"
+                            SelectedItem="{Binding ViewModel.SelectedResult, Mode=TwoWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                        <Border Grid.Column="1" Background="#2260CDFF" CornerRadius="4" Padding="6,1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding TitleId}" FontSize="11" Foreground="#60CDFF" />
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <StackPanel Visibility="{Binding ViewModel.HasSelection, Converter={StaticResource BoolToVis}}">
+                            <Border Height="1" Background="{DynamicResource ControlStrokeColorDefaultBrush}" Margin="0,14,0,12" />
+                            <TextBlock FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8">
+                                <Run Text="2 · " />
+                                <Run Text="{Binding ViewModel.DraftName, Mode=OneWay}" FontWeight="SemiBold" />
+                            </TextBlock>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ui:TextBox
+                                    Grid.Column="0"
+                                    PlaceholderText="Reference gamertag  —  whose unlock order to mirror"
+                                    IsEnabled="{Binding ViewModel.CanEdit, Mode=OneWay}"
+                                    Text="{Binding ViewModel.DraftGamertag, UpdateSourceTrigger=PropertyChanged}" />
+                                <ui:Button
+                                    Grid.Column="1"
+                                    Margin="8,0,0,0"
+                                    Appearance="Primary"
+                                    Content="Build Order"
+                                    Icon="{ui:SymbolIcon Wand24}"
+                                    IsEnabled="{Binding ViewModel.CanEdit, Mode=OneWay}"
+                                    Command="{Binding ViewModel.BuildOrderCommand, Mode=OneWay}" />
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding ViewModel.HasOrder, Converter={StaticResource BoolToVis}}">
+                            <Border Height="1" Background="{DynamicResource ControlStrokeColorDefaultBrush}" Margin="0,14,0,12" />
+                            <Grid Margin="0,0,0,8">
+                                <TextBlock Text="3 · Unlock order" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                <TextBlock
+                                    HorizontalAlignment="Right" VerticalAlignment="Center"
+                                    FontSize="13"
+                                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                    Text="{Binding ViewModel.DraftSummary, Mode=OneWay}" />
+                            </Grid>
+
+                            <Border
+                                CornerRadius="6"
+                                Background="{DynamicResource ControlFillColorDefaultBrush}"
+                                Padding="6">
+                                <ScrollViewer MaxHeight="260" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding ViewModel.Preview, Mode=OneWay}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="4,3" Opacity="{Binding NameOpacity}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="34" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding PositionText}" FontSize="12"
+                                                               Foreground="{DynamicResource TextFillColorTertiaryBrush}" VerticalAlignment="Center" />
+                                                    <TextBlock Grid.Column="1" Text="{Binding Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                                    <Border Grid.Column="2" Background="#22FFFFFF" CornerRadius="4" Padding="6,1" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding DelayText}" FontSize="11" />
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Border>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                <ui:Button
+                                    Content="Edit Delays"
+                                    Icon="{ui:SymbolIcon Timer24}"
+                                    IsEnabled="{Binding ViewModel.CanEdit, Mode=OneWay}"
+                                    Command="{Binding ViewModel.EditDraftDelaysCommand, Mode=OneWay}" />
+                                <ui:Button
+                                    Margin="8,0,0,0"
+                                    Content="Edit Skip List"
+                                    Icon="{ui:SymbolIcon CheckboxChecked24}"
+                                    IsEnabled="{Binding ViewModel.CanEdit, Mode=OneWay}"
+                                    Command="{Binding ViewModel.EditDraftSkipCommand, Mode=OneWay}" />
+                                <ui:Button
+                                    Margin="8,0,0,0"
+                                    Appearance="Primary"
+                                    Content="Add to Queue"
+                                    Icon="{ui:SymbolIcon AddCircle24}"
+                                    IsEnabled="{Binding ViewModel.CanEdit, Mode=OneWay}"
+                                    Command="{Binding ViewModel.ConfirmAddCommand, Mode=OneWay}" />
+                                <ui:Button
+                                    Margin="8,0,0,0"
+                                    Appearance="Secondary"
+                                    Content="Discard"
+                                    Command="{Binding ViewModel.DiscardDraftCommand, Mode=OneWay}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </ui:Card>
+
+                <ui:Card Padding="16" Margin="0,0,0,12">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Delay between games" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <ui:TextBox
+                                    Width="56" MaxLength="3"
+                                    IsEnabled="{Binding ViewModel.IsIdle, Mode=OneWay}"
+                                    Text="{Binding ViewModel.CooldownMinutes, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="min" VerticalAlignment="Center" Margin="8,0,0,0" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <ui:Button
+                                    Appearance="Primary" Content="Start Queue" Icon="{ui:SymbolIcon Play24}"
+                                    IsEnabled="{Binding ViewModel.IsIdle, Mode=OneWay}"
+                                    Command="{Binding ViewModel.StartQueueCommand, Mode=OneWay}" />
+                                <ui:Button
+                                    Margin="8,0,0,0" Content="Stop" Icon="{ui:SymbolIcon Stop24}"
+                                    IsEnabled="{Binding ViewModel.IsRunning, Mode=OneWay}"
+                                    Command="{Binding ViewModel.StopQueueCommand, Mode=OneWay}" />
+                                <ui:Button
+                                    Margin="8,0,0,0" Content="Clear" Icon="{ui:SymbolIcon Delete24}"
+                                    IsEnabled="{Binding ViewModel.IsIdle, Mode=OneWay}"
+                                    Command="{Binding ViewModel.ClearQueueCommand, Mode=OneWay}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Margin="0,10,0,0" FontSize="13"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   Text="{Binding ViewModel.QueueEtaText, Mode=OneWay}" />
+                        <TextBlock Margin="0,4,0,0" FontSize="14" FontWeight="SemiBold" Text="{Binding ViewModel.RunStatus, Mode=OneWay}" />
+                        <TextBlock FontSize="13" Foreground="#60CDFF" Text="{Binding ViewModel.CooldownText, Mode=OneWay}" />
+                    </StackPanel>
+                </ui:Card>
+
+                <ItemsControl ItemsSource="{Binding ViewModel.Games, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ui:Card Padding="14,10" Margin="0,0,0,8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding GameName}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding EstimateText}" FontSize="12"
+                                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                            <ui:SymbolIcon Symbol="Person24" FontSize="13" VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                                            <TextBlock Text="{Binding Gamertag}" FontSize="12" Margin="4,0,0,0"
+                                                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <Border Grid.Column="1" VerticalAlignment="Center" Margin="10,0,10,0">
+                                        <TextBlock Text="{Binding Status}" FontSize="13" FontWeight="SemiBold"
+                                                   Foreground="{Binding StatusColor}" />
+                                    </Border>
+
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <ui:Button Padding="8" Margin="2,0" Appearance="Secondary" Icon="{ui:SymbolIcon ChevronUp24}" ToolTip="Move up"
+                                                   Command="{Binding DataContext.ViewModel.MoveUpCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                                   CommandParameter="{Binding}" />
+                                        <ui:Button Padding="8" Margin="2,0" Appearance="Secondary" Icon="{ui:SymbolIcon ChevronDown24}" ToolTip="Move down"
+                                                   Command="{Binding DataContext.ViewModel.MoveDownCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                                   CommandParameter="{Binding}" />
+                                        <ui:Button Padding="8" Margin="2,0" Appearance="Secondary" Icon="{ui:SymbolIcon Dismiss24}" ToolTip="Remove"
+                                                   Command="{Binding DataContext.ViewModel.RemoveCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                                   CommandParameter="{Binding}" />
+                                    </StackPanel>
+                                </Grid>
+                            </ui:Card>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

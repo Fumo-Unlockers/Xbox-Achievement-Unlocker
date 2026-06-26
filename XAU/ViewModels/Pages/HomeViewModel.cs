@@ -25,7 +25,6 @@ namespace XAU.ViewModels.Pages
         public static string ToolVersion = "EmptyDevToolVersion";
         public static string EventsVersion = "1.0";
 
-        //profile vars
         [ObservableProperty] private string? _gamerPic = "pack://application:,,,/Assets/cirno.png";
         [ObservableProperty] private string? _gamerTag = "Gamertag: Unknown   ";
         [ObservableProperty] private string? _xuid = "XUID: Unknown";
@@ -50,18 +49,18 @@ namespace XAU.ViewModels.Pages
         private readonly Lazy<GithubRestApi> _gitHubRestAPI = new Lazy<GithubRestApi>();
         private System.Windows.Threading.DispatcherTimer? _tokenRefreshTimer;
         private global::Windows.Security.Credentials.WebAccount? _currentWamAccount;
+        private string? _selectedGdkXuid;  // definido no login via cache do Gaming Services (GDK)
 
-        public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
+        public static int SpoofingStatus = 0; // 0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
         public static string SpoofedTitleID = "0";
         public static string AutoSpoofedTitleID = "0";
 
-        //SnackBar
         public HomeViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
             _snackbarService = snackbarService;
             _contentDialogService = contentDialogService;
 
-            // Assume XAUTH and System Language are set by the time this is actually instantiated
+            // Assume que XAUTH e o idioma do sistema já estão definidos quando isto é instanciado
             _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH));
         }
         private readonly ISnackbarService _snackbarService;
@@ -81,7 +80,7 @@ namespace XAU.ViewModels.Pages
         string SettingsFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "settings.json");
         string EventsMetaFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "Events", "meta.json");
 
-        // WAM accounts (loaded on startup, selected via popup)
+        // Contas WAM (carregadas na inicialização, escolhidas via popup)
         private List<global::Windows.Security.Credentials.WebAccount> _wamAccounts = new();
 
         public async void OnNavigatedTo()
@@ -97,10 +96,9 @@ namespace XAU.ViewModels.Pages
             if (ToolVersion == "EmptyDevToolVersion")
                 return;
 
-            // Pre-release builds report "PRE-<commit>"; anything else is treated as a
-            // standard release. Pre-releases are looked up via the prerelease list, while
-            // standard builds use /releases/latest (which EXCLUDES pre-releases, so users
-            // on a standard release are never offered a pre-release build).
+            // Builds pre-release reportam "PRE-<commit>"; o resto é release padrão.
+            // Pre-releases buscam na lista de prereleases; builds padrão usam /releases/latest
+            // (que EXCLUI pre-releases, então quem está num release padrão nunca recebe um pre-release).
             var isPreRelease = ToolVersion.StartsWith("PRE-");
 
             try
@@ -250,7 +248,6 @@ namespace XAU.ViewModels.Pages
             }
             ZipFile.ExtractToDirectory(zipFilePath, extractPath);
             File.Delete(zipFilePath);
-            //download and place meta.json in the events folder
             string MetaFilePath = Path.Combine(eventsFolderPath, "meta.json");
             using (var client = new FileDownloader())
             {
@@ -380,62 +377,69 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         private async Task LoginWithWam()
         {
+            // Caminho preferido: a identidade enrolled em cache do Gaming Services no disco
+            // (compartilhada por Microsoft Store, app Xbox e jogos GDK). Só esse token é
+            // device-enrolled, então só ele faz spoof de presença e desbloqueia title-based.
+            // O picker vem desse cache, logo toda conta listada é spoof-capable. Sem WAM, sem popup.
+            if (XAU.Services.GdkTokenService.CacheExists)
+            {
+                var accounts = XAU.Services.GdkTokenService.GetXboxLiveTokens();
+                if (accounts.Count == 0)
+                {
+                    await _contentDialogService.ShowSimpleDialogAsync(
+                        new SimpleContentDialogCreateOptions()
+                        {
+                            Title = "No Xbox account found",
+                            Content = "Sign in to the account you want to use in the Microsoft Store or Xbox app, then try again.",
+                            CloseButtonText = "OK"
+                        });
+                    return;
+                }
+
+                XAU.Services.GdkTokenService.XToken sel;
+                if (accounts.Count == 1)
+                {
+                    sel = accounts[0];
+                }
+                else
+                {
+                    var idx = await ShowAccountPickerAsync("Select an account",
+                        accounts.Select(a => string.IsNullOrEmpty(a.Gamertag) ? a.Xuid : a.Gamertag).ToList());
+                    if (idx < 0) return;
+                    sel = accounts[idx];
+                }
+
+                LoginText = "Logging in...";
+                await ApplyGdkLoginAsync(sel);
+                StartTokenRefreshTimer();
+                GrabProfile();
+                return;
+            }
+
+            // Fallback: sem cache do Gaming Services → WAM. Leitura/perfil/eventos funcionam,
+            // mas spoof de presença e unlocks title-based NÃO (o token não é enrolled).
             if (_wamAccounts.Count == 0)
             {
                 await _contentDialogService.ShowSimpleDialogAsync(
                     new SimpleContentDialogCreateOptions()
                     {
                         Title = "No accounts found",
-                        Content = "You need at least one Microsoft account signed in to Windows.\n\nGo to Settings > Accounts > Email & accounts to add one.",
+                        Content = "Sign in to the Microsoft Store / Xbox app, or add a Microsoft account in Windows (Settings > Accounts > Email & accounts).",
                         CloseButtonText = "OK"
                     });
                 return;
             }
 
-            global::Windows.Security.Credentials.WebAccount? selected;
-
+            global::Windows.Security.Credentials.WebAccount selected;
             if (_wamAccounts.Count == 1)
             {
                 selected = _wamAccounts[0];
             }
             else
             {
-                var itemContainerStyle = new Style(typeof(System.Windows.Controls.ListBoxItem));
-                itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.PaddingProperty, new Thickness(8, 6, 8, 6)));
-                itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.MarginProperty, new Thickness(0, 2, 0, 2)));
-                itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.BorderThicknessProperty, new Thickness(1)));
-                itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.BorderBrushProperty, System.Windows.Media.Brushes.Transparent));
-                itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.CursorProperty, System.Windows.Input.Cursors.Hand));
-                var hoverTrigger = new Trigger { Property = System.Windows.Controls.ListBoxItem.IsMouseOverProperty, Value = true };
-                hoverTrigger.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.BackgroundProperty,
-                    new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x20, 0x60, 0xCD, 0xFF))));
-                hoverTrigger.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.BorderBrushProperty,
-                    new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x40, 0x60, 0xCD, 0xFF))));
-                itemContainerStyle.Triggers.Add(hoverTrigger);
-
-                var listBox = new ListBox
-                {
-                    ItemsSource = _wamAccounts.Select(a => a.UserName).ToList(),
-                    ItemContainerStyle = itemContainerStyle,
-                    BorderThickness = new Thickness(0),
-                    Background = System.Windows.Media.Brushes.Transparent
-                };
-
-                var result = await _contentDialogService.ShowSimpleDialogAsync(
-                    new SimpleContentDialogCreateOptions()
-                    {
-                        Title = "Select an account",
-                        Content = new System.Windows.Controls.ScrollViewer
-                        {
-                            MaxHeight = 300,
-                            Content = listBox
-                        },
-                        PrimaryButtonText = "Select",
-                        CloseButtonText = "Cancel"
-                    });
-                if (result != ContentDialogResult.Primary || listBox.SelectedIndex < 0)
-                    return;
-                selected = _wamAccounts[listBox.SelectedIndex];
+                var idx = await ShowAccountPickerAsync("Select an account", _wamAccounts.Select(a => a.UserName).ToList());
+                if (idx < 0) return;
+                selected = _wamAccounts[idx];
             }
 
             LoginText = "Logging in...";
@@ -447,6 +451,7 @@ namespace XAU.ViewModels.Pages
                 XAUTH = XAU.Services.WamAuthService.GetXblToken()!;
                 XUIDOnly = XAU.Services.WamAuthService.Xuid!;
                 AchievementsViewModel.EventsToken = XAU.Services.WamAuthService.GetEventsToken();
+                _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH));
                 InitComplete = true;
                 IsLoggedIn = true;
                 LoginText = "Logged In";
@@ -458,6 +463,101 @@ namespace XAU.ViewModels.Pages
                 LoginText = "Login";
                 _snackbarService.Show("Login", "Authentication failed. Make sure the account is signed in to Windows.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
+        }
+
+        // Aplica uma conta do Gaming Services (GDK): xauth enrolled lido do disco + events
+        // token mintado do user token em cache da mesma conta. Usado no login e no timer de
+        // refresh (tudo relê do disco, sem popup).
+        private async Task ApplyGdkLoginAsync(XAU.Services.GdkTokenService.XToken sel)
+        {
+            // Events token: prefere WAM (device-bound, carrega a claim de xuid — é o que
+            // realmente CREDITA unlocks event-based). O mint do Gaming Services é aceito pela
+            // telemetria mas não tem a claim, então só ingere, nunca credita. Cai no mint
+            // quando a conta não é do Windows (só Store, não adicionada ao Windows).
+            string? eventsToken = await TryGetWamEventsTokenAsync(sel.Xuid);
+            var eventsSource = eventsToken != null ? "wam" : "none";
+            if (eventsToken == null)
+            {
+                try
+                {
+                    eventsToken = await XAU.Services.GdkTokenService.MintEventsTokenAsync(sel.Xuid, sel.Uhs);
+                    if (eventsToken != null) eventsSource = "gdk-mint (may not credit unlocks)";
+                }
+                catch (Exception ex) { EventsLog($"events mint failed: {ex.Message}"); }
+            }
+
+            // xauth = o token enrolled do Gaming Services (spoof + unlocks title-based).
+            // SetExternalToken sobrescreve só xauth/xuid/uhs; o events token WAM em cache acima
+            // continua intacto, e a assinatura PoP fica desligada (o token GDK não é PoP-bound).
+            XAU.Services.WamAuthService.SetExternalToken(sel.Xbl, sel.Xuid, sel.Uhs);
+            XAUTH = sel.Xbl;
+            XUIDOnly = sel.Xuid;
+            _selectedGdkXuid = sel.Xuid;
+            AchievementsViewModel.EventsToken = eventsToken;
+            EventsLog($"GDK login: {sel.Gamertag} ({sel.Xuid}) | events={eventsSource}");
+            _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH));
+            InitComplete = true;
+            IsLoggedIn = true;
+            LoginText = "Logged In";
+        }
+
+        // Acha a conta Windows (WAM) cujo login silencioso resolve nesse xuid e retorna o
+        // events token device-bound dela, setando _currentWamAccount no match. Só silencioso,
+        // nunca abre diálogo. Null quando nenhuma conta Windows bate com o xuid escolhido.
+        private async Task<string?> TryGetWamEventsTokenAsync(string xuid)
+        {
+            _currentWamAccount = null;
+            foreach (var acct in _wamAccounts)
+            {
+                try
+                {
+                    if (!await XAU.Services.WamAuthService.LoginAsync(acct)) continue;
+                    if (XAU.Services.WamAuthService.Xuid == xuid)
+                    {
+                        _currentWamAccount = acct;
+                        return XAU.Services.WamAuthService.GetEventsToken();
+                    }
+                }
+                catch (Exception ex) { EventsLog($"wam events probe failed: {ex.Message}"); }
+            }
+            return null;
+        }
+
+        // Diálogo de seleção de conta. Retorna o índice escolhido, ou -1 se cancelado.
+        private async Task<int> ShowAccountPickerAsync(string title, List<string> labels)
+        {
+            var itemContainerStyle = new Style(typeof(System.Windows.Controls.ListBoxItem));
+            itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.PaddingProperty, new Thickness(8, 6, 8, 6)));
+            itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.MarginProperty, new Thickness(0, 2, 0, 2)));
+            itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.BorderThicknessProperty, new Thickness(1)));
+            itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.BorderBrushProperty, System.Windows.Media.Brushes.Transparent));
+            itemContainerStyle.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.CursorProperty, System.Windows.Input.Cursors.Hand));
+            var hoverTrigger = new Trigger { Property = System.Windows.Controls.ListBoxItem.IsMouseOverProperty, Value = true };
+            hoverTrigger.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.BackgroundProperty,
+                new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x20, 0x60, 0xCD, 0xFF))));
+            hoverTrigger.Setters.Add(new Setter(System.Windows.Controls.ListBoxItem.BorderBrushProperty,
+                new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x40, 0x60, 0xCD, 0xFF))));
+            itemContainerStyle.Triggers.Add(hoverTrigger);
+
+            var listBox = new ListBox
+            {
+                ItemsSource = labels,
+                ItemContainerStyle = itemContainerStyle,
+                BorderThickness = new Thickness(0),
+                Background = System.Windows.Media.Brushes.Transparent
+            };
+
+            var result = await _contentDialogService.ShowSimpleDialogAsync(
+                new SimpleContentDialogCreateOptions()
+                {
+                    Title = title,
+                    Content = new System.Windows.Controls.ScrollViewer { MaxHeight = 300, Content = listBox },
+                    PrimaryButtonText = "Select",
+                    CloseButtonText = "Cancel"
+                });
+            if (result != ContentDialogResult.Primary || listBox.SelectedIndex < 0)
+                return -1;
+            return listBox.SelectedIndex;
         }
 
         #endregion
@@ -492,7 +592,6 @@ namespace XAU.ViewModels.Pages
                 var person = profileResponse.People.FirstOrDefault();
                 if (Settings.PrivacyMode)
                 {
-                    // Display hidden profile details for privacy mode
                     GamerTag = "Gamertag: Hidden";
                     Xuid = "XUID: Hidden";
                     GamerPic = "pack://application:,,,/Assets/cirno.png";
@@ -511,7 +610,6 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
-                    // Populate user profile details
                     GamerTag = $"Gamertag: {person?.Gamertag ?? "Unknown"}";
                     Xuid = $"XUID: {person?.Xuid ?? "Unknown"}";
                     GamerPic = (person?.DisplayPicRaw?.Replace("&mode=Padding", "")) ?? "pack://application:,,,/Assets/default.png";
@@ -519,7 +617,6 @@ namespace XAU.ViewModels.Pages
                     ProfileRep = $"Reputation: {person?.XboxOneRep ?? "Unknown"}";
                     AccountTier = $"Tier: {person?.Detail?.AccountTier ?? "Unknown"}";
 
-                    // Currently playing information
                     var presence = person?.PresenceDetails?.FirstOrDefault();
                     if (presence?.TitleId == null)
                     {
@@ -531,7 +628,6 @@ namespace XAU.ViewModels.Pages
                         CurrentlyPlaying = gameTitle?.Titles?.FirstOrDefault()?.Name ?? $"Currently Playing: Unknown ({presence.TitleId})";
                     }
 
-                    // Retrieve Gamepass Membership Information
                     try
                     {
                         var gpuResponse = await _xboxRestAPI.Value.GetGamepassMembershipAsync(XUIDOnly);
@@ -542,10 +638,8 @@ namespace XAU.ViewModels.Pages
                         Gamepass = "Gamepass: Unknown";
                     }
 
-                    // Active Device Information
                     ActiveDevice = $"Active Device: {presence?.Device ?? "Unknown"}";
 
-                    // Detailed profile information
                     if (person?.Detail != null)
                     {
                         IsVerified = $"Verified: {person.Detail.IsVerified}";
@@ -555,10 +649,8 @@ namespace XAU.ViewModels.Pages
                         Followers = $"Followers: {person.Detail.FollowerCount}";
                         Bio = $"Bio: {person.Detail.Bio ?? "No Bio"}";
 
-                        // Handle Watermarks
                         Watermarks.Clear();
 
-                        // Parse Tenure Badge
                         if (int.TryParse(person.Detail.Tenure, out int tenureInt))
                         {
                             string tenureBadge = tenureInt.ToString("D2");
@@ -569,7 +661,6 @@ namespace XAU.ViewModels.Pages
                             Console.WriteLine("The tenure string is not a valid integer.");
                         }
 
-                        // Add Launch Watermarks
                         if (person.Detail.Watermarks != null)
                         {
                             foreach (var watermark in person.Detail.Watermarks)
@@ -613,6 +704,21 @@ namespace XAU.ViewModels.Pages
 
         private async Task RefreshTokens()
         {
+            // Caminho GDK: relê o xauth enrolled do disco + remint do events token.
+            // O Gaming Services mantém o token em disco rotacionado, então pega o mais novo.
+            if (_selectedGdkXuid != null)
+            {
+                var sel = XAU.Services.GdkTokenService.GetXboxLiveTokens().FirstOrDefault(t => t.Xuid == _selectedGdkXuid);
+                if (sel == null)
+                {
+                    EventsLog("refresh: no enrolled token on disk (open the Microsoft Store / Xbox app to refresh it)");
+                    return;
+                }
+                await ApplyGdkLoginAsync(sel);
+                EventsLog("GDK tokens refreshed");
+                return;
+            }
+
             if (_currentWamAccount == null) return;
 
             var success = await XAU.Services.WamAuthService.LoginAsync(_currentWamAccount);
