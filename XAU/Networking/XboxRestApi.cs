@@ -11,11 +11,10 @@ public class XboxRestAPI
 {
     private readonly HttpClient _httpClient;
 
-    private readonly HttpClient _eventBasedClient; // Dumb, but needed for events for now
+    private readonly HttpClient _eventBasedClient; // burro, mas necessário pros eventos por enquanto
 
     private readonly HttpClient _spooferClient;
 
-    // User specifics
     private readonly string _xauth;
     private readonly string _requestedResponseLanguage;
 
@@ -33,10 +32,22 @@ public class XboxRestAPI
         var insecureEventsHandler = new HttpClientHandler()
         {
             AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
-            //This is an absolutely terrible idea but the stupid fucking events API just cries about SSL errors
+            // Péssima ideia, mas a API de eventos só reclama de erros de SSL sem isto
             ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         };
         _eventBasedClient = new HttpClient(insecureEventsHandler);
+    }
+
+    // Serializa chamadas que compartilham o DefaultRequestHeaders mutável, pra que
+    // operações concorrentes (ex.: o loop de spoof sobrepondo um refresh) não corrompam
+    // os headers uma da outra no meio do request — o que causava os 403 de spoof.
+    private readonly SemaphoreSlim _gate = new SemaphoreSlim(1, 1);
+
+    private async Task Gated(Func<Task> fn)
+    {
+        await _gate.WaitAsync();
+        try { await fn(); }
+        finally { _gate.Release(); }
     }
 
     private void SetDefaultHeaders()
@@ -127,7 +138,6 @@ public class XboxRestAPI
     {
         if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
         {
-            // Don't send a request if we don't have the details
             return null;
         }
 
@@ -148,7 +158,6 @@ public class XboxRestAPI
     {
         if (string.IsNullOrWhiteSpace(xuid))
         {
-            // Don't send a request if we don't have the details
             return null;
         }
 
@@ -162,7 +171,6 @@ public class XboxRestAPI
     {
         if (string.IsNullOrWhiteSpace(xuid))
         {
-            // Don't send a request if we don't have the details
             return null;
         }
 
@@ -171,8 +179,8 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.TitleHub);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
         var responseString = await _httpClient.GetStringAsync(string.Format(InterpolatedXboxAPIUrls.TitlesUrl, xuid));
-        // Parsing thousands of titles is CPU-bound; run it off the captured
-        // (UI) synchronization context so the caller's UI thread stays responsive.
+        // Parsear milhares de títulos é CPU-bound; roda fora do contexto de sincronização
+        // (UI) capturado pra manter a thread de UI do chamador responsiva.
         return await Task.Run(() => JsonConvert.DeserializeObject<TitlesList>(responseString));
     }
 
@@ -180,7 +188,6 @@ public class XboxRestAPI
     {
         if (string.IsNullOrWhiteSpace(gamertag))
         {
-            // Don't send a request if we don't have the details
             return null;
         }
 
@@ -199,7 +206,6 @@ public class XboxRestAPI
     {
         if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
         {
-            // Don't send a request if we don't have the details
             return null;
         }
 
@@ -221,46 +227,46 @@ public class XboxRestAPI
         return JsonConvert.DeserializeObject<GameStatsResponse>(response);
     }
 
-    public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId)
+    // Heartbeat de presença único e limpo (o fluxo provado pré-schlop), serializado pelo
+    // gate pra que ticks sobrepostos do loop não corrompam os headers compartilhados. É o
+    // token enrolled do app Xbox (GDK) em _xauth que faz o presence-heartbeat aceitar.
+    public Task SendHeartbeatAsync(string xuid, string spoofedTitleId) => Gated(async () =>
     {
-        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(spoofedTitleId) || !long.TryParse(spoofedTitleId, out var numericId))
+        if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(spoofedTitleId))
             return;
-
-        var url = string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid);
-        var body = JsonConvert.SerializeObject(new HeartbeatRequest { id = numericId });
-        var signature = XAU.Services.WamAuthService.SignRequest("POST", url, body);
 
         SetDefaultSpooferHeaders();
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-        _spooferClient.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
-        if (signature != null)
-            _spooferClient.DefaultRequestHeaders.Add("Signature", signature);
+        var heartbeatRequest = new HeartbeatRequest()
+        {
+            titles = new List<TitleRequest>()
+            {
+                new TitleRequest()
+                {
+                    id = spoofedTitleId
+                }
+            }
+        };
+        var resp = await _spooferClient.PostAsync(
+            string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid),
+            new StringContent(JsonConvert.SerializeObject(heartbeatRequest), Encoding.UTF8, HeaderValues.Accept));
+        XAU.Services.WamAuthService.Diag(resp.IsSuccessStatusCode ? "spoof OK" : $"spoof {(int)resp.StatusCode}: {await resp.Content.ReadAsStringAsync()}");
+    });
 
-        await _spooferClient.PostAsync(url,
-            new StringContent(body, Encoding.UTF8, "application/json"));
-    }
-
-    public async Task StopHeartbeatAsync(string xuid)
+    public Task StopHeartbeatAsync(string xuid) => Gated(async () =>
     {
         if (string.IsNullOrWhiteSpace(xuid))
             return;
 
-        var url = string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid);
-        var signature = XAU.Services.WamAuthService.SignRequest("DELETE", url, "");
-
         SetDefaultSpooferHeaders();
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-        if (signature != null)
-            _spooferClient.DefaultRequestHeaders.Add("Signature", signature);
-
-        await _spooferClient.DeleteAsync(url);
-    }
+        await _spooferClient.DeleteAsync(string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid));
+    });
 
     public async Task<AchievementsResponse?> GetAchievementsForTitleAsync(string xuid, string titleId)
     {
         if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
         {
-            // Don't send a request if we don't have the details
             return null;
         }
         SetDefaultHeaders();
@@ -278,7 +284,6 @@ public class XboxRestAPI
     {
         if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
         {
-            // Don't send a request if we don't have the details
             return null;
         }
         SetDefaultHeaders();
@@ -293,7 +298,6 @@ public class XboxRestAPI
 
     public async Task UnlockTitleBasedAchievementAsync(string serviceConfigId, string titleId, string xuid, string achievementId)
     {
-        // only unlock the specified achievement
         await UnlockTitleBasedAchievementsAsync(serviceConfigId, titleId, xuid, new List<string>() { achievementId });
     }
 
@@ -301,7 +305,6 @@ public class XboxRestAPI
     {
         if (string.IsNullOrWhiteSpace(serviceConfigId) || string.IsNullOrWhiteSpace(titleId) || string.IsNullOrWhiteSpace(xuid) || achievementIds.Count == 0)
         {
-            // Don't send a request if we don't have the details
             return;
         }
 
@@ -311,8 +314,8 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
         _httpClient.DefaultRequestHeaders.Add("User-Agent", "XboxServicesAPI/2021.10.20211005.0 c");
 
-        // Split the requests into 50 achievements each. Anything over 100 seems to BadRequest. TODO: look into
-        // headers and see if we can send long data or w/e
+        // Divide os requests em 50 achievements cada. Acima de 100 parece dar BadRequest.
+        // TODO: investigar os headers pra ver se dá pra mandar mais de uma vez.
         const int chunkSize = 50;
         for (int i = 0; i < achievementIds.Count; i += chunkSize)
         {
@@ -332,6 +335,8 @@ public class XboxRestAPI
             if (signature != null)
                 _httpClient.DefaultRequestHeaders.Add(HeaderNames.Signature, signature);
 
+            // Fica abaixo dos rate limits finos do Xbox quando o auto-unlocker manda muitos chunks.
+            await XAU.Services.AutoUnlock.XboxRateLimiter.Achievements.WaitAsync(System.Threading.CancellationToken.None);
             var response = await _httpClient.PostAsync(url,
                 new StringContent(unlockBodyStr, Encoding.UTF8, HeaderValues.Accept));
             if (signature != null)
@@ -339,17 +344,19 @@ public class XboxRestAPI
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
+                var unlockBody = await response.Content.ReadAsStringAsync();
+                XAU.Services.WamAuthService.Diag($"unlock {(int)response.StatusCode}: {unlockBody}");
                 throw new HttpRequestException($"Failed to unlock achievement(s) for title {titleId} with status code {response.StatusCode}");
             }
+            XAU.Services.WamAuthService.Diag("unlock OK");
         }
     }
 
-    // TODO: see if we can handle the actual request body building
+    // TODO: ver se dá pra montar o corpo do request aqui mesmo
     public async Task UnlockEventBasedAchievement(string eventsToken, StringContent requestBody)
     {
         if (string.IsNullOrWhiteSpace(eventsToken))
         {
-            // Don't send a request if we don't have the details
             return;
         }
 
@@ -367,11 +374,32 @@ public class XboxRestAPI
         }
     }
 
+    // Posta um batch de telemetria NDJSON cru e retorna o status HTTP (0 em falha).
+    // Usado pelo EventUnlocker / CounterUnlocker do auto-unlocker, que montam seus próprios
+    // corpos multi-evento e precisam do status pra decidir o ritmo/retries.
+    public async Task<int> SendEventBatchAsync(string eventsToken, string ndjsonBody)
+    {
+        if (string.IsNullOrWhiteSpace(eventsToken))
+            return 0;
+
+        SetDefaultEventBasedHeaders();
+        _eventBasedClient.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
+        try
+        {
+            var content = new StringContent(ndjsonBody, Encoding.UTF8, "application/x-json-stream");
+            var resp = await _eventBasedClient.PostAsync(BasicXboxAPIUris.TelemetryUrl, content);
+            return (int)resp.StatusCode;
+        }
+        catch
+        {
+            return 0;
+        }
+    }
+
     public async Task<GamePassProducts?> GetTitleIdsFromGamePass(string prodId)
     {
         if (string.IsNullOrWhiteSpace(prodId))
         {
-            // Don't send a request if we don't have the details
             return null;
         }
 

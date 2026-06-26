@@ -1,6 +1,8 @@
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.IO;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
 using XAU.Services.HttpServer;
 
@@ -8,6 +10,16 @@ namespace XAU.ViewModels.Pages
 {
     public partial class SettingsViewModel : ObservableObject, INavigationAware, IDisposable
     {
+        private readonly ISnackbarService _snackbar;
+        private readonly IContentDialogService _dialogs;
+        private readonly TimeSpan _snackDur = TimeSpan.FromSeconds(2);
+
+        public SettingsViewModel(ISnackbarService snackbar, IContentDialogService dialogs)
+        {
+            _snackbar = snackbar;
+            _dialogs = dialogs;
+        }
+
         private bool _isInitialized = false;
 
         [ObservableProperty]
@@ -15,7 +27,6 @@ namespace XAU.ViewModels.Pages
 
         static string ProgramFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU");
         string SettingsFilePath = Path.Combine(ProgramFolderPath, "settings.json");
-        //settings
         [ObservableProperty] private string _settingsVersion;
         [ObservableProperty] private string _toolVersion;
         [ObservableProperty] private bool _unlockAllEnabled;
@@ -50,7 +61,7 @@ namespace XAU.ViewModels.Pages
             };
             string settingsJson = JsonConvert.SerializeObject(settings);
             File.WriteAllText(SettingsFilePath, settingsJson);
-            HomeViewModel.Settings = settings; // update ref
+            HomeViewModel.Settings = settings; // atualiza a referência
         }
 
         [RelayCommand]
@@ -75,7 +86,7 @@ namespace XAU.ViewModels.Pages
                 _httpServer.Stop();
                 ListeningAddress = $"http://localhost:{ServerPort}";
             }
-            // TO DO: SAVE SERVER ENABLED/DISABLED STATUS & PORT NUMBER
+            // TODO: salvar status (ligado/desligado) do servidor e número da porta
             //SaveSettings();
         }
 
@@ -88,7 +99,7 @@ namespace XAU.ViewModels.Pages
                 UpdateListeningAddress();
             }
 
-            // TO DO: SAVE SERVER ENABLED/DISABLED STATUS & PORT NUMBER
+            // TODO: salvar status (ligado/desligado) do servidor e número da porta
             //SaveSettings();
         }
 
@@ -119,6 +130,71 @@ namespace XAU.ViewModels.Pages
             {
                 Debug.WriteLine($"Failed to open address: {ex.Message}");
             }
+        }
+
+        [RelayCommand]
+        private void CopyXauth() => CopyToClipboard(HomeViewModel.XAUTH, "xauth token");
+
+        [RelayCommand]
+        private void CopyEventToken() => CopyToClipboard(AchievementsViewModel.EventsToken, "event token");
+
+        // Copia o token pro clipboard com feedback (ou avisa que não tem token ainda).
+        private void CopyToClipboard(string? value, string label)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                _snackbar.Show("Nothing to copy", $"No {label} yet — sign in first.",
+                    ControlAppearance.Caution, new SymbolIcon(SymbolRegular.Warning24), _snackDur);
+                return;
+            }
+
+            // O clipboard pode estar travado por outro processo (comum em VM/clipboard
+            // managers). Usa o retry embutido do WPF; se mesmo assim não entrar, mostra o
+            // token num diálogo pra copiar na mão (Ctrl+C).
+            try
+            {
+                // WinForms tem o overload com retry embutido (15x a cada 120ms).
+                System.Windows.Forms.Clipboard.SetDataObject(value, true, 15, 120);
+                _snackbar.Show("Copied", $"The {label} is on your clipboard.",
+                    ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackDur);
+            }
+            catch
+            {
+                ShowTokenManually(value, label);
+            }
+        }
+
+        // Fallback: clipboard inacessível -> exibe o token selecionável pra copiar na mão.
+        private async void ShowTokenManually(string value, string label)
+        {
+            var hint = new System.Windows.Controls.TextBlock
+            {
+                Text = "Couldn't reach the clipboard (it may be locked by a VM clipboard sync or a clipboard manager). Select the text below and press Ctrl+C.",
+                TextWrapping = System.Windows.TextWrapping.Wrap,
+                Opacity = 0.85,
+                Margin = new System.Windows.Thickness(0, 0, 0, 10)
+            };
+            var box = new System.Windows.Controls.TextBox
+            {
+                Text = value,
+                IsReadOnly = true,
+                TextWrapping = System.Windows.TextWrapping.Wrap,
+                MinWidth = 440,
+                MaxHeight = 180,
+                VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto
+            };
+            box.Loaded += (_, _) => { box.Focus(); box.SelectAll(); };
+
+            var panel = new System.Windows.Controls.StackPanel();
+            panel.Children.Add(hint);
+            panel.Children.Add(box);
+
+            await _dialogs.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions()
+            {
+                Title = $"Copy the {label}",
+                Content = panel,
+                CloseButtonText = "Close"
+            });
         }
 
         public void OnNavigatedTo()
@@ -184,7 +260,7 @@ namespace XAU.ViewModels.Pages
                 _httpServer.UpdatePort(value);
                 UpdateListeningAddress();
             }
-            // TO DO: SAVE SERVER ENABLED/DISABLED STATUS & PORT NUMBER
+            // TODO: salvar status (ligado/desligado) do servidor e número da porta
             //SaveSettings();
         }
         public void Dispose()

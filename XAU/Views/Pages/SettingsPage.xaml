@@ -35,6 +35,37 @@
                     <ui:TextBlock
                         Grid.Row="0"
                         FontTypography="Body"
+                        Text="Tokens"
+                        TextWrapping="WrapWithOverflow" />
+                    <ui:TextBlock
+                        Grid.Row="1"
+                        Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                        Text="Copy your current xauth or event token to the clipboard. Sign in first."
+                        TextWrapping="WrapWithOverflow" />
+                </Grid>
+            </ui:CardControl.Header>
+            <StackPanel Orientation="Horizontal">
+                <ui:Button
+                    Icon="{ui:SymbolIcon Copy24}"
+                    Content="Copy xauth"
+                    Command="{Binding ViewModel.CopyXauthCommand}" />
+                <ui:Button
+                    Margin="8,0,0,0"
+                    Icon="{ui:SymbolIcon Copy24}"
+                    Content="Copy Event Token"
+                    Command="{Binding ViewModel.CopyEventTokenCommand}" />
+            </StackPanel>
+        </ui:CardControl>
+        <ui:CardControl Margin="4,2">
+            <ui:CardControl.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock
+                        Grid.Row="0"
+                        FontTypography="Body"
                         Text="Enable Unlock All"
                         TextWrapping="WrapWithOverflow" />
                     <ui:TextBlock

@@ -1,4 +1,4 @@
-// Minimize total number of string allocations if .NET runtime is opting to not intern them
+// Minimiza alocações de string caso o runtime .NET opte por não internar
 struct StringConstants
 {
     public const string Gamerscore = @"Gamerscore";
@@ -33,7 +33,6 @@ struct HeaderValues
 
 struct OpenableLinks
 {
-    // Hardcoded links to socials
     public const string Discord = @"https://discord.gg/fCqM7287jG";
     public const string GitHubUserUrl = @"https://github.com/ItsLogic";
     public const string EventsDocumentationUrl = @"https://github.com/Fumo-Unlockers/Xbox-Achievement-Unlocker/blob/Main/Doc/Events.md";
@@ -41,12 +40,13 @@ struct OpenableLinks
 
 struct Hosts
 {
-    // Xbox Live Header Host Values
     public const string Achievements = @"achievements.xboxlive.com";
     public const string Profile = @"profile.xboxlive.com";
     public const string PeopleHub = @"peoplehub.xboxlive.com";
     public const string TitleHub = @"titlehub.xboxlive.com";
     public const string Telemetry = @"v20.events.data.microsoft.com";
+    public const string PresenceHeartbeat = @"presence-heartbeat.xboxlive.com";
+    public const string UserPresence = @"userpresence.xboxlive.com";
     public const string GitHubApi = @"api.github.com";
     public const string GitHubRaw = @"raw.githubusercontent.com";
 
@@ -64,7 +64,7 @@ public struct BasicXboxAPIUris
 
 public struct InterpolatedXboxAPIUrls
 {
-    // TODO: could uri build things
+    // TODO: dava pra montar as URIs via UriBuilder
     public const string GamepassMembershipUrl = "https://xgrant.xboxlive.com/users/xuid({0})/programInfo?filter=profile,activities,catalog";
     public const string ProfileUrl = "https://peoplehub.xboxlive.com/users/me/people/xuids({0})/decoration/detail,preferredColor,presenceDetail,multiplayerSummary";
     public const string TitleUrl = "https://titlehub.xboxlive.com/users/xuid({0})/titles/batch/decoration/GamePass,Achievement,Stats";
@@ -72,7 +72,7 @@ public struct InterpolatedXboxAPIUrls
     public const string QueryAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements?titleId={1}&maxItems=1000";
     public const string QueryAchievements360Url = "https://achievements.xboxlive.com/users/xuid({0})/titleachievements?titleId={1}&maxItems=1000";
     public const string UpdateAchievementsUrl = "https://achievements.xboxlive.com/users/xuid({0})/achievements/{1}/update";
-    public const string HeartbeatUrl = "https://userpresence.xboxlive.com/users/xuid({0})/devices/current/titles/current";
+    public const string HeartbeatUrl = "https://presence-heartbeat.xboxlive.com/users/xuid({0})/devices/current/";
     public const string GamertagSearch = "https://profile.xboxlive.com/users/gt({0})/profile/settings?settings=GameDisplayPicRaw,Gamerscore,Gamertag";
 }
 
