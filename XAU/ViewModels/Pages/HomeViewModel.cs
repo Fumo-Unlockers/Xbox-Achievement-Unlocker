@@ -61,7 +61,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] public static bool _updateAvaliable = false;
         [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
 
-        private readonly Lazy<XboxRestAPI> _xboxRestAPI;
+        private XboxRestAPI GetXboxRestAPI() => new XboxRestAPI(XAUTH);
         private readonly Lazy<GithubRestApi> _gitHubRestAPI = new Lazy<GithubRestApi>();
 
         public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
@@ -73,9 +73,6 @@ namespace XAU.ViewModels.Pages
         {
             _snackbarService = snackbarService;
             _contentDialogService = contentDialogService;
-
-            // Assume XAUTH and System Language are set by the time this is actually instantiated
-            _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH));
         }
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
@@ -534,7 +531,7 @@ namespace XAU.ViewModels.Pages
         {
             try
             {
-                var response = await _xboxRestAPI.Value.GetBasicProfileAsync();
+                var response = await GetXboxRestAPI().GetBasicProfileAsync();
                 if (Settings.PrivacyMode)
                 {
                     GamerTag = $"Gamertag: Hidden";
@@ -1137,7 +1134,7 @@ namespace XAU.ViewModels.Pages
         {
             try
             {
-                var profileResponse = await _xboxRestAPI.Value.GetProfileAsync(XUIDOnly);
+                var profileResponse = await GetXboxRestAPI().GetProfileAsync(XUIDOnly);
 
                 if (profileResponse?.People?.Any() != true)
                 {
@@ -1183,14 +1180,14 @@ namespace XAU.ViewModels.Pages
                     }
                     else
                     {
-                        var gameTitle = await _xboxRestAPI.Value.GetGameTitleAsync(XUIDOnly, presence.TitleId);
+                        var gameTitle = await GetXboxRestAPI().GetGameTitleAsync(XUIDOnly, presence.TitleId);
                         CurrentlyPlaying = gameTitle?.Titles?.FirstOrDefault()?.Name ?? $"Currently Playing: Unknown ({presence.TitleId})";
                     }
 
                     // Retrieve Gamepass Membership Information
                     try
                     {
-                        var gpuResponse = await _xboxRestAPI.Value.GetGamepassMembershipAsync(XUIDOnly);
+                        var gpuResponse = await GetXboxRestAPI().GetGamepassMembershipAsync(XUIDOnly);
                         Gamepass = $"Gamepass: {gpuResponse?.GamepassMembership ?? gpuResponse?.Data?.GamepassMembership ?? "Unknown"}";
                     }
                     catch

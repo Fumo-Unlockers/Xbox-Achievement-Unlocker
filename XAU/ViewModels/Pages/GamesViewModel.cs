@@ -38,8 +38,7 @@ namespace XAU.ViewModels.Pages
 
         }
 
-        // TODO: this needs to be updated if language changes
-        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
+        private XboxRestAPI GetXboxRestAPI() => new XboxRestAPI(HomeViewModel.XAUTH);
 
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService = snackbarService;
@@ -82,7 +81,7 @@ namespace XAU.ViewModels.Pages
             Games.Clear();
             GamesPaged.Clear();
             LoadingStart();
-            GamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(XuidOverride) ?? new TitlesList();
+            GamesResponse = await GetXboxRestAPI().GetGamesListAsync(XuidOverride) ?? new TitlesList();
             LoadGame();
         }
 
