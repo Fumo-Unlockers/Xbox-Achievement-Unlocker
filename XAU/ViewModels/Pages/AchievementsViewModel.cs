@@ -36,7 +36,7 @@ namespace XAU.ViewModels.Pages
 
         private GameTitle GameInfoResponse = new GameTitle();
         // TODO: this needs to be updated if language changes
-        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
+        private XboxRestAPI GetXboxRestAPI() => new XboxRestAPI(XboxRestAPI.GetSpoofAuth());
 
         public static bool SpoofingUpdate = false;
         private bool IsFiltered = false;
@@ -82,7 +82,7 @@ namespace XAU.ViewModels.Pages
                 }
                 else
                 {
-                    if (HomeViewModel.SpoofingStatus == 1 && !!string.IsNullOrWhiteSpace(GameInfo))
+                    if (HomeViewModel.SpoofingStatus == 1)
                     {
                         if (HomeViewModel.SpoofedTitleID == TitleIDOverride)
                         {
@@ -144,7 +144,8 @@ namespace XAU.ViewModels.Pages
             GameInfo = string.Empty;
 
             // Fetch game information
-            var gameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
+            var gameInfoResponse = await GetXboxRestAPI().GetGameTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
+            GameInfoResponse = gameInfoResponse ?? new GameTitle();
 
             // Handle response validation and set properties accordingly
             if (gameInfoResponse?.Titles?.Any() != true)
@@ -188,7 +189,7 @@ namespace XAU.ViewModels.Pages
                     GameName = GameInfoResponse.Titles[0].Name;
                 }
 
-                await Task.Run(() => Spoofing());
+                await Spoofing();
                 if (HomeViewModel.SpoofingStatus == 1)
                 {
                     if (HomeViewModel.SpoofedTitleID == HomeViewModel.AutoSpoofedTitleID)
@@ -210,15 +211,28 @@ namespace XAU.ViewModels.Pages
 
         public async Task Spoofing()
         {
-            await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
+            await HomeViewModel.TryRefreshSpoofTokenFromXboxAppAsync();
+
+            var spoofResult = await GetXboxRestAPI().SendSpoofAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
+            if (!spoofResult.Success)
+            {
+                SpoofingUpdate = true;
+                return;
+            }
+
             var i = 0;
-            Thread.Sleep(1000);
+            await Task.Delay(1000);
             SpoofingUpdate = false;
             while (!SpoofingUpdate)
             {
                 if (i == 300)
                 {
-                    await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
+                    var refreshResult = await GetXboxRestAPI().SendSpoofAsync(HomeViewModel.XUIDOnly, HomeViewModel.AutoSpoofedTitleID);
+                    if (!refreshResult.Success)
+                    {
+                        SpoofingUpdate = true;
+                        break;
+                    }
                     i = 0;
                 }
                 else
@@ -230,7 +244,7 @@ namespace XAU.ViewModels.Pages
                     }
                     i++;
                 }
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
             }
         }
 
@@ -246,7 +260,7 @@ namespace XAU.ViewModels.Pages
             if (!IsSelectedGame360)
             {
                 Unlockable = true;
-                AchievementResponse = await _xboxRestAPI.Value.GetAchievementsForTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
+                AchievementResponse = await GetXboxRestAPI().GetAchievementsForTitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
                 try
                 {
                     if (AchievementResponse.achievements[0].progression.requirements.Any())
@@ -388,7 +402,7 @@ namespace XAU.ViewModels.Pages
             else
             {
                 Unlockable = false;
-                Xbox360AchievementResponse = await _xboxRestAPI.Value.GetAchievementsFor360TitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
+                Xbox360AchievementResponse = await GetXboxRestAPI().GetAchievementsFor360TitleAsync(HomeViewModel.XUIDOnly, TitleIDOverride);
                 if (Xbox360AchievementResponse?.achievements.Count == 0)
                 {
                     IsSelectedGame360 = false;
@@ -501,7 +515,7 @@ namespace XAU.ViewModels.Pages
             {
                 try
                 {
-                    await _xboxRestAPI.Value.UnlockTitleBasedAchievementAsync(AchievementResponse.achievements[0].serviceConfigId, AchievementResponse.achievements[0].titleAssociations[0].id, HomeViewModel.XUIDOnly, DGAchievements[AchievementIndex].ID.ToString(), HomeViewModel.Settings.FakeSignatureEnabled);
+                    await GetXboxRestAPI().UnlockTitleBasedAchievementAsync(AchievementResponse.achievements[0].serviceConfigId, AchievementResponse.achievements[0].titleAssociations[0].id, HomeViewModel.XUIDOnly, DGAchievements[AchievementIndex].ID.ToString(), HomeViewModel.Settings.FakeSignatureEnabled);
 
                     _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
                         ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
@@ -605,7 +619,7 @@ namespace XAU.ViewModels.Pages
                 var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
                 try
                 {
-                    await _xboxRestAPI.Value.UnlockEventBasedAchievement(EventsToken, bodyconverted);
+                    await GetXboxRestAPI().UnlockEventBasedAchievement(EventsToken, bodyconverted);
 
                     _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
                         ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
@@ -631,7 +645,7 @@ namespace XAU.ViewModels.Pages
             var lockedAchievementIds = Achievements.Where(o => o.progressState != StringConstants.Achieved).Select(o => o.id).ToList();
             try
             {
-                await _xboxRestAPI.Value.UnlockTitleBasedAchievementsAsync(serviceConfigId: AchievementResponse.achievements[0].serviceConfigId,
+                await GetXboxRestAPI().UnlockTitleBasedAchievementsAsync(serviceConfigId: AchievementResponse.achievements[0].serviceConfigId,
                     titleId: AchievementResponse.achievements[0].titleAssociations[0].id, xuid: HomeViewModel.XUIDOnly, achievementIds: lockedAchievementIds, useFakeSignature: HomeViewModel.Settings.FakeSignatureEnabled);
 
                 _snackbarService.Show("All Achievements Unlocked", $"All Achievements for this game have been unlocked",

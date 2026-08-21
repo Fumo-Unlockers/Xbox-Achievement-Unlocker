@@ -20,7 +20,8 @@ namespace XAU.ViewModels.Pages
         private readonly IContentDialogService _contentDialogService;
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
-        private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
+
+        private XboxRestAPI GetXboxRestAPI() => new XboxRestAPI(XboxRestAPI.GetSpoofAuth());
 
 
 
@@ -32,7 +33,7 @@ namespace XAU.ViewModels.Pages
 
         public void OnNavigatedTo()
         {
-            if (!IsInitialized && HomeViewModel.InitComplete)
+            if (HomeViewModel.InitComplete)
                 InitializeViewModel();
         }
 
@@ -69,6 +70,23 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public async Task SpooferButtonClicked()
         {
+            if (!HomeViewModel.InitComplete || string.IsNullOrWhiteSpace(HomeViewModel.XUIDOnly))
+            {
+                _snackbarService.Show("Error", "You must be logged in before spoofing.",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(NewSpoofingID) || !ulong.TryParse(NewSpoofingID, out _))
+            {
+                _snackbarService.Show("Error: Invalid TitleID",
+                    "Enter a valid numeric Title ID.",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return;
+            }
+
             if (CurrentlySpoofing)
             {
                 SpoofingUpdate = true;
@@ -86,7 +104,7 @@ namespace XAU.ViewModels.Pages
                 GameImage = "pack://application:,,,/Assets/cirno.png";
                 GameTime = "Time Played: ";
                 HomeViewModel.SpoofingStatus = 0;
-                await _xboxRestAPI.Value.StopHeartbeatAsync(HomeViewModel.XUIDOnly);
+                await GetXboxRestAPI().StopHeartbeatAsync(HomeViewModel.XUIDOnly);
                 return;
             }
             HomeViewModel.SpoofedTitleID = NewSpoofingID;
@@ -97,14 +115,26 @@ namespace XAU.ViewModels.Pages
                 AchievementsViewModel.SpoofingUpdate = true;
             }
             HomeViewModel.SpoofingStatus = 1;
+
+            var refreshedFromXboxApp = await HomeViewModel.TryRefreshSpoofTokenFromXboxAppAsync();
+            if (!refreshedFromXboxApp && HomeViewModel.Settings.OAuthLogin)
+            {
+                _snackbarService.Show(
+                    "Spoofing needs Xbox app token",
+                    "OAuth cannot spoof presence. Open the Xbox app, wait for Attached (green), then start spoofing again.",
+                    ControlAppearance.Caution,
+                    new SymbolIcon(SymbolRegular.Warning24),
+                    TimeSpan.FromSeconds(4));
+            }
+
             SpoofGame();
         }
 
         public async void SpoofGame()
         {
             CurrentSpoofingID = NewSpoofingID;
-            GameInfoResponse = await _xboxRestAPI.Value.GetGameTitleAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
-            GameStatsResponse = await _xboxRestAPI.Value.GetGameStatsAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
+            GameInfoResponse = await GetXboxRestAPI().GetGameTitleAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
+            GameStatsResponse = await GetXboxRestAPI().GetGameStatsAsync(HomeViewModel.XUIDOnly, NewSpoofingID);
 
             if (GameInfoResponse == null || GameStatsResponse == null || !GameInfoResponse.Titles.Any())
             {
@@ -158,8 +188,7 @@ namespace XAU.ViewModels.Pages
             CurrentlySpoofing = true;
             SpoofingButtonText = "Stop Spoofing";
             SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name}";
-            await Task.Run(() => Spoofing());
-
+            await Spoofing();
         }
 
         // TODO: this code seems like it's duplicated in AchievementsViewModel.cs too.
@@ -167,17 +196,55 @@ namespace XAU.ViewModels.Pages
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            TimeSpan spoofingTime = stopwatch.Elapsed;
-            SpoofingText = $"Spoofing {GameName} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
-            await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
+            SpoofingText = $"Spoofing {GameName} For: {stopwatch.Elapsed:hh\\:mm\\:ss}";
+            var spoofResult = await GetXboxRestAPI().SendSpoofAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
+            if (!spoofResult.Success)
+            {
+                SpoofingUpdate = true;
+                CurrentlySpoofing = false;
+                SpoofingButtonText = "Start Spoofing";
+                SpoofingText = "Spoofing Not Started";
+                HomeViewModel.SpoofingStatus = 0;
+                HomeViewModel.SpoofedTitleID = "0";
+                var detail = spoofResult.Error ?? "Unknown error";
+                if (detail.Contains("403"))
+                {
+                    detail =
+                        "Xbox rejected spoof (403). Open the Xbox app, confirm Home shows Attached (green), disable OAuth in Settings, then retry.";
+                }
+                if (detail.Length > 180)
+                {
+                    detail = detail[..180] + "...";
+                }
+                _snackbarService.Show("Spoofing failed",
+                    detail,
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), TimeSpan.FromSeconds(5));
+                return;
+            }
+
             var i = 0;
-            Thread.Sleep(1000);
+            await Task.Delay(1000);
             SpoofingUpdate = false;
             while (!SpoofingUpdate)
             {
                 if (i == 300)
                 {
-                    await _xboxRestAPI.Value.SendHeartbeatAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
+                    var refreshResult = await GetXboxRestAPI().SendSpoofAsync(HomeViewModel.XUIDOnly, CurrentSpoofingID);
+                    if (!refreshResult.Success)
+                    {
+                        SpoofingUpdate = true;
+                        var detail = refreshResult.Error ?? "Unknown error";
+                        if (detail.Length > 180)
+                        {
+                            detail = detail[..180] + "...";
+                        }
+                        _snackbarService.Show("Spoofing stopped",
+                            detail,
+                            ControlAppearance.Danger,
+                            new SymbolIcon(SymbolRegular.ErrorCircle24), TimeSpan.FromSeconds(5));
+                        break;
+                    }
                     i = 0;
                 }
                 else
@@ -188,11 +255,10 @@ namespace XAU.ViewModels.Pages
                         HomeViewModel.SpoofedTitleID = "0";
                         break;
                     }
-                    spoofingTime = stopwatch.Elapsed;
-                    SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name} For: {spoofingTime.ToString(@"hh\:mm\:ss")}";
+                    SpoofingText = $"Spoofing {GameInfoResponse.Titles[0].Name} For: {stopwatch.Elapsed:hh\\:mm\\:ss}";
                     i++;
                 }
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
             }
         }
 
@@ -339,7 +405,7 @@ namespace XAU.ViewModels.Pages
                 return;
             }
 
-            var profileData = await _xboxRestAPI.Value.GetGamertagProfileAsync(Gamertag) ?? new JObject();
+            var profileData = await GetXboxRestAPI().GetGamertagProfileAsync(Gamertag) ?? new JObject();
             var profileUsers = profileData["profileUsers"]?.FirstOrDefault();
             if (profileUsers == null)
             {
@@ -364,7 +430,7 @@ namespace XAU.ViewModels.Pages
             try
             {
                 _snackbarService.Show("Fetching Games", "Trying to get games. This may take a moment depending on the number of games the user has.", ControlAppearance.Primary, new SymbolIcon(SymbolRegular.XboxController24), _snackbarDuration);
-                var gamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(GamertagXuid);
+                var gamesResponse = await GetXboxRestAPI().GetGamesListAsync(GamertagXuid);
 
                 if (gamesResponse == null || gamesResponse.Titles == null)
                 {
