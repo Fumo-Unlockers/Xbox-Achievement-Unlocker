@@ -89,6 +89,15 @@ namespace XAU.ViewModels.Pages
                 await _xboxRestAPI.Value.StopHeartbeatAsync(HomeViewModel.XUIDOnly);
                 return;
             }
+
+            if (HomeViewModel.Settings?.OAuthLogin ?? false)
+            {
+                _snackbarService.Show("Warning: OAuth Token Limitation",
+                    "OAuth tokens lack the scope to register presence. The timer will count up locally but will not reach Xbox Live servers.",
+                    ControlAppearance.Caution,
+                    new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+            }
+
             HomeViewModel.SpoofedTitleID = NewSpoofingID;
 
             if (HomeViewModel.SpoofingStatus == 2)
