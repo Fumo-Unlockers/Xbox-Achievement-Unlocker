@@ -39,8 +39,6 @@ public partial class App
             services.AddSingleton<MiscViewModel>();
             services.AddSingleton<InfoPage>();
             services.AddSingleton<InfoViewModel>();
-            services.AddSingleton<DebugPage>();
-            services.AddSingleton<DebugViewModel>();
         }).Build();
 
     private static T? GetService<T>() where T : class

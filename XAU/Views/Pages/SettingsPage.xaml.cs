@@ -16,6 +16,7 @@ namespace XAU.Views.Pages
         private readonly DispatcherTimer _tokenRefreshTimer;
         private string _lastKnownEventsToken;
         private bool _manualScanInProgress;
+        private bool _syncingXauthTextBox;
 
         public SettingsPage(SettingsViewModel viewModel, ISnackbarService snackbarService, HomeViewModel homeViewModel)
         {
@@ -26,7 +27,15 @@ namespace XAU.Views.Pages
 
             ViewModel.OnNavigatedToEvent += (_, _) =>
             {
-                XauthTextBox.Text = HomeViewModel.XAUTH;
+                _syncingXauthTextBox = true;
+                try
+                {
+                    XauthTextBox.Text = HomeViewModel.XAUTH;
+                }
+                finally
+                {
+                    _syncingXauthTextBox = false;
+                }
                 SyncEventsTokenUI();
             };
 
@@ -74,6 +83,9 @@ namespace XAU.Views.Pages
 
         private void XauthTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
+            if (_syncingXauthTextBox)
+                return;
+
             if (string.IsNullOrWhiteSpace(XauthTextBox.Text) || string.IsNullOrEmpty(XauthTextBox.Text))
             {
                 _snackbarService.Show(
@@ -88,6 +100,7 @@ namespace XAU.Views.Pages
             HomeViewModel.XAUTH = XauthTextBox.Text;
             SettingsViewModel.ManualXauth = true;
             HomeViewModel.XAUTHTested = false;
+            _homeViewModel.ResetXboxRestApiClient();
         }
 
         private void EventsToken_OnTextChanged(object sender, TextChangedEventArgs e)

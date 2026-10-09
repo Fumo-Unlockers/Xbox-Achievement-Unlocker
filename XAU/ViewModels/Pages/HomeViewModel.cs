@@ -61,7 +61,7 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] public static bool _updateAvaliable = false;
         [ObservableProperty] private ObservableCollection<ImageItem> _watermarks = new ObservableCollection<ImageItem>();
 
-        private readonly Lazy<XboxRestAPI> _xboxRestAPI;
+        private Lazy<XboxRestAPI> _xboxRestAPI;
         private readonly Lazy<GithubRestApi> _gitHubRestAPI = new Lazy<GithubRestApi>();
 
         public static int SpoofingStatus = 0; //0 = NotSpoofing, 1 = Spoofing, 2 = AutoSpoofing
@@ -75,13 +75,20 @@ namespace XAU.ViewModels.Pages
             _contentDialogService = contentDialogService;
 
             // Assume XAUTH and System Language are set by the time this is actually instantiated
-            _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH));
+            ResetXboxRestApiClient();
         }
         private readonly ISnackbarService _snackbarService;
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private readonly IContentDialogService _contentDialogService;
 
         private const string XAuthScanPattern = "58 42 4C 33 2E 30 20 78 3D";
+        private const int MinimumXauthCandidateLength = 31;
+        private static readonly TimeSpan FailedXauthCandidateCooldown = TimeSpan.FromSeconds(60);
+        private int _xauthScanInFlight;
+        private int _xauthValidationInFlight;
+        private string _failedXauthCandidateHash = "";
+        private DateTime _failedXauthCandidateRetryUtc = DateTime.MinValue;
+        private int _attachedXboxPid;
 
         [RelayCommand]
         private void RefreshProfile()
@@ -106,6 +113,63 @@ namespace XAU.ViewModels.Pages
         public CodeFlowAuthenticator oauth;
         public XboxAuthClient xboxAuthClient;
         public XboxSignedClient xboxSignedClient;
+
+        public void ResetXboxRestApiClient()
+        {
+            _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(XAUTH));
+        }
+
+        private static bool IsValidXauthCandidate(string candidate)
+        {
+            return !string.IsNullOrWhiteSpace(candidate) && candidate.Length >= MinimumXauthCandidateLength;
+        }
+
+        private static string HashXauthCandidate(string candidate)
+        {
+            return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(candidate)));
+        }
+
+        private void ClearFailedXauthCandidate()
+        {
+            _failedXauthCandidateHash = "";
+            _failedXauthCandidateRetryUtc = DateTime.MinValue;
+        }
+
+        private bool IsFailedXauthCandidateCoolingDown(string candidate)
+        {
+            return _failedXauthCandidateRetryUtc > DateTime.UtcNow
+                && !string.IsNullOrEmpty(_failedXauthCandidateHash)
+                && string.Equals(HashXauthCandidate(candidate), _failedXauthCandidateHash, StringComparison.Ordinal);
+        }
+
+        private void RememberFailedXauthCandidate(string candidate)
+        {
+            if (!IsValidXauthCandidate(candidate))
+                return;
+
+            _failedXauthCandidateHash = HashXauthCandidate(candidate);
+            _failedXauthCandidateRetryUtc = DateTime.UtcNow + FailedXauthCandidateCooldown;
+        }
+
+        private void ResetAttachStateAfterFailedValidation()
+        {
+            IsLoggedIn = false;
+            XAUTH = "";
+            XUIDOnly = "";
+            XAUTHTested = false;
+            InitComplete = false;
+            GrabbedProfile = false;
+            LoggedIn = "Not Logged In";
+            LoggedInColor = new SolidColorBrush(Colors.Red);
+            ResetXboxRestApiClient();
+        }
+
+        private void ClearAttachState()
+        {
+            IsAttached = false;
+            _attachedXboxPid = 0;
+            ClearFailedXauthCandidate();
+        }
 
         public async void OnNavigatedTo()
         {
@@ -394,13 +458,39 @@ namespace XAU.ViewModels.Pages
         {
             while (!Settings.OAuthLogin)
             {
-                if (!m.OpenProcess((ProcessNames.XboxPcApp)))
+                int xboxAppPid;
+                try
                 {
-                    IsAttached = false;
+                    xboxAppPid = m.GetProcIdFromName(ProcessNames.XboxPcApp);
+                }
+                catch (Exception)
+                {
+                    ClearAttachState();
+                    Thread.Sleep(1000);
+                    XauthWorker.ReportProgress(0);
+                    continue;
+                }
+
+                if (xboxAppPid == 0)
+                {
+                    ClearAttachState();
+                    Thread.Sleep(1000);
+                }
+                else if (IsAttached && _attachedXboxPid == xboxAppPid)
+                {
+                    // Already attached to this PID; keep the existing handle and avoid re-emitting attach diagnostics.
+                }
+                else if (!m.OpenProcess(xboxAppPid, out _))
+                {
+                    ClearAttachState();
                     Thread.Sleep(1000);
                 }
                 else
                 {
+                    if (_attachedXboxPid != xboxAppPid)
+                        ClearFailedXauthCandidate();
+
+                    _attachedXboxPid = xboxAppPid;
                     IsAttached = true;
                 }
                 Thread.Sleep(1000);
@@ -447,56 +537,82 @@ namespace XAU.ViewModels.Pages
             if (!XauthWorker.IsBusy)
                 XauthWorker.RunWorkerAsync();
         }
+
+        private bool ShouldSkipXauthScan()
+        {
+            return IsLoggedIn
+                || InitComplete
+                || Interlocked.CompareExchange(ref _xauthValidationInFlight, 0, 0) != 0
+                || (!string.IsNullOrEmpty(XAUTH) && !XAUTHTested);
+        }
+
+        private bool TryBeginXauthScan()
+        {
+            if (ShouldSkipXauthScan())
+                return false;
+
+            if (Interlocked.CompareExchange(ref _xauthScanInFlight, 1, 0) != 0)
+                return false;
+
+            if (!ShouldSkipXauthScan())
+                return true;
+
+            Interlocked.Exchange(ref _xauthScanInFlight, 0);
+            return false;
+        }
+
         private async void GetXAUTH()
         {
-            IEnumerable<long> XauthScanList = await m.AoBScan(XAuthScanPattern, true);
-            string[] XauthStrings = new string[XauthScanList.Count()];
-            var i = 0;
-            foreach (var address in XauthScanList)
-            {
-                XauthStrings[i] = m.ReadString(address.ToString("X"), length: 10000);
-                i++;
-            }
-
-            Dictionary<string, int> frequency = new Dictionary<string, int>();
-            foreach (string str in XauthStrings)
-            {
-                if (!frequency.ContainsKey(str))
-                {
-                    frequency[str] = 1;
-                }
-                else
-                {
-                    frequency[str]++;
-                }
-            }
-
-            if (XauthStrings.Length == 0)
-            {
+            if (!TryBeginXauthScan())
                 return;
-            }
 
-            string mostCommon = XauthStrings[0];
-            int highestFrequency = 0;
-            foreach (KeyValuePair<string, int> pair in frequency)
+            try
             {
-                if (pair.Value > highestFrequency)
+                var xauthScanAddresses = (await m.AoBScan(XAuthScanPattern, true)).ToList();
+                Dictionary<string, int> frequency = new Dictionary<string, int>();
+
+                foreach (var address in xauthScanAddresses)
                 {
-                    mostCommon = pair.Key;
-                    highestFrequency = pair.Value;
-                }
-            }
+                    var candidate = m.ReadString(address.ToString("X"), length: 10000) ?? string.Empty;
 
-            if (highestFrequency > 3)
-            {
-                XAUTH = mostCommon;
+                    frequency.TryGetValue(candidate, out var count);
+                    frequency[candidate] = count + 1;
+                }
+
+                var selectedCandidate = frequency
+                    .Where(pair => pair.Value > 3)
+                    .Where(pair => IsValidXauthCandidate(pair.Key))
+                    .Where(pair => !IsFailedXauthCandidateCoolingDown(pair.Key))
+                    .OrderByDescending(pair => pair.Value)
+                    .Select(pair => pair.Key)
+                    .FirstOrDefault();
+
+                if (selectedCandidate == null)
+                    return;
+
+                XAUTH = selectedCandidate;
                 XAUTHTested = false;
+                ResetXboxRestApiClient();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                Interlocked.Exchange(ref _xauthScanInFlight, 0);
             }
         }
         private async void TestXAUTH()
         {
+            if (Interlocked.Exchange(ref _xauthValidationInFlight, 1) == 1)
+                return;
+
+            var candidateUnderValidation = XAUTH;
             try
             {
+                if (string.IsNullOrWhiteSpace(candidateUnderValidation))
+                    return;
+
                 var response = await _xboxRestAPI.Value.GetBasicProfileAsync();
                 if (Settings.PrivacyMode)
                 {
@@ -513,19 +629,28 @@ namespace XAU.ViewModels.Pages
                 IsLoggedIn = true;
                 XAUTHTested = true;
                 InitComplete = true;
+                ClearFailedXauthCandidate();
 
                 // Start the events token worker to periodically check/refresh the token
                 if (Settings.AutoGrabEventsToken && !EventsTokenWorker.IsBusy)
                     EventsTokenWorker.RunWorkerAsync();
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
             {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    IsLoggedIn = false;
-                    XAUTHTested = true;
-
-                }
+                RememberFailedXauthCandidate(candidateUnderValidation);
+                ResetAttachStateAfterFailedValidation();
+            }
+            catch (HttpRequestException)
+            {
+                ResetAttachStateAfterFailedValidation();
+            }
+            catch (Exception)
+            {
+                ResetAttachStateAfterFailedValidation();
+            }
+            finally
+            {
+                Interlocked.Exchange(ref _xauthValidationInFlight, 0);
             }
         }
         #endregion
@@ -936,6 +1061,7 @@ namespace XAU.ViewModels.Pages
             try
             {
                 XAUTH = $"XBL3.0 x={sisuResult.AuthorizationToken.XuiClaims.UserHash};{sisuResult.AuthorizationToken.Token}";
+                ResetXboxRestApiClient();
                 var xui = sisuResult.AuthorizationToken.XuiClaims;
                 XUIDOnly = xui?.XboxUserId ?? "";
                 if (!string.IsNullOrEmpty(XUIDOnly))
@@ -975,6 +1101,10 @@ namespace XAU.ViewModels.Pages
             GrabbedProfile = false;
             XAUTH = "";
             XUIDOnly = "";
+            InitComplete = false;
+            _attachedXboxPid = 0;
+            ResetXboxRestApiClient();
+            ClearFailedXauthCandidate();
             GamerTag = "Gamertag: Unknown   ";
             Xuid = "XUID: Unknown";
             GamerPic = "pack://application:,,,/Assets/cirno.png";
