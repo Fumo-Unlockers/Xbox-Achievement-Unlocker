@@ -132,6 +132,102 @@
                     Command="{Binding ViewModel.RefreshAchievementsCommand}"/>
             </Grid>
 
+            <Expander Margin="0,0,0,10" Header="Live Capture (passive, read-only)" IsExpanded="True">
+                <StackPanel Margin="0,8,0,0">
+                    <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding ViewModel.LiveCaptureTitleInfo, Mode=OneWay}"/>
+                    <TextBlock Margin="0,3,0,8" Text="{Binding ViewModel.LiveCaptureStatus, Mode=OneWay}" TextWrapping="Wrap"/>
+
+                    <WrapPanel Margin="0,0,0,8">
+                        <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" Text="Poll interval"/>
+                        <ComboBox
+                            Width="100"
+                            Margin="0,0,6,0"
+                            ItemsSource="{Binding ViewModel.LiveCapturePollIntervals, Mode=OneWay}"
+                            SelectedItem="{Binding ViewModel.LiveCapturePollIntervalSeconds, Mode=TwoWay}"/>
+                        <TextBlock Margin="0,0,16,0" VerticalAlignment="Center" Text="seconds"/>
+                        <ui:Button
+                            Margin="0,0,6,4"
+                            Content="Start Live Capture"
+                            Icon="{ui:SymbolIcon Play24}"
+                            Command="{Binding ViewModel.StartLiveCaptureCommand}"/>
+                        <ui:Button
+                            Margin="0,0,6,4"
+                            Content="Stop Capture"
+                            Icon="{ui:SymbolIcon Stop24}"
+                            Command="{Binding ViewModel.StopLiveCaptureCommand}"/>
+                        <ui:Button
+                            Margin="0,0,6,4"
+                            Content="Copy summary"
+                            Icon="{ui:SymbolIcon Copy24}"
+                            Command="{Binding ViewModel.CopyLiveCaptureSummaryCommand}"/>
+                        <ui:Button
+                            Margin="0,0,0,4"
+                            Content="Export JSON"
+                            Icon="{ui:SymbolIcon Save24}"
+                            Command="{Binding ViewModel.ExportLiveCaptureSummaryCommand}"/>
+                    </WrapPanel>
+
+                    <WrapPanel Margin="0,0,0,8">
+                        <TextBlock FontWeight="SemiBold" Text="Process"/>
+                        <TextBlock MaxWidth="420" Margin="8,0,16,4" Text="{Binding ViewModel.LiveCaptureProcessStatus, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock FontWeight="SemiBold" Text="Duration"/>
+                        <TextBlock Margin="8,0,16,4" Text="{Binding ViewModel.LiveCaptureDuration, Mode=OneWay}"/>
+                        <TextBlock FontWeight="SemiBold" Text="Last API poll"/>
+                        <TextBlock Margin="8,0,0,4" Text="{Binding ViewModel.LiveCaptureLastPoll, Mode=OneWay}"/>
+                    </WrapPanel>
+
+                    <TextBlock Margin="0,0,0,4" FontWeight="SemiBold" Text="Source availability"/>
+                    <DataGrid
+                        Height="125"
+                        Margin="0,0,0,8"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ViewModel.LiveCaptureCapabilities, Mode=OneWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Source" Binding="{Binding Source, Mode=OneWay}" Width="190"/>
+                            <DataGridTextColumn Header="Availability" Binding="{Binding Availability, Mode=OneWay}" Width="105"/>
+                            <DataGridTextColumn Header="Captures" Binding="{Binding Description, Mode=OneWay}" Width="4*"/>
+                            <DataGridCheckBoxColumn Header="Admin" Binding="{Binding RequiresAdministrator, Mode=OneWay}" Width="70"/>
+                            <DataGridCheckBoxColumn Header="Internal IDs" Binding="{Binding CanObserveInternalEventIds, Mode=OneWay}" Width="95"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Margin="0,0,0,4" FontWeight="SemiBold" Text="Live observations"/>
+                    <TextBlock Margin="0,0,0,5" Text="The baseline is informational. Only later Xbox state or progression differences are reported as changes." TextWrapping="Wrap"/>
+                    <DataGrid
+                        Height="260"
+                        Margin="0,0,0,8"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ViewModel.LiveCaptureObservations, Mode=OneWay}"
+                        SelectedItem="{Binding ViewModel.SelectedLiveCaptureObservation, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Time" Binding="{Binding TimestampDisplay, Mode=OneWay}" Width="75"/>
+                            <DataGridTextColumn Header="Source" Binding="{Binding Source, Mode=OneWay}" Width="160"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category, Mode=OneWay}" Width="150"/>
+                            <DataGridTextColumn Header="Achievement" Binding="{Binding AchievementDisplay, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="State" Binding="{Binding StateDisplay, Mode=OneWay}" Width="180"/>
+                            <DataGridTextColumn Header="Progression" Binding="{Binding ProgressDisplay, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="Internal event" Binding="{Binding InternalEventName, Mode=OneWay}" Width="150"/>
+                            <DataGridTextColumn Header="Internal ID" Binding="{Binding InternalAchievementId, Mode=OneWay}" Width="110"/>
+                            <DataGridTextColumn Header="Evidence" Binding="{Binding EvidenceClassification, Mode=OneWay}" Width="190"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBox
+                        MinHeight="70"
+                        AcceptsReturn="True"
+                        IsReadOnly="True"
+                        Text="{Binding ViewModel.SelectedLiveCaptureObservation.DetailsDisplay, Mode=OneWay}"
+                        TextWrapping="Wrap"/>
+                </StackPanel>
+            </Expander>
+
             <Expander Margin="0,0,0,8" Header="Event template information" IsExpanded="True">
                 <TextBox
                     Margin="0,5,0,5"

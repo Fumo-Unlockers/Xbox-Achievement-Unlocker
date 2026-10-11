@@ -10,6 +10,7 @@ using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Contracts;
 using XAU.Services;
+using XAU.Services.LiveCapture;
 
 namespace XAU.ViewModels.Pages;
 
@@ -62,6 +63,7 @@ public partial class AchievementResearchLabViewModel : ObservableObject, INaviga
 
     private readonly ISnackbarService _snackbarService;
     private readonly IContentDialogService _contentDialogService;
+    private readonly LiveCaptureCoordinator _liveCaptureCoordinator;
     private readonly TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
     private CancellationTokenSource? _rangeCancellation;
     private IReadOnlyList<AchievementMappingResearchEntry> _allHistoryEntries = [];
@@ -69,10 +71,20 @@ public partial class AchievementResearchLabViewModel : ObservableObject, INaviga
 
     public AchievementResearchLabViewModel(
         ISnackbarService snackbarService,
-        IContentDialogService contentDialogService)
+        IContentDialogService contentDialogService,
+        LiveCaptureCoordinator liveCaptureCoordinator)
     {
         _snackbarService = snackbarService;
         _contentDialogService = contentDialogService;
+        _liveCaptureCoordinator = liveCaptureCoordinator;
+        InitializeLiveCapture();
+    }
+
+    public AchievementResearchLabViewModel(
+        ISnackbarService snackbarService,
+        IContentDialogService contentDialogService)
+        : this(snackbarService, contentDialogService, new LiveCaptureCoordinator([]))
+    {
     }
 
     public string TitleInfo => SelectedResearchTitle == null
@@ -107,6 +119,7 @@ public partial class AchievementResearchLabViewModel : ObservableObject, INaviga
         SendOneTestEventCommand.NotifyCanExecuteChanged();
         RefreshAchievementsCommand.NotifyCanExecuteChanged();
         StartRangeTestCommand.NotifyCanExecuteChanged();
+        StartLiveCaptureCommand.NotifyCanExecuteChanged();
     }
 
     partial void OnIsRangeTestingChanged(bool value)
@@ -115,6 +128,7 @@ public partial class AchievementResearchLabViewModel : ObservableObject, INaviga
         RefreshAchievementsCommand.NotifyCanExecuteChanged();
         StartRangeTestCommand.NotifyCanExecuteChanged();
         StopRangeTestCommand.NotifyCanExecuteChanged();
+        StartLiveCaptureCommand.NotifyCanExecuteChanged();
     }
 
     partial void OnWatchSelectedAchievementOnlyChanged(bool value)
@@ -139,7 +153,7 @@ public partial class AchievementResearchLabViewModel : ObservableObject, INaviga
     [RelayCommand]
     private async Task SelectResearchTitle(ResearchTitleCard title)
     {
-        if (IsSending || IsRangeTesting)
+        if (IsSending || IsRangeTesting || IsLiveCaptureRunning)
             return;
 
         SelectedResearchTitle = title;
@@ -468,7 +482,8 @@ public partial class AchievementResearchLabViewModel : ObservableObject, INaviga
 
     private bool CanRefreshAchievements() => SelectedResearchTitle != null && !IsSending && !IsRangeTesting;
 
-    private bool CanSendResearchEvent() => CanRefreshAchievements() && CanUseProgressionDataTemplate;
+    private bool CanSendResearchEvent() =>
+        CanRefreshAchievements() && CanUseProgressionDataTemplate && !IsLiveCaptureRunning;
 
     private bool CanStartRangeTest() => CanSendResearchEvent();
 
@@ -647,6 +662,7 @@ public partial class AchievementResearchLabViewModel : ObservableObject, INaviga
                             ? "pack://application:,,,/Assets/cirno.png"
                             : game.DisplayImage!,
                         Scid = scid ?? "<unknown>",
+                        PackageFamilyName = game?.Pfn,
                         MappedCount = mappedCount,
                         MissingCount = fullySupported ? "0" : "<load title>",
                         KnownHits = FormatCandidateValues(history
@@ -1933,6 +1949,7 @@ public sealed class ResearchTitleCard
     public string Name { get; set; } = "";
     public string Image { get; set; } = "";
     public string Scid { get; set; } = "<unknown>";
+    public string? PackageFamilyName { get; set; }
     public int MappedCount { get; set; }
     public string MissingCount { get; set; } = "<load title>";
     public string KnownHits { get; set; } = "<none>";
