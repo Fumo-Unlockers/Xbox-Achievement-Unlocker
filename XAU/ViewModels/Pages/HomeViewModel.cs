@@ -107,6 +107,9 @@ namespace XAU.ViewModels.Pages
         public XboxAuthClient xboxAuthClient;
         public XboxSignedClient xboxSignedClient;
 
+        private bool _isGettingXauth = false;
+        private bool _isTestingXauth = false;
+
         public async void OnNavigatedTo()
         {
             if (!_isInitialized)
@@ -397,18 +400,16 @@ namespace XAU.ViewModels.Pages
                 if (!m.OpenProcess((ProcessNames.XboxPcApp)))
                 {
                     IsAttached = false;
-                    Thread.Sleep(1000);
                 }
                 else
                 {
                     IsAttached = true;
                 }
-                Thread.Sleep(1000);
                 XauthWorker.ReportProgress(0);
+                Thread.Sleep(2000);
             }
-            Thread.Sleep(5000);
         }
-        public void XauthWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        public async void XauthWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             if (IsAttached || XAUTH.Length > 0)
             {
@@ -425,13 +426,17 @@ namespace XAU.ViewModels.Pages
                 {
                     if (!SettingsViewModel.ManualXauth && !Settings.OAuthLogin)
                     {
-                        GetXAUTH();
+                        if (string.IsNullOrEmpty(XAUTH) || XAUTH.Length < 30)
+                        {
+                            GetXAUTH();
+                        }
                         SettingsViewModel.ManualXauth = false;
                     }
                     LoggedIn = "Not Logged In";
                     LoggedInColor = new SolidColorBrush(Colors.Red);
                     if (!XAUTHTested && XAUTH.Length > 0)
                     {
+                        await Task.Delay(2000);
                         TestXAUTH();
                     }
                 }
@@ -449,52 +454,64 @@ namespace XAU.ViewModels.Pages
         }
         private async void GetXAUTH()
         {
-            IEnumerable<long> XauthScanList = await m.AoBScan(XAuthScanPattern, true);
-            string[] XauthStrings = new string[XauthScanList.Count()];
-            var i = 0;
-            foreach (var address in XauthScanList)
-            {
-                XauthStrings[i] = m.ReadString(address.ToString("X"), length: 10000);
-                i++;
-            }
+            if (_isGettingXauth) return;
+            _isGettingXauth = true;
 
-            Dictionary<string, int> frequency = new Dictionary<string, int>();
-            foreach (string str in XauthStrings)
+            try
             {
-                if (!frequency.ContainsKey(str))
+                if (!m.OpenProcess("XboxPcAppFT"))
+                    return;
+
+                string startPattern = "41 75 74 68 6F 72 69 7A 61 74 69 6F 6E 3A 20 58 42 4C 33 2E 30 20 78 3D";
+                long startAddress = (await m.AoBScan(startPattern, true, true)).FirstOrDefault();
+                if (startAddress == 0)
+                    return;
+
+                long tokenStart = startAddress + 15;
+                string tokenStartHex = tokenStart.ToString("X");
+
+                string endPattern = "0D 0A 43 6F 6E 74 65 6E 74 2D 4C 65 6E 67 74 68 3A 20";
+                var endAddresses = await m.AoBScan(endPattern, true, true);
+
+                long endAddress = 0;
+                foreach (var addr in endAddresses)
                 {
-                    frequency[str] = 1;
+                    if (addr > startAddress)
+                    {
+                        endAddress = addr;
+                        break;
+                    }
                 }
-                else
-                {
-                    frequency[str]++;
-                }
-            }
 
-            if (XauthStrings.Length == 0)
-            {
-                return;
-            }
+                if (endAddress == 0)
+                    return;
 
-            string mostCommon = XauthStrings[0];
-            int highestFrequency = 0;
-            foreach (KeyValuePair<string, int> pair in frequency)
-            {
-                if (pair.Value > highestFrequency)
-                {
-                    mostCommon = pair.Key;
-                    highestFrequency = pair.Value;
-                }
-            }
+                long tokenLength = endAddress - startAddress - 15;
+                if (tokenLength <= 0 || tokenLength > 5000)
+                    return;
 
-            if (highestFrequency > 3)
-            {
-                XAUTH = mostCommon;
+                string token = m.ReadString(tokenStartHex, length: (int)tokenLength);
+
+                if (string.IsNullOrEmpty(token) || !token.StartsWith("XBL3.0 x="))
+                    return;
+
+                XAUTH = token;
                 XAUTHTested = false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[GetXAUTH] Error: {ex.Message}");
+            }
+            finally
+            {
+                _isGettingXauth = false;
             }
         }
         private async void TestXAUTH()
         {
+            if (_isTestingXauth) return;
+            _isTestingXauth = true;
+
             try
             {
                 var response = await _xboxRestAPI.Value.GetBasicProfileAsync();
@@ -514,7 +531,6 @@ namespace XAU.ViewModels.Pages
                 XAUTHTested = true;
                 InitComplete = true;
 
-                // Start the events token worker to periodically check/refresh the token
                 if (Settings.AutoGrabEventsToken && !EventsTokenWorker.IsBusy)
                     EventsTokenWorker.RunWorkerAsync();
             }
@@ -523,9 +539,24 @@ namespace XAU.ViewModels.Pages
                 if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     IsLoggedIn = false;
-                    XAUTHTested = true;
-
+                    XAUTH = "";
+                    XAUTHTested = false;
+                    Debug.WriteLine("[TestXAUTH] Unauthorized – token cleared to force grab again...");
+                    Process.GetProcessesByName(ProcessNames.XboxPcApp).ToList().ForEach(p => p.Kill());
+                    Process.Start("explorer.exe", "msxbox://L");
+                    await Task.Delay(10000);
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[TestXAUTH] Unexpected error: {ex.Message}");
+                IsLoggedIn = false;
+                XAUTHTested = false;
+                XAUTH = "";
+            }
+            finally
+            {
+                _isTestingXauth = false;
             }
         }
         #endregion
