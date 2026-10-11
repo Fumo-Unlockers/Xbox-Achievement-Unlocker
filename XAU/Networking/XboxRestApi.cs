@@ -391,6 +391,19 @@ public class XboxRestAPI
     }
 
     public async Task<AchievementsResponse?> GetAchievementsForTitleAsync(string xuid, string titleId)
+        => await GetAchievementsForTitleCoreAsync(xuid, titleId, CancellationToken.None, false);
+
+    public async Task<AchievementsResponse?> GetAchievementsForTitleAsync(
+        string xuid,
+        string titleId,
+        CancellationToken cancellationToken)
+        => await GetAchievementsForTitleCoreAsync(xuid, titleId, cancellationToken, true);
+
+    private async Task<AchievementsResponse?> GetAchievementsForTitleCoreAsync(
+        string xuid,
+        string titleId,
+        CancellationToken cancellationToken,
+        bool ensureSuccess)
     {
         if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
         {
@@ -403,9 +416,11 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
 
         LastAchievementsRequestUrl = string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId);
-        var httpResponse = await _httpClient.GetAsync(LastAchievementsRequestUrl);
-        var response = await httpResponse.Content.ReadAsStringAsync();
+        var httpResponse = await _httpClient.GetAsync(LastAchievementsRequestUrl, cancellationToken);
+        var response = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         LastAchievementsResponseJson = response;
+        if (ensureSuccess)
+            httpResponse.EnsureSuccessStatusCode();
         var achievements = JsonConvert.DeserializeObject<AchievementsResponse>(response);
         return achievements;
     }

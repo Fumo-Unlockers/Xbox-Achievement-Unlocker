@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Services;
 using XAU.Services;
+using XAU.Services.LiveCapture;
 using XAU.ViewModels.Pages;
 using XAU.ViewModels.Windows;
 using XAU.Views.Pages;
@@ -20,6 +21,12 @@ public partial class App
         .ConfigureServices((_, services) =>
         {
             services.AddHostedService<ApplicationHostService>();
+            services.AddSingleton<IAchievementSnapshotSource, XboxAchievementSnapshotSource>();
+            services.AddSingleton<IGameProcessResolver, WindowsGameProcessResolver>();
+            services.AddSingleton<ILiveCaptureProvider, XboxAchievementCaptureProvider>();
+            services.AddSingleton<ILiveCaptureProvider, GameProcessCaptureProvider>();
+            services.AddSingleton<LiveCaptureCoordinator>();
+            services.AddHostedService(provider => provider.GetRequiredService<LiveCaptureCoordinator>());
 
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainWindowViewModel>();
