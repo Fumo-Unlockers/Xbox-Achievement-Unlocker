@@ -11,6 +11,7 @@ namespace XAU.Services.HttpServer
     {
         private readonly HttpListener _listener;
         private readonly Dictionary<string, Func<HttpListenerContext, Task>> _routes;
+        private readonly Func<HttpListenerRequest, bool>? _requestFilter;
         private string _port;
         private readonly bool _localOnly;
         private bool _isRunning;
@@ -20,11 +21,13 @@ namespace XAU.Services.HttpServer
         public HttpServer(
             string port,
             Dictionary<string, Func<HttpListenerContext, Task>> routes,
-            bool localOnly = false)
+            bool localOnly = false,
+            Func<HttpListenerRequest, bool>? requestFilter = null)
         {
             _port = port;
             _routes = routes;
             _localOnly = localOnly;
+            _requestFilter = requestFilter;
             _listener = new HttpListener();
             UpdateListenerPrefixes();
         }
@@ -197,6 +200,13 @@ namespace XAU.Services.HttpServer
                 try
                 {
                     var context = await _listener.GetContextAsync();
+                    if (_requestFilter != null && !_requestFilter(context.Request))
+                    {
+                        context.Response.StatusCode = 403;
+                        context.Response.Close();
+                        continue;
+                    }
+
                     var path = context.Request.Url?.LocalPath ?? string.Empty;
 
                     var handler = _routes

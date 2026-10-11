@@ -127,12 +127,15 @@ public partial class App
             return;
         }
 
-        var routes = Routes.GetRoutes(
-            getXauthToken: () => HomeViewModel.XAUTH,
+        var routes = Routes.GetDiagnosticRoutes(
             getXboxRestAPI: () => new XboxRestAPI(HomeViewModel.XAUTH),
             getXUIDOnly: () => HomeViewModel.XUIDOnly);
 
-        _diagnosticHttpServer = new LocalHttpServer(port, routes, localOnly: true);
+        _diagnosticHttpServer = new LocalHttpServer(
+            port,
+            routes,
+            localOnly: true,
+            requestFilter: Routes.IsDiagnosticRequestAllowed);
         _diagnosticHttpServer.Start();
         StartupDiagnostics.Write(_diagnosticHttpServer.IsRunning
             ? $"Diagnostic local API listening on http://localhost:{port}."
