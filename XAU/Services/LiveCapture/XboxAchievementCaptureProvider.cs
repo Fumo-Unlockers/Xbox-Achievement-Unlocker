@@ -8,6 +8,10 @@ namespace XAU.Services.LiveCapture;
 
 public sealed class XboxAchievementSnapshotSource : IAchievementSnapshotSource
 {
+    private readonly object _sync = new();
+    private XboxRestAPI? _api;
+    private string? _apiToken;
+
     public bool HasAuthentication =>
         !string.IsNullOrWhiteSpace(HomeViewModel.XAUTH)
         && !string.IsNullOrWhiteSpace(HomeViewModel.XUIDOnly);
@@ -16,7 +20,17 @@ public sealed class XboxAchievementSnapshotSource : IAchievementSnapshotSource
         string titleId,
         CancellationToken cancellationToken)
     {
-        var api = new XboxRestAPI(HomeViewModel.XAUTH);
+        var token = HomeViewModel.XAUTH;
+        XboxRestAPI api;
+        lock (_sync)
+        {
+            if (_api == null || !string.Equals(_apiToken, token, StringComparison.Ordinal))
+            {
+                _api = new XboxRestAPI(token);
+                _apiToken = token;
+            }
+            api = _api;
+        }
         return api.GetAchievementsForTitleAsync(
             HomeViewModel.XUIDOnly,
             titleId,
