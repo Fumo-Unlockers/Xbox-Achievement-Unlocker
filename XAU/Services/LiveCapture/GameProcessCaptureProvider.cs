@@ -83,6 +83,8 @@ public sealed class GameProcessCaptureProvider : ILiveCaptureProvider
                     if (started.Count > 0)
                     {
                         var category = hasObservedRunningProcess ? "Process restart" : "Process detected";
+                        if (hasObservedRunningProcess)
+                            context.MarkProcessRestarted();
                         await context.PublishAsync(new LiveCaptureObservation
                         {
                             Source = Name,

@@ -7,6 +7,8 @@ namespace XAU.Services.LiveCapture;
 public sealed class LiveCaptureCoordinator : IHostedService, IDisposable
 {
     public const int MaximumObservations = 500;
+    public const int MaximumCriticalEvidenceRecords = LiveCaptureEvidenceStore.MaximumCriticalEvidenceRecords;
+    public const int MaximumProgressionEvidenceRecords = LiveCaptureEvidenceStore.MaximumProgressionEvidenceRecords;
 
     private readonly IReadOnlyList<ILiveCaptureProvider> _providers;
     private readonly object _sync = new();
@@ -107,6 +109,7 @@ public sealed class LiveCaptureCoordinator : IHostedService, IDisposable
                 PublishAsync,
                 SetProcessStatus,
                 SetLastSuccessfulPoll,
+                RecordAchievementBaseline,
                 RequestStop);
             _sessionTask = RunSessionAsync(session, context, _sessionCancellation.Token);
         }
@@ -164,7 +167,7 @@ public sealed class LiveCaptureCoordinator : IHostedService, IDisposable
 
             var export = new
             {
-                schemaVersion = 1,
+                schemaVersion = 2,
                 sessionId = CurrentSession.SessionId,
                 titleId = CurrentSession.TitleId,
                 displayName = LiveCaptureSanitizer.Sanitize(CurrentSession.DisplayName),
@@ -177,7 +180,14 @@ public sealed class LiveCaptureCoordinator : IHostedService, IDisposable
                 enabledSources = CurrentSession.EnabledSources,
                 capabilities = CurrentSession.Capabilities,
                 internalEventTelemetryCaptured = CurrentSession.InternalEventTelemetryCaptured,
-                observations = CurrentSession.Observations.Select(SanitizeObservation).ToList()
+                observations = CurrentSession.Observations.Select(SanitizeObservation).ToList(),
+                criticalEvidence = CurrentSession.EvidenceStore.CriticalEvidence
+                    .Select(SanitizeObservation)
+                    .ToList(),
+                progressionEvidence = CurrentSession.EvidenceStore.ProgressionEvidence
+                    .Select(SanitizeProgressionEvidence)
+                    .ToList(),
+                retention = CreateRetentionExport(CurrentSession)
             };
             return JsonConvert.SerializeObject(export, Formatting.Indented, new JsonSerializerSettings
             {
@@ -253,8 +263,12 @@ public sealed class LiveCaptureCoordinator : IHostedService, IDisposable
         {
             if (CurrentSession == null)
                 return ValueTask.CompletedTask;
+            CurrentSession.EvidenceStore.RecordObservation(sanitized);
             while (CurrentSession.Observations.Count >= MaximumObservations)
+            {
                 CurrentSession.Observations.RemoveAt(0);
+                CurrentSession.EvidenceStore.RecordTimelineDrop();
+            }
             CurrentSession.Observations.Add(sanitized);
         }
 
@@ -301,6 +315,12 @@ public sealed class LiveCaptureCoordinator : IHostedService, IDisposable
         }
         if (session != null)
             NotifySessionUpdated(session);
+    }
+
+    private void RecordAchievementBaseline(LiveCaptureSnapshot snapshot, long generation)
+    {
+        lock (_sync)
+            CurrentSession?.EvidenceStore.RecordBaseline(snapshot, generation);
     }
 
     private void RequestStop(string reason)
@@ -353,6 +373,59 @@ public sealed class LiveCaptureCoordinator : IHostedService, IDisposable
             Delta = change.Delta
         }).ToList()
     };
+
+    private static LiveCaptureProgressionEvidence SanitizeProgressionEvidence(
+        LiveCaptureProgressionEvidence evidence) => new()
+    {
+        BaselineGeneration = evidence.BaselineGeneration,
+        AchievementId = LiveCaptureSanitizer.Sanitize(evidence.AchievementId),
+        AchievementName = LiveCaptureSanitizer.Sanitize(evidence.AchievementName),
+        RequirementId = LiveCaptureSanitizer.Sanitize(evidence.RequirementId),
+        OriginalBaselineValue = LiveCaptureSanitizer.Sanitize(evidence.OriginalBaselineValue),
+        FirstPreviousValue = LiveCaptureSanitizer.Sanitize(evidence.FirstPreviousValue),
+        FirstChangedValue = LiveCaptureSanitizer.Sanitize(evidence.FirstChangedValue),
+        LatestValue = LiveCaptureSanitizer.Sanitize(evidence.LatestValue),
+        TargetValue = LiveCaptureSanitizer.Sanitize(evidence.TargetValue),
+        FirstObservedAtUtc = evidence.FirstObservedAtUtc,
+        LastObservedAtUtc = evidence.LastObservedAtUtc,
+        ChangeCount = evidence.ChangeCount,
+        InitialState = LiveCaptureSanitizer.Sanitize(evidence.InitialState),
+        LatestState = LiveCaptureSanitizer.Sanitize(evidence.LatestState),
+        StateTransitionCount = evidence.StateTransitionCount,
+        XboxReportedUnlockTime = LiveCaptureSanitizer.Sanitize(evidence.XboxReportedUnlockTime)
+    };
+
+    private static object CreateRetentionExport(LiveCaptureSession session)
+    {
+        var evidence = session.EvidenceStore;
+        return new
+        {
+            timelineLimit = MaximumObservations,
+            totalObservationsPublished = evidence.TotalObservationsPublished,
+            timelineObservationsRetained = session.Observations.Count,
+            timelineObservationsDropped = evidence.TimelineObservationsDropped,
+            criticalEvidenceLimit = LiveCaptureEvidenceStore.MaximumCriticalEvidenceRecords,
+            progressionEvidenceLimit = LiveCaptureEvidenceStore.MaximumProgressionEvidenceRecords,
+            baselineValueLimit = LiveCaptureEvidenceStore.MaximumBaselineValues,
+            evidenceRecordsRetained = evidence.EvidenceRecordsRetained,
+            evidenceRecordsDropped = evidence.EvidenceRecordsDropped,
+            criticalEvidenceRecordsRetained = evidence.CriticalEvidenceRecordsRetained,
+            criticalEvidenceRecordsDropped = evidence.CriticalEvidenceRecordsDropped,
+            highPriorityEvidenceRecordsDropped = evidence.HighPriorityEvidenceRecordsDropped,
+            progressionEvidenceRecordsRetained = evidence.ProgressionEvidenceRecordsRetained,
+            progressionEvidenceRecordsDropped = evidence.ProgressionEvidenceRecordsDropped,
+            baselineValuesRetained = evidence.BaselineValuesRetained,
+            baselineValuesDropped = evidence.BaselineValuesDropped,
+            evidenceRecordsCoalesced = evidence.ProgressionUpdatesCoalesced,
+            evidenceLossOccurred = evidence.EvidenceLossOccurred,
+            criticalEvidenceLossOccurred = evidence.HighPriorityEvidenceRecordsDropped > 0,
+            evidenceLossMessage = evidence.EvidenceLossOccurred
+                ? evidence.HighPriorityEvidenceRecordsDropped > 0
+                    ? "High-priority state-change, unlock, or internal-event evidence was evicted; review the drop counters."
+                    : "One or more bounded evidence records could not be retained; review the drop counters."
+                : "No summarized evidence was lost."
+        };
+    }
 
     private void ThrowIfDisposed()
     {

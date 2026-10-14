@@ -27,8 +27,10 @@ public sealed class LiveCaptureProviderContext
     private readonly Func<LiveCaptureObservation, ValueTask> _publish;
     private readonly Action<string, bool> _setProcessStatus;
     private readonly Action<DateTimeOffset> _setLastSuccessfulPoll;
+    private readonly Action<LiveCaptureSnapshot, long> _recordAchievementBaseline;
     private readonly Action<string> _requestStop;
     private readonly TaskCompletionSource _processReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private long _processGeneration;
 
     internal LiveCaptureProviderContext(
         LiveCaptureTitle title,
@@ -37,6 +39,7 @@ public sealed class LiveCaptureProviderContext
         Func<LiveCaptureObservation, ValueTask> publish,
         Action<string, bool> setProcessStatus,
         Action<DateTimeOffset> setLastSuccessfulPoll,
+        Action<LiveCaptureSnapshot, long> recordAchievementBaseline,
         Action<string> requestStop)
     {
         Title = title;
@@ -45,6 +48,7 @@ public sealed class LiveCaptureProviderContext
         _publish = publish;
         _setProcessStatus = setProcessStatus;
         _setLastSuccessfulPoll = setLastSuccessfulPoll;
+        _recordAchievementBaseline = recordAchievementBaseline;
         _requestStop = requestStop;
         if (!waitForVerifiedProcess)
             _processReady.TrySetResult();
@@ -53,6 +57,7 @@ public sealed class LiveCaptureProviderContext
     public LiveCaptureTitle Title { get; }
     public TimeSpan AchievementPollInterval { get; }
     public bool WaitForVerifiedProcess { get; }
+    public long ProcessGeneration => Interlocked.Read(ref _processGeneration);
 
     public ValueTask PublishAsync(LiveCaptureObservation observation) => _publish(observation);
 
@@ -67,6 +72,11 @@ public sealed class LiveCaptureProviderContext
         _processReady.Task.WaitAsync(cancellationToken);
 
     public void SetLastSuccessfulPoll(DateTimeOffset value) => _setLastSuccessfulPoll(value);
+
+    public void RecordAchievementBaseline(LiveCaptureSnapshot snapshot) =>
+        _recordAchievementBaseline(snapshot, ProcessGeneration);
+
+    public void MarkProcessRestarted() => Interlocked.Increment(ref _processGeneration);
 
     public void RequestStop(string reason) => _requestStop(reason);
 }

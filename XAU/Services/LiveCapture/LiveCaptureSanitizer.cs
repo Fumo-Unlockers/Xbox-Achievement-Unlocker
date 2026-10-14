@@ -9,7 +9,8 @@ internal static partial class LiveCaptureSanitizer
         if (string.IsNullOrWhiteSpace(value))
             return "";
 
-        var sanitized = AuthorizationRegex().Replace(value, "$1=<redacted>");
+        var sanitized = JsonSensitiveValueRegex().Replace(value, "\"$1\":\"<redacted>\"");
+        sanitized = AuthorizationRegex().Replace(sanitized, "$1=<redacted>");
         sanitized = XblTokenRegex().Replace(sanitized, "XBL3.0 x=<redacted>");
         sanitized = JwtRegex().Replace(sanitized, "<jwt-redacted>");
         sanitized = SensitiveValueRegex().Replace(sanitized, "$1=<redacted>");
@@ -21,6 +22,9 @@ internal static partial class LiveCaptureSanitizer
 
     [GeneratedRegex("(?i)\\b(token|xauth|xuid|device(?:id)?|user(?:id)?|signature)\\b\\s*[:=]\\s*[^\\s,;]+")]
     private static partial Regex SensitiveValueRegex();
+
+    [GeneratedRegex("(?i)[\"'](authorization|x-authorization|token|xauth|xuid|device(?:id)?|user(?:id)?|signature)[\"']\\s*:\\s*[\"'][^\"']*[\"']")]
+    private static partial Regex JsonSensitiveValueRegex();
 
     [GeneratedRegex("(?i)XBL3\\.0\\s+x=[^\\s\\\"']+")]
     private static partial Regex XblTokenRegex();

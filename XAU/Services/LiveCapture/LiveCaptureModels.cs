@@ -103,8 +103,29 @@ public sealed class LiveCaptureObservation
             : $"{Environment.NewLine}Progression: {ProgressDisplay}");
 }
 
+public sealed class LiveCaptureProgressionEvidence
+{
+    public long BaselineGeneration { get; init; }
+    public string AchievementId { get; init; } = "<unknown>";
+    public string AchievementName { get; init; } = "<unknown>";
+    public string RequirementId { get; init; } = "<unknown>";
+    public string? OriginalBaselineValue { get; init; }
+    public string? FirstPreviousValue { get; init; }
+    public string? FirstChangedValue { get; init; }
+    public string? LatestValue { get; internal set; }
+    public string? TargetValue { get; internal set; }
+    public DateTimeOffset FirstObservedAtUtc { get; init; }
+    public DateTimeOffset LastObservedAtUtc { get; internal set; }
+    public long ChangeCount { get; internal set; }
+    public string? InitialState { get; internal set; }
+    public string? LatestState { get; internal set; }
+    public long StateTransitionCount { get; internal set; }
+    public string? XboxReportedUnlockTime { get; internal set; }
+}
+
 public sealed class LiveCaptureSession
 {
+    internal LiveCaptureEvidenceStore EvidenceStore { get; } = new();
     public Guid SessionId { get; init; } = Guid.NewGuid();
     public required string TitleId { get; init; }
     public required string DisplayName { get; init; }
@@ -118,7 +139,9 @@ public sealed class LiveCaptureSession
     public IReadOnlyList<string> EnabledSources { get; init; } = [];
     public List<LiveCaptureObservation> Observations { get; } = [];
     public bool InternalEventTelemetryCaptured => Observations.Any(observation =>
-        observation.EvidenceClassification == LiveCaptureEvidence.InternalEvent);
+            observation.EvidenceClassification.Contains(LiveCaptureEvidence.InternalEvent, StringComparison.OrdinalIgnoreCase))
+        || EvidenceStore.CriticalEvidence.Any(observation =>
+            observation.EvidenceClassification.Contains(LiveCaptureEvidence.InternalEvent, StringComparison.OrdinalIgnoreCase));
 }
 
 public sealed class GameProcessIdentity

@@ -71,6 +71,8 @@ public sealed class XboxAchievementCaptureProvider : ILiveCaptureProvider
             await context.WaitForVerifiedProcessAsync(cancellationToken);
 
         LiveCaptureSnapshot? previous = null;
+        var baselineCaptured = false;
+        var baselineProcessGeneration = context.ProcessGeneration;
         var consecutiveFailures = 0;
         var lastFailure = "";
         while (!cancellationToken.IsCancellationRequested)
@@ -98,6 +100,9 @@ public sealed class XboxAchievementCaptureProvider : ILiveCaptureProvider
 
                 var observedAt = DateTimeOffset.UtcNow;
                 var current = LiveCaptureSnapshotComparer.Create(response);
+                var processGeneration = context.ProcessGeneration;
+                if (previous != null && processGeneration != baselineProcessGeneration)
+                    previous = null;
                 context.SetLastSuccessfulPoll(observedAt);
                 if (consecutiveFailures > 0)
                 {
@@ -113,14 +118,19 @@ public sealed class XboxAchievementCaptureProvider : ILiveCaptureProvider
 
                 if (previous == null)
                 {
+                    context.RecordAchievementBaseline(current);
                     await context.PublishAsync(new LiveCaptureObservation
                     {
                         ObservedAtUtc = observedAt,
                         Source = Name,
                         Category = "Baseline",
                         EvidenceClassification = LiveCaptureEvidence.MonitoringStatus,
-                        Message = $"Achievement baseline captured ({current.Achievements.Count} achievements)."
+                        Message = baselineCaptured
+                            ? $"Achievement baseline re-established after game process restart ({current.Achievements.Count} achievements)."
+                            : $"Achievement baseline captured ({current.Achievements.Count} achievements)."
                     });
+                    baselineCaptured = true;
+                    baselineProcessGeneration = processGeneration;
                 }
                 else
                 {
