@@ -18,6 +18,10 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,5,8,8">
             <TextBlock FontSize="22" FontWeight="SemiBold" Text="Achievement Mapping Research Lab"/>
+            <TextBlock
+                Margin="0,3,0,4"
+                Text="Mapping present means Data.json contains an entry. Test availability and research history do not prove that a mapping is correct or accepted by Xbox."
+                TextWrapping="Wrap"/>
             <TextBlock Margin="0,3,0,8" Text="{Binding ViewModel.TitleListStatus, Mode=OneWay}" TextWrapping="Wrap"/>
             <Expander Margin="0,0,0,8" Header="Discovery Diagnostics" IsExpanded="False">
                 <StackPanel Margin="0,6,0,0">
@@ -80,7 +84,7 @@
                                                     <Style TargetType="Border">
                                                         <Setter Property="Background" Value="#493F8EDB"/>
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Compatibility, Mode=OneWay}" Value="Research Supported">
+                                                            <DataTrigger Binding="{Binding Compatibility, Mode=OneWay}" Value="REPLACEINDEX Test Available">
                                                                 <Setter Property="Background" Value="#49388E3C"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Compatibility, Mode=OneWay}" Value="Multi-placeholder Payload Analysis">

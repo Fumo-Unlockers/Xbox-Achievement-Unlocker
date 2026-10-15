@@ -710,7 +710,7 @@ public partial class AchievementResearchLabViewModel : ObservableObject, INaviga
             FilterResearchTitles();
             TitleListStatus =
                 $"Discovery scanned {scanned}, loaded {titles.Count}, skipped {skipped}, errors {DiscoveryDiagnostics.Count}. " +
-                $"{titles.Count(title => title.Compatibility == ResearchCompatibility.ResearchSupported)} research supported, " +
+                $"{titles.Count(title => title.Compatibility == ResearchCompatibility.ResearchSupported)} REPLACEINDEX test available, " +
                 $"{titles.Count(title => title.Compatibility == ResearchCompatibility.MultiPlaceholderPayloadAnalysis)} multi-placeholder payload analysis, " +
                 $"{titles.Count(title => title.Compatibility == ResearchCompatibility.ReadOnlyAnalysis)} read-only analysis, " +
                 $"{titles.Count(title => title.Compatibility == ResearchCompatibility.Unsupported)} unsupported.";
@@ -1400,7 +1400,7 @@ public partial class AchievementResearchLabViewModel : ObservableObject, INaviga
             ? "Events token: missing. Capture or refresh it before sending."
             : HomeViewModel.IsEventsTokenExpired()
                 ? "Events token: expired. Refresh it before sending."
-                : "Events token: available for one confirmed test event.";
+                : "Events token: available for one explicitly confirmed test send.";
     }
 
     private string BuildPayload(int candidate, bool forSend)
@@ -1981,7 +1981,7 @@ public sealed class ResearchTitleCard
 
 public static class ResearchCompatibility
 {
-    public const string ResearchSupported = "Research Supported";
+    public const string ResearchSupported = "REPLACEINDEX Test Available";
     public const string MultiPlaceholderPayloadAnalysis = "Multi-placeholder Payload Analysis";
     public const string ReadOnlyAnalysis = "Read-Only Analysis";
     public const string Unsupported = "Unsupported";
