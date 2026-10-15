@@ -1,4 +1,4 @@
-name: .NET 8 Build
+name: .NET 9 Build
 
 on:
   push:
@@ -36,6 +36,9 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore /p:EnableWindowsTargeting=true
+
+    - name: Run Live Capture regression tests
+      run: dotnet run --project XAU.LiveCapture.Tests/XAU.LiveCapture.Tests.csproj -c Release
 
     - name: Build
       run: dotnet publish XAU.sln -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:PublishReadyToRun=false /p:IncludeAllContentForSelfExtract=true /p:EnableWindowsTargeting=true -o ./publish
