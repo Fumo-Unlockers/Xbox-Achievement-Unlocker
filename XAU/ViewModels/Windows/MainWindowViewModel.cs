@@ -77,12 +77,6 @@ namespace XAU.ViewModels.Windows
             ,
             new NavigationViewItem()
             {
-                Content = "Debug",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Bug24 },
-                TargetPageType = typeof(Views.Pages.DebugPage)
-            },
-            new NavigationViewItem()
-            {
                 Content = "Stat Explorer",
                 Icon = new SymbolIcon { Symbol = SymbolRegular.DataHistogram24 },
                 TargetPageType = typeof(Views.Pages.StatsPage)
@@ -94,8 +88,6 @@ namespace XAU.ViewModels.Windows
                 TargetPageType = typeof(Views.Pages.AchievementResearchLabPage)
             }
             #endif
-
-
         };
 
         [ObservableProperty]
