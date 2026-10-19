@@ -2,12 +2,24 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using XAU.ViewModels.Pages;
 
 namespace XAU.Util.Etw
 {
-    static class EtwTokenCapture
+    public static class EtwTokenCapture
     {
+        public sealed class QuantumBreakTelemetryEvent
+        {
+            public string EventName { get; init; } = "";
+            public string EventTime { get; init; } = "";
+            public string ProgressionData { get; init; } = "";
+            public string Properties { get; init; } = "{}";
+            public string Measurements { get; init; } = "{}";
+            public string SanitizedPayload { get; init; } = "";
+        }
+
         private static readonly string EtwSessionName = "XAU_EventsTokenCapture";
         private static readonly string EtwTempDir = Path.Combine(Path.GetTempPath(), "XAU_ETW");
         private static readonly string EtwEtlPath = Path.Combine(EtwTempDir, "capture.etl");
@@ -21,6 +33,12 @@ namespace XAU.Util.Etw
         private static readonly Regex OneCollectorUrlRegex = new Regex(
             @"v20\.events\.data\.microsoft\.com|OneCollector",
             RegexOptions.Compiled);
+        private static readonly Regex SensitiveTelemetryKeyRegex = new Regex(
+            @"token|auth|ticket|xuid|user.?id|device.?id|local.?id|session.?id|gamertag|email",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex SensitiveTelemetryValueRegex = new Regex(
+            @"XBL3\.0|x:XBL|eyJ[A-Za-z0-9_-]{20,}|^[0-9]{16,}$|^[0-9a-f]{8}-[0-9a-f-]{27,}$",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         // Events RP x5t — used to distinguish events tokens from XAUTH tokens.
         // This is the certificate thumbprint for events.xboxlive.com; it appears
@@ -90,6 +108,34 @@ namespace XAU.Util.Etw
             CleanupFiles();
 
             return token;
+        }
+
+        /// <summary>
+        /// Captures a bounded ETW trace and returns sanitized Quantum Break
+        /// ProgressionEvent payloads. Raw payloads and identity fields are never returned.
+        /// </summary>
+        public static List<QuantumBreakTelemetryEvent> CaptureQuantumBreakTelemetry(int captureSeconds)
+        {
+            Cleanup();
+
+            string method = Start();
+            if (method == null)
+                throw new InvalidOperationException("Failed to start ETW trace. Run XAU as administrator and try again.");
+
+            try
+            {
+                Thread.Sleep(captureSeconds * 1000);
+                Stop(method);
+                method = null;
+                Thread.Sleep(2000);
+                return ExtractQuantumBreakTelemetryEvents();
+            }
+            finally
+            {
+                if (method != null)
+                    Stop(method);
+                CleanupFiles();
+            }
         }
 
         public static void Cleanup()
@@ -271,6 +317,162 @@ namespace XAU.Util.Etw
 
             HomeViewModel.EventsLog("No candidate passed x5t validation");
             return null;
+        }
+
+        private static List<QuantumBreakTelemetryEvent> ExtractQuantumBreakTelemetryEvents()
+        {
+            if (!File.Exists(EtwEtlPath))
+                return [];
+
+            const int chunkSize = 16 * 1024 * 1024;
+            const int overlap = 256 * 1024;
+            var events = new Dictionary<string, QuantumBreakTelemetryEvent>();
+
+            using var fs = new FileStream(EtwEtlPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var buffer = new byte[chunkSize + overlap];
+            long position = 0;
+            while (position < fs.Length)
+            {
+                fs.Position = position;
+                int bytesRead = fs.Read(buffer, 0, buffer.Length);
+                if (bytesRead == 0)
+                    break;
+
+                FindQuantumBreakTelemetryEvents(Encoding.ASCII.GetString(buffer, 0, bytesRead), events);
+                FindQuantumBreakTelemetryEvents(StripNullBytes(buffer, bytesRead), events);
+                position += chunkSize;
+            }
+
+            return events.Values.ToList();
+        }
+
+        private static void FindQuantumBreakTelemetryEvents(
+            string text,
+            Dictionary<string, QuantumBreakTelemetryEvent> events)
+        {
+            const string marker = "Microsoft.XboxLive.T333628240.ProgressionEvent";
+            int markerIndex = 0;
+            while ((markerIndex = text.IndexOf(marker, markerIndex, StringComparison.Ordinal)) >= 0)
+            {
+                int searchStart = Math.Max(0, markerIndex - 128 * 1024);
+                int objectStart = markerIndex;
+                while (objectStart >= searchStart)
+                {
+                    objectStart = text.LastIndexOf('{', objectStart);
+                    if (objectStart < searchStart)
+                        break;
+                    if (TryReadJsonObject(text, objectStart, out var json) &&
+                        TryCreateQuantumBreakTelemetryEvent(json, out var capturedEvent))
+                    {
+                        events.TryAdd(capturedEvent.SanitizedPayload, capturedEvent);
+                        break;
+                    }
+                    objectStart--;
+                }
+                markerIndex += marker.Length;
+            }
+        }
+
+        private static bool TryReadJsonObject(string text, int start, out string json)
+        {
+            json = "";
+            int depth = 0;
+            bool inString = false;
+            bool escaped = false;
+            for (int i = start; i < text.Length; i++)
+            {
+                char current = text[i];
+                if (inString)
+                {
+                    if (escaped)
+                        escaped = false;
+                    else if (current == '\\')
+                        escaped = true;
+                    else if (current == '"')
+                        inString = false;
+                    continue;
+                }
+
+                if (current == '"')
+                    inString = true;
+                else if (current == '{')
+                    depth++;
+                else if (current == '}' && --depth == 0)
+                {
+                    json = text.Substring(start, i - start + 1);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool TryCreateQuantumBreakTelemetryEvent(
+            string json,
+            out QuantumBreakTelemetryEvent capturedEvent)
+        {
+            capturedEvent = null;
+            try
+            {
+                var root = JObject.Parse(json);
+                if (root["data"]?["baseData"] is not JObject baseData ||
+                    baseData["titleId"]?.ToString() != "333628240" ||
+                    baseData["name"]?.ToString() != "ProgressionEvent")
+                    return false;
+
+                var properties = SanitizeTelemetryToken(baseData["properties"] ?? new JObject());
+                var measurements = SanitizeTelemetryToken(baseData["measurements"] ?? new JObject());
+                var sanitized = new JObject
+                {
+                    ["name"] = root["name"],
+                    ["time"] = root["time"],
+                    ["data"] = new JObject
+                    {
+                        ["baseType"] = root["data"]?["baseType"],
+                        ["baseData"] = new JObject
+                        {
+                            ["name"] = baseData["name"],
+                            ["serviceConfigId"] = baseData["serviceConfigId"],
+                            ["titleId"] = baseData["titleId"],
+                            ["ver"] = baseData["ver"],
+                            ["properties"] = properties,
+                            ["measurements"] = measurements
+                        }
+                    }
+                };
+
+                capturedEvent = new QuantumBreakTelemetryEvent
+                {
+                    EventName = root["name"]?.ToString() ?? baseData["name"]?.ToString() ?? "",
+                    EventTime = root["time"]?.ToString() ?? "",
+                    ProgressionData = properties["ProgressionData"]?.ToString() ?? "",
+                    Properties = properties.ToString(Formatting.None),
+                    Measurements = measurements.ToString(Formatting.None),
+                    SanitizedPayload = sanitized.ToString(Formatting.Indented)
+                };
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static JToken SanitizeTelemetryToken(JToken token)
+        {
+            if (token is JObject obj)
+            {
+                var sanitized = new JObject();
+                foreach (var property in obj.Properties())
+                    sanitized[property.Name] = SensitiveTelemetryKeyRegex.IsMatch(property.Name)
+                        ? "[REDACTED]"
+                        : SanitizeTelemetryToken(property.Value);
+                return sanitized;
+            }
+            if (token is JArray array)
+                return new JArray(array.Select(SanitizeTelemetryToken));
+            if (token.Type == JTokenType.String && SensitiveTelemetryValueRegex.IsMatch(token.ToString()))
+                return "[REDACTED]";
+            return token.DeepClone();
         }
 
         public static void CleanupFiles()

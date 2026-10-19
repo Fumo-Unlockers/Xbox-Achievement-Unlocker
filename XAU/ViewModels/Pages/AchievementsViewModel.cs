@@ -10,6 +10,8 @@ using Wpf.Ui.Controls;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Services;
+using XAU.Services;
+using XAU.Util.Etw;
 using XAU.Views.Pages;
 
 namespace XAU.ViewModels.Pages
@@ -26,6 +28,34 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private string _gameName = "";
         [ObservableProperty] private bool _isUnlockAllEnabled = false;
         [ObservableProperty] private string _searchText = "";
+        [ObservableProperty] private bool _isEventBased = false;
+        [ObservableProperty] private bool _isEventUnlockAvailable = false;
+        [ObservableProperty] private DGAchievement? _selectedAchievement;
+        [ObservableProperty] private ObservableCollection<AchievementRequirements> _selectedAchievementRequirements = new ObservableCollection<AchievementRequirements>();
+        [ObservableProperty] private ObservableCollection<EventMappingDetail> _selectedAchievementMappings = new ObservableCollection<EventMappingDetail>();
+        [ObservableProperty] private string _selectedAchievementEventSupport = "";
+        [ObservableProperty] private string _selectedAchievementSourceEndpoint = "";
+        [ObservableProperty] private string _selectedAchievementRequirementJsonPath = "";
+        [ObservableProperty] private string _selectedAchievementRawJson = "";
+        [ObservableProperty] private string _selectedAchievementRawRequirementJson = "";
+        [ObservableProperty] private string _achievementStatNames = "TimeStopBullets, Headshots, MinutesPlayed";
+        [ObservableProperty] private string _achievementStatCorrelationStatus = "Select an achievement and enter candidate Xbox stat names.";
+        [ObservableProperty] private bool _isQueryingAchievementStats;
+        [ObservableProperty] private ObservableCollection<AchievementStatCorrelationRow> _achievementStatCorrelations = new();
+        [ObservableProperty] private bool _isQuantumBreakTestAvailable;
+        [ObservableProperty] private string _quantumBreakProgressionData = "";
+        [ObservableProperty] private string _quantumBreakPayloadPreview = "";
+        [ObservableProperty] private string _quantumBreakTestResult = "Capture a snapshot or preview one ProgressionData value.";
+        [ObservableProperty] private string _quantumBreakProposedMapping = "";
+        [ObservableProperty] private bool _isQuantumBreakTelemetryCapturing;
+        [ObservableProperty] private string _quantumBreakTelemetryCaptureStatus = "Ready to capture genuine Quantum Break ProgressionEvent telemetry.";
+        [ObservableProperty] private ObservableCollection<EtwTokenCapture.QuantumBreakTelemetryEvent> _quantumBreakTelemetryEvents = new();
+        [ObservableProperty] private EtwTokenCapture.QuantumBreakTelemetryEvent? _selectedQuantumBreakTelemetryEvent;
+        [ObservableProperty] private int _quantumBreakTelemetryCaptureSeconds = 90;
+        public IReadOnlyList<int> QuantumBreakTelemetryCaptureDurations { get; } = [45, 90, 180];
+        [ObservableProperty] private bool _useCustomEventUnlockTime = false;
+        [ObservableProperty] private DateTime? _customEventUnlockDate = DateTime.Today;
+        [ObservableProperty] private string _customEventUnlockTimeText = DateTime.Now.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
         public static string TitleID = "0";
         private bool IsTitleIDValid = false;
         public static bool NewGame = false;
@@ -40,9 +70,13 @@ namespace XAU.ViewModels.Pages
 
         public static bool SpoofingUpdate = false;
         private bool IsFiltered = false;
-        private bool IsEventBased = false;
         private dynamic EventsData = (dynamic)(new JObject());
         public static string EventsToken;
+        private Dictionary<string, AchievementTestSnapshot> _quantumBreakBeforeSnapshot = new();
+        private int? _lastQuantumBreakCandidate;
+        private string? _correlationSelectionKey;
+        private readonly Dictionary<string, decimal> _previousCorrelationStatValues = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, decimal> _previousCorrelationRequirementValues = new(StringComparer.OrdinalIgnoreCase);
 
         public AchievementsViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService, INavigationService navigationService)
         {
@@ -69,7 +103,41 @@ namespace XAU.ViewModels.Pages
             public string? RarityCategory { get; set; }
             public string? ProgressState { get; set; }
             public bool IsUnlockable { get; set; }
+            public string? EventMappingStatus { get; set; }
         }
+
+        public class EventMappingDetail
+        {
+            public string? ReplacementType { get; set; }
+            public string? Target { get; set; }
+            public string? Replacement { get; set; }
+        }
+
+        public class AchievementStatCorrelationRow
+        {
+            public string? StatName { get; set; }
+            public string? PreviousStatValue { get; set; }
+            public string? StatValue { get; set; }
+            public string? StatDelta { get; set; }
+            public string? RequirementId { get; set; }
+            public string? PreviousRequirementCurrent { get; set; }
+            public string? RequirementCurrent { get; set; }
+            public string? RequirementDelta { get; set; }
+            public string? RequirementTarget { get; set; }
+            public string? Difference { get; set; }
+            public string Match { get; set; } = "No match";
+            public string? Type { get; set; }
+            public string? Scid { get; set; }
+        }
+
+        private class AchievementTestSnapshot
+        {
+            public string Name { get; set; } = "";
+            public string? State { get; set; }
+            public string? TimeUnlocked { get; set; }
+            public Dictionary<string, string?> Requirements { get; set; } = new();
+        }
+
         public async void OnNavigatedTo()
         {
             if (HomeViewModel.Settings.AutoSpooferEnabled)
@@ -117,6 +185,658 @@ namespace XAU.ViewModels.Pages
         }
 
         public void OnNavigatedFrom() { }
+
+        partial void OnSelectedAchievementChanged(DGAchievement? value)
+        {
+            SelectedAchievementRequirements.Clear();
+            SelectedAchievementMappings.Clear();
+            SelectedAchievementEventSupport = "";
+            SelectedAchievementSourceEndpoint = "";
+            SelectedAchievementRequirementJsonPath = "";
+            SelectedAchievementRawJson = "";
+            SelectedAchievementRawRequirementJson = "";
+            AchievementStatCorrelations.Clear();
+            AchievementStatCorrelationStatus = value == null
+                ? "Select an achievement and enter candidate Xbox stat names."
+                : "Enter candidate Xbox stat names, then query to compare them with requirement.current.";
+            IsQuantumBreakTestAvailable = value != null && TitleIDOverride == "333628240";
+            if (value == null)
+                return;
+
+            var correlationSelectionKey = $"{TitleIDOverride}:{value.ID}";
+            if (!string.Equals(_correlationSelectionKey, correlationSelectionKey, StringComparison.Ordinal))
+            {
+                _correlationSelectionKey = correlationSelectionKey;
+                _previousCorrelationStatValues.Clear();
+                _previousCorrelationRequirementValues.Clear();
+            }
+
+            if (!IsSelectedGame360)
+            {
+                var originalAchievement = AchievementResponse.achievements.FirstOrDefault(achievement =>
+                    achievement.id == value.ID.ToString(CultureInfo.InvariantCulture));
+                foreach (var requirement in originalAchievement?.progression?.requirements ?? [])
+                    SelectedAchievementRequirements.Add(requirement);
+            }
+
+            PopulateSelectedAchievementRawSource(value);
+
+            SelectedAchievementEventSupport = IsEventBased
+                ? IsEventUnlockAvailable ? "Available" : "Not available"
+                : "Not event-based";
+
+            var mapping = IsEventUnlockAvailable
+                ? (EventsData.Achievements as JObject)?[value.ID.ToString(CultureInfo.InvariantCulture)]
+                : null;
+            foreach (var replacement in mapping?.Children<JProperty>() ?? [])
+            {
+                SelectedAchievementMappings.Add(new EventMappingDetail
+                {
+                    ReplacementType = replacement.Value["ReplacementType"]?.ToString(),
+                    Target = replacement.Value["Target"]?.ToString(),
+                    Replacement = replacement.Value["Replacement"]?.ToString()
+                });
+            }
+        }
+
+        private void PopulateSelectedAchievementRawSource(DGAchievement selectedAchievement)
+        {
+            SelectedAchievementSourceEndpoint = _xboxRestAPI.IsValueCreated
+                ? _xboxRestAPI.Value.LastAchievementsRequestUrl ?? ""
+                : "";
+            SelectedAchievementRequirementJsonPath =
+                $"$.achievements[?(@.id=='{selectedAchievement.ID}')].progression.requirements[*].current";
+
+            var rawResponse = _xboxRestAPI.IsValueCreated
+                ? _xboxRestAPI.Value.LastAchievementsResponseJson
+                : null;
+            if (string.IsNullOrWhiteSpace(rawResponse))
+                return;
+
+            try
+            {
+                var rawAchievement = JObject.Parse(rawResponse)["achievements"]?
+                    .Children<JObject>()
+                    .FirstOrDefault(achievement =>
+                        string.Equals(
+                            achievement["id"]?.ToString(),
+                            selectedAchievement.ID.ToString(CultureInfo.InvariantCulture),
+                            StringComparison.Ordinal));
+
+                SelectedAchievementRawJson = rawAchievement?.ToString(Formatting.Indented) ?? "";
+                SelectedAchievementRawRequirementJson =
+                    rawAchievement?["progression"]?["requirements"]?.ToString(Formatting.Indented) ?? "";
+            }
+            catch (JsonException ex)
+            {
+                SelectedAchievementRawJson = $"Could not parse the raw achievement response: {ex.Message}";
+            }
+        }
+
+        [RelayCommand]
+        private async Task QueryAchievementStatCorrelation()
+        {
+            if (IsQueryingAchievementStats)
+                return;
+            if (SelectedAchievement == null)
+            {
+                AchievementStatCorrelationStatus = "Select an achievement before querying stats.";
+                return;
+            }
+
+            var requestedNames = AchievementStatNames
+                .Split([',', ';', '\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            if (requestedNames.Count == 0)
+            {
+                AchievementStatCorrelationStatus = "Enter at least one candidate stat name.";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(HomeViewModel.XAUTH) || string.IsNullOrWhiteSpace(HomeViewModel.XUIDOnly))
+            {
+                AchievementStatCorrelationStatus = "Attach to the Xbox app before querying stats.";
+                return;
+            }
+
+            var numericRequirements = SelectedAchievementRequirements
+                .Select((requirement, index) => new
+                {
+                    Requirement = requirement,
+                    Key = requirement.id ?? $"Requirement {index + 1}",
+                    IsNumeric = TryParseCorrelationNumber(requirement.current, out var current),
+                    Current = current
+                })
+                .Where(requirement => requirement.IsNumeric)
+                .ToList();
+            if (numericRequirements.Count == 0)
+            {
+                AchievementStatCorrelationStatus = "The selected achievement has no numeric requirement.current values to compare.";
+                return;
+            }
+
+            IsQueryingAchievementStats = true;
+            AchievementStatCorrelationStatus = "Querying Xbox user stats...";
+            AchievementStatCorrelations.Clear();
+
+            try
+            {
+                var response = await _xboxRestAPI.Value.GetGameStatsAsync(
+                    HomeViewModel.XUIDOnly, TitleIDOverride, requestedNames);
+                var returnedStats = response?.StatListsCollection
+                    .SelectMany(collection => collection.Stats)
+                    .ToList() ?? [];
+                var exactMatches = 0;
+                var nearMatches = 0;
+
+                foreach (var requestedName in requestedNames)
+                {
+                    var matches = returnedStats.Where(stat =>
+                        string.Equals(stat.Name, requestedName, StringComparison.OrdinalIgnoreCase)).ToList();
+                    if (matches.Count == 0)
+                    {
+                        AchievementStatCorrelations.Add(new AchievementStatCorrelationRow
+                        {
+                            StatName = requestedName,
+                            StatValue = "Not returned",
+                            Match = "Missing"
+                        });
+                        continue;
+                    }
+
+                    foreach (var stat in matches)
+                    {
+                        if (!TryParseCorrelationNumber(stat.Value, out var statValue))
+                        {
+                            AchievementStatCorrelations.Add(new AchievementStatCorrelationRow
+                            {
+                                StatName = stat.Name,
+                                StatValue = stat.Value,
+                                Match = "Non-numeric",
+                                Type = stat.Type,
+                                Scid = stat.Scid
+                            });
+                            continue;
+                        }
+
+                        var closest = numericRequirements
+                            .OrderBy(requirement => Math.Abs(statValue - requirement.Current))
+                            .First();
+                        var difference = Math.Abs(statValue - closest.Current);
+                        var nearThreshold = Math.Max(5m, Math.Abs(closest.Current) * 0.05m);
+                        var match = difference == 0 ? "Exact" : difference <= nearThreshold ? "Near" : "No match";
+                        exactMatches += match == "Exact" ? 1 : 0;
+                        nearMatches += match == "Near" ? 1 : 0;
+
+                        var statKey = $"{stat.TitleId}|{stat.Scid}|{stat.Name ?? requestedName}";
+                        _previousCorrelationStatValues.TryGetValue(statKey, out var previousStat);
+                        var hasPreviousStat = _previousCorrelationStatValues.ContainsKey(statKey);
+                        _previousCorrelationRequirementValues.TryGetValue(closest.Key, out var previousRequirement);
+                        var hasPreviousRequirement = _previousCorrelationRequirementValues.ContainsKey(closest.Key);
+
+                        AchievementStatCorrelations.Add(new AchievementStatCorrelationRow
+                        {
+                            StatName = stat.Name,
+                            PreviousStatValue = hasPreviousStat ? FormatCorrelationNumber(previousStat) : "",
+                            StatValue = stat.Value,
+                            StatDelta = hasPreviousStat ? FormatCorrelationDelta(statValue - previousStat) : "",
+                            RequirementId = closest.Requirement.id,
+                            PreviousRequirementCurrent = hasPreviousRequirement ? FormatCorrelationNumber(previousRequirement) : "",
+                            RequirementCurrent = closest.Requirement.current,
+                            RequirementDelta = hasPreviousRequirement ? FormatCorrelationDelta(closest.Current - previousRequirement) : "",
+                            RequirementTarget = closest.Requirement.target,
+                            Difference = FormatCorrelationNumber(difference),
+                            Match = match,
+                            Type = stat.Type,
+                            Scid = stat.Scid
+                        });
+
+                        _previousCorrelationStatValues[statKey] = statValue;
+                    }
+                }
+
+                foreach (var requirement in numericRequirements)
+                    _previousCorrelationRequirementValues[requirement.Key] = requirement.Current;
+
+                AchievementStatCorrelationStatus =
+                    $"Compared {returnedStats.Count} returned stat value(s) with {numericRequirements.Count} requirement value(s). " +
+                    $"Exact: {exactMatches}; near: {nearMatches}. Near means within 5 or 5% of requirement.current.";
+            }
+            catch (Exception ex)
+            {
+                AchievementStatCorrelationStatus = $"Stat correlation query failed: {ex.Message}";
+            }
+            finally
+            {
+                IsQueryingAchievementStats = false;
+            }
+        }
+
+        private static bool TryParseCorrelationNumber(string? value, out decimal number) =>
+            decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out number);
+
+        private static string FormatCorrelationNumber(decimal number) =>
+            number.ToString("0.################", CultureInfo.InvariantCulture);
+
+        private static string FormatCorrelationDelta(decimal delta) =>
+            delta.ToString("+0.################;-0.################;0", CultureInfo.InvariantCulture);
+
+        [RelayCommand]
+        private void CopySelectedAchievementDetails()
+        {
+            if (SelectedAchievement == null)
+                return;
+
+            var text = new StringBuilder()
+                .AppendLine($"Achievement API ID: {SelectedAchievement.ID}")
+                .AppendLine($"Achievement name: {SelectedAchievement.Name}")
+                .AppendLine($"State: {SelectedAchievement.ProgressState}")
+                .AppendLine($"Mapping status: {SelectedAchievement.EventMappingStatus}")
+                .AppendLine($"Title event support data: {SelectedAchievementEventSupport}")
+                .AppendLine($"Source endpoint: {SelectedAchievementSourceEndpoint}")
+                .AppendLine($"Requirement current JSON path: {SelectedAchievementRequirementJsonPath}");
+
+            text.AppendLine("Mappings:");
+            if (SelectedAchievementMappings.Count == 0)
+                text.AppendLine("  None");
+            foreach (var mapping in SelectedAchievementMappings)
+            {
+                text.AppendLine($"  ReplacementType: {mapping.ReplacementType}");
+                text.AppendLine($"  Target: {mapping.Target}");
+                text.AppendLine($"  Replacement: {mapping.Replacement}");
+            }
+
+            text.AppendLine("Requirements:");
+            if (SelectedAchievementRequirements.Count == 0)
+                text.AppendLine("  None");
+            foreach (var requirement in SelectedAchievementRequirements)
+            {
+                text.AppendLine($"  Requirement ID: {requirement.id}");
+                text.AppendLine($"  Current: {requirement.current}");
+                text.AppendLine($"  Target: {requirement.target}");
+                text.AppendLine($"  Operation type: {requirement.operationType}");
+                text.AppendLine($"  Value type: {requirement.valueType}");
+                text.AppendLine($"  Rule participation type: {requirement.ruleParticipationType}");
+            }
+
+            text.AppendLine().AppendLine("Raw achievement JSON:").AppendLine(SelectedAchievementRawJson);
+            text.AppendLine().AppendLine("Raw requirement JSON:").AppendLine(SelectedAchievementRawRequirementJson);
+
+            Clipboard.SetText(text.ToString());
+        }
+
+        [RelayCommand]
+        private void PreviewQuantumBreakTestEvent()
+        {
+            if (!TryGetQuantumBreakCandidate(out var candidate))
+                return;
+
+            try
+            {
+                QuantumBreakPayloadPreview = BuildQuantumBreakTestPayload(candidate, false);
+                QuantumBreakTestResult = $"Previewed one Quantum Break ProgressionData candidate: {candidate}. No event was sent.";
+            }
+            catch (Exception ex)
+            {
+                QuantumBreakTestResult = $"Could not build preview: {ex.Message}";
+            }
+        }
+
+        [RelayCommand]
+        private async Task SendQuantumBreakTestEvent()
+        {
+            if (!TryGetQuantumBreakCandidate(out var candidate))
+                return;
+            if (string.IsNullOrWhiteSpace(EventsToken) || HomeViewModel.IsEventsTokenExpired())
+            {
+                QuantumBreakTestResult = "Cannot send: the events token is missing or expired.";
+                return;
+            }
+
+            var selectedId = SelectedAchievement!.ID;
+            var selectedName = SelectedAchievement.Name;
+            var result = await _contentDialogService.ShowSimpleDialogAsync(new SimpleContentDialogCreateOptions
+            {
+                Title = "Send one Quantum Break test event?",
+                Content = $"Achievement: {selectedId} - {selectedName}\nProgressionData: {candidate}\n\nThis sends exactly one event and will not edit Data.json.",
+                PrimaryButtonText = "Send one event",
+                CloseButtonText = "Cancel"
+            });
+            if (result != ContentDialogResult.Primary)
+                return;
+
+            _quantumBreakBeforeSnapshot = CaptureAchievementSnapshot(AchievementResponse);
+            _lastQuantumBreakCandidate = candidate;
+            QuantumBreakProposedMapping = "";
+
+            try
+            {
+                QuantumBreakPayloadPreview = BuildQuantumBreakTestPayload(candidate, false);
+                var requestBody = BuildQuantumBreakTestPayload(candidate, true);
+                await _xboxRestAPI.Value.UnlockEventBasedAchievement(
+                    EventsToken,
+                    new StringContent(requestBody, Encoding.UTF8, "application/x-json-stream"));
+
+                await RefreshAndCompareQuantumBreakSnapshot(selectedId, true);
+            }
+            catch (Exception ex)
+            {
+                QuantumBreakTestResult = $"Test event failed: {ex.Message}";
+            }
+        }
+
+        [RelayCommand]
+        private async Task RefreshQuantumBreakSnapshot()
+        {
+            if (!IsQuantumBreakTestAvailable || SelectedAchievement == null)
+                return;
+
+            var selectedId = SelectedAchievement.ID;
+            if (_quantumBreakBeforeSnapshot.Count == 0)
+            {
+                _quantumBreakBeforeSnapshot = CaptureAchievementSnapshot(AchievementResponse);
+                QuantumBreakTestResult = "Before snapshot captured. No event was sent.";
+                return;
+            }
+
+            await RefreshAndCompareQuantumBreakSnapshot(selectedId);
+        }
+
+        [RelayCommand]
+        private void CopyQuantumBreakTestResult()
+        {
+            if (!IsQuantumBreakTestAvailable || SelectedAchievement == null)
+                return;
+
+            var text = new StringBuilder()
+                .AppendLine($"Quantum Break achievement: {SelectedAchievement.ID} - {SelectedAchievement.Name}")
+                .AppendLine($"Mapping status: {SelectedAchievement.EventMappingStatus}")
+                .AppendLine($"ProgressionData candidate: {QuantumBreakProgressionData}")
+                .AppendLine()
+                .AppendLine(QuantumBreakTestResult);
+            if (!string.IsNullOrWhiteSpace(QuantumBreakProposedMapping))
+                text.AppendLine().AppendLine("Proposed Data.json mapping:").AppendLine(QuantumBreakProposedMapping);
+
+            Clipboard.SetText(text.ToString());
+        }
+
+        private bool TryGetQuantumBreakCandidate(out int candidate)
+        {
+            candidate = 0;
+            if (TitleIDOverride != "333628240" || SelectedAchievement == null)
+            {
+                QuantumBreakTestResult = "Select an achievement from Quantum Break first.";
+                return false;
+            }
+            if (!int.TryParse(QuantumBreakProgressionData, NumberStyles.Integer, CultureInfo.InvariantCulture, out candidate))
+            {
+                QuantumBreakTestResult = "Enter one valid ProgressionData integer.";
+                return false;
+            }
+
+            return true;
+        }
+
+        private static string BuildQuantumBreakTestPayload(int candidate, bool forSend)
+        {
+            var templatePath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "Events", "333628240.json");
+            var requestBody = File.ReadAllText(templatePath).Replace("REPLACEINDEX", candidate.ToString(CultureInfo.InvariantCulture));
+            requestBody = requestBody.Replace("REPLACESEQ", forSend ? DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString() : "0");
+            requestBody = requestBody.Replace("REPLACEXUID", forSend ? HomeViewModel.XUIDOnly : "REDACTED_XUID");
+            requestBody = requestBody.Replace("REPLACETIME", forSend
+                ? DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ")
+                : "CURRENT_UTC_TIME_AT_SEND");
+            return JObject.Parse(requestBody).ToString(forSend ? Formatting.None : Formatting.Indented);
+        }
+
+        [RelayCommand(CanExecute = nameof(CanStartQuantumBreakTelemetryCapture))]
+        private async Task StartQuantumBreakTelemetryCapture()
+        {
+            if (TitleIDOverride != "333628240")
+            {
+                QuantumBreakTelemetryCaptureStatus = "Load Quantum Break before starting telemetry capture.";
+                return;
+            }
+
+            IsQuantumBreakTelemetryCapturing = true;
+            QuantumBreakTelemetryEvents.Clear();
+            SelectedQuantumBreakTelemetryEvent = null;
+            var captureSeconds = QuantumBreakTelemetryCaptureDurations.Contains(QuantumBreakTelemetryCaptureSeconds)
+                ? QuantumBreakTelemetryCaptureSeconds
+                : 90;
+            QuantumBreakTelemetryCaptureStatus = $"Capturing for {captureSeconds} seconds. Perform the action in Quantum Break, then exit to menu or close the game before capture ends.";
+
+            try
+            {
+                var events = await Task.Run(() => EtwTokenCapture.CaptureQuantumBreakTelemetry(captureSeconds));
+                foreach (var capturedEvent in events)
+                    QuantumBreakTelemetryEvents.Add(capturedEvent);
+                SelectedQuantumBreakTelemetryEvent = QuantumBreakTelemetryEvents.FirstOrDefault();
+                QuantumBreakTelemetryCaptureStatus = events.Count == 0
+                    ? "Capture finished. No Quantum Break ProgressionEvent payloads were found."
+                    : $"Capture finished. Found {events.Count} sanitized Quantum Break ProgressionEvent payload(s).";
+            }
+            catch (Exception ex)
+            {
+                QuantumBreakTelemetryCaptureStatus = $"Telemetry capture failed: {ex.Message}";
+            }
+            finally
+            {
+                IsQuantumBreakTelemetryCapturing = false;
+            }
+        }
+
+        private bool CanStartQuantumBreakTelemetryCapture() => !IsQuantumBreakTelemetryCapturing;
+
+        partial void OnIsQuantumBreakTelemetryCapturingChanged(bool value)
+        {
+            StartQuantumBreakTelemetryCaptureCommand.NotifyCanExecuteChanged();
+        }
+
+        [RelayCommand]
+        private void CopyQuantumBreakTelemetry()
+        {
+            if (QuantumBreakTelemetryEvents.Count == 0)
+                return;
+
+            Clipboard.SetText(string.Join(
+                Environment.NewLine + Environment.NewLine,
+                QuantumBreakTelemetryEvents.Select(capturedEvent => capturedEvent.SanitizedPayload)));
+            QuantumBreakTelemetryCaptureStatus = $"Copied {QuantumBreakTelemetryEvents.Count} sanitized payload(s).";
+        }
+
+        private static Dictionary<string, AchievementTestSnapshot> CaptureAchievementSnapshot(AchievementsResponse response)
+        {
+            return response.achievements.ToDictionary(
+                achievement => achievement.id,
+                achievement => new AchievementTestSnapshot
+                {
+                    Name = achievement.name,
+                    State = achievement.progressState,
+                    TimeUnlocked = achievement.progression?.timeUnlocked,
+                    Requirements = (achievement.progression?.requirements ?? [])
+                        .Select((requirement, index) => new
+                        {
+                            Key = string.IsNullOrWhiteSpace(requirement.id) ? $"#{index}" : requirement.id,
+                            requirement.current
+                        })
+                        .ToDictionary(requirement => requirement.Key!, requirement => requirement.current)
+                });
+        }
+
+        private async Task RefreshAndCompareQuantumBreakSnapshot(int selectedId, bool eventSent = false)
+        {
+            QuantumBreakProposedMapping = "";
+            var attempts = eventSent ? 3 : 1;
+            var changes = "No achievement state, unlock time, or requirement changes detected.";
+            var selectedChanged = false;
+            var anyChanged = false;
+            var afterSnapshot = new Dictionary<string, AchievementTestSnapshot>();
+
+            try
+            {
+                for (var attempt = 0; attempt < attempts; attempt++)
+                {
+                    if (eventSent)
+                        await Task.Delay(attempt == 0 ? 3000 : 4000);
+
+                    var freshResponse = await _xboxRestAPI.Value.GetAchievementsForTitleAsync(
+                        HomeViewModel.XUIDOnly, TitleIDOverride);
+                    if (freshResponse == null)
+                        continue;
+
+                    AchievementResponse = freshResponse;
+                    afterSnapshot = CaptureAchievementSnapshot(freshResponse);
+                    changes = CompareAchievementSnapshots(
+                        _quantumBreakBeforeSnapshot,
+                        afterSnapshot,
+                        selectedId,
+                        out selectedChanged,
+                        out anyChanged);
+                    if (anyChanged)
+                        break;
+                }
+
+                await RefreshAchievements();
+                SelectedAchievement = DGAchievements.FirstOrDefault(achievement => achievement.ID == selectedId);
+            }
+            catch (Exception ex)
+            {
+                QuantumBreakTestResult = eventSent
+                    ? $"Event sent; Xbox achievement data refresh failed: {ex.Message}"
+                    : $"Xbox achievement data refresh failed: {ex.Message}";
+                if (eventSent)
+                    RecordQuantumBreakMappingResearch(selectedId, afterSnapshot, QuantumBreakTestResult, true);
+                return;
+            }
+
+            QuantumBreakTestResult = anyChanged
+                ? changes
+                : eventSent
+                    ? "Event sent; Xbox popup observed may take time to sync. No Xbox achievement API changes detected yet."
+                    : changes;
+
+            if (eventSent)
+                RecordQuantumBreakMappingResearch(selectedId, afterSnapshot, QuantumBreakTestResult, anyChanged);
+
+            if (selectedChanged && _lastQuantumBreakCandidate.HasValue)
+            {
+                QuantumBreakProposedMapping = new JObject
+                {
+                    [selectedId.ToString(CultureInfo.InvariantCulture)] = new JObject
+                    {
+                        ["Replacement"] = new JObject
+                        {
+                            ["ReplacementType"] = "Replace",
+                            ["Target"] = "REPLACEINDEX",
+                            ["Replacement"] = _lastQuantumBreakCandidate.Value
+                        }
+                    }
+                }.ToString(Formatting.Indented);
+            }
+        }
+
+        private void RecordQuantumBreakMappingResearch(
+            int selectedId,
+            Dictionary<string, AchievementTestSnapshot> afterSnapshot,
+            string observedChanges,
+            bool anyChanged)
+        {
+            if (!_lastQuantumBreakCandidate.HasValue)
+                return;
+
+            var selectedKey = selectedId.ToString(CultureInfo.InvariantCulture);
+            _quantumBreakBeforeSnapshot.TryGetValue(selectedKey, out var before);
+            afterSnapshot.TryGetValue(selectedKey, out var after);
+            var requirementsChanged = before != null && after != null &&
+                !before.Requirements.OrderBy(item => item.Key)
+                    .SequenceEqual(after.Requirements.OrderBy(item => item.Key));
+            var unlocked = before != null && after != null &&
+                !string.Equals(before.State, StringConstants.Achieved, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(after.State, StringConstants.Achieved, StringComparison.OrdinalIgnoreCase);
+            var selectedStateChanged = before != null && after != null &&
+                (before.State != after.State || before.TimeUnlocked != after.TimeUnlocked);
+
+            AchievementMappingResearchStore.Record(new AchievementMappingResearchEntry
+            {
+                TitleId = AchievementMappingResearchStore.QuantumBreakTitleId,
+                ProgressionData = _lastQuantumBreakCandidate.Value,
+                AchievementId = selectedKey,
+                AchievementName = before?.Name ?? after?.Name ?? SelectedAchievement?.Name ?? "",
+                Result = unlocked
+                    ? "Achievement unlocked"
+                    : requirementsChanged
+                        ? "Progress changed"
+                        : selectedStateChanged || anyChanged || after == null
+                            ? "Unknown state change"
+                            : "No effect",
+                BeforeState = before?.State,
+                AfterState = after?.State,
+                BeforeUnlockTime = before?.TimeUnlocked,
+                AfterUnlockTime = after?.TimeUnlocked,
+                BeforeRequirements = before?.Requirements.ToDictionary(item => item.Key, item => item.Value) ?? [],
+                AfterRequirements = after?.Requirements.ToDictionary(item => item.Key, item => item.Value) ?? [],
+                ObservedChanges = observedChanges
+            });
+        }
+
+        private static string CompareAchievementSnapshots(
+            Dictionary<string, AchievementTestSnapshot> before,
+            Dictionary<string, AchievementTestSnapshot> after,
+            int selectedId,
+            out bool selectedChanged,
+            out bool anyChanged)
+        {
+            selectedChanged = false;
+            var lines = new List<string>();
+            var selectedKey = selectedId.ToString(CultureInfo.InvariantCulture);
+            foreach (var afterAchievement in after)
+            {
+                if (!before.TryGetValue(afterAchievement.Key, out var beforeAchievement))
+                    continue;
+
+                var isSelected = afterAchievement.Key == selectedKey;
+                var becameAchieved = !string.Equals(beforeAchievement.State, StringConstants.Achieved, StringComparison.OrdinalIgnoreCase)
+                    && string.Equals(afterAchievement.Value.State, StringConstants.Achieved, StringComparison.OrdinalIgnoreCase);
+                if (isSelected && becameAchieved)
+                {
+                    selectedChanged = true;
+                    lines.Add($"Selected achievement unlocked: {afterAchievement.Value.Name}.");
+                }
+
+                if (beforeAchievement.State != afterAchievement.Value.State)
+                {
+                    lines.Add($"{afterAchievement.Value.Name}: state {beforeAchievement.State} -> {afterAchievement.Value.State}");
+                    selectedChanged |= isSelected;
+                }
+
+                if (beforeAchievement.TimeUnlocked != afterAchievement.Value.TimeUnlocked)
+                {
+                    lines.Add($"{afterAchievement.Value.Name}: timeUnlocked {beforeAchievement.TimeUnlocked ?? "<none>"} -> {afterAchievement.Value.TimeUnlocked ?? "<none>"}");
+                    selectedChanged |= isSelected;
+                }
+
+                foreach (var requirement in afterAchievement.Value.Requirements)
+                {
+                    beforeAchievement.Requirements.TryGetValue(requirement.Key, out var previousValue);
+                    if (previousValue == requirement.Value)
+                        continue;
+
+                    var delta = decimal.TryParse(previousValue, NumberStyles.Any, CultureInfo.InvariantCulture, out var beforeNumber) &&
+                                decimal.TryParse(requirement.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out var afterNumber)
+                        ? $" ({afterNumber - beforeNumber:+0.################;-0.################;0})"
+                        : "";
+                    lines.Add($"{afterAchievement.Value.Name}: requirement {requirement.Key}: {previousValue ?? "<none>"} -> {requirement.Value ?? "<none>"}{delta}");
+                    selectedChanged |= isSelected;
+                }
+            }
+
+            anyChanged = lines.Count > 0;
+            return !anyChanged
+                ? "No achievement state, unlock time, or requirement changes detected."
+                : string.Join(Environment.NewLine, lines);
+        }
 
         private async void InitializeViewModel()
         {
@@ -239,8 +959,11 @@ namespace XAU.ViewModels.Pages
 
             Achievements.Clear();
             DGAchievements.Clear();
+            SelectedAchievement = null;
             // clears unlocked achievements from dictionary
             _unlockedAchievements.Clear();
+            IsEventBased = false;
+            IsEventUnlockAvailable = false;
             if (!IsTitleIDValid)
                 return;
             if (!IsSelectedGame360)
@@ -279,10 +1002,9 @@ namespace XAU.ViewModels.Pages
                             Unlockable = false;
                             IsEventBased = true;
                         }
-                        else
+                        else if (!IsEventBased)
                         {
                             Unlockable = true;
-                            IsEventBased = false;
                         }
                     }
                     var rewardnameplaceholder = "";
@@ -464,6 +1186,7 @@ namespace XAU.ViewModels.Pages
                 if (SupportedGames.Contains(int.Parse(TitleIDOverride)))
                 {
                     Unlockable = true;
+                    IsEventUnlockAvailable = true;
                     EventsData = (dynamic)(JObject)data[TitleIDOverride];
                     foreach (var achievement in DGAchievements)
                     {
@@ -473,6 +1196,7 @@ namespace XAU.ViewModels.Pages
                         }
                     }
                 }
+                SetEventMappingStatuses();
                 CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
             }
 
@@ -493,6 +1217,48 @@ namespace XAU.ViewModels.Pages
                 IsUnlockAllEnabled = Unlockable;
             else
                 IsUnlockAllEnabled = false;
+        }
+
+        private void SetEventMappingStatuses()
+        {
+            var mappings = IsEventUnlockAvailable ? EventsData.Achievements as JObject : null;
+            foreach (var achievement in DGAchievements)
+            {
+                if (mappings == null)
+                {
+                    achievement.EventMappingStatus = "Unsupported: title has no event mapping data";
+                    continue;
+                }
+
+                var mapping = mappings[achievement.ID.ToString()];
+                achievement.EventMappingStatus = mapping == null
+                    ? "Unsupported: missing event mapping"
+                    : $"Mapped: {DescribeEventMapping(mapping)}";
+            }
+
+            if (SelectedAchievement != null)
+                OnSelectedAchievementChanged(SelectedAchievement);
+        }
+
+        private static string DescribeEventMapping(JToken mapping)
+        {
+            return string.Join(", ", mapping.Children<JProperty>().Select(replacement =>
+            {
+                var target = replacement.Value["Target"]?.ToString() ?? replacement.Name;
+                var value = replacement.Value["Replacement"]?.ToString();
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    return value.Length <= 48 && !value.StartsWith('{')
+                        ? $"{target} = {value}"
+                        : $"{target} = <mapped value>";
+                }
+
+                var min = replacement.Value["Min"]?.ToString();
+                var max = replacement.Value["Max"]?.ToString();
+                return min != null && max != null
+                    ? $"{target} = {min}..{max}"
+                    : $"{target} ({replacement.Value["ReplacementType"]})";
+            }));
         }
 
         public async void UnlockAchievement(int AchievementIndex)
@@ -554,7 +1320,11 @@ namespace XAU.ViewModels.Pages
 
                 // TODO: move this over to the rest api?
                 var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
-                DateTime timestamp = DateTime.UtcNow;
+                // Experimental: Xbox may ignore this event telemetry timestamp and use server-side receipt time.
+                if (!TryGetEventUnlockTimestampUtc(out DateTime timestamp))
+                {
+                    return;
+                }
                 foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()])
                 {
                     var ReplacementData = i.Value;
@@ -623,6 +1393,38 @@ namespace XAU.ViewModels.Pages
 
             }
 
+        }
+
+        private bool TryGetEventUnlockTimestampUtc(out DateTime timestampUtc)
+        {
+            timestampUtc = DateTime.UtcNow;
+            if (!UseCustomEventUnlockTime)
+            {
+                return true;
+            }
+
+            if (CustomEventUnlockDate == null)
+            {
+                _snackbarService.Show("Error: Invalid Event Time", "Select a valid event unlock date.", ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return false;
+            }
+
+            var timeText = CustomEventUnlockTimeText?.Trim();
+            if (string.IsNullOrWhiteSpace(timeText) ||
+                (!TimeSpan.TryParse(timeText, CultureInfo.CurrentCulture, out var timeOfDay) &&
+                 !TimeSpan.TryParse(timeText, CultureInfo.InvariantCulture, out timeOfDay)) ||
+                timeOfDay < TimeSpan.Zero ||
+                timeOfDay >= TimeSpan.FromDays(1))
+            {
+                _snackbarService.Show("Error: Invalid Event Time", "Enter the event unlock time as HH:mm or HH:mm:ss.", ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                return false;
+            }
+
+            var localTimestamp = DateTime.SpecifyKind(CustomEventUnlockDate.Value.Date.Add(timeOfDay), DateTimeKind.Local);
+            timestampUtc = localTimestamp.ToUniversalTime();
+            return true;
         }
 
         [RelayCommand]
@@ -746,6 +1548,11 @@ namespace XAU.ViewModels.Pages
                         }
                         CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
                     }
+                    if (IsEventBased)
+                    {
+                        SetEventMappingStatuses();
+                        CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
+                    }
                     IsFiltered = false;
                     return;
                 }
@@ -805,6 +1612,11 @@ namespace XAU.ViewModels.Pages
                             achievement.IsUnlockable = true;
                         }
                     }
+                    CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
+                }
+                if (IsEventBased)
+                {
+                    SetEventMappingStatuses();
                     CollectionViewSource.GetDefaultView(DGAchievements).Refresh();
                 }
 

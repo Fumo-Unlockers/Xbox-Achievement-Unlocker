@@ -44,6 +44,44 @@ public static class Routes
         return routes;
     }
 
+    public static Dictionary<string, Func<HttpListenerContext, Task>> GetDiagnosticRoutes(
+        Func<XboxRestAPI> getXboxRestAPI,
+        Func<string> getXUIDOnly)
+    {
+        var endpointRoutes = EndpointRoutes.GetRoutes();
+        var gameRoutes = GameRoutes.GetRoutes(getXboxRestAPI, getXUIDOnly);
+        var achievementRoutes = AchievementRoutes.GetRoutes(getXboxRestAPI, getXUIDOnly);
+
+        return new Dictionary<string, Func<HttpListenerContext, Task>>
+        {
+            ["/"] = endpointRoutes["/"],
+            ["/api/"] = endpointRoutes["/api/"],
+            ["/api/games/me"] = gameRoutes["/api/games/me"],
+            ["/api/achievements/"] = achievementRoutes["/api/achievements/"]
+        };
+    }
+
+    public static bool IsDiagnosticRequestAllowed(HttpListenerRequest request)
+        => IsDiagnosticRequestAllowed(request.HttpMethod, request.Url?.AbsolutePath ?? string.Empty);
+
+    internal static bool IsDiagnosticRequestAllowed(string method, string absolutePath)
+    {
+        if (!method.Equals("GET", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        var path = absolutePath.TrimEnd('/');
+        if (path is "" or "/api" or "/api/games/me")
+        {
+            return true;
+        }
+
+        const string achievementPrefix = "/api/achievements/";
+        return path.StartsWith(achievementPrefix, StringComparison.OrdinalIgnoreCase)
+            && uint.TryParse(path[achievementPrefix.Length..], out _);
+    }
+
     private static async Task ApiXauthRequest(HttpListenerContext context, Func<string> getXauthToken)
     {
         var response = context.Response;

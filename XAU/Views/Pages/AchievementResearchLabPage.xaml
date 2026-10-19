@@ -1,0 +1,668 @@
+<Page
+    x:Class="XAU.Views.Pages.AchievementResearchLabPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:XAU.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="Achievement Mapping Research Lab"
+    d:DataContext="{d:DesignInstance local:AchievementResearchLabPage, IsDesignTimeCreatable=False}"
+    d:DesignHeight="900"
+    d:DesignWidth="1200"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,5,8,8">
+            <TextBlock FontSize="22" FontWeight="SemiBold" Text="Achievement Mapping Research Lab"/>
+            <TextBlock
+                Margin="0,3,0,4"
+                Text="Mapping present means Data.json contains an entry. Test availability and research history do not prove that a mapping is correct or accepted by Xbox."
+                TextWrapping="Wrap"/>
+            <TextBlock Margin="0,3,0,8" Text="{Binding ViewModel.TitleListStatus, Mode=OneWay}" TextWrapping="Wrap"/>
+            <Expander Margin="0,0,0,8" Header="Discovery Diagnostics" IsExpanded="False">
+                <StackPanel Margin="0,6,0,0">
+                    <TextBlock Margin="0,0,0,6" Text="{Binding ViewModel.DiscoveryDiagnosticsSummary, Mode=OneWay}" TextWrapping="Wrap"/>
+                    <DataGrid
+                        Height="180"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ViewModel.DiscoveryDiagnostics, Mode=OneWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Source" Binding="{Binding Source, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="Title ID" Binding="{Binding TitleId, Mode=OneWay}" Width="110"/>
+                            <DataGridTextColumn Header="Exception / diagnostic" Binding="{Binding Message, Mode=OneWay}" Width="4*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Expander>
+            <ui:TextBox
+                Margin="0,0,0,8"
+                ClearButtonEnabled="True"
+                PlaceholderText="Search titles by name, ID, SCID, compatibility, or replacement type"
+                Text="{Binding ViewModel.TitleSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ScrollViewer Height="390" Margin="0,0,0,10" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding ViewModel.FilteredResearchTitles, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                                Width="285"
+                                Height="190"
+                                Margin="0,0,8,8"
+                                Padding="0"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Command="{Binding DataContext.ViewModel.SelectResearchTitleCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding}">
+                                <Border Padding="8" BorderBrush="#507F8C8D" BorderThickness="1" CornerRadius="6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="74"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:Image Width="66" Height="66" VerticalAlignment="Top" Source="{Binding Image, IsAsync=True}" CornerRadius="4"/>
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock FontWeight="SemiBold" Text="{Binding Name, Mode=OneWay}" TextWrapping="Wrap"/>
+                                            <Border
+                                                Margin="0,3,0,3"
+                                                Padding="5,2"
+                                                HorizontalAlignment="Left"
+                                                CornerRadius="4"
+                                                ToolTip="{Binding OtherPlaceholders, Mode=OneWay}">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Background" Value="#493F8EDB"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Compatibility, Mode=OneWay}" Value="REPLACEINDEX Test Available">
+                                                                <Setter Property="Background" Value="#49388E3C"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Compatibility, Mode=OneWay}" Value="Multi-placeholder Payload Analysis">
+                                                                <Setter Property="Background" Value="#49B76E00"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Compatibility, Mode=OneWay}" Value="Unsupported">
+                                                                <Setter Property="Background" Value="#497F8C8D"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <TextBlock FontSize="11" FontWeight="SemiBold" Text="{Binding Compatibility, Mode=OneWay}"/>
+                                            </Border>
+                                            <TextBlock FontSize="11" Text="{Binding TitleId, Mode=OneWay}"/>
+                                            <TextBlock FontSize="11" Text="{Binding Scid, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Margin="0,3,0,0" FontSize="11">
+                                                <Run Text="Mapped "/><Run Text="{Binding MappedCount, Mode=OneWay}"/>
+                                                <Run Text=" | Missing "/><Run Text="{Binding MissingCount, Mode=OneWay}"/>
+                                            </TextBlock>
+                                            <TextBlock FontSize="11" Text="{Binding KnownHitsDisplay, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock FontSize="11" Text="{Binding KnownMissesDisplay, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock FontSize="11" Text="{Binding DiscoverySummary, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock FontSize="11" Text="{Binding ReplacementSummary, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <Separator Margin="0,0,0,8"/>
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock FontSize="20" FontWeight="SemiBold" Text="{Binding ViewModel.TitleInfo, Mode=OneWay}"/>
+                    <TextBlock Margin="0,4,0,0" Text="{Binding ViewModel.EventTokenStatus, Mode=OneWay}" TextWrapping="Wrap"/>
+                    <TextBlock Margin="0,2,0,0" Text="{Binding ViewModel.AchievementStatus, Mode=OneWay}" TextWrapping="Wrap"/>
+                </StackPanel>
+                <ui:Button
+                    Grid.Column="1"
+                    VerticalAlignment="Top"
+                    Content="Refresh achievements"
+                    Icon="{ui:SymbolIcon ArrowSync24}"
+                    Command="{Binding ViewModel.RefreshAchievementsCommand}"/>
+            </Grid>
+
+            <Expander Margin="0,0,0,10" Header="Live Capture (passive, read-only)" IsExpanded="True">
+                <StackPanel Margin="0,8,0,0">
+                    <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding ViewModel.LiveCaptureTitleInfo, Mode=OneWay}"/>
+                    <TextBlock Margin="0,3,0,8" Text="{Binding ViewModel.LiveCaptureStatus, Mode=OneWay}" TextWrapping="Wrap"/>
+
+                    <WrapPanel Margin="0,0,0,8">
+                        <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" Text="Poll interval"/>
+                        <ComboBox
+                            Width="100"
+                            Margin="0,0,6,0"
+                            ItemsSource="{Binding ViewModel.LiveCapturePollIntervals, Mode=OneWay}"
+                            SelectedItem="{Binding ViewModel.LiveCapturePollIntervalSeconds, Mode=TwoWay}"/>
+                        <TextBlock Margin="0,0,16,0" VerticalAlignment="Center" Text="seconds"/>
+                        <ui:Button
+                            Margin="0,0,6,4"
+                            Content="Start Live Capture"
+                            Icon="{ui:SymbolIcon Play24}"
+                            Command="{Binding ViewModel.StartLiveCaptureCommand}"/>
+                        <ui:Button
+                            Margin="0,0,6,4"
+                            Content="Stop Capture"
+                            Icon="{ui:SymbolIcon Stop24}"
+                            Command="{Binding ViewModel.StopLiveCaptureCommand}"/>
+                        <ui:Button
+                            Margin="0,0,6,4"
+                            Content="Copy summary"
+                            Icon="{ui:SymbolIcon Copy24}"
+                            Command="{Binding ViewModel.CopyLiveCaptureSummaryCommand}"/>
+                        <ui:Button
+                            Margin="0,0,0,4"
+                            Content="Export JSON"
+                            Icon="{ui:SymbolIcon Save24}"
+                            Command="{Binding ViewModel.ExportLiveCaptureSummaryCommand}"/>
+                    </WrapPanel>
+
+                    <WrapPanel Margin="0,0,0,8">
+                        <TextBlock FontWeight="SemiBold" Text="Process"/>
+                        <TextBlock MaxWidth="420" Margin="8,0,16,4" Text="{Binding ViewModel.LiveCaptureProcessStatus, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock FontWeight="SemiBold" Text="Duration"/>
+                        <TextBlock Margin="8,0,16,4" Text="{Binding ViewModel.LiveCaptureDuration, Mode=OneWay}"/>
+                        <TextBlock FontWeight="SemiBold" Text="Last API poll"/>
+                        <TextBlock Margin="8,0,0,4" Text="{Binding ViewModel.LiveCaptureLastPoll, Mode=OneWay}"/>
+                    </WrapPanel>
+
+                    <TextBlock Margin="0,0,0,4" FontWeight="SemiBold" Text="Source availability"/>
+                    <DataGrid
+                        Height="125"
+                        Margin="0,0,0,8"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ViewModel.LiveCaptureCapabilities, Mode=OneWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Source" Binding="{Binding Source, Mode=OneWay}" Width="190"/>
+                            <DataGridTextColumn Header="Availability" Binding="{Binding Availability, Mode=OneWay}" Width="105"/>
+                            <DataGridTextColumn Header="Captures" Binding="{Binding Description, Mode=OneWay}" Width="4*"/>
+                            <DataGridCheckBoxColumn Header="Admin" Binding="{Binding RequiresAdministrator, Mode=OneWay}" Width="70"/>
+                            <DataGridCheckBoxColumn Header="Internal IDs" Binding="{Binding CanObserveInternalEventIds, Mode=OneWay}" Width="95"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Margin="0,0,0,4" FontWeight="SemiBold" Text="Live observations"/>
+                    <TextBlock Margin="0,0,0,5" Text="The baseline is informational. Only later Xbox state or progression differences are reported as changes." TextWrapping="Wrap"/>
+                    <DataGrid
+                        Height="260"
+                        Margin="0,0,0,8"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ViewModel.LiveCaptureObservations, Mode=OneWay}"
+                        SelectedItem="{Binding ViewModel.SelectedLiveCaptureObservation, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Time" Binding="{Binding TimestampDisplay, Mode=OneWay}" Width="75"/>
+                            <DataGridTextColumn Header="Source" Binding="{Binding Source, Mode=OneWay}" Width="160"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category, Mode=OneWay}" Width="150"/>
+                            <DataGridTextColumn Header="Achievement" Binding="{Binding AchievementDisplay, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="State" Binding="{Binding StateDisplay, Mode=OneWay}" Width="180"/>
+                            <DataGridTextColumn Header="Progression" Binding="{Binding ProgressDisplay, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="Internal event" Binding="{Binding InternalEventName, Mode=OneWay}" Width="150"/>
+                            <DataGridTextColumn Header="Internal ID" Binding="{Binding InternalAchievementId, Mode=OneWay}" Width="110"/>
+                            <DataGridTextColumn Header="Evidence" Binding="{Binding EvidenceClassification, Mode=OneWay}" Width="190"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBox
+                        MinHeight="70"
+                        AcceptsReturn="True"
+                        IsReadOnly="True"
+                        Text="{Binding ViewModel.SelectedLiveCaptureObservation.DetailsDisplay, Mode=OneWay}"
+                        TextWrapping="Wrap"/>
+                </StackPanel>
+            </Expander>
+
+            <Expander Margin="0,0,0,8" Header="Event template information" IsExpanded="True">
+                <TextBox
+                    Margin="0,5,0,5"
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    IsReadOnly="True"
+                    Text="{Binding ViewModel.EventTemplateInfo, Mode=OneWay}"
+                    TextWrapping="Wrap"/>
+            </Expander>
+
+            <TextBlock Margin="0,4,0,5" FontSize="15" FontWeight="SemiBold" Text="Selected title achievements"/>
+            <DataGrid
+                Height="220"
+                Margin="0,0,0,10"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                CanUserReorderColumns="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding ViewModel.Achievements, Mode=OneWay}"
+                SelectedItem="{Binding ViewModel.SelectedAchievement, Mode=TwoWay}"
+                SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id, Mode=OneWay}" Width="70"/>
+                    <DataGridTextColumn Header="Achievement" Binding="{Binding Name, Mode=OneWay}" Width="2*"/>
+                    <DataGridTextColumn Header="State" Binding="{Binding State, Mode=OneWay}" Width="110"/>
+                    <DataGridTextColumn Header="Mapping status" Binding="{Binding MappingStatus, Mode=OneWay}" Width="2*"/>
+                    <DataGridTextColumn Header="Classification" Binding="{Binding Classification, Mode=OneWay}" Width="2*"/>
+                    <DataGridTextColumn Header="Current" Binding="{Binding Current, Mode=OneWay}" Width="*"/>
+                    <DataGridTextColumn Header="Target" Binding="{Binding Target, Mode=OneWay}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Expander Margin="0,0,0,10" Header="Achievement Support Audit" IsExpanded="False">
+                <StackPanel Margin="0,8,0,0">
+                    <TextBlock Margin="0,0,0,8" TextWrapping="Wrap"
+                               Text="{Binding ViewModel.SupportAuditSummary, Mode=OneWay}"/>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Margin="0,0,8,0"
+                                  ItemsSource="{Binding ViewModel.SupportAuditFilters, Mode=OneWay}"
+                                  SelectedItem="{Binding ViewModel.SupportAuditFilter, Mode=TwoWay}"/>
+                        <ui:TextBox Grid.Column="1" Margin="0,0,8,0" PlaceholderText="Search ID, name, requirement, target, or reason"
+                                    Text="{Binding ViewModel.SupportAuditSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ui:Button Grid.Column="2" Icon="{ui:SymbolIcon Copy24}" Content="Copy audit"
+                                   Command="{Binding ViewModel.CopySupportAuditCommand}"/>
+                    </Grid>
+                    <DataGrid Height="300" Margin="0,0,0,8" AutoGenerateColumns="False"
+                              CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" SelectionMode="Single"
+                              ItemsSource="{Binding ViewModel.SupportAuditRows, Mode=OneWay}"
+                              SelectedItem="{Binding ViewModel.SelectedSupportAuditRow, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id, Mode=OneWay}" Width="65"/>
+                            <DataGridTextColumn Header="Achievement" Binding="{Binding Name, Mode=OneWay}" Width="190"/>
+                            <DataGridTextColumn Header="State" Binding="{Binding State, Mode=OneWay}" Width="95"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category, Mode=OneWay}" Width="170"/>
+                            <DataGridTextColumn Header="Normal Unlock eligible" Binding="{Binding UnlockableDisplay, Mode=OneWay}" Width="170"/>
+                            <DataGridCheckBoxColumn Header="Mapping exists" Binding="{Binding MappingPresent, Mode=OneWay}" Width="115"/>
+                            <DataGridCheckBoxColumn Header="Template exists" Binding="{Binding TemplateAvailable, Mode=OneWay}" Width="120"/>
+                            <DataGridTextColumn Header="Reason" Binding="{Binding Reason, Mode=OneWay}" Width="300"/>
+                            <DataGridTextColumn Header="Requirement IDs" Binding="{Binding RequirementIds, Mode=OneWay}" Width="220"/>
+                            <DataGridTextColumn Header="Current" Binding="{Binding Current, Mode=OneWay}" Width="140"/>
+                            <DataGridTextColumn Header="Target" Binding="{Binding Target, Mode=OneWay}" Width="140"/>
+                            <DataGridTextColumn Header="OperationType" Binding="{Binding OperationTypes, Mode=OneWay}" Width="140"/>
+                            <DataGridTextColumn Header="ValueType" Binding="{Binding ValueTypes, Mode=OneWay}" Width="140"/>
+                            <DataGridTextColumn Header="RuleParticipationType" Binding="{Binding RuleParticipationTypes, Mode=OneWay}" Width="170"/>
+                            <DataGridTextColumn Header="Replacement types" Binding="{Binding ReplacementTypes, Mode=OneWay}" Width="200"/>
+                            <DataGridTextColumn Header="Replacement targets" Binding="{Binding ReplacementTargets, Mode=OneWay}" Width="230"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBox Height="220" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas"
+                             TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                             Text="{Binding ViewModel.SelectedSupportAuditRow.Details, Mode=OneWay}"/>
+                </StackPanel>
+            </Expander>
+
+            <Expander
+                Margin="0,0,0,10"
+                Header="Selected achievement mapped payload analysis (read-only)"
+                IsExpanded="True">
+                <StackPanel Margin="0,8,0,0">
+                    <TextBlock
+                        Margin="0,0,0,8"
+                        Text="{Binding ViewModel.SelectedMappingInfo, Mode=OneWay}"
+                        TextWrapping="Wrap"/>
+                    <DataGrid
+                        Height="170"
+                        Margin="0,0,0,8"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ViewModel.SelectedAchievementReplacements, Mode=OneWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mapping entry" Binding="{Binding Source, Mode=OneWay}" Width="180"/>
+                            <DataGridTextColumn Header="Replacement type" Binding="{Binding ReplacementType, Mode=OneWay}" Width="150"/>
+                            <DataGridTextColumn Header="Target placeholder" Binding="{Binding Target, Mode=OneWay}" Width="190"/>
+                            <DataGridTextColumn Header="Sanitized replacement" Binding="{Binding Replacement, Mode=OneWay}" Width="4*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock Margin="0,0,0,4" FontWeight="SemiBold" Text="Reconstructed sanitized payload preview"/>
+                    <TextBox
+                        Height="260"
+                        AcceptsReturn="True"
+                        FontFamily="Consolas"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="True"
+                        Text="{Binding ViewModel.MappedPayloadPreview, Mode=OneWay}"
+                        TextWrapping="NoWrap"
+                        VerticalScrollBarVisibility="Auto"/>
+                </StackPanel>
+            </Expander>
+
+            <Expander
+                Margin="0,0,0,10"
+                Header="Achievement structure and research classification analysis (read-only)"
+                IsExpanded="True">
+                <StackPanel Margin="0,8,0,0">
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Text="Requirement shapes, mapping coverage, and persisted candidate-test signals."
+                            TextWrapping="Wrap"/>
+                        <ui:Button
+                            Grid.Column="1"
+                            Content="Copy summary"
+                            Icon="{ui:SymbolIcon Copy24}"
+                            Command="{Binding ViewModel.CopyRequirementAnalysisSummaryCommand}"/>
+                    </Grid>
+                    <TextBox
+                        Height="210"
+                        Margin="0,0,0,8"
+                        AcceptsReturn="True"
+                        FontFamily="Consolas"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="True"
+                        Text="{Binding ViewModel.RequirementAnalysisSummary, Mode=OneWay}"
+                        TextWrapping="NoWrap"
+                        VerticalScrollBarVisibility="Auto"/>
+                    <DataGrid
+                        Height="330"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ViewModel.RequirementAnalysisRows, Mode=OneWay}">
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPriorityUnsupported, Mode=OneWay}" Value="True">
+                                        <Setter Property="Background" Value="#49C49A00"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Achievement ID" Binding="{Binding AchievementId, Mode=OneWay}" Width="95"/>
+                            <DataGridTextColumn Header="Achievement" Binding="{Binding AchievementName, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="State" Binding="{Binding State, Mode=OneWay}" Width="100"/>
+                            <DataGridTextColumn Header="Mapping status" Binding="{Binding MappingStatus, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="Classification" Binding="{Binding Classification, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="Requirement ID" Binding="{Binding RequirementId, Mode=OneWay}" Width="240"/>
+                            <DataGridTextColumn Header="Current" Binding="{Binding Current, Mode=OneWay}" Width="90"/>
+                            <DataGridTextColumn Header="Target" Binding="{Binding Target, Mode=OneWay}" Width="90"/>
+                            <DataGridTextColumn Header="OperationType" Binding="{Binding OperationType, Mode=OneWay}" Width="130"/>
+                            <DataGridTextColumn Header="ValueType" Binding="{Binding ValueType, Mode=OneWay}" Width="110"/>
+                            <DataGridTextColumn Header="RuleParticipationType" Binding="{Binding RuleParticipationType, Mode=OneWay}" Width="160"/>
+                            <DataGridTextColumn Header="Current/target shape" Binding="{Binding Shape, Mode=OneWay}" Width="180"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Expander>
+
+            <Separator Margin="0,0,0,8"/>
+            <TextBlock Margin="0,0,0,5" FontSize="15" FontWeight="SemiBold" Text="One-event mapping test"/>
+            <TextBlock Margin="0,0,0,7" TextWrapping="Wrap">
+                <Run Text="Selected: "/>
+                <Run FontWeight="SemiBold" Text="{Binding ViewModel.SelectedAchievement.Id, Mode=OneWay}"/>
+                <Run Text=" - "/>
+                <Run FontWeight="SemiBold" Text="{Binding ViewModel.SelectedAchievement.Name, Mode=OneWay}"/>
+                <Run Text=" | "/>
+                <Run Text="{Binding ViewModel.SelectedAchievement.MappingStatus, Mode=OneWay}"/>
+            </TextBlock>
+            <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                <ui:TextBox
+                    Width="210"
+                    Margin="0,0,8,0"
+                    ClearButtonEnabled="False"
+                    IsEnabled="{Binding ViewModel.CanUseProgressionDataTemplate, Mode=OneWay}"
+                    PlaceholderText="ProgressionData integer"
+                    Text="{Binding ViewModel.ProgressionData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ui:Button
+                    Margin="0,0,8,0"
+                    Content="Preview"
+                    Icon="{ui:SymbolIcon Eye24}"
+                    IsEnabled="{Binding ViewModel.CanUseProgressionDataTemplate, Mode=OneWay}"
+                    Command="{Binding ViewModel.PreviewCommand}"/>
+                <ui:Button
+                    Margin="0,0,8,0"
+                    Content="Send one test event"
+                    Icon="{ui:SymbolIcon Send24}"
+                    IsEnabled="{Binding ViewModel.CanUseProgressionDataTemplate, Mode=OneWay}"
+                    Command="{Binding ViewModel.SendOneTestEventCommand}"/>
+                <ui:Button
+                    Content="Copy result"
+                    Icon="{ui:SymbolIcon Copy24}"
+                    Command="{Binding ViewModel.CopyResultCommand}"/>
+            </StackPanel>
+            <TextBlock Margin="0,0,0,8" FontWeight="SemiBold" Text="{Binding ViewModel.TestStatus, Mode=OneWay}" TextWrapping="Wrap"/>
+            <Grid Height="220" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    Margin="0,0,4,0"
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    Text="{Binding ViewModel.PayloadPreview, Mode=OneWay}"
+                    TextWrapping="NoWrap"
+                    VerticalScrollBarVisibility="Auto"/>
+                <TextBox
+                    Grid.Column="1"
+                    Margin="4,0,0,0"
+                    AcceptsReturn="True"
+                    FontFamily="Consolas"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    Text="{Binding ViewModel.ResultDetails, Mode=OneWay}"
+                    TextWrapping="NoWrap"
+                    VerticalScrollBarVisibility="Auto"/>
+            </Grid>
+
+            <Expander
+                Margin="0,0,0,10"
+                Header="Controlled range tester"
+                IsEnabled="{Binding ViewModel.CanUseProgressionDataTemplate, Mode=OneWay}"
+                IsExpanded="True">
+                <StackPanel Margin="0,8,0,0">
+                    <TextBlock Margin="0,0,0,8" TextWrapping="Wrap"
+                               Text="Sends one candidate at a time after explicit confirmation, persists every attempt, waits between candidates, and stops on configured results."/>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="0,0,6,0" VerticalAlignment="Center" Text="Start ProgressionData"/>
+                        <ui:TextBox Grid.Column="1" Margin="0,0,12,0" ClearButtonEnabled="False"
+                                    Text="{Binding ViewModel.RangeStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Grid.Column="2" Margin="0,0,6,0" VerticalAlignment="Center" Text="End ProgressionData"/>
+                        <ui:TextBox Grid.Column="3" Margin="0,0,12,0" ClearButtonEnabled="False"
+                                    Text="{Binding ViewModel.RangeEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Grid.Column="4" Margin="0,0,6,0" VerticalAlignment="Center" Text="Delay seconds"/>
+                        <ui:TextBox Grid.Column="5" Margin="0,0,12,0" ClearButtonEnabled="False"
+                                    Text="{Binding ViewModel.RangeDelaySeconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Grid.Column="6" Margin="0,0,6,0" VerticalAlignment="Center" Text="Max attempts"/>
+                        <ui:TextBox Grid.Column="7" ClearButtonEnabled="False"
+                                    Text="{Binding ViewModel.RangeMaxAttempts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                    <WrapPanel Margin="0,0,0,8">
+                        <TextBlock Margin="0,0,8,0" FontWeight="SemiBold" VerticalAlignment="Center" Text="Watch scope"/>
+                        <ui:ToggleSwitch Margin="0,0,16,0" Content="Watch selected achievement only"
+                                         IsChecked="{Binding ViewModel.WatchSelectedAchievementOnly, Mode=TwoWay}"/>
+                        <ui:ToggleSwitch Content="Watch all achievements for selected title"
+                                         IsChecked="{Binding ViewModel.WatchAllAchievements, Mode=TwoWay}"/>
+                    </WrapPanel>
+                    <WrapPanel Margin="0,0,0,8">
+                        <TextBlock Margin="0,0,8,0" FontWeight="SemiBold" VerticalAlignment="Center" Text="Stop on"/>
+                        <CheckBox Margin="0,0,12,0" VerticalAlignment="Center" Content="Selected achievement change"
+                                  IsChecked="{Binding ViewModel.StopOnSelectedAchievementChange, Mode=TwoWay}"/>
+                        <CheckBox Margin="0,0,12,0" VerticalAlignment="Center" Content="Any achievement change"
+                                  IsChecked="{Binding ViewModel.StopOnAnyAchievementChange, Mode=TwoWay}"/>
+                        <CheckBox Margin="0,0,12,0" VerticalAlignment="Center" Content="Achievement unlocked"
+                                  IsChecked="{Binding ViewModel.StopOnAchievementUnlocked, Mode=TwoWay}"/>
+                        <CheckBox Margin="0,0,12,0" VerticalAlignment="Center" Content="State changed"
+                                  IsChecked="{Binding ViewModel.StopOnStateChanged, Mode=TwoWay}"/>
+                        <CheckBox Margin="0,0,18,0" VerticalAlignment="Center" Content="Requirement changed"
+                                  IsChecked="{Binding ViewModel.StopOnRequirementChanged, Mode=TwoWay}"/>
+                        <ui:Button Margin="0,0,8,0" Content="Start range test" Icon="{ui:SymbolIcon Play24}"
+                                   Command="{Binding ViewModel.StartRangeTestCommand}"/>
+                        <ui:Button Content="Stop range test" Icon="{ui:SymbolIcon Stop24}"
+                                   Command="{Binding ViewModel.StopRangeTestCommand}"/>
+                    </WrapPanel>
+                    <TextBlock Margin="0,0,0,4" FontWeight="SemiBold"
+                               Text="{Binding ViewModel.RangeStatus, Mode=OneWay}" TextWrapping="Wrap"/>
+                    <TextBlock Margin="0,0,0,8"
+                               Text="{Binding ViewModel.RangeCurrentStatus, Mode=OneWay}" TextWrapping="Wrap"/>
+                    <DataGrid
+                        Height="220"
+                        Margin="0,0,0,8"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ViewModel.RangeAttempts, Mode=OneWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ProgressionData" Binding="{Binding ProgressionData, Mode=OneWay}" Width="110"/>
+                            <DataGridTextColumn Header="Achievement" Binding="{Binding Achievement, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="Result" Binding="{Binding Result, Mode=OneWay}" Width="150"/>
+                            <DataGridTextColumn Header="Classification" Binding="{Binding Classification, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="Changed achievements" Binding="{Binding ChangedAchievements, Mode=OneWay}" Width="3*"/>
+                            <DataGridTextColumn Header="Before requirements" Binding="{Binding BeforeRequirements, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="After requirements" Binding="{Binding AfterRequirements, Mode=OneWay}" Width="2*"/>
+                            <DataGridTextColumn Header="Before state" Binding="{Binding BeforeState, Mode=OneWay}" Width="110"/>
+                            <DataGridTextColumn Header="After state" Binding="{Binding AfterState, Mode=OneWay}" Width="110"/>
+                            <DataGridTextColumn Header="Full before/after diff" Binding="{Binding FullDiff, Mode=OneWay}" Width="4*"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status, Mode=OneWay}" Width="2*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock Margin="0,0,0,4" FontWeight="SemiBold"
+                               Text="Proposed Data.json mapping for an unambiguous hit"/>
+                    <TextBox
+                        Height="120"
+                        AcceptsReturn="True"
+                        FontFamily="Consolas"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="True"
+                        Text="{Binding ViewModel.ProposedMapping, Mode=OneWay}"
+                        TextWrapping="NoWrap"
+                        VerticalScrollBarVisibility="Auto"/>
+                </StackPanel>
+            </Expander>
+
+            <Separator Margin="0,0,0,8"/>
+            <TextBlock Margin="0,0,0,5" FontSize="15" FontWeight="SemiBold" Text="Persisted mapping history"/>
+            <Grid Margin="0,0,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ui:TextBox
+                    Grid.Column="0"
+                    Margin="0,0,8,0"
+                    ClearButtonEnabled="True"
+                    PlaceholderText="Search candidate, achievement, classification, result, state, requirement, or observed change"
+                    Text="{Binding ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ui:Button
+                    Grid.Column="1"
+                    Margin="0,0,8,0"
+                    Content="Refresh history"
+                    Icon="{ui:SymbolIcon ArrowSync24}"
+                    Command="{Binding ViewModel.RefreshHistoryCommand}"/>
+                <ui:Button
+                    Grid.Column="2"
+                    Content="Copy selected history"
+                    Icon="{ui:SymbolIcon Copy24}"
+                    Command="{Binding ViewModel.CopySelectedEntryCommand}"/>
+            </Grid>
+            <TextBlock Text="{Binding ViewModel.HistoryStatus, Mode=OneWay}" TextWrapping="Wrap"/>
+            <TextBlock Margin="0,2,0,8" FontSize="11" Text="{Binding ViewModel.HistoryPath, Mode=OneWay}" TextWrapping="Wrap"/>
+            <Expander Margin="0,0,0,8" Header="Tested-candidate summary" IsExpanded="True">
+                <TextBlock Margin="0,5,0,5" FontFamily="Consolas"
+                           Text="{Binding ViewModel.CandidateHistorySummary, Mode=OneWay}" TextWrapping="Wrap"/>
+            </Expander>
+            <DataGrid
+                Height="260"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                CanUserReorderColumns="False"
+                IsReadOnly="True"
+                ItemsSource="{Binding ViewModel.Entries, Mode=OneWay}"
+                SelectedItem="{Binding ViewModel.SelectedEntry, Mode=TwoWay}">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Result, Mode=OneWay}" Value="No effect">
+                                <Setter Property="Background" Value="#267F8C8D"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Result, Mode=OneWay}" Value="Progress changed">
+                                <Setter Property="Background" Value="#493F8EDB"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Result, Mode=OneWay}" Value="Achievement unlocked">
+                                <Setter Property="Background" Value="#49388E3C"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Result, Mode=OneWay}" Value="Unknown state change">
+                                <Setter Property="Background" Value="#49C49A00"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Recorded" Binding="{Binding RecordedAt, Mode=OneWay}" Width="150"/>
+                    <DataGridTextColumn Header="ProgressionData" Binding="{Binding ProgressionData, Mode=OneWay}" Width="110"/>
+                    <DataGridTextColumn Header="Achievement ID" Binding="{Binding AchievementId, Mode=OneWay}" Width="100"/>
+                    <DataGridTextColumn Header="Achievement" Binding="{Binding AchievementName, Mode=OneWay}" Width="2*"/>
+                    <DataGridTextColumn Header="Result" Binding="{Binding Result, Mode=OneWay}" Width="150"/>
+                    <DataGridTextColumn Header="Candidate classification" Binding="{Binding CandidateClassification, Mode=OneWay}" Width="2*"/>
+                    <DataGridTextColumn Header="Achievement classification" Binding="{Binding AchievementClassification, Mode=OneWay}" Width="2*"/>
+                    <DataGridTextColumn Header="Changed achievements" Binding="{Binding ChangedAchievementsSummary, Mode=OneWay}" Width="3*"/>
+                    <DataGridTextColumn Header="Before requirements" Binding="{Binding BeforeRequirementsSummary, Mode=OneWay}" Width="2*"/>
+                    <DataGridTextColumn Header="After requirements" Binding="{Binding AfterRequirementsSummary, Mode=OneWay}" Width="2*"/>
+                    <DataGridTextColumn Header="Before state" Binding="{Binding BeforeState, Mode=OneWay}" Width="110"/>
+                    <DataGridTextColumn Header="After state" Binding="{Binding AfterState, Mode=OneWay}" Width="110"/>
+                    <DataGridTextColumn Header="Before unlock time" Binding="{Binding BeforeUnlockTime, Mode=OneWay}" Width="170"/>
+                    <DataGridTextColumn Header="After unlock time" Binding="{Binding AfterUnlockTime, Mode=OneWay}" Width="170"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBox
+                Height="180"
+                Margin="0,8,0,0"
+                AcceptsReturn="True"
+                FontFamily="Consolas"
+                HorizontalScrollBarVisibility="Auto"
+                IsReadOnly="True"
+                Text="{Binding ViewModel.SelectedEntry.Details, Mode=OneWay}"
+                TextWrapping="NoWrap"
+                VerticalScrollBarVisibility="Auto"/>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

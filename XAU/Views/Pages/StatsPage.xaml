@@ -16,7 +16,91 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <Grid>
-        
+    <Grid Margin="0,5,0,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <ui:TextBox
+                Grid.Column="0"
+                Margin="0,0,8,0"
+                ClearButtonEnabled="False"
+                PlaceholderText="Title ID"
+                Text="{Binding ViewModel.TitleId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ui:TextBox
+                Grid.Column="1"
+                Margin="0,0,8,0"
+                ClearButtonEnabled="False"
+                PlaceholderText="SCID"
+                Text="{Binding ViewModel.Scid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ui:TextBox
+                Grid.Column="2"
+                Margin="0,0,8,0"
+                ClearButtonEnabled="False"
+                PlaceholderText="Stat names, separated by commas"
+                Text="{Binding ViewModel.StatNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ui:Button
+                Grid.Column="3"
+                Margin="0,0,8,0"
+                Content="Query / Refresh"
+                Icon="{ui:SymbolIcon ArrowSync24}"
+                Command="{Binding ViewModel.QueryStatsCommand}"/>
+            <ui:Button
+                Grid.Column="4"
+                Content="Copy"
+                Icon="{ui:SymbolIcon Copy24}"
+                Command="{Binding ViewModel.CopyStatsCommand}"/>
+        </Grid>
+
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,8,0,0"
+            Orientation="Horizontal">
+            <ComboBox
+                Width="150"
+                Margin="0,0,12,0"
+                ItemsSource="{Binding ViewModel.StatRoutes}"
+                SelectedItem="{Binding ViewModel.SelectedStatRoute, Mode=TwoWay}"/>
+            <CheckBox
+                VerticalAlignment="Center"
+                Content="Include value metadata"
+                IsChecked="{Binding ViewModel.IncludeValueMetadata, Mode=TwoWay}"/>
+        </StackPanel>
+
+        <TextBlock
+            Grid.Row="2"
+            Margin="0,8,0,8"
+            Text="{Binding ViewModel.QueryStatus}"
+            TextWrapping="Wrap"/>
+
+        <DataGrid
+            Grid.Row="3"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            CanUserReorderColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding ViewModel.Stats}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Stat name" Binding="{Binding Name}" Width="2*"/>
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"/>
+                <DataGridTextColumn Header="Title ID" Binding="{Binding TitleId}" Width="*"/>
+                <DataGridTextColumn Header="SCID" Binding="{Binding Scid}" Width="2*"/>
+                <DataGridTextColumn Header="Value metadata" Binding="{Binding ValueMetadata}" Width="3*"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

@@ -1,0 +1,43 @@
+name: Validate Pull Request
+
+on:
+  pull_request:
+    branches: [ Main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore solution
+        run: dotnet restore XAU.sln /p:EnableWindowsTargeting=true
+
+      - name: Restore Live Capture tests
+        run: dotnet restore XAU.LiveCapture.Tests/XAU.LiveCapture.Tests.csproj /p:EnableWindowsTargeting=true
+
+      - name: Run Live Capture regression tests
+        run: dotnet run --project XAU.LiveCapture.Tests/XAU.LiveCapture.Tests.csproj -c Release --no-restore
+
+      - name: Build Debug
+        run: dotnet build XAU.sln -c Debug --no-restore /p:EnableWindowsTargeting=true
+
+      - name: Build Release
+        run: dotnet build XAU.sln -c Release --no-restore /p:EnableWindowsTargeting=true
+
+      - name: Publish Release
+        run: dotnet publish XAU.sln -c Release -r win-x64 --self-contained false --no-restore /p:PublishSingleFile=true /p:PublishReadyToRun=false /p:IncludeAllContentForSelfExtract=true /p:EnableWindowsTargeting=true -o "${{ runner.temp }}\xau-publish"

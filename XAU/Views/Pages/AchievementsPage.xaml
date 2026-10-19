@@ -17,6 +17,9 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       mc:Ignorable="d">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
 
     <Grid
           Height="{Binding ElementName=AchievementsPagen, Path=ActualHeight}"
@@ -24,6 +27,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid>
             <Grid.RowDefinitions>
@@ -99,6 +104,32 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"/>
 
+            <StackPanel
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                Margin="10,0,10,0"
+                Visibility="{Binding ViewModel.IsEventUnlockAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ui:ToggleSwitch
+                    Margin="0,0,0,4"
+                    Content="Custom Event Time"
+                    IsChecked="{Binding ViewModel.UseCustomEventUnlockTime, Mode=TwoWay}"/>
+                <StackPanel Orientation="Horizontal">
+                    <DatePicker
+                        Width="125"
+                        Margin="0,0,6,0"
+                        IsEnabled="{Binding ViewModel.UseCustomEventUnlockTime}"
+                        SelectedDate="{Binding ViewModel.CustomEventUnlockDate, Mode=TwoWay}"/>
+                    <ui:TextBox
+                        Width="80"
+                        ClearButtonEnabled="False"
+                        IsEnabled="{Binding ViewModel.UseCustomEventUnlockTime}"
+                        PlaceholderText="HH:mm:ss"
+                        Text="{Binding ViewModel.CustomEventUnlockTimeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
             <Label 
                 Grid.Row="0" 
                 Grid.Column="3"
@@ -144,6 +175,8 @@
                   Margin="0,5,0,5" 
                   AutoGenerateColumns="False"  
                   ItemsSource="{Binding ViewModel.DGAchievements}" 
+                  SelectedItem="{Binding ViewModel.SelectedAchievement, Mode=TwoWay}"
+                  SelectionMode="Single"
                   IsReadOnly="True"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
@@ -174,6 +207,14 @@
                 <DataGridTextColumn Header="Percentage" Binding="{Binding RarityPercentage}" Width="0.13*"/>
                 <DataGridTextColumn Header="Rarity" Binding="{Binding RarityCategory}" Width="0.11*"/>
                 <DataGridTextColumn Header="State" Binding="{Binding ProgressState}" Width="0.12*"/>
+                <DataGridTextColumn Header="Event mapping (debug)" Binding="{Binding EventMappingStatus}" Width="0.25*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="ToolTip" Value="{Binding EventMappingStatus}" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn Header="Unlock" Width="0.13*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -185,5 +226,400 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Expander
+            Grid.Row="2"
+            Margin="0,0,0,5"
+            Header="Selected achievement requirement details"
+            IsExpanded="True">
+            <Grid Margin="0,5,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,6,5" FontWeight="SemiBold" Text="Achievement API ID"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,15,5"
+                           Text="{Binding ViewModel.SelectedAchievement.ID, Mode=OneWay}"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Margin="0,0,6,5" FontWeight="SemiBold" Text="State"/>
+                <TextBlock Grid.Row="0" Grid.Column="3" Margin="0,0,0,5" Text="{Binding ViewModel.SelectedAchievement.ProgressState, Mode=OneWay}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,6,5" FontWeight="SemiBold" Text="Achievement name"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,5"
+                           Text="{Binding ViewModel.SelectedAchievement.Name, Mode=OneWay}"
+                           TextWrapping="Wrap"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,6,5" FontWeight="SemiBold" Text="Mapping"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,5"
+                           Text="{Binding ViewModel.SelectedAchievement.EventMappingStatus, Mode=OneWay}"
+                           TextWrapping="Wrap"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,6,5" FontWeight="SemiBold" Text="Title event support data"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,0,15,5"
+                           Text="{Binding ViewModel.SelectedAchievementEventSupport, Mode=OneWay}"/>
+                <ui:Button
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Margin="0,0,0,5"
+                    HorizontalAlignment="Right"
+                    Content="Copy details"
+                    Icon="{ui:SymbolIcon Copy24}"
+                    Command="{Binding ViewModel.CopySelectedAchievementDetailsCommand}"/>
+
+                <DataGrid
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    MaxHeight="140"
+                    Margin="0,0,0,5"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    CanUserDeleteRows="False"
+                    CanUserReorderColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ViewModel.SelectedAchievementMappings}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ReplacementType" Binding="{Binding ReplacementType}" Width="*"/>
+                        <DataGridTextColumn Header="Target" Binding="{Binding Target}" Width="*"/>
+                        <DataGridTextColumn Header="Replacement" Binding="{Binding Replacement}" Width="3*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <DataGrid
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    MaxHeight="180"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    CanUserDeleteRows="False"
+                    CanUserReorderColumns="False"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ViewModel.SelectedAchievementRequirements}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Requirement ID" Binding="{Binding id}" Width="2*"/>
+                        <DataGridTextColumn Header="Current" Binding="{Binding current}" Width="*"/>
+                        <DataGridTextColumn Header="Target" Binding="{Binding target}" Width="*"/>
+                        <DataGridTextColumn Header="Operation" Binding="{Binding operationType}" Width="*"/>
+                        <DataGridTextColumn Header="Value type" Binding="{Binding valueType}" Width="*"/>
+                        <DataGridTextColumn Header="Rule participation" Binding="{Binding ruleParticipationType}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Expander
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    Margin="0,8,0,0"
+                    Header="Raw achievement requirement source (read-only debug)"
+                    IsExpanded="False">
+                    <Grid Margin="0,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="180"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,8,5" FontWeight="SemiBold" Text="Source endpoint"/>
+                        <TextBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="0,0,0,5"
+                            IsReadOnly="True"
+                            Text="{Binding ViewModel.SelectedAchievementSourceEndpoint}"
+                            TextWrapping="Wrap"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,8,5" FontWeight="SemiBold" Text="requirement.current JSON path"/>
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0,0,0,5"
+                            IsReadOnly="True"
+                            Text="{Binding ViewModel.SelectedAchievementRequirementJsonPath}"
+                            TextWrapping="Wrap"/>
+
+                        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                Grid.Column="0"
+                                Margin="0,0,4,0"
+                                AcceptsReturn="True"
+                                FontFamily="Consolas"
+                                HorizontalScrollBarVisibility="Auto"
+                                IsReadOnly="True"
+                                Text="{Binding ViewModel.SelectedAchievementRawJson}"
+                                TextWrapping="NoWrap"
+                                VerticalScrollBarVisibility="Auto"/>
+                            <TextBox
+                                Grid.Column="1"
+                                Margin="4,0,0,0"
+                                AcceptsReturn="True"
+                                FontFamily="Consolas"
+                                HorizontalScrollBarVisibility="Auto"
+                                IsReadOnly="True"
+                                Text="{Binding ViewModel.SelectedAchievementRawRequirementJson}"
+                                TextWrapping="NoWrap"
+                                VerticalScrollBarVisibility="Auto"/>
+                        </Grid>
+                    </Grid>
+                </Expander>
+
+                <Expander
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    Margin="0,8,0,0"
+                    Header="Achievement / stat correlation (read-only debug)"
+                    IsExpanded="False">
+                    <Grid Margin="0,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="220"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ui:TextBox
+                                Grid.Column="0"
+                                Margin="0,0,8,0"
+                                ClearButtonEnabled="False"
+                                PlaceholderText="Candidate stat names, separated by commas"
+                                Text="{Binding ViewModel.AchievementStatNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <ui:Button
+                                Grid.Column="1"
+                                Content="Query / Refresh"
+                                Icon="{ui:SymbolIcon ArrowSync24}"
+                                Command="{Binding ViewModel.QueryAchievementStatCorrelationCommand}"/>
+                        </Grid>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="0,8,0,8"
+                            Text="{Binding ViewModel.AchievementStatCorrelationStatus}"
+                            TextWrapping="Wrap"/>
+
+                        <DataGrid
+                            Grid.Row="2"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="False"
+                            CanUserReorderColumns="False"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ViewModel.AchievementStatCorrelations}">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Match}" Value="Exact">
+                                            <Setter Property="Background" Value="#49388E3C"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Match}" Value="Near">
+                                            <Setter Property="Background" Value="#49C49A00"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Stat name" Binding="{Binding StatName}" Width="2*"/>
+                                <DataGridTextColumn Header="Before" Binding="{Binding PreviousStatValue}" Width="*"/>
+                                <DataGridTextColumn Header="Stat value" Binding="{Binding StatValue}" Width="*"/>
+                                <DataGridTextColumn Header="Stat delta" Binding="{Binding StatDelta}" Width="*"/>
+                                <DataGridTextColumn Header="Requirement ID" Binding="{Binding RequirementId}" Width="2*"/>
+                                <DataGridTextColumn Header="Req. before" Binding="{Binding PreviousRequirementCurrent}" Width="*"/>
+                                <DataGridTextColumn Header="Req. current" Binding="{Binding RequirementCurrent}" Width="*"/>
+                                <DataGridTextColumn Header="Req. delta" Binding="{Binding RequirementDelta}" Width="*"/>
+                                <DataGridTextColumn Header="Target" Binding="{Binding RequirementTarget}" Width="*"/>
+                                <DataGridTextColumn Header="Difference" Binding="{Binding Difference}" Width="*"/>
+                                <DataGridTextColumn Header="Match" Binding="{Binding Match}" Width="*"/>
+                                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"/>
+                                <DataGridTextColumn Header="SCID" Binding="{Binding Scid}" Width="2*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Expander>
+            </Grid>
+        </Expander>
+        <Expander
+            Grid.Row="3"
+            Margin="0,0,0,5"
+            Header="Legacy Quantum Break test and telemetry (use Mapping Research Lab)"
+            IsExpanded="False"
+            Visibility="{Binding ViewModel.IsQuantumBreakTestAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid Margin="0,5,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,8,5" FontWeight="SemiBold" Text="Selected achievement"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,0,5" TextWrapping="Wrap">
+                    <Run Text="{Binding ViewModel.SelectedAchievement.ID, Mode=OneWay}"/>
+                    <Run Text=" - "/>
+                    <Run Text="{Binding ViewModel.SelectedAchievement.Name, Mode=OneWay}"/>
+                    <Run Text=" | "/>
+                    <Run Text="{Binding ViewModel.SelectedAchievement.EventMappingStatus, Mode=OneWay}"/>
+                </TextBlock>
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5" Orientation="Horizontal">
+                    <ui:TextBox
+                        Width="190"
+                        Margin="0,0,8,0"
+                        ClearButtonEnabled="False"
+                        PlaceholderText="ProgressionData integer"
+                        Text="{Binding ViewModel.QuantumBreakProgressionData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ui:Button Margin="0,0,8,0" Content="Preview" Icon="{ui:SymbolIcon Eye24}"
+                               Command="{Binding ViewModel.PreviewQuantumBreakTestEventCommand}"/>
+                    <ui:Button Margin="0,0,8,0" Content="Send one test event" Icon="{ui:SymbolIcon Send24}"
+                               Command="{Binding ViewModel.SendQuantumBreakTestEventCommand}"/>
+                    <ui:Button Margin="0,0,8,0" Content="Refresh snapshot" Icon="{ui:SymbolIcon ArrowSync24}"
+                               Command="{Binding ViewModel.RefreshQuantumBreakSnapshotCommand}"/>
+                    <ui:Button Content="Copy result" Icon="{ui:SymbolIcon Copy24}"
+                               Command="{Binding ViewModel.CopyQuantumBreakTestResultCommand}"/>
+                </StackPanel>
+
+                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        Grid.Column="0"
+                        Height="150"
+                        Margin="0,0,4,0"
+                        AcceptsReturn="True"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="True"
+                        Text="{Binding ViewModel.QuantumBreakPayloadPreview, Mode=OneWay}"
+                        TextWrapping="NoWrap"
+                        VerticalScrollBarVisibility="Auto"/>
+                    <TextBox
+                        Grid.Column="1"
+                        Height="150"
+                        Margin="4,0,0,0"
+                        AcceptsReturn="True"
+                        IsReadOnly="True"
+                        Text="{Binding ViewModel.QuantumBreakTestResult, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Auto"/>
+                </Grid>
+
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    MaxHeight="140"
+                    AcceptsReturn="True"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    Text="{Binding ViewModel.QuantumBreakProposedMapping, Mode=OneWay}"
+                    TextWrapping="NoWrap"
+                    VerticalScrollBarVisibility="Auto"/>
+
+                <Expander
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="0,8,0,0"
+                    Header="Quantum Break telemetry capture (read-only)"
+                    IsExpanded="False">
+                    <Grid Margin="0,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="180"/>
+                            <RowDefinition Height="150"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Margin="0,0,0,8" TextWrapping="Wrap">
+                            <Run Text="Start capture, perform the action in Quantum Break, then exit to menu or close the game before capture ends."/>
+                        </TextBlock>
+
+                        <StackPanel Grid.Row="1" Margin="0,0,0,8" Orientation="Horizontal">
+                            <TextBlock Margin="0,0,6,0" VerticalAlignment="Center" Text="Duration"/>
+                            <ComboBox
+                                Width="80"
+                                Margin="0,0,6,0"
+                                ItemsSource="{Binding ViewModel.QuantumBreakTelemetryCaptureDurations}"
+                                SelectedItem="{Binding ViewModel.QuantumBreakTelemetryCaptureSeconds, Mode=TwoWay}"/>
+                            <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" Text="seconds"/>
+                            <ui:Button
+                                Margin="0,0,8,0"
+                                Content="Start capture"
+                                Icon="{ui:SymbolIcon Record24}"
+                                Command="{Binding ViewModel.StartQuantumBreakTelemetryCaptureCommand}"/>
+                            <ui:Button
+                                Content="Copy sanitized payloads"
+                                Icon="{ui:SymbolIcon Copy24}"
+                                Command="{Binding ViewModel.CopyQuantumBreakTelemetryCommand}"/>
+                        </StackPanel>
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Margin="0,0,0,8"
+                            Text="{Binding ViewModel.QuantumBreakTelemetryCaptureStatus}"
+                            TextWrapping="Wrap"/>
+
+                        <DataGrid
+                            Grid.Row="3"
+                            Margin="0,0,0,8"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="False"
+                            CanUserReorderColumns="False"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ViewModel.QuantumBreakTelemetryEvents}"
+                            SelectedItem="{Binding ViewModel.SelectedQuantumBreakTelemetryEvent, Mode=TwoWay}"
+                            SelectionMode="Single">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Event name" Binding="{Binding EventName}" Width="2*"/>
+                                <DataGridTextColumn Header="Time" Binding="{Binding EventTime}" Width="*"/>
+                                <DataGridTextColumn Header="ProgressionData" Binding="{Binding ProgressionData}" Width="*"/>
+                                <DataGridTextColumn Header="Properties" Binding="{Binding Properties}" Width="2*"/>
+                                <DataGridTextColumn Header="Measurements" Binding="{Binding Measurements}" Width="2*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <TextBox
+                            Grid.Row="4"
+                            AcceptsReturn="True"
+                            HorizontalScrollBarVisibility="Auto"
+                            IsReadOnly="True"
+                            Text="{Binding ViewModel.SelectedQuantumBreakTelemetryEvent.SanitizedPayload, Mode=OneWay}"
+                            TextWrapping="NoWrap"
+                            VerticalScrollBarVisibility="Auto"/>
+                    </Grid>
+                </Expander>
+            </Grid>
+        </Expander>
     </Grid>
 </Page>

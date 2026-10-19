@@ -16,7 +16,13 @@ public partial class MainWindow
         IContentDialogService contentDialogService
     )
     {
-        Wpf.Ui.Appearance.Watcher.Watch(this);
+        // Accent discovery can fail in restricted desktop sessions. The app already
+        // supplies its accent resources, so keep theme/backdrop watching without it.
+        Wpf.Ui.Appearance.Watcher.Watch(
+            this,
+            WindowBackdropType.Mica,
+            updateAccents: false,
+            forceBackground: false);
 
         ViewModel = viewModel;
         DataContext = this;

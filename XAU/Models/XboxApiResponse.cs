@@ -350,6 +350,8 @@ public class Stat
 
     public string? Value { get; set; }
 
+    public string? ValueMetadata { get; set; }
+
     public Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
 }
 

@@ -11,6 +11,9 @@ public class XboxRestAPI
 {
     private readonly HttpClient _httpClient;
 
+    public string? LastAchievementsRequestUrl { get; private set; }
+    public string? LastAchievementsResponseJson { get; private set; }
+
     private readonly HttpClient _eventBasedClient; // Dumb, but needed for events for now
 
     private readonly HttpClient _spooferClient;
@@ -193,7 +196,12 @@ public class XboxRestAPI
         return JObject.Parse(jsonResponse);
     }
 
-    public async Task<GameStatsResponse?> GetGameStatsAsync(string xuid, string titleId)
+    public Task<GameStatsResponse?> GetGameStatsAsync(string xuid, string titleId)
+    {
+        return GetGameStatsAsync(xuid, titleId, new[] { "MinutesPlayed" });
+    }
+
+    public async Task<GameStatsResponse?> GetGameStatsAsync(string xuid, string titleId, IEnumerable<string> statNames)
     {
         if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
         {
@@ -201,23 +209,148 @@ public class XboxRestAPI
             return null;
         }
 
+        var requestedStats = statNames
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .Select(name => name.Trim())
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(name => new GameStat { Name = name, TitleId = titleId })
+            .ToList();
+        if (requestedStats.Count == 0)
+            return null;
+
         SetDefaultHeaders();
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
 
-        var stat = new GameStat()
-        {
-            TitleId = titleId
-        };
         var gameStatsRequest = new GameStatsRequest()
         {
             Xuids = new List<string>() { xuid },
-            Stats = new List<GameStat>() { stat }
+            Stats = requestedStats
         };
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"[UserStats] Request URL: POST {BasicXboxAPIUris.UserStatsUrl}");
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats] Request titleId={titleId}, statNames=[{string.Join(", ", requestedStats.Select(stat => stat.Name))}]");
+#endif
         var httpResponse = await _httpClient
                 .PostAsync(BasicXboxAPIUris.UserStatsUrl, new StringContent(JsonConvert.SerializeObject(gameStatsRequest), Encoding.UTF8, HeaderValues.Accept));
         var response = await httpResponse.Content.ReadAsStringAsync();
-        return JsonConvert.DeserializeObject<GameStatsResponse>(response);
+        var gameStats = JsonConvert.DeserializeObject<GameStatsResponse>(response);
+#if DEBUG
+        LogGameStatsResponse(httpResponse, response, gameStats);
+#endif
+        return gameStats;
     }
+
+    public async Task<List<Stat>> GetGameStatsByScidAsync(
+        string xuid,
+        string titleId,
+        string scid,
+        IEnumerable<string> statNames,
+        bool includeValueMetadata)
+    {
+        if (string.IsNullOrWhiteSpace(xuid) ||
+            string.IsNullOrWhiteSpace(titleId) ||
+            string.IsNullOrWhiteSpace(scid))
+            return [];
+
+        var requestedNames = statNames
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .Select(name => name.Trim())
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+        if (requestedNames.Count == 0)
+            return [];
+
+        var namesPath = string.Join(",", requestedNames.Select(Uri.EscapeDataString));
+        var requestUrl =
+            $"https://userstats.xboxlive.com/users/xuid({Uri.EscapeDataString(xuid)})/scids/{Uri.EscapeDataString(scid)}/stats/{namesPath}" +
+            (includeValueMetadata ? "?include=valuemetadata" : "");
+
+        SetDefaultHeaders();
+        if (includeValueMetadata)
+            _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+
+#if DEBUG
+        var sanitizedUrl =
+            $"https://userstats.xboxlive.com/users/xuid({{xuid}})/scids/{scid}/stats/{namesPath}" +
+            (includeValueMetadata ? "?include=valuemetadata" : "");
+        System.Diagnostics.Debug.WriteLine($"[UserStats SCID] Request URL: GET {sanitizedUrl}");
+#endif
+
+        var httpResponse = await _httpClient.GetAsync(requestUrl);
+        var response = await httpResponse.Content.ReadAsStringAsync();
+        if (httpResponse.StatusCode == HttpStatusCode.NotFound)
+            return [];
+        httpResponse.EnsureSuccessStatusCode();
+        var root = JObject.Parse(response);
+        var stats = root["user"]?["stats"]?
+            .Children<JObject>()
+            .Select(stat => new Stat
+            {
+                Scid = scid,
+                TitleId = titleId,
+                Name = stat["statname"]?.ToString(),
+                Type = stat["type"]?.ToString(),
+                Value = stat["value"]?.ToString(),
+                ValueMetadata = stat["valuemetadata"]?.ToString()
+            })
+            .ToList() ?? [];
+
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats SCID] Response: {(int)httpResponse.StatusCode} {httpResponse.StatusCode}, " +
+            $"structure=user:Object,user.stats:Array,stats={stats.Count}");
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats SCID] Returned stat names ({stats.Count}): [{string.Join(", ", stats.Select(stat => stat.Name ?? "<unnamed>").Distinct(StringComparer.OrdinalIgnoreCase))}]");
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats SCID] Value metadata present: {stats.Count(stat => !string.IsNullOrWhiteSpace(stat.ValueMetadata))}/{stats.Count}");
+#endif
+        return stats;
+    }
+
+#if DEBUG
+    private static void LogGameStatsResponse(
+        HttpResponseMessage httpResponse,
+        string response,
+        GameStatsResponse? gameStats)
+    {
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats] Response: {(int)httpResponse.StatusCode} {httpResponse.StatusCode}, " +
+            $"contentType={httpResponse.Content.Headers.ContentType?.MediaType ?? "<none>"}");
+
+        try
+        {
+            var root = JObject.Parse(response);
+            System.Diagnostics.Debug.WriteLine(
+                $"[UserStats] Response top-level structure: {string.Join(", ", root.Properties().Select(property => $"{property.Name}:{property.Value.Type}"))}");
+        }
+        catch (JsonException ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[UserStats] Response structure unavailable: {ex.Message}");
+        }
+
+        var collections = gameStats?.StatListsCollection ?? [];
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats] Response collections: groups={gameStats?.Groups.Count ?? 0}, statListsCollection={collections.Count}");
+        for (var index = 0; index < collections.Count; index++)
+        {
+            var collection = collections[index];
+            System.Diagnostics.Debug.WriteLine(
+                $"[UserStats] Collection[{index}]: arrangeByField={collection.ArrangeByField ?? "<none>"}, " +
+                $"arrangeByFieldIdPresent={!string.IsNullOrWhiteSpace(collection.ArrangeByFieldId)}, stats={collection.Stats.Count}");
+        }
+
+        var stats = collections.SelectMany(collection => collection.Stats).ToList();
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats] Returned stat names ({stats.Count}): [{string.Join(", ", stats.Select(stat => stat.Name ?? "<unnamed>").Distinct(StringComparer.OrdinalIgnoreCase))}]");
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats] Returned title IDs: [{string.Join(", ", stats.Select(stat => stat.TitleId).Where(id => !string.IsNullOrWhiteSpace(id)).Distinct())}]");
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats] Returned SCIDs: [{string.Join(", ", stats.Select(stat => stat.Scid).Where(scid => !string.IsNullOrWhiteSpace(scid)).Distinct(StringComparer.OrdinalIgnoreCase))}]");
+        System.Diagnostics.Debug.WriteLine(
+            $"[UserStats] Returned stat types: [{string.Join(", ", stats.Select(stat => stat.Type).Where(type => !string.IsNullOrWhiteSpace(type)).Distinct(StringComparer.OrdinalIgnoreCase))}]");
+    }
+#endif
 
     public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId)
     {
@@ -258,6 +391,19 @@ public class XboxRestAPI
     }
 
     public async Task<AchievementsResponse?> GetAchievementsForTitleAsync(string xuid, string titleId)
+        => await GetAchievementsForTitleCoreAsync(xuid, titleId, CancellationToken.None, false);
+
+    public async Task<AchievementsResponse?> GetAchievementsForTitleAsync(
+        string xuid,
+        string titleId,
+        CancellationToken cancellationToken)
+        => await GetAchievementsForTitleCoreAsync(xuid, titleId, cancellationToken, true);
+
+    private async Task<AchievementsResponse?> GetAchievementsForTitleCoreAsync(
+        string xuid,
+        string titleId,
+        CancellationToken cancellationToken,
+        bool ensureSuccess)
     {
         if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(titleId))
         {
@@ -269,8 +415,12 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Achievements);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Connection, HeaderValues.KeepAlive);
 
-        var httpResponse = await _httpClient.GetAsync(string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId));
-        var response = await httpResponse.Content.ReadAsStringAsync();
+        LastAchievementsRequestUrl = string.Format(InterpolatedXboxAPIUrls.QueryAchievementsUrl, xuid, titleId);
+        var httpResponse = await _httpClient.GetAsync(LastAchievementsRequestUrl, cancellationToken);
+        var response = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
+        LastAchievementsResponseJson = response;
+        if (ensureSuccess)
+            httpResponse.EnsureSuccessStatusCode();
         var achievements = JsonConvert.DeserializeObject<AchievementsResponse>(response);
         return achievements;
     }
