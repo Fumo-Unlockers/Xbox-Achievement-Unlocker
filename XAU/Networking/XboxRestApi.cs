@@ -33,13 +33,11 @@ public class XboxRestAPI
         _httpClient = new HttpClient(handler);
         _spooferClient = new HttpClient(handler);
 
-        var insecureEventsHandler = new HttpClientHandler()
+        var eventsHandler = new HttpClientHandler()
         {
-            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate,
-            //This is an absolutely terrible idea but the stupid fucking events API just cries about SSL errors
-            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
         };
-        _eventBasedClient = new HttpClient(insecureEventsHandler);
+        _eventBasedClient = new HttpClient(eventsHandler);
     }
 
     private void SetDefaultHeaders()
