@@ -458,7 +458,7 @@ namespace XAU.ViewModels.Pages
             {
                 //Event based logic
                 string DataPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\XAU\\Events\\Data.json";
-                var data = JObject.Parse(File.ReadAllText(DataPath));
+                var data = XAU.Services.EventCatalog.Load(Path.GetDirectoryName(DataPath)!);
                 JArray SupportedGamesJ = (JArray)data["SupportedTitleIDs"];
                 List<int> SupportedGames = SupportedGamesJ.ToObject<List<int>>();
                 if (SupportedGames.Contains(int.Parse(TitleIDOverride)))
@@ -552,60 +552,18 @@ namespace XAU.ViewModels.Pages
                     return;
                 }
 
-                // TODO: move this over to the rest api?
-                var requestbody = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"\\XAU\\Events\\{TitleIDOverride}.json");
-                DateTime timestamp = DateTime.UtcNow;
-                foreach (var i in EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()])
-                {
-                    var ReplacementData = i.Value;
-                    switch (ReplacementData.ReplacementType.ToString())
-                    {
-                        case "Replace":
-                            {
-                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ReplacementData.Replacement.ToString());
-                                break;
-                            }
-                        case "RangeInt":
-                            {
-                                int min = ReplacementData.Min;
-                                int max = ReplacementData.Max;
-                                Random random = new Random();
-                                int randomint = random.Next(min, max);
-                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomint.ToString());
-                                break;
-                            }
-                        case "RangeFloat":
-                            {
-                                float min = ReplacementData.Min;
-                                float max = ReplacementData.Max;
-                                Random random = new Random();
-                                float randomfloat = (float)random.NextDouble() * (max - min) + min;
-                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), randomfloat.ToString());
-                                break;
-                            }
-                        case "StupidFuckingLDAPTimestamp":
-                            {
-                                long ldapTimestamp = DateTime.Now.ToFileTime();
-                                requestbody = requestbody.Replace(ReplacementData.Target.ToString(), ldapTimestamp.ToString());
-                                break;
-                            }
-                        default:
-                            {
-                                _snackbarService.Show("Error: Bad Achievement Data", "Something went wrong with the achievement data", ControlAppearance.Danger,
-                                                                                  new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                                return;
-                            }
-
-                    }
-                }
-                requestbody = requestbody.Replace("REPLACETIME", timestamp.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"));
-                requestbody = requestbody.Replace("REPLACESEQ", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
-                requestbody = requestbody.Replace("REPLACEXUID", HomeViewModel.XUIDOnly);
-                requestbody = JObject.Parse(requestbody).ToString(Formatting.None);
-                var bodyconverted = new StringContent(requestbody, Encoding.UTF8, "application/x-json-stream");
                 try
                 {
-                    await _xboxRestAPI.Value.UnlockEventBasedAchievement(EventsToken, bodyconverted);
+                    string template = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        "XAU", "Events", $"{TitleIDOverride}.json"));
+                    var achievement = (JObject)EventsData.Achievements[DGAchievements[AchievementIndex].ID.ToString()];
+                    var payloads = XAU.Services.EventPayloadRenderer.Render(template, achievement,
+                        HomeViewModel.XUIDOnly, DateTime.UtcNow);
+                    foreach (string payload in payloads)
+                    {
+                        using var content = new StringContent(payload, Encoding.UTF8, "application/x-json-stream");
+                        await _xboxRestAPI.Value.UnlockEventBasedAchievement(EventsToken, content);
+                    }
 
                     _snackbarService.Show("Achievement Unlocked", $"{DGAchievements[AchievementIndex].Name} has been unlocked",
                         ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
@@ -678,7 +636,7 @@ namespace XAU.ViewModels.Pages
                 if (IsEventBased)
                 {
                     string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "Events", "Data.json");
-                    var data = JObject.Parse(File.ReadAllText(DataPath));
+                    var data = XAU.Services.EventCatalog.Load(Path.GetDirectoryName(DataPath)!);
                     JArray SupportedGamesJ = (JArray)data["SupportedTitleIDs"];
                     List<int> SupportedGames = SupportedGamesJ.ToObject<List<int>>();
                     if (SupportedGames.Contains(int.Parse(TitleIDOverride)))

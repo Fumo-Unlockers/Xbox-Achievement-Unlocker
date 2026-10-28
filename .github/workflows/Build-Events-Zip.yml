@@ -16,17 +16,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          submodules: recursive
           fetch-depth: 0
-
-      - name: Ensure submodules are initialized and at the recorded commit
-        run: |
-          # sync submodule URLs, init and update to the recorded gitlinks
-          git submodule sync --recursive
-          git submodule update --init --recursive --force
 
       - name: Install zip
         run: sudo apt-get install zip
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Validate runtime schema
+        run: python scripts/validate_events.py Events
+
+      - name: Check templates for captured identifiers
+        run: python scripts/validate_template_privacy.py Events
+
+      - name: Render every achievement offline
+        run: dotnet run --project Tests/EventPayloadRenderer.Tests -- Events
 
       - name: Zip Events folder
         run: zip -r Events.zip Events
