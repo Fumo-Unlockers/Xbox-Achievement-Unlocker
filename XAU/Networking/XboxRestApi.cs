@@ -349,13 +349,12 @@ public class XboxRestAPI
     {
         if (string.IsNullOrWhiteSpace(eventsToken))
         {
-            // Don't send a request if we don't have the details
-            return;
+            throw new InvalidOperationException("An events token is required.");
         }
 
         SetDefaultEventBasedHeaders();
         _eventBasedClient.DefaultRequestHeaders.Add("tickets", $"\"1\"=\"{eventsToken}\"");
-        var response = await _eventBasedClient.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
+        using var response = await _eventBasedClient.PostAsync(BasicXboxAPIUris.TelemetryUrl, requestBody);
         var responseBody = await response.Content.ReadAsStringAsync();
         HomeViewModel.EventsLog($"POST {BasicXboxAPIUris.TelemetryUrl} => {(int)response.StatusCode} {response.StatusCode}");
         HomeViewModel.EventsLog($"Response: {responseBody}");
@@ -365,6 +364,7 @@ public class XboxRestAPI
             foreach (var header in response.Headers)
                 HomeViewModel.EventsLog($"  {header.Key}: {string.Join(", ", header.Value)}");
         }
+        response.EnsureSuccessStatusCode();
     }
 
     public async Task<GamePassProducts?> GetTitleIdsFromGamePass(string prodId)

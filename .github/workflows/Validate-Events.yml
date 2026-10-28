@@ -1,0 +1,27 @@
+name: Validate event catalog
+on:
+  pull_request:
+    paths:
+      - 'Events/**'
+      - 'XAU/Services/EventPayloadRenderer.cs'
+      - 'XAU/Services/EventCatalog.cs'
+      - 'Tests/EventPayloadRenderer.Tests/**'
+      - 'scripts/validate_events.py'
+      - 'scripts/validate_template_privacy.py'
+      - 'scripts/test_template_privacy.py'
+      - '.github/workflows/Validate-Events.yml'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python scripts/validate_events.py Events
+      - run: python scripts/validate_template_privacy.py Events
+      - run: python scripts/test_template_privacy.py
+      - run: dotnet run --project Tests/EventPayloadRenderer.Tests -- Events
