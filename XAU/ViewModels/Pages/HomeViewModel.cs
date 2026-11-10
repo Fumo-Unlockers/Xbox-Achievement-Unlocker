@@ -31,7 +31,7 @@ namespace XAU.ViewModels.Pages
 
     public partial class HomeViewModel : ObservableObject, INavigationAware
     {
-        public static string ToolVersion = "26.06.14";
+        public static string ToolVersion = "26.11.10";
         public static string EventsVersion = "1.0";
 
         //attach vars
@@ -82,6 +82,10 @@ namespace XAU.ViewModels.Pages
         private readonly IContentDialogService _contentDialogService;
 
         private const string XAuthScanPattern = "58 42 4C 33 2E 30 20 78 3D";
+
+        // Newer Xbox app builds store the token as UTF-16 ("XBL3.0 x=" with
+        // interleaved null bytes). Read with Encoding.Unicode, not UTF-8.
+        private const string XAuthScanPatternUtf16 = "58 00 42 00 4C 00 33 00 2E 00 30 00 20 00 78 00 3D 00";
 
         [RelayCommand]
         private void RefreshProfile()
@@ -371,7 +375,7 @@ namespace XAU.ViewModels.Pages
             if (Settings.OAuthLogin)
                 OAuthLogin();
             _isInitialized = true;
-            if (Settings.AutoLaunchXboxAppEnabled && Process.GetProcessesByName(ProcessNames.XboxPcApp).Length == 0)
+            if (Settings.AutoLaunchXboxAppEnabled && XboxAppPid() == 0)
             {
                 var p = new Process();
                 var startInfo = new ProcessStartInfo
@@ -390,11 +394,28 @@ namespace XAU.ViewModels.Pages
         }
 
         #region Xauth
+        // The updated Xbox app (2612.x) no longer runs XboxPcApp.exe; its
+        // full-trust host process XboxPcAppFT.exe holds the token in memory.
+        private bool OpenXboxAppProcess()
+        {
+            if (m.OpenProcess(ProcessNames.XboxPcApp))
+                return true;
+            return m.OpenProcess(ProcessNames.XboxPcAppFt);
+        }
+
+        private int XboxAppPid()
+        {
+            int pid = m.GetProcIdFromName(ProcessNames.XboxPcApp);
+            if (pid == 0)
+                pid = m.GetProcIdFromName(ProcessNames.XboxPcAppFt);
+            return pid;
+        }
+
         public void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (!Settings.OAuthLogin)
             {
-                if (!m.OpenProcess((ProcessNames.XboxPcApp)))
+                if (!OpenXboxAppProcess())
                 {
                     IsAttached = false;
                     Thread.Sleep(1000);
@@ -412,7 +433,7 @@ namespace XAU.ViewModels.Pages
         {
             if (IsAttached || XAUTH.Length > 0)
             {
-                Attached = $"Attached to xbox app ({m.GetProcIdFromName(ProcessNames.XboxPcApp).ToString()})";
+                Attached = $"Attached to xbox app ({XboxAppPid().ToString()})";
                 AttachedColor = new SolidColorBrush(Colors.Green);
                 if (IsLoggedIn)
                 {
@@ -436,7 +457,7 @@ namespace XAU.ViewModels.Pages
                     }
                 }
             }
-            if (m.GetProcIdFromName(ProcessNames.XboxPcApp) == 0)
+            if (XboxAppPid() == 0)
             {
                 Attached = "Not Attached";
                 AttachedColor = new SolidColorBrush(Colors.Red);
@@ -449,14 +470,11 @@ namespace XAU.ViewModels.Pages
         }
         private async void GetXAUTH()
         {
-            IEnumerable<long> XauthScanList = await m.AoBScan(XAuthScanPattern, true);
-            string[] XauthStrings = new string[XauthScanList.Count()];
-            var i = 0;
-            foreach (var address in XauthScanList)
-            {
-                XauthStrings[i] = m.ReadString(address.ToString("X"), length: 10000);
-                i++;
-            }
+            // Scan both ASCII and UTF-16 layouts; the Xbox app changed the
+            // on-memory token encoding between versions.
+            var asciiCandidates = await CollectXauthCandidates(XAuthScanPattern, Encoding.UTF8);
+            var utf16Candidates = await CollectXauthCandidates(XAuthScanPatternUtf16, Encoding.Unicode);
+            var XauthStrings = asciiCandidates.Concat(utf16Candidates).ToArray();
 
             Dictionary<string, int> frequency = new Dictionary<string, int>();
             foreach (string str in XauthStrings)
@@ -487,11 +505,26 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            if (highestFrequency > 3)
+            // The UTF-16 token copy in the updated app typically has exactly 3
+            // copies in memory, so the old `> 3` gate rejected valid tokens.
+            if (highestFrequency >= 3)
             {
                 XAUTH = mostCommon;
                 XAUTHTested = false;
             }
+        }
+
+        private async Task<string[]> CollectXauthCandidates(string scanPattern, System.Text.Encoding encoding)
+        {
+            IEnumerable<long> scanResults = await m.AoBScan(scanPattern, true);
+            var candidates = new List<string>();
+            foreach (var address in scanResults)
+            {
+                string token = m.ReadString(address.ToString("X"), length: 10000, stringEncoding: encoding);
+                if (!string.IsNullOrEmpty(token) && token.StartsWith("XBL3.0 x="))
+                    candidates.Add(token);
+            }
+            return candidates.ToArray();
         }
         private async void TestXAUTH()
         {
