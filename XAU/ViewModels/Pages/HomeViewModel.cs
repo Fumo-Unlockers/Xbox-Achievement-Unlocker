@@ -83,6 +83,10 @@ namespace XAU.ViewModels.Pages
 
         private const string XAuthScanPattern = "58 42 4C 33 2E 30 20 78 3D";
 
+        // Newer Xbox app builds store the token as UTF-16 ("XBL3.0 x=" with
+        // interleaved null bytes). Read with Encoding.Unicode, not UTF-8.
+        private const string XAuthScanPatternUtf16 = "58 00 42 00 4C 00 33 00 2E 00 30 00 20 00 78 00 3D 00";
+
         [RelayCommand]
         private void RefreshProfile()
         {
@@ -449,14 +453,11 @@ namespace XAU.ViewModels.Pages
         }
         private async void GetXAUTH()
         {
-            IEnumerable<long> XauthScanList = await m.AoBScan(XAuthScanPattern, true);
-            string[] XauthStrings = new string[XauthScanList.Count()];
-            var i = 0;
-            foreach (var address in XauthScanList)
-            {
-                XauthStrings[i] = m.ReadString(address.ToString("X"), length: 10000);
-                i++;
-            }
+            // Scan both ASCII and UTF-16 layouts; the Xbox app changed the
+            // on-memory token encoding between versions.
+            var asciiCandidates = await CollectXauthCandidates(XAuthScanPattern, Encoding.UTF8);
+            var utf16Candidates = await CollectXauthCandidates(XAuthScanPatternUtf16, Encoding.Unicode);
+            var XauthStrings = asciiCandidates.Concat(utf16Candidates).ToArray();
 
             Dictionary<string, int> frequency = new Dictionary<string, int>();
             foreach (string str in XauthStrings)
@@ -492,6 +493,19 @@ namespace XAU.ViewModels.Pages
                 XAUTH = mostCommon;
                 XAUTHTested = false;
             }
+        }
+
+        private async Task<string[]> CollectXauthCandidates(string scanPattern, System.Text.Encoding encoding)
+        {
+            IEnumerable<long> scanResults = await m.AoBScan(scanPattern, true);
+            var candidates = new List<string>();
+            foreach (var address in scanResults)
+            {
+                string token = m.ReadString(address.ToString("X"), length: 10000, stringEncoding: encoding);
+                if (!string.IsNullOrEmpty(token) && token.StartsWith("XBL3.0 x="))
+                    candidates.Add(token);
+            }
+            return candidates.ToArray();
         }
         private async void TestXAUTH()
         {
