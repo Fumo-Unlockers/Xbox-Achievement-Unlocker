@@ -375,7 +375,7 @@ namespace XAU.ViewModels.Pages
             if (Settings.OAuthLogin)
                 OAuthLogin();
             _isInitialized = true;
-            if (Settings.AutoLaunchXboxAppEnabled && Process.GetProcessesByName(ProcessNames.XboxPcApp).Length == 0)
+            if (Settings.AutoLaunchXboxAppEnabled && XboxAppPid() == 0)
             {
                 var p = new Process();
                 var startInfo = new ProcessStartInfo
@@ -394,11 +394,28 @@ namespace XAU.ViewModels.Pages
         }
 
         #region Xauth
+        // The updated Xbox app (2612.x) no longer runs XboxPcApp.exe; its
+        // full-trust host process XboxPcAppFT.exe holds the token in memory.
+        private bool OpenXboxAppProcess()
+        {
+            if (m.OpenProcess(ProcessNames.XboxPcApp))
+                return true;
+            return m.OpenProcess(ProcessNames.XboxPcAppFt);
+        }
+
+        private int XboxAppPid()
+        {
+            int pid = m.GetProcIdFromName(ProcessNames.XboxPcApp);
+            if (pid == 0)
+                pid = m.GetProcIdFromName(ProcessNames.XboxPcAppFt);
+            return pid;
+        }
+
         public void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (!Settings.OAuthLogin)
             {
-                if (!m.OpenProcess((ProcessNames.XboxPcApp)))
+                if (!OpenXboxAppProcess())
                 {
                     IsAttached = false;
                     Thread.Sleep(1000);
@@ -416,7 +433,7 @@ namespace XAU.ViewModels.Pages
         {
             if (IsAttached || XAUTH.Length > 0)
             {
-                Attached = $"Attached to xbox app ({m.GetProcIdFromName(ProcessNames.XboxPcApp).ToString()})";
+                Attached = $"Attached to xbox app ({XboxAppPid().ToString()})";
                 AttachedColor = new SolidColorBrush(Colors.Green);
                 if (IsLoggedIn)
                 {
@@ -440,7 +457,7 @@ namespace XAU.ViewModels.Pages
                     }
                 }
             }
-            if (m.GetProcIdFromName(ProcessNames.XboxPcApp) == 0)
+            if (XboxAppPid() == 0)
             {
                 Attached = "Not Attached";
                 AttachedColor = new SolidColorBrush(Colors.Red);
@@ -488,7 +505,9 @@ namespace XAU.ViewModels.Pages
                 }
             }
 
-            if (highestFrequency > 3)
+            // The UTF-16 token copy in the updated app typically has exactly 3
+            // copies in memory, so the old `> 3` gate rejected valid tokens.
+            if (highestFrequency >= 3)
             {
                 XAUTH = mostCommon;
                 XAUTHTested = false;
