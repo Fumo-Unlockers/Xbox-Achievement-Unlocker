@@ -365,6 +365,10 @@ public class XboxRestAPI
         using var response = await _spooferClient.PostAsync(url, content, ct);
         if (!response.IsSuccessStatusCode)
         {
+            // TEMP DEBUG: capture the response body so the exact rejection reason is visible.
+            string body = "";
+            try { body = await response.Content.ReadAsStringAsync(); } catch { }
+            DiagLog.Write($"[SPOOFDBG] {apiName} {(int)response.StatusCode}: {requestBody} -> {body}");
             throw new HttpRequestException(
                 $"{apiName} failed: {(int)response.StatusCode} {response.StatusCode}",
                 null, response.StatusCode);
