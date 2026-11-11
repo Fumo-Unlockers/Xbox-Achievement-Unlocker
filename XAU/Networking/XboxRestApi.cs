@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using XAU.Services.Spoofer;
 using XAU.Util.Diagnostics;
 using XAU.Util.Logging;
 using Newtonsoft.Json;
@@ -341,12 +342,12 @@ public class XboxRestAPI
 
     private string SpooferAuth => SanitizeXauth(CurrentXauth);
 
-    private void SetSpoofHeaders(string url)
+    private void SetSpoofHeaders(string url, string? xauth = null)
     {
         _spooferClient.DefaultRequestHeaders.Clear();
-        var xauth = SpooferAuth;
-        if (!string.IsNullOrWhiteSpace(xauth))
-            _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, xauth);
+        var token = xauth ?? SpooferAuth;
+        if (!string.IsNullOrWhiteSpace(token))
+            _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, token);
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _requestedResponseLanguage);
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
         _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
@@ -358,9 +359,9 @@ public class XboxRestAPI
     internal static string BuildHeartbeatBody(string spoofedTitleId) =>
         "{\"titles\":[{\"expiration\":600,\"id\":" + ulong.Parse(spoofedTitleId.Trim()) + ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}";
 
-    private async Task PostSpoofOrThrowAsync(string url, string requestBody, string apiName, CancellationToken ct)
+    private async Task PostSpoofWithTokenOrThrowAsync(string url, string requestBody, string apiName, string xauth, CancellationToken ct)
     {
-        SetSpoofHeaders(url);
+        SetSpoofHeaders(url, SanitizeXauth(xauth));
         using var content = new StringContent(requestBody, Encoding.UTF8, HeaderValues.Accept);
         using var response = await _spooferClient.PostAsync(url, content, ct);
         if (!response.IsSuccessStatusCode)
@@ -379,8 +380,42 @@ public class XboxRestAPI
             return;
         }
 
-        var errors = new List<string>();
         spoofedTitleId = spoofedTitleId.Trim();
+        try
+        {
+            await RunSpoofChainAsync(SpooferAuth, xuid, spoofedTitleId, cancellationToken);
+            return;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (HttpRequestException ex)
+        {
+            // A 401 is token rejection, not an endpoint quirk: fall back to auth recovery
+            // immediately instead of retrying with a different token.
+            if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                throw;
+        }
+
+        // Hybrid spoofing (OAuth login): OAuth/SISU-minted tokens lack the title/device claims
+        // presence-heartbeat requires (403 Forbidden) while the Xbox app's own memory-scanned
+        // token carries them and is accepted. When OAuth mode is active and the chain failed
+        // with the primary token, retry once with a freshly scanned app token.
+        if (!HomeViewModel.Settings.OAuthLogin)
+            throw new HttpRequestException("Heartbeat failed: presence rejected the primary token", null, HttpStatusCode.Forbidden);
+
+        var memToken = await GetMemorySpoofTokenAsync(cancellationToken);
+        if (string.IsNullOrWhiteSpace(memToken) || memToken == SpooferAuth)
+            throw new HttpRequestException("Heartbeat failed: presence rejected the OAuth token and no usable app token was found in Xbox app memory", null, HttpStatusCode.Forbidden);
+
+        DiagLog.Write("[SPOOF] primary (OAuth) token rejected by presence; retrying with memory-scanned Xbox app token");
+        await RunSpoofChainAsync(memToken, xuid, spoofedTitleId, cancellationToken);
+    }
+
+    private async Task RunSpoofChainAsync(string xauth, string xuid, string spoofedTitleId, CancellationToken ct)
+    {
+        var errors = new List<string>();
         string heartbeatBody = BuildHeartbeatBody(spoofedTitleId);
         string presenceBody = "{\"id\":" + ulong.Parse(spoofedTitleId) + "}";
 
@@ -399,7 +434,7 @@ public class XboxRestAPI
         {
             try
             {
-                await PostSpoofOrThrowAsync(url, body, name, cancellationToken);
+                await PostSpoofWithTokenOrThrowAsync(url, body, name, xauth, ct);
                 return;
             }
             catch (OperationCanceledException)
@@ -416,6 +451,72 @@ public class XboxRestAPI
             }
         }
         throw new HttpRequestException("Heartbeat failed: " + string.Join(" | ", errors), null, HttpStatusCode.Forbidden);
+    }
+
+    private string? _spoofMemToken;
+    private DateTime _spoofMemTokenAt = DateTime.MinValue;
+
+    /// <summary>
+    /// Scans the Xbox app processes for an XBL3.0 token and returns the first candidate the
+    /// profile API accepts (reads are frequently truncated/garbage-tailed, so each candidate is
+    /// refereed). Cached for 5 minutes; null when the Xbox app is not running or nothing passes.
+    /// </summary>
+    private async Task<string?> GetMemorySpoofTokenAsync(CancellationToken ct)
+    {
+        if (_spoofMemToken != null && DateTime.UtcNow - _spoofMemTokenAt < TimeSpan.FromMinutes(5))
+            return _spoofMemToken;
+
+        foreach (var proc in new[] { "XboxPcApp", "XboxPcAppFT" })
+        {
+            var scanner = new XauTokenScanner(proc);
+            if (!scanner.Attach())
+                continue;
+            List<(string token, int frequency, bool plausible)> candidates;
+            try
+            {
+                candidates = await scanner.ScanAsync(keepRaw: true);
+            }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[SPOOF] memory token scan ({proc}) failed: {ex.GetType().Name}: {ex.Message}");
+                continue;
+            }
+            foreach (var (raw, _, _) in candidates)
+            {
+                var candidate = SanitizeXauth(raw);
+                if (string.IsNullOrWhiteSpace(candidate))
+                    continue;
+                if (await ProfileAuthenticatesAsync(candidate, ct))
+                {
+                    _spoofMemToken = candidate;
+                    _spoofMemTokenAt = DateTime.UtcNow;
+                    DiagLog.Write($"[SPOOF] memory token acquired from {proc} (len={candidate.Length})");
+                    return _spoofMemToken;
+                }
+            }
+        }
+        return null;
+    }
+
+    /// <summary>True when the profile API accepts the given token (candidate referee).</summary>
+    private async Task<bool> ProfileAuthenticatesAsync(string xauth, CancellationToken ct)
+    {
+        try
+        {
+            using var req = new HttpRequestMessage(HttpMethod.Get,
+                "https://profile.xboxlive.com/users/me/profile/settings?settings=Gamertag");
+            req.Headers.Add("Authorization", xauth);
+            req.Headers.Add("Accept-Language", _requestedResponseLanguage);
+            req.Headers.Add("Accept-Encoding", HeaderValues.AcceptEncoding);
+            req.Headers.Add("Accept", HeaderValues.Accept);
+            req.Headers.Add("x-xbl-contract-version", "2");
+            using var resp = await _httpClient.SendAsync(req, ct);
+            return resp.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public async Task StopHeartbeatAsync(string xuid)
