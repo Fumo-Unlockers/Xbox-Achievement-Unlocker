@@ -529,6 +529,9 @@ public class XboxRestAPI
 
         // Best-effort removal across every URI the spoof may have used; a failure on one
         // (e.g. 404 because that variant was never set) must not abort cleanup of the rest.
+        // Hybrid (OAuth login): presence rejects OAuth-minted tokens on DELETE too, so retry
+        // the removals with the memory-scanned app token when the primary token is rejected.
+        _removalRejected = false;
         var targets = new (string url, string name)[]
         {
             (string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid), "Heartbeat"),
@@ -538,19 +541,39 @@ public class XboxRestAPI
         };
         foreach (var (url, name) in targets)
         {
-            try
+            await TryRemovePresenceAsync(url, name, SpooferAuth);
+        }
+        if (HomeViewModel.Settings.OAuthLogin && _removalRejected)
+        {
+            var memToken = await GetMemorySpoofTokenAsync(CancellationToken.None);
+            if (!string.IsNullOrWhiteSpace(memToken) && memToken != SpooferAuth)
             {
-                SetSpoofHeaders(url);
-                using var response = await _spooferClient.DeleteAsync(url);
-                if (!response.IsSuccessStatusCode && (int)response.StatusCode != 404)
-                {
-                    DiagLog.Write($"[SPOOF] {name} removal returned {(int)response.StatusCode} {response.StatusCode}");
-                }
+                DiagLog.Write("[SPOOF] presence removal rejected the OAuth token; retrying with memory-scanned Xbox app token");
+                foreach (var (url, name) in targets)
+                    await TryRemovePresenceAsync(url, name, memToken);
             }
-            catch (Exception ex)
+        }
+    }
+
+    private bool _removalRejected;
+
+    private async Task TryRemovePresenceAsync(string url, string name, string xauth)
+    {
+        try
+        {
+            SetSpoofHeaders(url, xauth);
+            using var response = await _spooferClient.DeleteAsync(url);
+            if (response.IsSuccessStatusCode)
+                return;
+            if ((int)response.StatusCode != 404)
             {
-                DiagLog.Write($"[SPOOF] {name} removal failed: {ex.GetType().Name}: {ex.Message}");
+                _removalRejected = _removalRejected || response.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.Unauthorized;
+                DiagLog.Write($"[SPOOF] {name} removal returned {(int)response.StatusCode} {response.StatusCode}");
             }
+        }
+        catch (Exception ex)
+        {
+            DiagLog.Write($"[SPOOF] {name} removal failed: {ex.GetType().Name}: {ex.Message}");
         }
     }
 
