@@ -37,7 +37,7 @@ Xbox Achievement Unlocker uses code from memory.dll to extract the user's XAuth 
 
 ## Requirements
 
-- [dotnet 8](https://download.visualstudio.microsoft.com/download/pr/77284554-b8df-4697-9a9e-4c70a8b35f29/6763c16069d1ab8fa2bc506ef0767366/dotnet-runtime-8.0.5-win-x64.exe)
+- [.NET 9 Desktop Runtime (Windows)](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 - [New Xbox app](https://apps.microsoft.com/store/detail/xbox/9MV0B5HZVK9Z)
 
 ## Features

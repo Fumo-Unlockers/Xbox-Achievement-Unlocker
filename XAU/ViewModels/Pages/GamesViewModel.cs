@@ -79,10 +79,37 @@ namespace XAU.ViewModels.Pages
                 return;
             }
 
+            if (!HomeViewModel.InitComplete)
+            {
+                _snackbarService.Show(
+                    "Error",
+                    "You are not logged in yet.",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24),
+                    _snackbarDuration
+                );
+                return;
+            }
+
             Games.Clear();
             GamesPaged.Clear();
             LoadingStart();
-            GamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(XuidOverride) ?? new TitlesList();
+            try
+            {
+                GamesResponse = await _xboxRestAPI.Value.GetGamesListAsync(XuidOverride) ?? new TitlesList();
+            }
+            catch (Exception ex)
+            {
+                LoadingEnd();
+                _snackbarService.Show(
+                    "Error",
+                    $"Failed to fetch games list: {ex.Message}",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24),
+                    _snackbarDuration
+                );
+                return;
+            }
             LoadGame();
         }
 

@@ -212,6 +212,73 @@
             </ui:CardControl.Header>
             <ui:ToggleSwitch Command="{Binding ViewModel.SaveSettingsCommand}" IsChecked="{Binding ViewModel.RegionOverride, Mode=TwoWay}" />
         </ui:CardControl>
+        <ui:CardControl Margin="4,2">
+            <ui:CardControl.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock
+                        Grid.Row="0"
+                        FontTypography="Body"
+                        Text="Diagnostics Log"
+                        TextWrapping="WrapWithOverflow" />
+                    <ui:TextBlock
+                        Grid.Row="1"
+                        Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                        Text="Opt in to local auth/status diagnostics at %LOCALAPPDATA%\XAU\logs\xau_diagnostics.log. Treat logs as private account data; do not share them unredacted."
+                        TextWrapping="WrapWithOverflow" />
+                </Grid>
+            </ui:CardControl.Header>
+            <ui:ToggleSwitch Command="{Binding ViewModel.SaveSettingsCommand}" IsChecked="{Binding ViewModel.EnableDiagnosticsLog, Mode=TwoWay}" />
+        </ui:CardControl>
+        <ui:CardControl Margin="4,2">
+            <ui:CardControl.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock
+                        Grid.Row="0"
+                        FontTypography="Body"
+                        Text="Token Scan Read Length"
+                        TextWrapping="WrapWithOverflow" />
+                    <ui:TextBlock
+                        Grid.Row="1"
+                        Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                        Text="Bytes read at each memory hit while locating the sign-in token (4096-262144). Higher is free; a value too low can truncate a valid token into a rejected (400) one."
+                        TextWrapping="WrapWithOverflow" />
+                </Grid>
+            </ui:CardControl.Header>
+            <ui:TextBox x:Name="ScanReadLengthBox" TextChanged="ScanReadLengthBox_OnTextChanged" MaxLines="1" VerticalAlignment="Center" />
+        </ui:CardControl>
+        <ui:CardControl Margin="4,2">
+            <ui:CardControl.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ui:TextBlock
+                        Grid.Row="0"
+                        FontTypography="Body"
+                        Text="Clear Auth Cache"
+                        TextWrapping="WrapWithOverflow" />
+                    <ui:TextBlock
+                        Grid.Row="1"
+                        Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                        Text="Deletes saved authentication tokens (XAUTH, Events Token, OAuth session). You will need to log in again after clearing."
+                        TextWrapping="WrapWithOverflow" />
+                </Grid>
+            </ui:CardControl.Header>
+            <ui:Button
+                x:Name="ClearAuthCacheButton"
+                Content="Clear Auth &amp; Re-login"
+                Click="ClearAuthCacheButton_OnClick"
+                HorizontalAlignment="Left" />
+        </ui:CardControl>
         <ui:CardControl Margin="4,2" SizeChanged="XAuthBox_OnSizeChanged">
             <ui:CardControl.Header>
                 <Grid>

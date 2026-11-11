@@ -171,6 +171,17 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <!-- Simple, non-intrusive: opens the official Xbox Live status page. The detailed
+             endpoint-by-endpoint health probe lives on the Misc page (run on-demand) so it never
+             clutters this landing view. -->
+        <ui:Button
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Margin="0, 0, 12, 12"
+            Padding="17, 5, 17, 5"
+            Content="Check Xbox Status"
+            Command="{Binding ViewModel.OpenXboxStatusPageCommand, Mode=OneWay}"/>
     </Grid>
 
 </Page>

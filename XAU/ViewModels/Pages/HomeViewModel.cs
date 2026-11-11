@@ -4,6 +4,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using XAU.Util.Etw;
+using XAU.Util.Logging;
+using XAU.Util.Diagnostics;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
 using Memory;
@@ -31,7 +33,7 @@ namespace XAU.ViewModels.Pages
 
     public partial class HomeViewModel : ObservableObject, INavigationAware
     {
-        public static string ToolVersion = "26.11.10";
+        public static string ToolVersion = "26.11.11";
         public static string EventsVersion = "1.0";
 
         //attach vars
@@ -71,6 +73,9 @@ namespace XAU.ViewModels.Pages
         //SnackBar
         public HomeViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService)
         {
+            // Singleton in DI (App.xaml.cs) -- publish the one instance so background consumers
+            // (heartbeat loops, HTTP-server routes) can reach instance methods like auth recovery.
+            Instance = this;
             _snackbarService = snackbarService;
             _contentDialogService = contentDialogService;
 
@@ -90,7 +95,26 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         private void RefreshProfile()
         {
-            GrabProfile();
+            GrabProfile(force: true);
+        }
+
+        [RelayCommand]
+        private void OpenXboxStatusPage()
+        {
+            try
+            {
+                var p = new Process();
+                p.StartInfo = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = "https://support.xbox.com/en-US/xbox-live-status"
+                };
+                p.Start();
+            }
+            catch (Exception ex)
+            {
+                EventsLog($"[XBLSTATUS] could not open status page: {ex.GetType().Name}: {ex.Message}");
+            }
         }
 
         Mem m = new Mem();
@@ -98,12 +122,69 @@ namespace XAU.ViewModels.Pages
         public BackgroundWorker EventsTokenWorker = new BackgroundWorker();
         bool IsAttached = false;
         bool GrabbedProfile = false;
-        bool eventsTokenFound = false;
+        bool _grabProfileInFlight = false;
         public static bool XAUTHTested = false;
         public static string XAUTH = "";
         public static string XUIDOnly;
         public static bool InitComplete = false;
+
+        // The single DI-registered HomeViewModel instance (see ctor). Static state like XAUTH lives
+        // on this class; instance entry points (TryRecoverAuthAsync) are reached through this.
+        public static HomeViewModel? Instance;
+
+        // Cadence/anti-thrash state for the memory-scan token grabber. While we already hold a
+        // (possibly expired) token we don't re-scan the whole user address space on every ~1s poll
+        // tick -- only often enough to notice the Xbox app refreshing to a NEW token. See
+        // ShouldScanForXauth / ShouldAdoptScannedToken.
+        // How often the logged-in probe re-validates a HELD token. Without this an OAuth/SISU XBL3.0
+        // token that expires hours into a session is never detected: TestXAUTH used to run only while
+        // signed OUT, so the first sign of expiry was every other API call 401-ing at once.
+        private static readonly TimeSpan LoggedInProbeInterval = TimeSpan.FromMinutes(15);
+
+        private static readonly TimeSpan XauthScanInterval = TimeSpan.FromSeconds(5);
+        private static DateTime _lastXauthScanUtc = DateTime.MinValue;
+        private bool _xauthScanInFlight = false;
+
+        // Re-test cadence, deliberately separate from adoption. Because we only adopt a CHANGED token
+        // (ShouldAdoptScannedToken), a token whose first TestXAUTH transiently failed/401'd would never be
+        // re-tested if the test were gated purely off XAUTHTested -- the old spammy code only self-healed
+        // by re-adopting the same token every tick. So give the test its own bounded re-arm clock plus an
+        // in-flight lock: at most one attempt per XauthScanInterval, no overlap, and it keeps retrying the
+        // token we hold so a token that merely wasn't ready yet (fresh launch) still logs in.
+        private static DateTime _lastXauthTestUtc = DateTime.MinValue;
+        private bool _xauthTestInFlight = false;
+        private readonly object _authStateLock = new object();
+        private int _authGeneration;
+        private CancellationTokenSource _eventsCaptureCts = new CancellationTokenSource();
+
+        private bool IsCurrentAuthGeneration(int generation) =>
+            Volatile.Read(ref _authGeneration) == generation;
+
+        // Tunable, persisted (XAUSettings.XauthScanReadLength): how many bytes ReadString() copies at each
+        // AoB hit while locating the sign-in token. ReadString is zero-terminated (it splits on the first
+        // NUL), so a generous value is essentially free; the ONE real hazard is a value that is too SMALL,
+        // which truncates a valid token so TestXAUTH then sees a malformed token and gets a 400 (not a 401)
+        // -- exactly the "could my token just be invalid?" false positive. The floor sits far above the
+        // ~2.6KB token actually observed, so a genuine token can never be cut. See NormalizeScanReadLength.
+        public const int MinScanReadLength = 4096;
+        public const int MaxScanReadLength = 262144;
+        public const int DefaultScanReadLength = 16384;
+        public static int ScanReadLength = DefaultScanReadLength;
+
+        public static bool ShouldAcceptScanReadLength(int length)
+            => length >= MinScanReadLength && length <= MaxScanReadLength;
+
+        public static int NormalizeScanReadLength(int length)
+        {
+            if (length < MinScanReadLength)
+                return MinScanReadLength;
+            if (length > MaxScanReadLength)
+                return MaxScanReadLength;
+            return length;
+        }
+
         private bool _isInitialized = false;
+        private bool _isInitializing = false;
         string SettingsFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "settings.json");
         string EventsMetaFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "Events", "meta.json");
         string AuthFilePath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU"), "auth.json");
@@ -113,10 +194,53 @@ namespace XAU.ViewModels.Pages
 
         public async void OnNavigatedTo()
         {
-            if (!_isInitialized)
+            // InitializeViewModel awaits network calls (update checks) before it flips
+            // _isInitialized, so a quick navigate-away-and-back could re-enter it and call
+            // XauthWorker.RunWorkerAsync() a second time -> "BackgroundWorker is currently
+            // busy". Gate on an in-progress flag as well, not just the completed flag.
+            if (!ShouldBeginInitialization(_isInitialized, _isInitializing))
+                return;
+
+            _isInitializing = true;
+            try
+            {
                 await InitializeViewModel();
+            }
+            finally
+            {
+                _isInitializing = false;
+            }
         }
         public void OnNavigatedFrom() { }
+
+        /// <summary>
+        /// True only when InitializeViewModel should run: it has neither completed nor is
+        /// already in progress. Prevents re-entrant navigation from double-running init
+        /// (which used to double-start the BackgroundWorkers and crash).
+        /// </summary>
+        public static bool ShouldBeginInitialization(bool initialized, bool initializing)
+            => !initialized && !initializing;
+
+        /// <summary>
+        /// True when a BackgroundWorker may be (re)started. Starting an already-busy worker
+        /// throws InvalidOperationException; this guard (plus the catch in StartWorker) keeps
+        /// the "currently busy" crash from reaching the unhandled-exception dialog.
+        /// </summary>
+        public static bool ShouldStartWorker(bool isBusy) => !isBusy;
+
+        private void StartWorker(BackgroundWorker worker)
+        {
+            if (!ShouldStartWorker(worker.IsBusy))
+                return;
+            try
+            {
+                worker.RunWorkerAsync();
+            }
+            catch (InvalidOperationException)
+            {
+                // Worker was started on another thread between the IsBusy check and the call.
+            }
+        }
 
         #region Update
         private async Task CheckForToolUpdates()
@@ -181,21 +305,29 @@ namespace XAU.ViewModels.Pages
         }
         private async void CheckForEventUpdates()
         {
-            if (EventsVersion == "EmptyDevEventsVersion")
-                return;
-            var response = await _gitHubRestAPI.Value.CheckForEventUpdatesAsync();
-            var EventsTimestamp = 0;
-            if (File.Exists(EventsMetaFilePath))
+            try
             {
-                var metaJson = File.ReadAllText(EventsMetaFilePath);
-                var meta = JsonConvert.DeserializeObject<EventsUpdateResponse>(metaJson);
-                EventsTimestamp = meta.Timestamp;
-            }
+                if (EventsVersion == "EmptyDevEventsVersion")
+                    return;
+                var response = await _gitHubRestAPI.Value.CheckForEventUpdatesAsync();
+                var EventsTimestamp = 0;
+                if (File.Exists(EventsMetaFilePath))
+                {
+                    var metaJson = File.ReadAllText(EventsMetaFilePath);
+                    var meta = JsonConvert.DeserializeObject<EventsUpdateResponse>(metaJson);
+                    EventsTimestamp = meta.Timestamp;
+                }
 
-            if (response.Timestamp > EventsTimestamp && response.DataVersion == EventsVersion)
+                if (response.Timestamp > EventsTimestamp && response.DataVersion == EventsVersion)
+                {
+                    _snackbarService.Show("Downloading Events Update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
+                    UpdateEvents();
+                }
+            }
+            catch (Exception ex)
             {
-                _snackbarService.Show("Downloading Events Update...", "Please wait", ControlAppearance.Info, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-                UpdateEvents();
+                _snackbarService.Show("Events Update Check Failed", $"Could not check for event updates: {ex.Message}",
+                    ControlAppearance.Caution, new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
             }
         }
 
@@ -325,12 +457,20 @@ namespace XAU.ViewModels.Pages
 
         private async Task InitializeViewModel()
         {
-            await CheckForToolUpdates();
+            try
+            {
+                await CheckForToolUpdates();
+            }
+            catch (Exception ex)
+            {
+                _snackbarService.Show("Update Check Failed", $"Could not check for updates: {ex.Message}",
+                    ControlAppearance.Caution, new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+            }
             XauthWorker.DoWork += XauthWorker_DoWork;
             XauthWorker.ProgressChanged += XauthWorker_ProgressChanged;
             XauthWorker.RunWorkerCompleted += XauthWorker_RunWorkerCompleted;
             XauthWorker.WorkerReportsProgress = true;
-            XauthWorker.RunWorkerAsync();
+            StartWorker(XauthWorker);
             EventsTokenWorker.DoWork += EventsTokenWorker_DoWork;
             if (!File.Exists(SettingsFilePath))
             {
@@ -365,7 +505,7 @@ namespace XAU.ViewModels.Pages
                 }
                 if (Settings.OAuthLogin)
                 {
-                    OAuthLogin();
+                    _ = OAuthLogin();
                 }
 
             }
@@ -373,7 +513,7 @@ namespace XAU.ViewModels.Pages
             CheckForXboxGamesDatabaseUpdate();
             LoadSettings();
             if (Settings.OAuthLogin)
-                OAuthLogin();
+                _ = OAuthLogin();
             _isInitialized = true;
             if (Settings.AutoLaunchXboxAppEnabled && XboxAppPid() == 0)
             {
@@ -413,6 +553,17 @@ namespace XAU.ViewModels.Pages
 
         public void XauthWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            // OAuth mode: the token comes from SISU, not the Xbox app's memory, so there is nothing to
+            // attach/scan. Stay ALIVE (idle tick) so ProgressChanged keeps firing: it drives the periodic
+            // logged-in probe that detects an expired XBL3.0 token and triggers silent recovery. The old
+            // `while (!Settings.OAuthLogin)` exit made this worker die forever on OAuth login, which is
+            // why a token expiring hours later was never detected or refreshed.
+            if (Settings.OAuthLogin)
+            {
+                Thread.Sleep(15000);
+                XauthWorker.ReportProgress(0);
+                return;
+            }
             while (!Settings.OAuthLogin)
             {
                 if (!OpenXboxAppProcess())
@@ -441,6 +592,17 @@ namespace XAU.ViewModels.Pages
                         GrabProfile();
                     LoggedIn = "Logged In";
                     LoggedInColor = new SolidColorBrush(Colors.Green);
+
+                    // Periodically re-validate the token even while logged in, so an expiry mid-session
+                    // (typical after hours of spoofing) is caught here and recovered, instead of surfacing
+                    // as random 401s from every consumer at once.
+                    if (XAUTH.Length > 0 &&
+                        ShouldTestXauth(_xauthTestInFlight, _lastXauthTestUtc, DateTime.UtcNow, LoggedInProbeInterval))
+                    {
+                        _xauthTestInFlight = true;
+                        _lastXauthTestUtc = DateTime.UtcNow;
+                        TestXAUTH();
+                    }
                 }
                 else
                 {
@@ -451,8 +613,15 @@ namespace XAU.ViewModels.Pages
                     }
                     LoggedIn = "Not Logged In";
                     LoggedInColor = new SolidColorBrush(Colors.Red);
-                    if (!XAUTHTested && XAUTH.Length > 0)
+
+                    // Test on its own bounded cadence rather than keying off XAUTHTested. Keep retrying the
+                    // token we hold so a transient 401 / not-yet-ready token still logs the user in, instead
+                    // of one failed attempt latching us out until a genuinely different token shows up.
+                    if (XAUTH.Length > 0 &&
+                        ShouldTestXauth(_xauthTestInFlight, _lastXauthTestUtc, DateTime.UtcNow, XauthScanInterval))
                     {
+                        _xauthTestInFlight = true;
+                        _lastXauthTestUtc = DateTime.UtcNow;
                         TestXAUTH();
                     }
                 }
@@ -465,52 +634,243 @@ namespace XAU.ViewModels.Pages
         }
         public void XauthWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (!XauthWorker.IsBusy)
-                XauthWorker.RunWorkerAsync();
+            StartWorker(XauthWorker);
         }
+        /// <summary>
+        /// True when the ~1s XauthWorker tick may start a fresh AoBScan. Once we hold a token we
+        /// only re-scan on XauthScanInterval so we can notice the Xbox app refreshing to a new
+        /// token, instead of hammering the whole address space (and the Xbox profile API, via the
+        /// re-armed TestXAUTH) every tick. `inFlight` stops overlapping scans; the `DateTime.MinValue`
+        /// fast-path makes the very first scan immediate.
+        /// </summary>
+        public static bool ShouldScanForXauth(DateTime lastScanUtc, DateTime nowUtc, bool inFlight)
+        {
+            if (inFlight)
+                return false;
+            if (lastScanUtc == DateTime.MinValue)
+                return true;
+            return (nowUtc - lastScanUtc) >= XauthScanInterval;
+        }
+
+        /// <summary>
+        /// True when a scanned token should be adopted. Keeps the original frequency>3 confidence
+        /// bar, but additionally requires the string to DIFFER from the token we already hold:
+        /// re-adopting an identical token would reset XAUTHTested=false and re-arm TestXAUTH, so an
+        /// expired token would be re-tested once per poll tick forever. Ignoring unchanged tokens
+        /// lets that dead token settle until the Xbox app produces a genuinely new one.
+        /// </summary>
+        public static bool ShouldAdoptScannedToken(string scanned, string current, int frequency,
+            int distinctNonEmptyCandidates = -1, bool heldTokenRejected = false)
+        {
+            if (string.IsNullOrEmpty(scanned))
+                return false;
+            // Standard confidence bar. Exceptions, only while the session is unproven:
+            // 1. Nothing held + a lone candidate: the Xbox app sometimes exposes just 1-3 copies
+            //    (log 2026-09-30 17:11: bestFreq=3, need >3) and the old rule blocked login forever.
+            // 2. Held token was rejected (401) while signed out + few distinct candidates: several
+            //    plausible tokens/truncations compete at freq 1 (log 2026-09-30 17:41: valid=3,
+            //    bestFreq=1). Frequency cannot pick a winner; the profile API referees, so rotate.
+            if (frequency <= 3)
+            {
+                bool rotate = heldTokenRejected && distinctNonEmptyCandidates is >= 2 and <= 8;
+                bool lone = current.Length == 0 && distinctNonEmptyCandidates == 1;
+                if (!rotate && !lone)
+                    return false;
+            }
+            return scanned != current;
+        }
+
+        /// <summary>
+        /// Picks the most-frequent NON-empty scanned token (tie broken by the longer string, a better
+        /// bet against a real token than a truncated read). Empties -- what ReadString returns "" for when
+        /// an address is unreadable or below 0x10000 -- are ignored so they can never outrank a genuine
+        /// token. That was the bug behind "can't log in": the old single top-1 pick let the most-common
+        /// empty string (a very high duplicate count) defeat ShouldAdoptScannedToken's empty-check and
+        /// block adoption outright. Returns ("", 0) when every candidate is empty. Pure; unit-testable.
+        /// </summary>
+        public static string SelectBestScannedToken(IEnumerable<KeyValuePair<string, int>> frequency, out int bestFrequency)
+        {
+            bestFrequency = 0;
+            string best = "";
+            if (frequency == null)
+                return best;
+
+            foreach (var pair in frequency)
+            {
+                if (string.IsNullOrWhiteSpace(pair.Key))
+                    continue;
+                if (pair.Value > bestFrequency
+                    || (pair.Value == bestFrequency && pair.Key.Length > best.Length))
+                {
+                    best = pair.Key;
+                    bestFrequency = pair.Value;
+                }
+            }
+            return best;
+        }
+
+        /// <summary>Number of DISTINCT non-empty token strings in the scan, for the lone-candidate rule.</summary>
+        public static int CountDistinctNonEmptyTokens(IEnumerable<KeyValuePair<string, int>> frequency)
+        {
+            if (frequency == null)
+                return 0;
+            int distinct = 0;
+            foreach (var pair in frequency)
+                if (!string.IsNullOrWhiteSpace(pair.Key))
+                    distinct++;
+            return distinct;
+        }
+
+        /// <summary>
+        /// Structural check for a scanned XBL3.0 token. The AoB pattern only proves the prefix is
+        /// present; a long read from an unterminated buffer returns the prefix followed by
+        /// arbitrary memory, which frequency counting treats as a distinct garbage candidate
+        /// (log 2026-09-30 17:36: distinct=11, bestFreq=1, bestLen=16384). A real token is
+        /// "XBL3.0 x={digits};{token body}" with no whitespace, in a plausible size range.
+        /// </summary>
+        private static readonly System.Text.RegularExpressions.Regex XblTokenShape =
+            new(@"^XBL3\.0 x=\d{6,20};[A-Za-z0-9+/_=\-\.]{200,8000}$",
+                System.Text.RegularExpressions.RegexOptions.Compiled);
+
+        public static bool IsPlausibleXblToken(string? candidate) =>
+            !string.IsNullOrWhiteSpace(candidate) && XblTokenShape.IsMatch(candidate);
+
+        /// <summary>Keeps only candidates that parse as XBL3.0 tokens, dropping prefixed garbage.</summary>
+        public static Dictionary<string, int> FilterPlausibleTokens(IEnumerable<KeyValuePair<string, int>> frequency)
+        {
+            var filtered = new Dictionary<string, int>();
+            if (frequency == null)
+                return filtered;
+            foreach (var pair in frequency)
+                if (IsPlausibleXblToken(pair.Key))
+                    filtered[pair.Key] = pair.Value;
+            return filtered;
+        }
+
+        /// <summary>
+        /// True when a TestXAUTH attempt may run: never overlapping (inFlight) and at most one per
+        /// <paramref name="interval"/>. Deliberately does NOT consult XAUTHTested -- a token that 401'd once
+        /// must still be retried, because it can become valid (Xbox app still authenticating after launch)
+        /// or the failure may have been transient. Keying the retry off XAUTHTested as a permanent latch was
+        /// what caused "not logging in on a fresh launch."
+        /// </summary>
+        public static bool ShouldTestXauth(bool inFlight, DateTime lastTestUtc, DateTime nowUtc, TimeSpan interval)
+        {
+            if (inFlight)
+                return false;
+            if (lastTestUtc == DateTime.MinValue)
+                return true;
+            return (nowUtc - lastTestUtc) >= interval;
+        }
+
         private async void GetXAUTH()
         {
-            // Scan both ASCII and UTF-16 layouts; the Xbox app changed the
-            // on-memory token encoding between versions.
-            var asciiCandidates = await CollectXauthCandidates(XAuthScanPattern, Encoding.UTF8);
-            var utf16Candidates = await CollectXauthCandidates(XAuthScanPatternUtf16, Encoding.Unicode);
-            var XauthStrings = asciiCandidates.Concat(utf16Candidates).ToArray();
-
-            Dictionary<string, int> frequency = new Dictionary<string, int>();
-            foreach (string str in XauthStrings)
-            {
-                if (!frequency.ContainsKey(str))
-                {
-                    frequency[str] = 1;
-                }
-                else
-                {
-                    frequency[str]++;
-                }
-            }
-
-            if (XauthStrings.Length == 0)
-            {
+            if (!ShouldScanForXauth(_lastXauthScanUtc, DateTime.UtcNow, _xauthScanInFlight))
                 return;
-            }
 
-            string mostCommon = XauthStrings[0];
-            int highestFrequency = 0;
-            foreach (KeyValuePair<string, int> pair in frequency)
+            int generation = Volatile.Read(ref _authGeneration);
+            _xauthScanInFlight = true;
+            try
             {
-                if (pair.Value > highestFrequency)
+                var swScan = System.Diagnostics.Stopwatch.StartNew();
+                // Scan both ASCII and UTF-16 layouts; the Xbox app changed the
+                // on-memory token encoding between versions.
+                var asciiCandidates = await CollectXauthCandidates(XAuthScanPattern, Encoding.UTF8);
+                var utf16Candidates = await CollectXauthCandidates(XAuthScanPatternUtf16, Encoding.Unicode);
+                var XauthStrings = asciiCandidates.Concat(utf16Candidates).ToArray();
+                if (!IsCurrentAuthGeneration(generation))
+                    return;
+                long scanMs = swScan.ElapsedMilliseconds;
+                // The expensive AoBScan has now run, so start backing off from here regardless of
+                // whether this particular scan yielded a usable token.
+                _lastXauthScanUtc = DateTime.UtcNow;
+
+                long readMs = swScan.ElapsedMilliseconds - scanMs;
+
+                Dictionary<string, int> frequency = new Dictionary<string, int>();
+                foreach (string str in XauthStrings)
                 {
-                    mostCommon = pair.Key;
-                    highestFrequency = pair.Value;
+                    if (!frequency.ContainsKey(str))
+                    {
+                        frequency[str] = 1;
+                    }
+                    else
+                    {
+                        frequency[str]++;
+                    }
                 }
-            }
 
-            // The UTF-16 token copy in the updated app typically has exactly 3
-            // copies in memory, so the old `> 3` gate rejected valid tokens.
-            if (highestFrequency >= 3)
+                if (XauthStrings.Length == 0)
+                {
+                    DiagLog.Write(
+                        $"[XAUTHDBG] scan found no XBL3.0 token candidates in Xbox app memory (signed in there yet?) " +
+                        $"[scan={scanMs}ms read={readMs}ms]");
+                    return;
+                }
+
+                // Highest count over ALL keys (including the empty string unreadable addresses read back as).
+                // Kept only so the "below confidence" diagnostic keeps its original, comparable meaning.
+                int topFreqAll = 0;
+                foreach (var pair in frequency)
+                {
+                    if (pair.Value > topFreqAll)
+                        topFreqAll = pair.Value;
+                }
+
+                // Selection runs over STRUCTURALLY VALID candidates only: the AoB pattern matches
+                // the prefix inside larger unterminated buffers, so raw reads are often prefix +
+                // memory garbage (log 2026-09-30 17:36: distinct=11, bestFreq=1, bestLen=16384).
+                // Empties and garbage never outrank a genuine token this way.
+                Dictionary<string, int> validFrequency = FilterPlausibleTokens(frequency);
+
+                // Adopt the most-frequent valid candidate; a lone valid candidate is accepted
+                // below the confidence bar only when we hold nothing (ShouldAdoptScannedToken).
+                // Rotation while SIGNED OUT (not just after a rejection): at fresh startup several
+                // plausible candidates compete at freq 1 (log 2026-09-30 18:03: valid=4, bestFreq=1,
+                // currentXAUThLen=0) and nothing is ever adopted to reject — the gate must be open
+                // from the first scan. The profile API referees; once logged in the bar resumes.
+                bool rotating = !IsLoggedIn;
+                Dictionary<string, int> selectableFrequency = rotating && XAUTH.Length > 0
+                    ? validFrequency.Where(kvp => kvp.Key != XAUTH)
+                        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
+                    : validFrequency;
+
+                string best = SelectBestScannedToken(selectableFrequency, out int bestFreq);
+                int distinctNonEmpty = CountDistinctNonEmptyTokens(validFrequency);
+                bool adoptedNew;
+                lock (_authStateLock)
+                {
+                    if (!IsCurrentAuthGeneration(generation))
+                        return;
+                    adoptedNew = ShouldAdoptScannedToken(best, XAUTH, bestFreq, distinctNonEmpty,
+                        heldTokenRejected: rotating);
+                    if (adoptedNew)
+                    {
+                        XAUTH = best;
+                        XAUTHTested = false;
+                    }
+                }
+
+                DiagLog.Write(
+                    $"[XAUTHDBG] scan: candidates={XauthStrings.Length}, distinct={frequency.Count}, " +
+                    $"valid={validFrequency.Count}, topFreq={topFreqAll} (need >3, lone-valid bypasses), " +
+                    $"bestFreq={bestFreq}, bestLen={best.Length}, " +
+                    $"currentXAUThLen={XAUTH.Length}, adoptedNew={adoptedNew} [scan={scanMs}ms read={readMs}ms]" +
+                    (best.Length == 0
+                        ? " (no structurally valid token in memory -- Xbox app signed out or token not fully written yet?)"
+                        : ""));
+            }
+            catch (Exception ex)
             {
-                XAUTH = mostCommon;
-                XAUTHTested = false;
+                // Failed scans need the same backoff as successful scans, unless this session was
+                // invalidated by a cache clear that deliberately reset the clock for an immediate retry.
+                if (IsCurrentAuthGeneration(generation))
+                    _lastXauthScanUtc = DateTime.UtcNow;
+                DiagLog.Write($"[XAUTHDBG] GetXAUTH scan failed: {ex.GetType().Name}; retrying on next cadence.");
+            }
+            finally
+            {
+                _xauthScanInFlight = false;
             }
         }
 
@@ -520,7 +880,7 @@ namespace XAU.ViewModels.Pages
             var candidates = new List<string>();
             foreach (var address in scanResults)
             {
-                string token = m.ReadString(address.ToString("X"), length: 10000, stringEncoding: encoding);
+                string token = m.ReadString(address.ToString("X"), length: ScanReadLength, stringEncoding: encoding);
                 if (!string.IsNullOrEmpty(token) && token.StartsWith("XBL3.0 x="))
                     candidates.Add(token);
             }
@@ -528,49 +888,248 @@ namespace XAU.ViewModels.Pages
         }
         private async void TestXAUTH()
         {
+            int generation = Volatile.Read(ref _authGeneration);
+            string testedToken = XAUTH;
+            DiagLog.Write($"[XAUTHDBG] TestXAUTH: verifying token (len={testedToken.Length}) via GetBasicProfileAsync...");
             try
             {
                 var response = await _xboxRestAPI.Value.GetBasicProfileAsync();
-                if (Settings.PrivacyMode)
+                var user = response?.ProfileUsers?.FirstOrDefault();
+                if (user == null || string.IsNullOrWhiteSpace(user.Id))
+                    return;
+                lock (_authStateLock)
                 {
-                    GamerTag = $"Gamertag: Hidden";
-                    Xuid = $"XUID: Hidden";
+                    if (!IsCurrentAuthGeneration(generation) || XAUTH != testedToken)
+                        return;
+                    if (Settings.PrivacyMode)
+                    {
+                        GamerTag = "Gamertag: Hidden";
+                        Xuid = "XUID: Hidden";
+                    }
+                    else
+                    {
+                        GamerTag = $"Gamertag: {user.Settings?.FirstOrDefault()?.Value}";
+                        Xuid = $"XUID: {user.Id}";
+                    }
+                    XUIDOnly = user.Id;
+                    IsLoggedIn = true;
+                    XAUTHTested = true;
+                    InitComplete = true;
                 }
-                else
-                {
-                    GamerTag = $"Gamertag: {response.ProfileUsers[0].Settings[0].Value}";
-                    Xuid = $"XUID: {response.ProfileUsers[0].Id}";
-                }
-
-                XUIDOnly = response.ProfileUsers[0].Id;
-                IsLoggedIn = true;
-                XAUTHTested = true;
-                InitComplete = true;
-
-                // Start the events token worker to periodically check/refresh the token
-                if (Settings.AutoGrabEventsToken && !EventsTokenWorker.IsBusy)
-                    EventsTokenWorker.RunWorkerAsync();
+                StartWorker(EventsTokenWorker);
             }
             catch (HttpRequestException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    IsLoggedIn = false;
-                    XAUTHTested = true;
-
+                    lock (_authStateLock)
+                    {
+                        if (!IsCurrentAuthGeneration(generation) || XAUTH != testedToken)
+                            return;
+                        IsLoggedIn = false;
+                        XAUTHTested = true;
+                    }
+                    DiagLog.Write("[XAUTHDBG] TestXAUTH: 401 Unauthorized -- token held is stale/expired; attempting silent re-acquisition...");
+                    await TryRecoverAuthAsync();
                 }
+                else
+                {
+                    // Previously this non-401 case fell through silently and left the app stuck signed-out
+                    // with no clue; surface the real status code. NOTE: HttpRequestException.StatusCode is
+                    // NULLABLE -- it is null for connection-level failures (no HTTP response at all:
+                    // socket reset, DNS failure, etc.). Casting it non-conditionally threw
+                    // InvalidOperationException from inside this catch and crashed the app
+                    // (async void + unhandled = crash dialog after ~9h of uptime).
+                    DiagLog.Write($"[XAUTHDBG] TestXAUTH: HttpRequestException {(int?)ex.StatusCode ?? 0} {ex.StatusCode?.ToString() ?? "<no HTTP status - connection-level failure>"} (not 401) -- staying signed-out, will retry.");
+                }
+            }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[XAUTHDBG] TestXAUTH: threw {ex.GetType().Name}: {ex.Message} (swallowed; will retry on next cadence).");
+            }
+            finally
+            {
+                // Release the re-test lock so the next bounded attempt can run.
+                _xauthTestInFlight = false;
             }
         }
         #endregion
 
+        #region AuthRecovery
+        // Central 401 recovery. Before this existed, an XBL3.0 token expiring mid-session (typical
+        // after 24h of spoofing) left the app signed out forever: OAuth mode never re-ran SISU with
+        // the saved refresh token, and memory-scan mode only recovered by luck when the Xbox app
+        // happened to hold a fresh token. Every 401 consumer now funnels through here.
+        private int _authRecoveryInFlight = 0;
+        private DateTime _lastAuthRecoveryUtc = DateTime.MinValue;
+        private static readonly TimeSpan AuthRecoveryCooldown = TimeSpan.FromMinutes(2);
+
+        // A heartbeat 401 can arrive before the periodic profile probe marks the held token
+        // invalid. Memory-scan replacements must be profile-tested on the short signed-out
+        // cadence before a waiting spoofer resumes.
+        internal void MarkSessionRejected()
+        {
+            lock (_authStateLock)
+            {
+                // An earlier profile probe can still be in flight for the rejected token.
+                // Discard its result instead of letting it mark that token logged in again.
+                Interlocked.Increment(ref _authGeneration);
+                IsLoggedIn = false;
+                XAUTHTested = false;
+                _lastXauthTestUtc = DateTime.MinValue;
+            }
+        }
+
+        /// <summary>
+        /// Attempts silent token re-acquisition after a 401. Returns true only after SISU has issued
+        /// a new XAUTH (OAuth path); endpoint-specific authorization is still checked separately.
+        /// In memory-scan mode there is nothing to await -- we force
+        /// an immediate rescan and let the usual scan/adopt/test loop take over, so returns false and
+        /// the caller stays signed-out until that loop succeeds.
+        /// Fire-and-forget callers use StartAuthRecovery().
+        /// </summary>
+        public async Task<bool> TryRecoverAuthAsync()
+        {
+            if (Interlocked.CompareExchange(ref _authRecoveryInFlight, 1, 0) != 0)
+                return false;
+            try
+            {
+                var now = DateTime.UtcNow;
+                if (_lastAuthRecoveryUtc != DateTime.MinValue && now - _lastAuthRecoveryUtc < AuthRecoveryCooldown)
+                    return false;
+                _lastAuthRecoveryUtc = now;
+
+                ShowSnackbar("Refreshing authentication...",
+                    "Your session token was rejected -- XAU is re-authenticating in the background.",
+                    ControlAppearance.Info, SymbolRegular.ArrowClockwise24);
+
+                if (Settings.OAuthLogin)
+                    return await TryRecoverOAuthAsync();
+
+                // Memory-scan mode: force a scan and profile-test its replacement before
+                // another heartbeat can reuse a token merely found in process memory.
+                DiagLog.Write("[AUTHRECOVERY] token rejected (401); forcing immediate XAUTH memory re-scan");
+                MarkSessionRejected();
+                SettingsViewModel.ManualXauth = false;
+                _lastXauthScanUtc = DateTime.MinValue;
+                GetXAUTH();
+                return false;
+            }
+            finally
+            {
+                Interlocked.Exchange(ref _authRecoveryInFlight, 0);
+            }
+        }
+
+        private async Task<bool> TryRecoverOAuthAsync()
+        {
+            int generation = Volatile.Read(ref _authGeneration);
+            EnsureOAuthInitialized();
+
+            MicrosoftOAuthResponse? saved = null;
+            try
+            {
+                if (File.Exists(AuthFilePath))
+                    saved = readSession();
+            }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[AUTHRECOVERY] could not read saved session: {ex.GetType().Name}: {ex.Message}");
+            }
+
+            if (!IsCurrentAuthGeneration(generation))
+                return false;
+            if (saved == null || !saved.Validate() || string.IsNullOrEmpty(saved.RefreshToken))
+            {
+                DiagLog.Write("[AUTHRECOVERY] no usable saved OAuth session -- user must log in again");
+                IsLoggedIn = false;
+                return false;
+            }
+
+            try
+            {
+                var fresh = await oauth.AuthenticateSilently(saved.RefreshToken!);
+                if (!IsCurrentAuthGeneration(generation))
+                    return false;
+                // Do not report an Xbox token until the SISU exchange finishes.
+                bool recovered = await CompleteLoginAsync(fresh, generation);
+                if (recovered && IsCurrentAuthGeneration(generation))
+                    ShowSnackbar("Authentication refreshed", "A new Xbox session token was acquired.",
+                        ControlAppearance.Success, SymbolRegular.Checkmark24);
+                return recovered;
+            }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[AUTHRECOVERY] silent OAuth refresh failed: {ex.GetType().Name}");
+                if (IsCurrentAuthGeneration(generation))
+                {
+                    IsLoggedIn = false;
+                    ShowSnackbar("Re-authentication failed", "Please log in again from the Home page.",
+                        ControlAppearance.Danger, SymbolRegular.ErrorCircle24);
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Builds the OAuth/SISU clients on demand. OAuthLogin() and silent recovery share this so
+        /// recovery works even if the interactive login flow never ran in this process.
+        /// </summary>
+        private void EnsureOAuthInitialized()
+        {
+            if (oauth != null)
+                return;
+            var OAuthhttpClient = new HttpClient();
+            var apiClient = new CodeFlowLiveApiClient(XboxGameTitles.XboxAppPC, XboxAuthConstants.XboxScope, OAuthhttpClient);
+            xboxAuthClient = new XboxAuthClient(OAuthhttpClient);
+            xboxSignedClient = new XboxSignedClient(OAuthhttpClient);
+            oauth = new CodeFlowBuilder(apiClient)
+                .WithUIParent(this)
+                .Build();
+        }
+
+        /// <summary>
+        /// Thread-safe snackbar for background callers (auth recovery fires from heartbeat loops and
+        /// the HTTP server, not just the UI thread). Wpf.Ui's SnackbarService is UI-bound, so marshal
+        /// through the dispatcher when we're not already on it.
+        /// </summary>
+        private void ShowSnackbar(string title, string message, ControlAppearance appearance, SymbolRegular symbol)
+        {
+            void Show() => _snackbarService.Show(title, message, appearance, new SymbolIcon(symbol), _snackbarDuration);
+            // Fully qualified: this project uses both WPF and WinForms, so the bare "Application"
+            // name is ambiguous (CS0104).
+            var dispatcher = System.Windows.Application.Current?.Dispatcher;
+            if (dispatcher == null || dispatcher.CheckAccess())
+                Show();
+            else
+                dispatcher.Invoke(Show);
+        }
+
+        /// <summary>Fire-and-forget entry point for background consumers (heartbeat loops, API routes).</summary>
+        public void StartAuthRecovery()
+        {
+            _ = TryRecoverAuthAsync();
+        }
+
+        #endregion
+
         #region EventsToken
-        private bool solitaireLaunchedByUs = false;
 
         private static readonly TimeSpan EventsTokenCheckInterval = TimeSpan.FromMinutes(10);
         private static readonly TimeSpan EventsTokenMaxAge = TimeSpan.FromHours(23);
 
         private static DateTime _eventsTokenObtainedAt = DateTime.MinValue;
         private static string _eventsUserHash = null;
+
+        internal static bool TryApplyCapturedEventsToken(string? captured, ref string? current,
+            ref DateTime obtainedAtUtc, DateTime nowUtc)
+        {
+            if (string.IsNullOrWhiteSpace(captured))
+                return false;
+            current = captured;
+            obtainedAtUtc = nowUtc;
+            return true;
+        }
 
         private static readonly string EventsLogPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "events_debug.log");
@@ -587,17 +1146,26 @@ namespace XAU.ViewModels.Pages
         }
 
 
-        public void PersistEventsToken()
+        public static readonly object SettingsWriteLock = new object();
+
+        public bool PersistEventsToken()
         {
             try
             {
-                Settings.CachedEventsToken = AchievementsViewModel.EventsToken;
-                Settings.EventsTokenObtainedAt = _eventsTokenObtainedAt;
-                Settings.EventsUserHash = _eventsUserHash;
-                var json = JsonConvert.SerializeObject(Settings);
-                File.WriteAllText(SettingsFilePath, json);
+                lock (SettingsWriteLock)
+                {
+                    Settings.CachedEventsToken = AchievementsViewModel.EventsToken;
+                    Settings.EventsTokenObtainedAt = _eventsTokenObtainedAt;
+                    Settings.EventsUserHash = _eventsUserHash;
+                    File.WriteAllText(SettingsFilePath, JsonConvert.SerializeObject(Settings));
+                }
+                return true;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[SETTINGS] failed to persist settings: {ex.GetType().Name}");
+                return false;
+            }
         }
 
         public void EventsTokenWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -637,6 +1205,23 @@ namespace XAU.ViewModels.Pages
                 var currentToken = AchievementsViewModel.EventsToken;
                 bool isEmpty = string.IsNullOrEmpty(currentToken);
                 bool isValid = !isEmpty && IsEventsTokenValid();
+
+                // A cached/captured token is bound to the Xbox account that produced it (the user hash
+                // inside "x:XBL3.0 x={hash};..."). If the signed-in account changed since capture, the
+                // token is useless even though it is still structurally "valid" -- discard it so the
+                // loop re-captures for the CURRENT account instead of sending another account's ticket.
+                if (!isEmpty && isValid &&
+                    !string.IsNullOrEmpty(_eventsUserHash) &&
+                    !string.IsNullOrEmpty(HomeViewModel.XUIDOnly) &&
+                    _eventsUserHash != HomeViewModel.XUIDOnly)
+                {
+                    EventsLog("Cached events token belongs to a different account -- discarding and re-grabbing.");
+                    AchievementsViewModel.EventsToken = null;
+                    _eventsTokenObtainedAt = DateTime.MinValue;
+                    PersistEventsToken();
+                    continue;
+                }
+
                 var tokenAge = DateTime.UtcNow - _eventsTokenObtainedAt;
                 bool isExpired = !isEmpty && isValid && tokenAge > EventsTokenMaxAge;
 
@@ -649,20 +1234,50 @@ namespace XAU.ViewModels.Pages
                     else
                         EventsLog("Token missing/invalid, refreshing...");
 
-                    // Keep capturing until we get a token or settings change
+                    // Keep capturing until we get a token or settings change. Take the shared ETW gate
+                    // (with a timeout so we can't wedge behind a long manual grab) so the auto worker and
+                    // the manual button never drive the process-wide trace / Solitaire at the same time.
                     while (Settings.AutoGrabEventsToken && IsLoggedIn)
                     {
-                        var token = EtwTokenCapture.Capture(20);
-                        if (!string.IsNullOrEmpty(token))
+                        if (!_etwGate.Wait(TimeSpan.FromSeconds(2)))
                         {
-                            AchievementsViewModel.EventsToken = token;
-                            _eventsTokenObtainedAt = DateTime.UtcNow;
-                            PersistEventsToken();
-                            EventsLog("ETW capture success.");
-                            break;
+                            EventsLog("ETW busy (manual grab in progress?), deferring capture...");
+                            Thread.Sleep(1000);
+                            continue;
                         }
-                        EventsLog("ETW capture found no token, retrying in 5s...");
-                        Thread.Sleep(5000);
+                        try
+                        {
+                            // Drive the FULL capture flow (launch Solitaire if needed -> capture its
+                            // telemetry burst -> extract -> close it). The old code called
+                            // EtwTokenCapture.Capture(20) directly, which only listens to network
+                            // traffic: with no game emitting telemetry it captured silence forever and
+                            // the auto refresh never recovered an expired token. This is the exact
+                            // flow the manual button uses, and it is safe under _etwGate (single
+                            // consumer by construction).
+                            int generation = Volatile.Read(ref _authGeneration);
+                            using var capture = CancellationTokenSource.CreateLinkedTokenSource(_eventsCaptureCts.Token);
+                            capture.CancelAfter(TimeSpan.FromMinutes(2));
+                            string? captured = GrabEventsTokenFromSolitaire(capture.Token);
+                            lock (_authStateLock)
+                            {
+                                if (!IsCurrentAuthGeneration(generation))
+                                    continue;
+                                if (TryApplyCapturedEventsToken(captured, ref AchievementsViewModel.EventsToken,
+                                        ref _eventsTokenObtainedAt, DateTime.UtcNow))
+                                {
+                                    _eventsUserHash = XUIDOnly;
+                                    PersistEventsToken();
+                                    EventsLog("Auto capture success (Solitaire telemetry burst).");
+                                    break;
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            _etwGate.Release();
+                        }
+                        EventsLog("Auto capture found no token, retrying in 30s...");
+                        Thread.Sleep(30000);
                     }
                 }
 
@@ -675,122 +1290,96 @@ namespace XAU.ViewModels.Pages
         /// Launches Solitaire (if needed), then continuously captures ETW network traffic
         /// and scans for the events token until one is found or Solitaire exits.
         /// </summary>
-        private void GrabEventsTokenFromSolitaire()
+        private string? GrabEventsTokenFromSolitaire(CancellationToken cancellationToken)
         {
             bool alreadyRunning = Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0;
+            bool launchedByUs = false;
+            string? method = null;
+            bool traceRunning = false;
             EventsLog($"Solitaire already running: {alreadyRunning}");
-
-            // Start ETW capture FIRST — the token is sent in the initial telemetry burst
-            // when Solitaire contacts Xbox Live, which happens within seconds of launch.
-            EventsLog("Starting ETW before Solitaire launch...");
-            EtwTokenCapture.Cleanup();
-            string method = EtwTokenCapture.Start();
-            if (method == null)
+            try
             {
-                EventsLog("Failed to start ETW trace (not running as admin?)");
-                return;
-            }
-            EventsLog($"ETW started via {method}");
-
-            if (!alreadyRunning)
-            {
-                try
+                cancellationToken.ThrowIfCancellationRequested();
+                // Start tracing before launching Solitaire so its initial telemetry is captured.
+                EtwTokenCapture.Cleanup();
+                method = EtwTokenCapture.Start();
+                if (method == null)
                 {
-                    EventsLog("Launching Solitaire...");
-                    var p = new Process();
-                    p.StartInfo = new ProcessStartInfo
+                    EventsLog("Failed to start ETW trace (not running as admin?)");
+                    return null;
+                }
+                traceRunning = true;
+                if (!alreadyRunning)
+                {
+                    var p = new Process
                     {
-                        UseShellExecute = true,
-                        FileName = AppLaunchUris.Solitaire
+                        StartInfo = new ProcessStartInfo
+                        {
+                            UseShellExecute = true,
+                            FileName = AppLaunchUris.Solitaire
+                        }
                     };
                     p.Start();
-                    solitaireLaunchedByUs = true;
-                }
-                catch (Exception ex)
-                {
-                    EventsLog($"Failed to launch Solitaire: {ex.Message}");
-                    EtwTokenCapture.Stop(method);
-                    EtwTokenCapture.CleanupFiles();
-                    return;
-                }
-
-                // Wait for the process to appear
-                for (int i = 0; i < 15; i++)
-                {
-                    Thread.Sleep(1000);
-                    if (Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0)
+                    launchedByUs = true;
+                    for (int i = 0; i < 15 && Process.GetProcessesByName(ProcessNames.Solitaire).Length == 0; i++)
+                        if (cancellationToken.WaitHandle.WaitOne(1000))
+                            return null;
+                    if (Process.GetProcessesByName(ProcessNames.Solitaire).Length == 0)
                     {
-                        EventsLog($"Solitaire process appeared after {i + 1}s");
-                        break;
+                        EventsLog("Solitaire never appeared after 15s");
+                        return null;
                     }
                 }
 
-                if (Process.GetProcessesByName(ProcessNames.Solitaire).Length == 0)
-                {
-                    EventsLog("Solitaire never appeared after 15s");
-                    solitaireLaunchedByUs = false;
-                    EtwTokenCapture.Stop(method);
-                    EtwTokenCapture.CleanupFiles();
-                    return;
-                }
-            }
+                EventsLog("Waiting 25s for Xbox Live init + telemetry events...");
+                if (cancellationToken.WaitHandle.WaitOne(25000))
+                    return null;
+                EtwTokenCapture.Stop(method);
+                traceRunning = false;
+                if (cancellationToken.WaitHandle.WaitOne(2000))
+                    return null;
+                string? captured = EtwTokenCapture.ExtractTokens();
+                EtwTokenCapture.CleanupFiles();
+                if (!string.IsNullOrWhiteSpace(captured))
+                    return captured;
 
-            // Wait for Xbox Live init + initial telemetry burst (token is sent here)
-            EventsLog("Waiting 25s for Xbox Live init + telemetry events...");
-            Thread.Sleep(25000);
-
-            // Stop first capture and try to extract
-            EtwTokenCapture.Stop(method);
-            Thread.Sleep(2000);
-
-            string token = EtwTokenCapture.ExtractTokens();
-            EtwTokenCapture.CleanupFiles();
-
-            if (!string.IsNullOrEmpty(token))
-            {
-                EventsLog($"ETW capture success on initial capture, len={token.Length}");
-                AchievementsViewModel.EventsToken = token;
-                _eventsTokenObtainedAt = DateTime.UtcNow;
-                eventsTokenFound = true;
-            }
-            else
-            {
-                // Loop: keep capturing while Solitaire is running
-                EventsLog("Initial capture found nothing, entering continuous scan loop...");
                 int attempt = 0;
-                while (!eventsTokenFound && Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0)
+                while (!cancellationToken.IsCancellationRequested &&
+                       Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0)
                 {
                     attempt++;
                     EventsLog($"Capture attempt {attempt}...");
-
-                    token = EtwTokenCapture.Capture(20);
-                    if (!string.IsNullOrEmpty(token))
-                    {
-                        EventsLog($"ETW capture success on attempt {attempt}, len={token.Length}");
-                        AchievementsViewModel.EventsToken = token;
-                        _eventsTokenObtainedAt = DateTime.UtcNow;
-                        eventsTokenFound = true;
+                    captured = EtwTokenCapture.Capture(20);
+                    if (!string.IsNullOrWhiteSpace(captured))
+                        return captured;
+                    if (cancellationToken.WaitHandle.WaitOne(3000))
                         break;
-                    }
-
-                    // Brief pause before next capture
-                    Thread.Sleep(3000);
                 }
-
-                if (!eventsTokenFound)
-                    EventsLog("Solitaire exited before token was found");
+                return null;
             }
-
-            // Close Solitaire if we launched it
-            if (solitaireLaunchedByUs)
+            catch (OperationCanceledException)
             {
-                try
+                return null;
+            }
+            catch (Exception ex)
+            {
+                EventsLog($"ETW capture failed: {ex.GetType().Name}");
+                return null;
+            }
+            finally
+            {
+                if (traceRunning && method != null)
+                    EtwTokenCapture.Stop(method);
+                EtwTokenCapture.CleanupFiles();
+                if (launchedByUs)
                 {
-                    foreach (var proc in Process.GetProcessesByName(ProcessNames.Solitaire))
-                        proc.Kill();
+                    try
+                    {
+                        foreach (var proc in Process.GetProcessesByName(ProcessNames.Solitaire))
+                            proc.Kill();
+                    }
+                    catch { }
                 }
-                catch { }
-                solitaireLaunchedByUs = false;
             }
         }
 
@@ -798,28 +1387,83 @@ namespace XAU.ViewModels.Pages
         /// Manually triggers a scan (from the "Manually Refresh Token" button).
         /// Works regardless of the auto-grab setting.
         /// </summary>
-        public bool ManualScanRunning { get; private set; }
+        // Serialises every ETW/Solitaire consumer (the manual grab AND the auto-grab worker).
+        // GrabEventsTokenFromSolitaire drives process-wide ETW sessions, launches/kills Solitaire and
+        // shares eventsTokenFound/EventsToken, so two of them at once stomp each other: one tears down
+        // the trace another is extracting, or one nulls EventsToken right after the other set it.
+        // That is why a burst of clicks (or manual+auto overlap) made "refresh" appear to do nothing.
+        private readonly SemaphoreSlim _etwGate = new SemaphoreSlim(1, 1);
+
+        // Backed by a volatile field: the single-flight check+set happens on the UI thread (button
+        // clicks) and the clear happens on the background Task, polled by the DispatcherTimer.
+        private volatile bool _manualScanRunning;
+        public bool ManualScanRunning
+        {
+            get => _manualScanRunning;
+            private set => _manualScanRunning = value;
+        }
+
+        /// <summary>
+        /// Single-flight gate for the manual "Manually Refresh Token" button: a scan may start only when
+        /// none is already running. Repeated clicks -- or the 3s UI poll re-enabling the button while a
+        /// long Solitaire/ETW capture is still in progress -- are ignored rather than piling up
+        /// concurrent grabs that cancel each other out.
+        /// </summary>
+        public static bool ShouldStartManualScan(bool alreadyRunning) => !alreadyRunning;
 
         public void ScanForEventsTokenManual()
         {
-            eventsTokenFound = false;
-            AchievementsViewModel.EventsToken = null;
-            _eventsTokenObtainedAt = DateTime.MinValue;
+            // Synchronous single-flight on the UI thread: set true before Task.Run so an immediate
+            // re-entrant click is refused, and reset in the Task's finally (exactly one owner).
+            if (!ShouldStartManualScan(ManualScanRunning))
+                return;
             ManualScanRunning = true;
 
+            int generation = Volatile.Read(ref _authGeneration);
+            CancellationToken sessionToken = _eventsCaptureCts.Token;
             System.Threading.Tasks.Task.Run(() =>
             {
+                bool entered = false;
                 try
                 {
-                    GrabEventsTokenFromSolitaire();
-                    if (!string.IsNullOrEmpty(AchievementsViewModel.EventsToken))
+                    // Manual and automatic captures share the same process-wide ETW trace.
+                    _etwGate.Wait(sessionToken);
+                    entered = true;
+                    lock (_authStateLock)
                     {
-                        _eventsTokenObtainedAt = DateTime.UtcNow;
-                        PersistEventsToken();
+                        if (!IsCurrentAuthGeneration(generation))
+                            return;
+                        AchievementsViewModel.EventsToken = null;
+                        _eventsTokenObtainedAt = DateTime.MinValue;
                     }
+
+                    using var capture = CancellationTokenSource.CreateLinkedTokenSource(sessionToken);
+                    capture.CancelAfter(TimeSpan.FromMinutes(2));
+                    string? captured = GrabEventsTokenFromSolitaire(capture.Token);
+                    lock (_authStateLock)
+                    {
+                        if (!IsCurrentAuthGeneration(generation))
+                            return;
+                        if (TryApplyCapturedEventsToken(captured, ref AchievementsViewModel.EventsToken,
+                                ref _eventsTokenObtainedAt, DateTime.UtcNow))
+                        {
+                            _eventsUserHash = XUIDOnly;
+                            PersistEventsToken();
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    // Clear Auth Cache or logout invalidated this capture.
+                }
+                catch (Exception ex)
+                {
+                    EventsLog($"Manual capture failed: {ex.GetType().Name}");
                 }
                 finally
                 {
+                    if (entered)
+                        _etwGate.Release();
                     ManualScanRunning = false;
                 }
             });
@@ -862,47 +1506,223 @@ namespace XAU.ViewModels.Pages
 
         #region OAuthLogin
 
+        // Guards OAuthLogin() against re-entrancy: it fires from InitializeViewModel at startup AND
+        // from the Login button, and two concurrent runs would race on the shared oauth clients and
+        // silently double the restore/interactive attempts.
+        private int _oauthLoginInFlight = 0;
+
+        // Silent session-restore retry cadence (startup auto-login).
+        private const int SilentRestoreAttempts = 3;
+        private static readonly TimeSpan SilentRestoreRetryDelay = TimeSpan.FromSeconds(5);
+
         [RelayCommand]
-        private async void OAuthLogin()
+        private async Task OAuthLogin()
         {
-            //init oauth stuff
-            var OAuthhttpClient = new HttpClient();
-            var apiClient = new CodeFlowLiveApiClient(XboxGameTitles.XboxAppPC, XboxAuthConstants.XboxScope, OAuthhttpClient);
-            xboxAuthClient = new XboxAuthClient(OAuthhttpClient);
-            xboxSignedClient = new XboxSignedClient(OAuthhttpClient);
-            oauth = new CodeFlowBuilder(apiClient)
-                .WithUIParent(this)
-                .Build();
-            if (LoginText == "Logout")
+            if (Interlocked.CompareExchange(ref _oauthLoginInFlight, 1, 0) != 0)
+                return;
+            int generation = Volatile.Read(ref _authGeneration);
+            try
             {
-                oauth.Signout();
-                try { File.Delete(AuthFilePath); } catch { }
+                EnsureOAuthInitialized();
+                if (LoginText == "Logout")
+                {
+                    // Clear locally first even when provider signout fails or is slow.
+                    bool cleared = ClearAuthCache();
+                    try { await oauth.Signout(); }
+                    catch (Exception ex) { DiagLog.Write($"[OAUTH] provider signout failed: {ex.GetType().Name}"); }
+                    if (!cleared)
+                        ShowSnackbar("Logout incomplete", "Saved authentication data could not all be cleared.",
+                            ControlAppearance.Caution, SymbolRegular.Warning24);
+                    return;
+                }
+
+                MicrosoftOAuthResponse? response = await TryRestoreSessionAsync(generation);
+                if (response == null && IsCurrentAuthGeneration(generation))
+                    await TryInteractiveLoginAsync(generation);
+            }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[OAUTH] login failed: {ex.GetType().Name}");
+                if (IsCurrentAuthGeneration(generation))
+                    ShowSnackbar("Authentication failed", "Please retry Xbox sign-in.",
+                        ControlAppearance.Danger, SymbolRegular.ErrorCircle24);
+            }
+            finally
+            {
+                Interlocked.Exchange(ref _oauthLoginInFlight, 0);
+            }
+        }
+
+        private bool DeleteAuthFile()
+        {
+            try
+            {
+                File.Delete(AuthFilePath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[AUTH] saved session could not be deleted: {ex.GetType().Name}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Clears all cached authentication state (auth.json, XAUTH token, events token).
+        /// The user will need to log in again after calling this.
+        /// Does NOT require a reboot.
+        /// </summary>
+        public bool ClearAuthCache()
+        {
+            lock (_authStateLock)
+            {
+                // Discard results of token requests and scans started by the old session.
+                Interlocked.Increment(ref _authGeneration);
+                _eventsCaptureCts.Cancel();
+                _eventsCaptureCts = new CancellationTokenSource();
+                bool deleted = DeleteAuthFile();
+
+                XAUTH = "";
+                XAUTHTested = false;
+                InitComplete = false;
+                _lastXauthScanUtc = DateTime.MinValue;
+                _lastXauthTestUtc = DateTime.MinValue;
+                SettingsViewModel.ManualXauth = false;
+
+                IsLoggedIn = false;
                 ClearProfileState();
                 LoginText = "Login";
-                return;
+                Settings.OAuthLogin = false;
+                bool persisted = PersistEventsToken();
+                return deleted && persisted;
             }
-            Settings.OAuthLogin = true;
-
-            // Use saved session if valid; otherwise interactive login
-            MicrosoftOAuthResponse? response = await TryRestoreSessionAsync();
-            if (response == null)
-                response = await TryInteractiveLoginAsync();
         }
 
-        private void DeleteAuthFile()
+        private async Task<bool> CompleteLoginAsync(MicrosoftOAuthResponse response, int generation,
+            string? successMessage = null)
         {
-            try { File.Delete(AuthFilePath); } catch { }
+            try
+            {
+                bool published = await AwaitAndPublishAuthAsync(GenerateXboxTokenAsync(response), generation);
+                if (!published)
+                    return false;
+
+                bool sessionSaved = true;
+                bool settingsSaved;
+                lock (_authStateLock)
+                {
+                    if (!IsCurrentAuthGeneration(generation))
+                        return false;
+                    try
+                    {
+                        writeSession(response);
+                    }
+                    catch (Exception ex)
+                    {
+                        sessionSaved = false;
+                        DiagLog.Write($"[OAUTH] session established but saved session failed: {ex.GetType().Name}");
+                    }
+                    Settings.OAuthLogin = true;
+                    settingsSaved = PersistEventsToken();
+                }
+                void FinishUi()
+                {
+                    if (!IsCurrentAuthGeneration(generation))
+                        return;
+                    LoginText = "Logout";
+                    XauthWorker_ProgressChanged(null!, null!);
+                    if (IsLoggedIn && !GrabbedProfile)
+                        GrabProfile(force: true);
+                }
+                var dispatcher = System.Windows.Application.Current?.Dispatcher;
+                if (dispatcher == null || dispatcher.CheckAccess())
+                    FinishUi();
+                else
+                    dispatcher.Invoke(FinishUi);
+                if (!IsCurrentAuthGeneration(generation))
+                    return false;
+                if (!sessionSaved || !settingsSaved)
+                    ShowSnackbar("Session active, but not saved", "Sign-in worked, but the session or settings could not be saved for restart.",
+                        ControlAppearance.Caution, SymbolRegular.Warning24);
+                else if (!string.IsNullOrEmpty(successMessage))
+                    ShowSnackbar("Success", successMessage, ControlAppearance.Success, SymbolRegular.Checkmark24);
+                StartWorker(EventsTokenWorker);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[OAUTH] device token/SISU or session persistence failed: {ex.GetType().Name}");
+                if (IsCurrentAuthGeneration(generation))
+                    ShowSnackbar("Authentication failed", "Could not complete Xbox sign-in. Please retry.",
+                        ControlAppearance.Danger, SymbolRegular.ErrorCircle24);
+                return false;
+            }
         }
 
-        private void CompleteLogin(MicrosoftOAuthResponse response, string? successMessage = null)
+        private async Task<(string, string, string?)> GenerateXboxTokenAsync(MicrosoftOAuthResponse response)
         {
-            writeSession(response);
-            if (!string.IsNullOrEmpty(successMessage))
-                _snackbarService.Show("Success", successMessage, ControlAppearance.Success, new SymbolIcon(SymbolRegular.Checkmark24), _snackbarDuration);
-            GenerateTokens(response);
+            var deviceToken = await xboxSignedClient.RequestDeviceToken(XboxDeviceTypes.Win32, "0.0.0");
+            var sisuResult = await xboxSignedClient.SisuAuth(new XboxSisuAuthRequest
+            {
+                AccessToken = response.AccessToken,
+                ClientId = XboxGameTitles.XboxAppPC,
+                DeviceToken = deviceToken.Token,
+                RelyingParty = XboxAuthConstants.XboxLiveRelyingParty,
+            });
+            var authorization = sisuResult?.AuthorizationToken;
+            var claims = authorization?.XuiClaims;
+            if (claims == null || string.IsNullOrWhiteSpace(claims.UserHash) ||
+                string.IsNullOrWhiteSpace(claims.XboxUserId) || string.IsNullOrWhiteSpace(authorization?.Token))
+                throw new InvalidOperationException("SISU returned incomplete Xbox authorization claims.");
+            string auth = $"XBL3.0 x={claims.UserHash};{authorization.Token}";
+            return (auth, claims.XboxUserId, claims.Gamertag);
         }
 
-        private async Task<MicrosoftOAuthResponse?> TryRestoreSessionAsync()
+        // Separate the asynchronous SISU result from UI/state publication. A cache clear or logout
+        // increments the generation, so a late result from an earlier session cannot log in again.
+        internal async Task<bool> AwaitAndPublishAuthAsync(
+            Task<(string Xauth, string Xuid, string? Gamertag)> pending, int generation)
+        {
+            var (xauth, xuid, gamertag) = await pending;
+            bool published = false;
+            void Publish()
+            {
+                lock (_authStateLock)
+                {
+                    if (!IsCurrentAuthGeneration(generation) ||
+                        string.IsNullOrWhiteSpace(xauth) || string.IsNullOrWhiteSpace(xuid))
+                        return;
+                    XAUTH = xauth;
+                    XUIDOnly = xuid;
+                    IsLoggedIn = true;
+                    XAUTHTested = true;
+                    InitComplete = true;
+                    GamerTag = Settings.PrivacyMode ? "Gamertag: Hidden" : $"Gamertag: {gamertag ?? "Unknown"}";
+                    Xuid = Settings.PrivacyMode ? "XUID: Hidden" : $"XUID: {xuid}";
+                    published = true;
+                }
+            }
+            var dispatcher = System.Windows.Application.Current?.Dispatcher;
+            if (dispatcher == null || dispatcher.CheckAccess())
+                Publish();
+            else
+                dispatcher.Invoke(Publish);
+            return published;
+        }
+
+        // A successful OAuth refresh and a successful Xbox SISU exchange are different results.
+        // If SISU fails, keep the restored OAuth response so startup does not open an
+        // interactive login prompt for a still-valid saved Microsoft session.
+        internal static async Task<MicrosoftOAuthResponse> RestoreOAuthSessionAsync(
+            Func<Task<MicrosoftOAuthResponse>> restore,
+            Func<MicrosoftOAuthResponse, Task<bool>> establishXbox)
+        {
+            var response = await restore();
+            await establishXbox(response);
+            return response;
+        }
+
+        private async Task<MicrosoftOAuthResponse?> TryRestoreSessionAsync(int generation)
         {
             if (!File.Exists(AuthFilePath))
                 return null;
@@ -927,80 +1747,61 @@ namespace XAU.ViewModels.Pages
                 return null;
             }
 
-            try
+            // Silent restore can transiently fail right after app start (Wi-Fi/stack not up yet,
+            // MS auth hiccup). Retry a few times before falling back to the interactive flow --
+            // one unlucky request used to kill auto-login for the whole session.
+            Exception? lastError = null;
+            for (int attempt = 1; attempt <= SilentRestoreAttempts; attempt++)
             {
-                response = await oauth.AuthenticateSilently(response.RefreshToken!);
-                CompleteLogin(response, "Logged in with previous session");
-                return response;
+                if (!IsCurrentAuthGeneration(generation))
+                    return null;
+                try
+                {
+                    string refreshToken = response.RefreshToken!;
+                    response = await RestoreOAuthSessionAsync(
+                        () => oauth.AuthenticateSilently(refreshToken),
+                        fresh => IsCurrentAuthGeneration(generation)
+                            ? CompleteLoginAsync(fresh, generation, "Logged in with previous session")
+                            : Task.FromResult(false));
+                    return IsCurrentAuthGeneration(generation) ? response : null;
+                }
+                catch (Exception ex)
+                {
+                    lastError = ex;
+                    DiagLog.Write($"[OAUTH] silent restore attempt {attempt}/{SilentRestoreAttempts} failed: {ex.GetType().Name}: {ex.Message}");
+                    if (attempt < SilentRestoreAttempts)
+                        await Task.Delay(SilentRestoreRetryDelay);
+                }
             }
-            catch
-            {
-                _snackbarService.Show("Session invalid", "You are required to log in again as the session has expired", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-                ClearProfileState();
-                return await TryInteractiveLoginAsync();
-            }
+            if (IsCurrentAuthGeneration(generation))
+                ShowSnackbar("Session invalid", $"Could not restore the saved session ({lastError?.GetType().Name}). Please log in again.",
+                    ControlAppearance.Danger, SymbolRegular.ErrorCircle24);
+            return null;
         }
 
-        private async Task<MicrosoftOAuthResponse?> TryInteractiveLoginAsync()
+        private async Task<MicrosoftOAuthResponse?> TryInteractiveLoginAsync(int generation)
         {
             try
             {
                 var response = await oauth.AuthenticateInteractively();
-                CompleteLogin(response, "Logged in");
-                return response;
+                if (!IsCurrentAuthGeneration(generation))
+                    return null;
+                return await CompleteLoginAsync(response, generation, "Logged in") ? response : null;
             }
-            catch
+            catch (Exception ex)
             {
-                _snackbarService.Show("Error", "Failed to authenticate", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                DiagLog.Write($"[OAUTH] interactive login failed/cancelled: {ex.GetType().Name}");
+                if (IsCurrentAuthGeneration(generation))
+                {
+                    ShowSnackbar("Authentication failed", "Please retry Xbox sign-in.",
+                        ControlAppearance.Danger, SymbolRegular.ErrorCircle24);
+                    Settings.OAuthLogin = false;
+                    PersistEventsToken();
+                }
                 return null;
             }
         }
 
-        private async void GenerateTokens(MicrosoftOAuthResponse response)
-        {
-            var deviceToken = await xboxSignedClient.RequestDeviceToken(XboxDeviceTypes.Win32, "0.0.0");
-            var sisuResult = await xboxSignedClient.SisuAuth(new XboxSisuAuthRequest
-            {
-                AccessToken = response.AccessToken,
-                ClientId = XboxGameTitles.XboxAppPC,
-                DeviceToken = deviceToken.Token,
-                RelyingParty = XboxAuthConstants.XboxLiveRelyingParty,
-            });
-            try
-            {
-                XAUTH = $"XBL3.0 x={sisuResult.AuthorizationToken.XuiClaims.UserHash};{sisuResult.AuthorizationToken.Token}";
-                var xui = sisuResult.AuthorizationToken.XuiClaims;
-                XUIDOnly = xui?.XboxUserId ?? "";
-                if (!string.IsNullOrEmpty(XUIDOnly))
-                {
-                    IsLoggedIn = true;
-                    XAUTHTested = true;
-                    InitComplete = true;
-                    if (Settings.PrivacyMode)
-                    {
-                        GamerTag = "Gamertag: Hidden";
-                        Xuid = "XUID: Hidden";
-                    }
-                    else
-                    {
-                        GamerTag = $"Gamertag: {xui?.Gamertag ?? "Unknown"}";
-                        Xuid = $"XUID: {XUIDOnly}";
-                    }
-                }
-            }
-            catch
-            {
-                _snackbarService.Show("Error", "Failed to generate XAUTH", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
-            }
-            LoginText = "Logout";
-            XauthWorker_ProgressChanged(null, null);
-            if (IsLoggedIn && !GrabbedProfile)
-                GrabProfile();
-
-            // Start the events token worker to periodically check/refresh the token
-            if (Settings.AutoGrabEventsToken && !EventsTokenWorker.IsBusy)
-                EventsTokenWorker.RunWorkerAsync();
-        }
         private void ClearProfileState()
         {
             IsLoggedIn = false;
@@ -1065,8 +1866,34 @@ namespace XAU.ViewModels.Pages
 
         #endregion
         #region Profile
-        private async void GrabProfile()
+        /// <summary>
+        /// Decides whether a profile fetch is allowed to start. Prevents the ~1s XauthWorker
+        /// progress ticks (and the login/refresh paths) from re-invoking the async-void
+        /// GrabProfile while an earlier fetch is still awaiting its network calls — which used
+        /// to stack a burst of "Profile information grabbed" snackbars.
+        /// - Automatic callers (worker ticks / login): require a logged-in user that has not
+        ///   already been grabbed, and require no fetch currently running.
+        /// - Manual caller (Refresh Profile button, force=true): allow a re-grab even when
+        ///   already grabbed, but still do not stack while a fetch is in-flight.
+        /// </summary>
+        public static bool ShouldStartProfileGrab(bool isLoggedIn, bool alreadyGrabbed, bool inFlight, bool force = false)
         {
+            if (inFlight)
+                return false;
+            if (!isLoggedIn)
+                return false;
+            return force || !alreadyGrabbed;
+        }
+
+        private async void GrabProfile(bool force = false)
+        {
+            // The guard runs synchronously before the first await, so the ~1s progress ticks
+            // delivered on the dispatcher can never slip a second concurrent fetch in while the
+            // first is still pending. The in-flight flag is cleared in the finally block below.
+            if (!ShouldStartProfileGrab(IsLoggedIn, GrabbedProfile, _grabProfileInFlight, force))
+                return;
+
+            _grabProfileInFlight = true;
             try
             {
                 var profileResponse = await _xboxRestAPI.Value.GetProfileAsync(XUIDOnly);
@@ -1175,11 +2002,16 @@ namespace XAU.ViewModels.Pages
             {
                 IsLoggedIn = false;
                 XAUTHTested = true;
-                _snackbarService.Show("401 Unauthorized", "Something went wrong. Retrying.", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                _snackbarService.Show("401 Unauthorized", "Session expired -- attempting to re-authenticate...", ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+                await TryRecoverAuthAsync();
             }
             catch (Exception ex)
             {
                 _snackbarService.Show("Error", "Failed to grab profile information. " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
+            }
+            finally
+            {
+                _grabProfileInFlight = false;
             }
         }
         #endregion
@@ -1190,8 +2022,24 @@ namespace XAU.ViewModels.Pages
 
         private void LoadSettings()
         {
-            var settingsJson = File.ReadAllText(SettingsFilePath);
-            var settings = JsonConvert.DeserializeObject<XAUSettings>(settingsJson);
+            // A corrupt/truncated settings.json (or a lock from a parallel write) used to crash
+            // startup right here. Degrade to defaults instead; the user can still save over it.
+            string? settingsJson;
+            XAUSettings? settings;
+            try
+            {
+                settingsJson = File.ReadAllText(SettingsFilePath);
+                settings = JsonConvert.DeserializeObject<XAUSettings>(settingsJson);
+            }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[SETTINGS] failed to read/deserialise {SettingsFilePath}: {ex.GetType().Name}: {ex.Message} -- continuing with in-memory defaults.");
+                _snackbarService.Show(
+                    "Settings load failed",
+                    "settings.json could not be read; defaults are in use. Saving settings will overwrite the bad file.",
+                    ControlAppearance.Caution, new SymbolIcon(SymbolRegular.Warning24), _snackbarDuration);
+                return;
+            }
             if (settings == null)
             {
                 _snackbarService.Show(
@@ -1214,6 +2062,10 @@ namespace XAU.ViewModels.Pages
             Settings.UseAcrylic = settings.UseAcrylic;
             Settings.PrivacyMode = settings.PrivacyMode;
             Settings.OAuthLogin = settings.OAuthLogin;
+            Settings.EnableDiagnosticsLog = settings.EnableDiagnosticsLog;
+            DiagLog.Enabled = Settings.EnableDiagnosticsLog;
+            Settings.XauthScanReadLength = settings.XauthScanReadLength;
+            ScanReadLength = NormalizeScanReadLength(Settings.XauthScanReadLength);
             Settings.AutoGrabEventsToken = settings.AutoGrabEventsToken;
             Settings.CachedEventsToken = settings.CachedEventsToken;
             Settings.EventsTokenObtainedAt = settings.EventsTokenObtainedAt;

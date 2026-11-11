@@ -360,6 +360,60 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Search24" />
+                        <TextBlock Text="Xbox Status" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Margin="0,0,0,15"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                        Text="Xbox Live service health (run on-demand)" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+                        <ui:Button
+                            MinWidth="200"
+                            Margin="0,0,15,0"
+                            Command="{Binding ViewModel.CheckXboxServiceHealthCommand}"
+                            Content="Check Xbox Service Health"
+                            Icon="{ui:SymbolIcon Search24}" />
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                            Text="{Binding ViewModel.XboxServiceStatus, Mode=OneWay}" />
+                    </StackPanel>
+                    <ListBox
+                        Grid.Row="2"
+                        MaxWidth="420"
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ItemsSource="{Binding ViewModel.XboxServiceStatusLines, Mode=OneWay}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Margin="0,2,0,2"
+                                    FontSize="13"
+                                    Text="{Binding}"
+                                    TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
         </TabControl>
 
     </Grid>

@@ -16,6 +16,7 @@ namespace XAU.Views.Pages
         private readonly DispatcherTimer _tokenRefreshTimer;
         private string _lastKnownEventsToken;
         private bool _manualScanInProgress;
+        private bool _clearingAuthUi;
 
         public SettingsPage(SettingsViewModel viewModel, ISnackbarService snackbarService, HomeViewModel homeViewModel)
         {
@@ -27,6 +28,7 @@ namespace XAU.Views.Pages
             ViewModel.OnNavigatedToEvent += (_, _) =>
             {
                 XauthTextBox.Text = HomeViewModel.XAUTH;
+                ScanReadLengthBox.Text = HomeViewModel.ScanReadLength.ToString();
                 SyncEventsTokenUI();
             };
 
@@ -74,6 +76,8 @@ namespace XAU.Views.Pages
 
         private void XauthTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
+            if (_clearingAuthUi)
+                return;
             if (string.IsNullOrWhiteSpace(XauthTextBox.Text) || string.IsNullOrEmpty(XauthTextBox.Text))
             {
                 _snackbarService.Show(
@@ -88,6 +92,13 @@ namespace XAU.Views.Pages
             HomeViewModel.XAUTH = XauthTextBox.Text;
             SettingsViewModel.ManualXauth = true;
             HomeViewModel.XAUTHTested = false;
+        }
+
+        private void ScanReadLengthBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Validation/clamping/persistence all live in the VM (testable); the box just forwards the raw
+            // text so a half-typed value never overwrites the committed one.
+            ViewModel.OnScanReadLengthTextChanged(ScanReadLengthBox.Text);
         }
 
         private void EventsToken_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -123,6 +134,15 @@ namespace XAU.Views.Pages
                 return;
             }
 
+            // Belt-and-suspenders against rapid clicks: the button self-disables on click, but guard on
+            // the VM's own single-flight flag too so a same-tick double-fire can't launch a second grab
+            // (and can't fire a duplicate "Scanning..." toast).
+            if (_homeViewModel.ManualScanRunning)
+                return;
+
+            _manualScanInProgress = true;
+            GrabEventsTokenButton.IsEnabled = false;
+
             _snackbarService.Show(
                 "Scanning...",
                 "Launching Solitaire and scanning for events token. Flip a card to speed it up.",
@@ -130,8 +150,6 @@ namespace XAU.Views.Pages
                 new SymbolIcon(SymbolRegular.Search24)
             );
 
-            _manualScanInProgress = true;
-            GrabEventsTokenButton.IsEnabled = false;
             _homeViewModel.ScanForEventsTokenManual();
         }
 
@@ -199,6 +217,33 @@ namespace XAU.Views.Pages
         private void EventsBoxGrid_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             EventsTokenBox.MaxWidth = e.NewSize.Width / 3;
+        }
+
+        private void ClearAuthCacheButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            bool cleared = _homeViewModel.ClearAuthCache();
+            // Clearing auth changes HomeViewModel.Settings while this page remains open. Refresh
+            // the bound settings so another toggle cannot save the old OAuthLogin = true value.
+            ViewModel.RefreshAfterAuthCacheCleared();
+
+            _clearingAuthUi = true;
+            try
+            {
+                XauthTextBox.Text = string.Empty;
+                SyncEventsTokenUI();
+            }
+            finally
+            {
+                _clearingAuthUi = false;
+            }
+
+            _snackbarService.Show(
+                cleared ? "Auth Cache Cleared" : "Auth Cache Not Fully Cleared",
+                cleared
+                    ? "All tokens have been deleted. Log in again from the Home page."
+                    : "Some cached authentication data could not be deleted or saved. Check file permissions and try again.",
+                cleared ? ControlAppearance.Success : ControlAppearance.Caution,
+                new SymbolIcon(cleared ? SymbolRegular.Checkmark24 : SymbolRegular.Warning24));
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using Wpf.Ui.Controls;
 using XAU.Services.HttpServer;
+using XAU.Util.Logging;
 
 namespace XAU.ViewModels.Pages
 {
@@ -13,8 +14,17 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty]
         private string _appVersion = String.Empty;
 
-        static string ProgramFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU");
-        string SettingsFilePath = Path.Combine(ProgramFolderPath, "settings.json");
+        private readonly string _settingsFilePath;
+
+        public SettingsViewModel() : this(Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "XAU", "settings.json"))
+        { }
+
+        // File-path seam keeps settings persistence tests out of the real Documents directory.
+        internal SettingsViewModel(string settingsFilePath)
+        {
+            _settingsFilePath = settingsFilePath;
+        }
         //settings
         [ObservableProperty] private string _settingsVersion;
         [ObservableProperty] private string _toolVersion;
@@ -28,6 +38,8 @@ namespace XAU.ViewModels.Pages
         [ObservableProperty] private bool _privacyMode;
         [ObservableProperty] private bool _oAuthLogin;
         [ObservableProperty] private bool _autoGrabEventsToken;
+        [ObservableProperty] private bool _enableDiagnosticsLog;
+        [ObservableProperty] private int _xauthScanReadLength = 16384;
         [ObservableProperty] private string _xauth;
 
         [ObservableProperty] private bool _serverEnabled;
@@ -43,24 +55,61 @@ namespace XAU.ViewModels.Pages
         [RelayCommand]
         public void SaveSettings()
         {
-            var settings = new XAUSettings
+            lock (HomeViewModel.SettingsWriteLock)
             {
-                SettingsVersion = SettingsVersion,
-                ToolVersion = ToolVersion,
-                UnlockAllEnabled = UnlockAllEnabled,
-                AutoSpooferEnabled = AutoSpooferEnabled,
-                AutoLaunchXboxAppEnabled = AutoLaunchXboxAppEnabled,
-                LaunchHidden = LaunchHidden,
-                FakeSignatureEnabled = FakeSignatureEnabled,
-                RegionOverride = RegionOverride,
-                UseAcrylic = UseAcrylic,
-                PrivacyMode = PrivacyMode,
-                OAuthLogin = OAuthLogin,
-                AutoGrabEventsToken = AutoGrabEventsToken
-            };
-            string settingsJson = JsonConvert.SerializeObject(settings);
-            File.WriteAllText(SettingsFilePath, settingsJson);
-            HomeViewModel.Settings = settings; // update ref
+                var settings = new XAUSettings
+                {
+                    SettingsVersion = SettingsVersion,
+                    ToolVersion = ToolVersion,
+                    UnlockAllEnabled = UnlockAllEnabled,
+                    AutoSpooferEnabled = AutoSpooferEnabled,
+                    AutoLaunchXboxAppEnabled = AutoLaunchXboxAppEnabled,
+                    LaunchHidden = LaunchHidden,
+                    FakeSignatureEnabled = FakeSignatureEnabled,
+                    RegionOverride = RegionOverride,
+                    UseAcrylic = UseAcrylic,
+                    PrivacyMode = PrivacyMode,
+                    OAuthLogin = OAuthLogin,
+                    AutoGrabEventsToken = AutoGrabEventsToken,
+                    EnableDiagnosticsLog = EnableDiagnosticsLog,
+                    XauthScanReadLength = XauthScanReadLength,
+                    // The events token and provenance are not settings-page fields. Copy them only
+                    // after acquiring the same lock used by PersistEventsToken so saves cannot
+                    // overwrite a concurrent token update with stale data.
+                    CachedEventsToken = HomeViewModel.Settings.CachedEventsToken,
+                    EventsTokenObtainedAt = HomeViewModel.Settings.EventsTokenObtainedAt,
+                    EventsUserHash = HomeViewModel.Settings.EventsUserHash
+                };
+                HomeViewModel.Settings = settings;
+                string settingsJson = JsonConvert.SerializeObject(settings);
+                File.WriteAllText(_settingsFilePath, settingsJson);
+            }
+            // Apply the just-saved choice immediately so turning logging off takes effect without a restart.
+            DiagLog.Enabled = EnableDiagnosticsLog;
+            // Live-apply the scan read length too, so the very next token scan uses it (no restart needed).
+            HomeViewModel.ScanReadLength = HomeViewModel.NormalizeScanReadLength(XauthScanReadLength);
+        }
+
+        /// <summary>
+        /// Called by the Settings "Token Scan Read Length" box on each edit. Ignores non-numeric/transient
+        /// text (so the committed value is never clobbered mid-type), clamps into the acceptable band,
+        /// live-applies to HomeViewModel.ScanReadLength (the next scan uses it, no restart), and persists.
+        /// A no-op when unchanged, so populating the box on load writes nothing.
+        /// </summary>
+        public void OnScanReadLengthTextChanged(string text)
+        {
+            if (!int.TryParse(text,
+                    System.Globalization.NumberStyles.Integer,
+                    System.Globalization.CultureInfo.InvariantCulture, out int parsed))
+                return;
+
+            int normalized = HomeViewModel.NormalizeScanReadLength(parsed);
+            if (HomeViewModel.ScanReadLength == normalized && XauthScanReadLength == normalized)
+                return;
+
+            XauthScanReadLength = normalized;
+            HomeViewModel.ScanReadLength = normalized;
+            SaveSettings();
         }
 
         [RelayCommand]
@@ -163,6 +212,13 @@ namespace XAU.ViewModels.Pages
             ListeningAddress = $"http://localhost:{ServerPort}";
         }
 
+        // ClearAuthCache changes the Home settings while this page remains open. Refresh all
+        // fields before another toggle calls SaveSettings and could re-enable stale OAuth mode.
+        public void RefreshAfterAuthCacheCleared()
+        {
+            LoadSettings();
+        }
+
         public void LoadSettings()
         {
             SettingsVersion = HomeViewModel.Settings.SettingsVersion;
@@ -178,6 +234,8 @@ namespace XAU.ViewModels.Pages
             Xauth = HomeViewModel.XAUTH;
             OAuthLogin = HomeViewModel.Settings.OAuthLogin;
             AutoGrabEventsToken = HomeViewModel.Settings.AutoGrabEventsToken;
+            EnableDiagnosticsLog = HomeViewModel.Settings.EnableDiagnosticsLog;
+            XauthScanReadLength = HomeViewModel.Settings.XauthScanReadLength;
         }
 
         private string GetAssemblyVersion()

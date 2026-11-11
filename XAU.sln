@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XAU", "XAU\XAU.csproj", "{301F822B-2B52-40DD-B505-365F1180EF54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XAU.Tests", "XAU.Tests\XAU.Tests.csproj", "{52752C55-2B8E-44F1-9157-9204B53C2888}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,14 @@ Global
 		{301F822B-2B52-40DD-B505-365F1180EF54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{301F822B-2B52-40DD-B505-365F1180EF54}.Release|x64.ActiveCfg = Release|x64
 		{301F822B-2B52-40DD-B505-365F1180EF54}.Release|x64.Build.0 = Release|x64
+		{52752C55-2B8E-44F1-9157-9204B53C2888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52752C55-2B8E-44F1-9157-9204B53C2888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52752C55-2B8E-44F1-9157-9204B53C2888}.Debug|x64.ActiveCfg = Debug|x64
+		{52752C55-2B8E-44F1-9157-9204B53C2888}.Debug|x64.Build.0 = Debug|x64
+		{52752C55-2B8E-44F1-9157-9204B53C2888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52752C55-2B8E-44F1-9157-9204B53C2888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52752C55-2B8E-44F1-9157-9204B53C2888}.Release|x64.ActiveCfg = Release|x64
+		{52752C55-2B8E-44F1-9157-9204B53C2888}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
