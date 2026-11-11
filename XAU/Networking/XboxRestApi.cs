@@ -307,6 +307,70 @@ public class XboxRestAPI
         return JsonConvert.DeserializeObject<GameStatsResponse>(response);
     }
 
+    /// <summary>
+    /// Trims an XBL3.0 token to exactly "XBL3.0 x=&lt;hex&gt;;&lt;payload&gt;". The memory-scan token
+    /// can carry trailing whitespace/NULs or garbage after the payload; profile/userstats accept
+    /// that, but presence/heartbeat reject it (HTTP 403). Pure; unit-testable.
+    /// </summary>
+    public static string SanitizeXauth(string? xauth)
+    {
+        if (string.IsNullOrWhiteSpace(xauth))
+            return "";
+        var trimmed = xauth.Trim();
+        int start = trimmed.IndexOf("XBL3.0 x=", StringComparison.Ordinal);
+        if (start < 0)
+            return trimmed;
+        int semi = trimmed.IndexOf(';', start);
+        if (semi < 0)
+            return trimmed.Substring(start).Trim();
+        int end = semi + 1;
+        while (end < trimmed.Length)
+        {
+            char c = trimmed[end];
+            if (char.IsWhiteSpace(c) || c == '\0')
+                break;
+            if (char.IsLetterOrDigit(c) || c is '-' or '_' or '.' or '=')
+            {
+                end++;
+                continue;
+            }
+            break;
+        }
+        return trimmed.Substring(start, end - start);
+    }
+
+    private string SpooferAuth => SanitizeXauth(CurrentXauth);
+
+    private void SetSpoofHeaders(string url)
+    {
+        _spooferClient.DefaultRequestHeaders.Clear();
+        var xauth = SpooferAuth;
+        if (!string.IsNullOrWhiteSpace(xauth))
+            _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Authorization, xauth);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.AcceptLanguage, _requestedResponseLanguage);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.AcceptEncoding, HeaderValues.AcceptEncoding);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Accept, HeaderValues.Accept);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
+        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.Host, new Uri(url).Host);
+    }
+
+    /// <summary>Heartbeat body: numeric title id, 600s expiry, active state, RETAIL sandbox.</summary>
+    internal static string BuildHeartbeatBody(string spoofedTitleId) =>
+        "{\"titles\":[{\"expiration\":600,\"id\":" + ulong.Parse(spoofedTitleId.Trim()) + ",\"state\":\"active\",\"sandbox\":\"RETAIL\"}]}";
+
+    private async Task PostSpoofOrThrowAsync(string url, string requestBody, string apiName, CancellationToken ct)
+    {
+        SetSpoofHeaders(url);
+        using var content = new StringContent(requestBody, Encoding.UTF8, HeaderValues.Accept);
+        using var response = await _spooferClient.PostAsync(url, content, ct);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException(
+                $"{apiName} failed: {(int)response.StatusCode} {response.StatusCode}",
+                null, response.StatusCode);
+        }
+    }
+
     public async Task SendHeartbeatAsync(string xuid, string spoofedTitleId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(xuid) || string.IsNullOrWhiteSpace(spoofedTitleId))
@@ -315,34 +379,43 @@ public class XboxRestAPI
             return;
         }
 
-        SetDefaultSpooferHeaders();
-        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-        var heartbeatRequest = new HeartbeatRequest()
-        {
-            titles = new List<TitleRequest>()
-            {
-                new TitleRequest()
-                {
-                    id = spoofedTitleId
-                }
-            }
-        };
-        using var content = new StringContent(JsonConvert.SerializeObject(heartbeatRequest), Encoding.UTF8, HeaderValues.Accept);
-        using var response = await _spooferClient.PostAsync(
-            string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid), content, cancellationToken);
+        var errors = new List<string>();
+        spoofedTitleId = spoofedTitleId.Trim();
+        string heartbeatBody = BuildHeartbeatBody(spoofedTitleId);
+        string presenceBody = "{\"id\":" + ulong.Parse(spoofedTitleId) + "}";
 
-        // A heartbeat that 401s/403s/throttles used to be indistinguishable from success: the spoof
-        // loop kept displaying "Spoofing X for: hh:mm:ss" while presence actually died when this
-        // single heartbeat's `expiration` (600s) elapsed. Surface the failure so the caller can
-        // count failures, trigger auth recovery, and stop pretending the spoof is alive.
-        if (!response.IsSuccessStatusCode)
+        // Presence/heartbeat reject requests that profile and userstats accept (HTTP 403 even with a
+        // token that just authenticated the profile API). The service accepts the same operation at
+        // several URIs; try them in the order the reference fix (Fumo PR #519) established:
+        // userpresence (xuid, then /me), then presence-heartbeat (xuid, then /me).
+        var attempts = new (string url, string body, string name)[]
         {
-            // Response bodies can contain account/session data; the status is enough to
-            // classify a rejected heartbeat without writing the body to diagnostics.
-            throw new HttpRequestException(
-                $"Heartbeat failed: {(int)response.StatusCode} {response.StatusCode}",
-                null, response.StatusCode);
+            (string.Format(InterpolatedXboxAPIUrls.PresenceUrl, xuid), presenceBody, "Presence"),
+            (InterpolatedXboxAPIUrls.PresenceMeUrl, presenceBody, "Presence (me)"),
+            (string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid), heartbeatBody, "Heartbeat"),
+            (InterpolatedXboxAPIUrls.HeartbeatMeUrl, heartbeatBody, "Heartbeat (me)"),
+        };
+        foreach (var (url, body, name) in attempts)
+        {
+            try
+            {
+                await PostSpoofOrThrowAsync(url, body, name, cancellationToken);
+                return;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (HttpRequestException ex)
+            {
+                // A 401 is token rejection, not an endpoint quirk: fall back to auth recovery
+                // immediately instead of hammering the other presence URIs with the same bad token.
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                    throw;
+                errors.Add($"{name}: {ex.Message}");
+            }
         }
+        throw new HttpRequestException("Heartbeat failed: " + string.Join(" | ", errors), null, HttpStatusCode.Forbidden);
     }
 
     public async Task StopHeartbeatAsync(string xuid)
@@ -353,12 +426,30 @@ public class XboxRestAPI
             return;
         }
 
-        SetDefaultSpooferHeaders();
-        _spooferClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion3);
-        var response = await _spooferClient.DeleteAsync(string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid));
-        if (!response.IsSuccessStatusCode)
+        // Best-effort removal across every URI the spoof may have used; a failure on one
+        // (e.g. 404 because that variant was never set) must not abort cleanup of the rest.
+        var targets = new (string url, string name)[]
         {
-            throw new HttpRequestException($"Heartbeat removal failed: {(int)response.StatusCode} {response.StatusCode}", null, response.StatusCode);
+            (string.Format(InterpolatedXboxAPIUrls.HeartbeatUrl, xuid), "Heartbeat"),
+            (InterpolatedXboxAPIUrls.HeartbeatMeUrl, "Heartbeat (me)"),
+            (string.Format(InterpolatedXboxAPIUrls.PresenceUrl, xuid), "Presence"),
+            (InterpolatedXboxAPIUrls.PresenceMeUrl, "Presence (me)"),
+        };
+        foreach (var (url, name) in targets)
+        {
+            try
+            {
+                SetSpoofHeaders(url);
+                using var response = await _spooferClient.DeleteAsync(url);
+                if (!response.IsSuccessStatusCode && (int)response.StatusCode != 404)
+                {
+                    DiagLog.Write($"[SPOOF] {name} removal returned {(int)response.StatusCode} {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                DiagLog.Write($"[SPOOF] {name} removal failed: {ex.GetType().Name}: {ex.Message}");
+            }
         }
     }
 

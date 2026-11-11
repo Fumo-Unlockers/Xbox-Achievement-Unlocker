@@ -395,7 +395,9 @@ public class SpooferLifecycleTests : IDisposable
 
         await vm.Spoofing().WaitAsync(TimeSpan.FromSeconds(3));
 
-        Assert.Equal(1, Volatile.Read(ref heartbeats));
+        // One spoof tick now walks the presence/heartbeat fallback chain (userpresence xuid, /me,
+        // presence-heartbeat xuid, /me): an all-403 tick is 4 POSTs before the abort surfaces.
+        Assert.Equal(4, Volatile.Read(ref heartbeats));
         Assert.Equal(0, HomeViewModel.SpoofingStatus);
         Assert.Equal("0", HomeViewModel.AutoSpoofedTitleID);
         Assert.Contains("403", vm.GameInfo);
