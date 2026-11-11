@@ -150,22 +150,23 @@ namespace XauSpoofCli
             if (string.IsNullOrEmpty(token))
             {
                 Console.WriteLine("no --token / XAU_XAUTH given; scanning the Xbox app memory...");
+                var candidates = new List<(string token, int frequency, bool plausible)>();
                 XauTokenScanner? scanner = null;
                 foreach (var proc in new[] { "XboxPcAppFT", "XboxPcApp" })
                 {
                     var s = new XauTokenScanner(proc);
-                    if (s.Attach())
-                    {
-                        scanner = s;
-                        break;
-                    }
+                    if (!s.Attach())
+                        continue;
+                    scanner = s;
+                    Console.WriteLine($"attached: {s.AttachedProcess}");
+                    candidates.AddRange(await s.ScanAsync(keepRaw: true));
                 }
                 if (scanner == null)
                 {
                     Console.WriteLine("ERROR: could not attach to XboxPcApp / XboxPcAppFT");
                     return (client, null, null);
                 }
-                var candidates = await scanner.ScanAsync(keepRaw: true);
+                candidates = candidates.OrderByDescending(c => (c.plausible, c.frequency)).ToList();
                 if (candidates.Count == 0)
                 {
                     Console.WriteLine("ERROR: no XBL3.0 x= candidates in Xbox app memory");
