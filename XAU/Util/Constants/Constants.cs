@@ -80,6 +80,7 @@ public struct InterpolatedXboxAPIUrls
 public struct ProcessNames
 {
     public const string XboxPcApp = @"XboxPcApp";
+    public const string XboxPcAppFt = @"XboxPcAppFT";
     public const string Solitaire = @"Solitaire";
 }
 
