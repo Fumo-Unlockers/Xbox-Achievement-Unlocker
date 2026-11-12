@@ -3,6 +3,9 @@
 ###############################################################################
 * text=auto
 
+# Preserve event catalog CRLF and standalone template bytes on every platform.
+/Events/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
