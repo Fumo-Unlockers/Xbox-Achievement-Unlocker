@@ -463,10 +463,9 @@
                         <ComboBoxItem Content="20-40 Min"/>
                     </ComboBox>
                     <TextBlock HorizontalAlignment="Left" Margin="201,31,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Time interval:" VerticalAlignment="Top" Width="74" FontSize="12"/>
-                    <ProgressBar x:Name="AutoUnlock_ProgressBar" Height="21" Margin="0,93,0,0" Grid.Row="2" VerticalAlignment="Top" Value="50" Width="800"/>
-                    <ListBox x:Name="AutoUnlock_ListAchivement" Margin="0,114,0,0" Grid.Row="2" Grid.RowSpan="3">
+                    <ProgressBar x:Name="AutoUnlock_ProgressBar" Height="21" Margin="0,93,0,0" Grid.Row="2" VerticalAlignment="Top" Width="800"/>
+                    <ListBox x:Name="AutoUnlock_ListAchivement" Margin="0,114,0,0" Grid.Row="2" Grid.RowSpan="3" Focusable="False" SelectionChanged="AutoUnlock_ListAchivement_SelectionChanged">
                         <ListBoxItem Content="List unlock order :"/>
-                        <ListBoxItem Content="1er achivement"/>
                     </ListBox>
                 </Grid>
             </TabItem>

@@ -198,6 +198,8 @@ namespace XAU.ViewModels.Pages
                     new SymbolIcon(SymbolRegular.ErrorCircle24),
                     TimeSpan.FromSeconds(5)
                 );
+
+                
             }
         }
 
@@ -795,6 +797,7 @@ namespace XAU.ViewModels.Pages
         public int SelectedTabIndex = 0;
         public bool AutoUnlocker_IsEnable = false;
         public int ReaminingAchivement = 0;
+        public bool AutoUnlocker_IsInfoGet = false;
         public string AutoUnlock_GameName = "";
         public ObservableCollection<AchievementsViewModel.DGAchievement>AutoUnlock_FilteredAchievements{ get; } = new ObservableCollection<AchievementsViewModel.DGAchievement>();
 
@@ -852,7 +855,7 @@ namespace XAU.ViewModels.Pages
         public void UpdateInfoAutoUnlocker()
         {
             AutoUnlock_GameName = _achievementsViewModel.GameName;
-
+            AutoUnlocker_IsInfoGet = true;
         }
         
         public async Task<bool> CheckSameGameAutoUnlockerAsync()

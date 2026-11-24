@@ -198,6 +198,7 @@ namespace XAU.Views.Pages
                     System.Media.SystemSounds.Exclamation.Play();
 
                     ResetTimer();
+                    ViewModel.AutoUnlocker_IsInfoGet = false;
 
                     AutoUnlock_TextStatut.Text = "COMPLETED";
                     AutoUnlock_TextStatut.Foreground = new SolidColorBrush(Colors.Green);
@@ -230,6 +231,14 @@ namespace XAU.Views.Pages
         {
             if (AutoUnlock_EnableCheckBox.IsChecked == true)
             {
+
+                //check if game is selected
+                if(!ViewModel.AutoUnlocker_IsInfoGet)
+                {
+                    System.Windows.Forms.MessageBox.Show("Please select a game by pressing the \"Auto Unlock\" button on the achievements page.", "Game Not Selected", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
+                    AutoUnlock_EnableCheckBox.IsChecked = false;
+                    return;
+                }
 
                 //start auto unlocker
                 AutoUnlock_TextStatut.Text = "STARTING...";
@@ -264,6 +273,13 @@ namespace XAU.Views.Pages
 
         }
 
+        private void AutoUnlock_ListAchivement_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AutoUnlock_ListAchivement.SelectedIndex = -1;
+        }
+
         #endregion
+
+
     }
 }
