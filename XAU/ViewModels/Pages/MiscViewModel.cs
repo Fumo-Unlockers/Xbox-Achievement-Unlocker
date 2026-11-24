@@ -1,6 +1,7 @@
 using HtmlAgilityPack;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.DirectoryServices;
@@ -8,13 +9,15 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Input;
-using XAU.Util.Diagnostics;
-using XAU.Util.Logging;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Services;
+using XAU.Util.Diagnostics;
+using XAU.Util.Logging;
+using static XAU.ViewModels.Pages.AchievementsViewModel;
 
 
 namespace XAU.ViewModels.Pages
@@ -26,12 +29,15 @@ namespace XAU.ViewModels.Pages
         private TimeSpan _snackbarDuration = TimeSpan.FromSeconds(2);
         private Lazy<XboxRestAPI> _xboxRestAPI = new Lazy<XboxRestAPI>(() => new XboxRestAPI(HomeViewModel.XAUTH));
 
+        public readonly AchievementsViewModel _achievementsViewModel;
 
 
-        public MiscViewModel(ISnackbarService snackbarService)
+        public MiscViewModel(ISnackbarService snackbarService,AchievementsViewModel achievementsViewModel)
         {
             _snackbarService = snackbarService;
             _contentDialogService = new ContentDialogService();
+
+            _achievementsViewModel = achievementsViewModel;
         }
 
         // Xbox Live endpoint health check. It deliberately lives here (Misc) and runs ONLY on-demand,
@@ -180,6 +186,21 @@ namespace XAU.ViewModels.Pages
 
         public void OnNavigatedFrom()
         {
+            // Stop Auto Unlocker when leaving the page
+            if (AutoUnlocker_IsEnable)
+            {
+                AutoUnlocker_IsEnable = false;
+
+                _snackbarService.Show(
+                    "Auto Unlocker Stopped",
+                    "The Auto Unlocker was stopped because you navigated away from this page.",
+                    ControlAppearance.Danger,
+                    new SymbolIcon(SymbolRegular.ErrorCircle24),
+                    TimeSpan.FromSeconds(5)
+                );
+
+                
+            }
         }
 
         private void InitializeViewModel()
@@ -768,6 +789,177 @@ namespace XAU.ViewModels.Pages
             {
                 _snackbarService.Show("Error", "Failed to export games list: " + ex.Message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarDuration);
             }
+        }
+        #endregion
+
+        #region AutoUnlocker
+
+        public int SelectedTabIndex = 0;
+        public bool AutoUnlocker_IsEnable = false;
+        public int ReaminingAchivement = 0;
+        public bool AutoUnlocker_IsInfoGet = false;
+        public string AutoUnlock_GameName = "";
+        public ObservableCollection<AchievementsViewModel.DGAchievement>AutoUnlock_FilteredAchievements{ get; } = new ObservableCollection<AchievementsViewModel.DGAchievement>();
+
+        public void FilterAutoUnlockAchievements(int TypeOrder)
+        {
+            AutoUnlock_FilteredAchievements.Clear();
+
+            if (TypeOrder == -1)
+                return;
+
+            var achievements = _achievementsViewModel.DGAchievements
+                .Where(a =>
+                    a.ProgressState != StringConstants.Achieved &&
+                    a.IsUnlockable);
+
+            var sortedAchievements = TypeOrder == 1
+                ? achievements.OrderBy(a => a.RarityPercentage)
+                : achievements.OrderByDescending(a => a.RarityPercentage);
+
+            foreach (var achievement in sortedAchievements)
+            {
+                AutoUnlock_FilteredAchievements.Add(achievement);
+            }
+
+            UpdateRemains();
+        }
+
+        public void IniListAchievements(int TypeOrder)
+        {
+            FilterAutoUnlockAchievements(TypeOrder);
+
+            for (int i = AutoUnlock_FilteredAchievements.Count - 1; i >= 0; i--)
+            {
+                var achievement = AutoUnlock_FilteredAchievements[i];
+
+                if (achievement.ProgressState == StringConstants.Achieved ||
+                    !achievement.IsUnlockable)
+                {
+                    AutoUnlock_FilteredAchievements.RemoveAt(i);
+                }
+            }
+
+            UpdateRemains();
+
+            Debug.WriteLine($"AutoUnlock Queue: {AutoUnlock_FilteredAchievements.Count}");
+        }
+
+        public bool UpdateRemains()
+        {
+            ReaminingAchivement = _achievementsViewModel.DGAchievements.Count(a => a.ProgressState != StringConstants.Achieved && a.IsUnlockable);
+
+            return ReaminingAchivement > 0;
+        }
+
+        public void UpdateInfoAutoUnlocker()
+        {
+            AutoUnlock_GameName = _achievementsViewModel.GameName;
+            AutoUnlocker_IsInfoGet = true;
+        }
+        
+        public async Task<bool> CheckSameGameAutoUnlockerAsync()
+        {
+            string targetTitleId = _achievementsViewModel.TitleIDOverride;
+
+            if (string.IsNullOrWhiteSpace(targetTitleId) || targetTitleId == "0")
+            {
+                AutoUnlock_GameName = "No Game Selected";
+                return false;
+            }
+
+            // 1. Check Manual Spoofer
+            bool isManuallySpoofed =
+                HomeViewModel.SpoofingStatus == 1 &&
+                HomeViewModel.SpoofedTitleID == targetTitleId;
+
+            // 2. Check Auto Spoofer
+            bool isAutoSpoofed =
+                HomeViewModel.SpoofingStatus == 2 &&
+                HomeViewModel.AutoSpoofedTitleID == targetTitleId;
+
+            if (isManuallySpoofed || isAutoSpoofed)
+                return true;
+
+            // 3. Check Xbox Presence (Currently Playing)
+            var homeViewModel = HomeViewModel.Instance;
+
+            if (homeViewModel != null)
+            {
+                bool isPlaying =
+                    await homeViewModel.IsCurrentlyPlayingTitleAsync(targetTitleId);
+
+                if (isPlaying)
+                    return true;
+            }
+
+            //AutoUnlock_GameName = "Game Not Running / Not Spoofed";
+            System.Windows.Forms.MessageBox.Show("The game is not currently running or spoofed. Please start the game or spoof it before using the Auto Unlocker.", "Game Not Running", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
+
+            return false;
+        }
+
+        public async Task<bool> AutoUnlocker()
+        {
+            if (!IsInitialized)
+                return false;
+
+            if (!await CheckSameGameAutoUnlockerAsync())
+                return false;
+
+            // Clear old achievements
+            while (AutoUnlock_FilteredAchievements.Count > 0 && (AutoUnlock_FilteredAchievements[0].ProgressState == StringConstants.Achieved || !AutoUnlock_FilteredAchievements[0].IsUnlockable))
+            {
+                AutoUnlock_FilteredAchievements.RemoveAt(0);
+            }
+
+            // Check the queue
+            if (AutoUnlock_FilteredAchievements.Count == 0)
+            {
+                UpdateRemains();
+                Debug.WriteLine("AutoUnlock: NO ACHIEVEMENTS FOUND");
+                return false;
+            }
+
+            // Select the first success
+            DGAchievement AchievementSelected = AutoUnlock_FilteredAchievements[0];
+
+            // Select index from achievement list
+            int AchievementIndex = _achievementsViewModel.DGAchievements.IndexOf(AchievementSelected);
+
+            if (AchievementIndex == -1)
+                return false;
+
+            Debug.WriteLine("Unlocking: " + AchievementSelected.Name);
+
+            // Launch the unlock
+            _achievementsViewModel.UnlockAchievement(AchievementIndex);
+
+            // Wait for confirmation (maximum 15 seconds)
+            int timeout = 15000;
+            int elapsed = 0;
+
+            while (elapsed < timeout)
+            {
+                if (AchievementSelected.ProgressState == StringConstants.Achieved)
+                {
+                    // Removing the unlocked achievement from the list
+                    AutoUnlock_FilteredAchievements.Remove(AchievementSelected);
+
+                    UpdateRemains();
+
+                    Debug.WriteLine("Successfully unlocked: " + AchievementSelected.Name);
+
+                    return true;
+                }
+
+                await Task.Delay(250);
+                elapsed += 250;
+            }
+
+            Debug.WriteLine("Unlock timeout: " + AchievementSelected.Name);
+
+            return false;
         }
         #endregion
     }

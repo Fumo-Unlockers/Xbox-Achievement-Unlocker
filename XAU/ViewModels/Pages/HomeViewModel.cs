@@ -533,6 +533,25 @@ namespace XAU.ViewModels.Pages
             }
         }
 
+        public async Task<bool> IsCurrentlyPlayingTitleAsync(string titleId)
+        {
+            if (string.IsNullOrWhiteSpace(XUIDOnly))
+                return false;
+
+            var profile = await _xboxRestAPI.Value.GetProfileAsync(XUIDOnly);
+
+            var presence = profile?.People?
+                .FirstOrDefault()?
+                .PresenceDetails;
+
+            return presence?.Any(p =>
+                string.Equals(
+                    p?.TitleId,
+                    titleId,
+                    StringComparison.OrdinalIgnoreCase
+                )) == true;
+        }
+
         #region Xauth
         // The updated Xbox app (2612.x) no longer runs XboxPcApp.exe; its
         // full-trust host process XboxPcAppFT.exe holds the token in memory.
