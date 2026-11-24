@@ -54,7 +54,7 @@ public class SpooferLifecycleTests : IDisposable
                 Interlocked.Increment(ref heartbeats);
             return Json("{}");
         });
-        var vm = new MiscViewModel(null!);
+        var vm = CreateMiscViewModel();
         InjectApi(vm, api);
         vm.NewSpoofingID = "111";
 
@@ -81,7 +81,7 @@ public class SpooferLifecycleTests : IDisposable
     {
         HomeViewModel.SpoofingStatus = 2;
         HomeViewModel.AutoSpoofedTitleID = "999";
-        var vm = new MiscViewModel(null!);
+        var vm = CreateMiscViewModel();
         using var pendingManual = new CancellationTokenSource();
         typeof(MiscViewModel).GetField("_spoofCts", BindingFlags.NonPublic | BindingFlags.Instance)!
             .SetValue(vm, pendingManual);
@@ -112,7 +112,8 @@ public class SpooferLifecycleTests : IDisposable
             Interlocked.Increment(ref heartbeats);
             return Json("{}");
         });
-        var vm = new MiscViewModel(null!) { NewSpoofingID = "222" };
+        var vm = CreateMiscViewModel();
+        vm.NewSpoofingID = "222";
         InjectApi(vm, api);
 
         var start = vm.SpooferButtonClickedCommand.ExecuteAsync(null);
@@ -142,7 +143,8 @@ public class SpooferLifecycleTests : IDisposable
                 return Json("{\"statListsCollection\":[]}");
             return Json("{}", HttpStatusCode.Forbidden);
         });
-        var vm = new MiscViewModel(null!) { NewSpoofingID = "222" };
+        var vm = CreateMiscViewModel();
+        vm.NewSpoofingID = "222";
         InjectApi(vm, api);
         var start = vm.SpooferButtonClickedCommand.ExecuteAsync(null);
         await entered.Task.WaitAsync(TimeSpan.FromSeconds(3));
@@ -162,7 +164,8 @@ public class SpooferLifecycleTests : IDisposable
             "userstats.xboxlive.com" => Json("{\"statListsCollection\":[]}"),
             _ => Json("{}")
         }));
-        var vm = new MiscViewModel(null!) { NewSpoofingID = "222" };
+        var vm = CreateMiscViewModel();
+        vm.NewSpoofingID = "222";
         InjectApi(vm, api);
         var delaySeen = new TaskCompletionSource<TimeSpan>(TaskCreationOptions.RunContinuationsAsynchronously);
         vm.HeartbeatDelayAsync = (duration, token) =>
@@ -193,7 +196,8 @@ public class SpooferLifecycleTests : IDisposable
             _ => Json("{}", Interlocked.Increment(ref heartbeats) == 1
                 ? HttpStatusCode.Unauthorized : HttpStatusCode.OK)
         }));
-        var vm = new MiscViewModel(null!) { NewSpoofingID = "222" };
+        var vm = CreateMiscViewModel();
+        vm.NewSpoofingID = "222";
         InjectApi(vm, api);
         vm.RecoverAuthAsync = () => { recovering.TrySetResult(); return recovery.Task; };
         vm.AuthRecoveryTimeout = TimeSpan.FromSeconds(3);
@@ -237,7 +241,8 @@ public class SpooferLifecycleTests : IDisposable
             _ => Json("{}", Interlocked.Increment(ref heartbeats) == 1
                 ? HttpStatusCode.Unauthorized : HttpStatusCode.OK)
         }));
-        var vm = new MiscViewModel(null!) { NewSpoofingID = "222" };
+        var vm = CreateMiscViewModel();
+        vm.NewSpoofingID = "222";
         InjectApi(vm, api);
         vm.RecoverAuthAsync = () => Task.FromResult(false); // memory rescan starts asynchronously
         vm.AuthRecoveryTimeout = TimeSpan.FromSeconds(3);
@@ -323,7 +328,8 @@ public class SpooferLifecycleTests : IDisposable
             "userstats.xboxlive.com" => Json("{\"statListsCollection\":[]}"),
             _ => Json("{}", HttpStatusCode.Unauthorized)
         }));
-        var vm = new MiscViewModel(null!) { NewSpoofingID = "222" };
+        var vm = CreateMiscViewModel();
+        vm.NewSpoofingID = "222";
         InjectApi(vm, api);
         vm.RecoverAuthAsync = () => Task.FromResult(false);
         vm.AuthRecoveryTimeout = TimeSpan.FromMilliseconds(30);
@@ -355,7 +361,8 @@ public class SpooferLifecycleTests : IDisposable
             _ => request.Method == HttpMethod.Delete ? Json("{}") :
                 Json("{}", Interlocked.Increment(ref heartbeats) == 1 ? HttpStatusCode.Unauthorized : HttpStatusCode.OK)
         }));
-        var vm = new MiscViewModel(null!) { NewSpoofingID = "222" };
+        var vm = CreateMiscViewModel();
+        vm.NewSpoofingID = "222";
         InjectApi(vm, api);
         vm.RecoverAuthAsync = () => { entered.TrySetResult(); return recovery.Task; };
         vm.AuthRecoveryTimeout = TimeSpan.FromSeconds(3);
@@ -402,6 +409,9 @@ public class SpooferLifecycleTests : IDisposable
         Assert.Equal("0", HomeViewModel.AutoSpoofedTitleID);
         Assert.Contains("403", vm.GameInfo);
     }
+
+    private static MiscViewModel CreateMiscViewModel() =>
+        new MiscViewModel(null!, new AchievementsViewModel(null!, null!, null!));
 
     private static XboxRestAPI FakeApi(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> reply)
     {
