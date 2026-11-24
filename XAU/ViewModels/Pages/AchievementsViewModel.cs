@@ -66,6 +66,7 @@ namespace XAU.ViewModels.Pages
         private bool IsEventBased = false;
         private dynamic EventsData = (dynamic)(new JObject());
         public static string? EventsToken;
+        //AUTO UNLOCKER
 
         public AchievementsViewModel(ISnackbarService snackbarService, IContentDialogService contentDialogService, INavigationService navigationService)
         {

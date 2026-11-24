@@ -137,6 +137,17 @@
                 HorizontalAlignment="Stretch"
                 Command="{Binding ViewModel.RefreshAchievementsCommand}"
             />
+            <ui:Button
+                Grid.Row="0"
+                Grid.Column="3"
+                x:Name="AutoUnlockBtn"
+                Padding="10,5,8,5"
+                Margin="83,0,2,0"
+                Content="Auto-Unlock"
+                HorizontalAlignment="Stretch" Click="AutoUnlockBtn_Click"
+                
+            />
+            <p:Border BorderBrush="Black" BorderThickness="1" p:Grid.Column="3" p:Grid.Row="1"/>
         </Grid>
         <DataGrid Grid.Row="1"  
                   VerticalScrollBarVisibility="Visible" 

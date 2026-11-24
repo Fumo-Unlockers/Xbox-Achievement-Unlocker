@@ -18,8 +18,8 @@
     mc:Ignorable="d">
 
     <Grid Width="{Binding ElementName=MiscPagen, Path=ActualWidth}" Height="{Binding ElementName=MiscPagen, Path=ActualHeight}">
-        <TabControl Margin="0,0,0,0">
-            <TabItem IsSelected="True">
+        <TabControl x:Name="MiscTabControl" Margin="0,0,0,0" SelectedIndex="{Binding ViewModel.SelectedTabIndex, Mode=TwoWay}">
+            <TabItem IsSelected="True" Width="150">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="XboxController24" />
@@ -118,7 +118,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem>
+            <TabItem Width="150">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="Search24" />
@@ -277,7 +277,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem>
+            <TabItem Width="150">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="Search24" />
@@ -361,7 +361,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem>
+            <TabItem Width="150">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="Search24" />
@@ -411,6 +411,62 @@
                                     TextWrapping="Wrap" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem Width="150">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Search24" />
+                        <TextBlock Text="Auto Unlock" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <ListBox
+                        Grid.Row="2"
+                        MaxWidth="420"
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ItemsSource="{Binding ViewModel.XboxServiceStatusLines, Mode=OneWay}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Margin="0,2,0,2"
+                                    FontSize="13"
+                                    Text="{Binding}"
+                                    TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <TextBlock HorizontalAlignment="Left" Margin="6,2,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Settings :" VerticalAlignment="Top" Width="82" FontSize="16"/>
+                    <ComboBox x:Name="AutoUnlock_ComboBoxOrder" Width="123" Height="36" FontSize="12" Margin="78,23,0,0" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left" SelectionChanged="AutoUnlock_ComboBoxOrder_SelectionChanged">
+                        <ComboBoxItem Content="Descending" IsSelected="True" FontSize="11"/>
+                        <ComboBoxItem Content="Ascending"/>
+                    </ComboBox>
+                    <TextBlock HorizontalAlignment="Left" Margin="8,31,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Order rarity:" VerticalAlignment="Top" Width="74" FontSize="12"/>
+                    <CheckBox x:Name="AutoUnlock_EnableCheckBox" Content="Enable" Margin="200,3,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98" Height="25" HorizontalAlignment="Center" Checked="AutoUnlock_EnableCheckBox_Checked" Unchecked="AutoUnlock_EnableCheckBox_Checked"/>
+                    <TextBlock HorizontalAlignment="Center" Margin="70,3,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Statut :" VerticalAlignment="Top" Width="55" FontSize="16"/>
+                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2" Background="Black" Width="5" Height="93" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Border BorderBrush="Black" Grid.Row="2" Background="Black" Width="1085" Height="5" VerticalAlignment="Top" Margin="0,88,0,0" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="AutoUnlock_TextStatut" HorizontalAlignment="Center" Margin="240,25,0,0" Grid.Row="2" TextWrapping="Wrap" Text="OFF" VerticalAlignment="Top" Width="230" FontSize="16" Foreground="Red"/>
+                    <TextBlock x:Name="AutoUnlock_NameGameSelect" HorizontalAlignment="Center" Margin="400,67,0,0" Grid.Row="2" TextWrapping="Wrap" Text="No Game Selected" VerticalAlignment="Top" Width="387" FontSize="16"/>
+                    <TextBlock x:Name="AutoUnlock_TextRemain" HorizontalAlignment="Center" Margin="400,45,0,0" Grid.Row="2" TextWrapping="Wrap" Text="0 Remains / 0 min to finish" VerticalAlignment="Top" Width="387" FontSize="16"/>
+                    <ComboBox x:Name="AutoUnlock_ComboBoxTime" Width="123" Height="36" FontSize="12" Margin="275,23,0,0" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left" SelectionChanged="AutoUnlock_ComboBoxTime_SelectionChanged">
+                        <ComboBoxItem Content="5-10 Min" IsSelected="True" FontSize="11"/>
+                        <ComboBoxItem Content="10-20 Min"/>
+                        <ComboBoxItem Content="20-40 Min"/>
+                    </ComboBox>
+                    <TextBlock HorizontalAlignment="Left" Margin="201,31,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Time interval:" VerticalAlignment="Top" Width="74" FontSize="12"/>
+                    <ProgressBar x:Name="AutoUnlock_ProgressBar" Height="21" Margin="0,93,0,0" Grid.Row="2" VerticalAlignment="Top" Value="50" Width="800"/>
+                    <ListBox x:Name="AutoUnlock_ListAchivement" Margin="0,114,0,0" Grid.Row="2" Grid.RowSpan="3">
+                        <ListBoxItem Content="List unlock order :"/>
+                        <ListBoxItem Content="1er achivement"/>
                     </ListBox>
                 </Grid>
             </TabItem>
