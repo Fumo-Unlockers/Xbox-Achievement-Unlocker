@@ -90,7 +90,11 @@ jobs:
         # orphaned (not ancestors of HEAD) after a history rewrite, so a
         # <tag>..HEAD range would return the entire history.
         $since = ""
-        $prevJson = gh release list --repo "$env:GITHUB_REPOSITORY" --exclude-drafts --exclude-prereleases --json publishedAt --limit 1
+        # gh v2.x renamed this flag: --exclude-prereleases -> --exclude-pre-releases.
+        # Probe for the newer spelling and fall back so both gh versions work.
+        $ghHasNewFlag = gh release list --help 2>$null | Select-String -Quiet "--exclude-pre-releases"
+        $preFlag = if ($ghHasNewFlag) { "--exclude-pre-releases" } else { "--exclude-prereleases" }
+        $prevJson = gh release list --repo "$env:GITHUB_REPOSITORY" --exclude-drafts $preFlag --json publishedAt --limit 1
         if ($prevJson) {
           $parsed = $prevJson | ConvertFrom-Json
           if ($parsed) { $since = $parsed[0].publishedAt }
