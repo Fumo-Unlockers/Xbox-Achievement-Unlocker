@@ -11,9 +11,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>26.11.26</Version>
-    <AssemblyVersion>26.11.26.0</AssemblyVersion>
-    <FileVersion>26.11.26.0</FileVersion>
+    <Version>26.11.27</Version>
+    <AssemblyVersion>26.11.27.0</AssemblyVersion>
+    <FileVersion>26.11.27.0</FileVersion>
     <Copyright>Made By Draff ;)</Copyright>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
