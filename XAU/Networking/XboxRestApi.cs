@@ -275,7 +275,9 @@ public class XboxRestAPI
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.ContractVersion, HeaderValues.ContractVersion2);
         _httpClient.DefaultRequestHeaders.Add(HeaderNames.Host, Hosts.Profile);
 
-        string url = string.Format(InterpolatedXboxAPIUrls.GamertagSearch, gamertag);
+        // Gamertags can contain spaces and modern suffixes ("Name#12345"); an unescaped '#'
+        // becomes a URL fragment and spaces make the URI invalid, so the lookup 404s or throws.
+        string url = string.Format(InterpolatedXboxAPIUrls.GamertagSearch, Uri.EscapeDataString(gamertag));
         var response = await _httpClient.GetAsync(url);
         response.EnsureSuccessStatusCode();
         var jsonResponse = await response.Content.ReadAsStringAsync();

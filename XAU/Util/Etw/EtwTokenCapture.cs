@@ -22,45 +22,6 @@ namespace XAU.Util.Etw
             @"v20\.events\.data\.microsoft\.com|OneCollector",
             RegexOptions.Compiled);
 
-        // Events RP x5t — used to distinguish events tokens from XAUTH tokens.
-        // This is the certificate thumbprint for events.xboxlive.com; it appears
-        // in the decoded JWE header JSON as "x5t":"9wLGzMJDNz..."
-        private const string EventsRpX5t = "9wLGzMJDNz";
-
-        /// <summary>
-        /// Checks whether a token was encrypted for the events RP by decoding
-        /// the JWE header and verifying the x5t certificate thumbprint.
-        /// Token format: "x:XBL3.0 x={hash};{JWE}" or "XBL3.0 x={hash};{JWE}"
-        /// </summary>
-        public static bool IsEventsRpToken(string token)
-        {
-            try
-            {
-                int semiIdx = token.IndexOf(';');
-                if (semiIdx < 0) return false;
-
-                string jwe = token.Substring(semiIdx + 1);
-                int dotIdx = jwe.IndexOf('.');
-                if (dotIdx <= 0) return false;
-
-                string headerB64 = jwe.Substring(0, dotIdx);
-                // Base64url → standard Base64
-                string padded = headerB64.Replace('-', '+').Replace('_', '/');
-                switch (padded.Length % 4)
-                {
-                    case 2: padded += "=="; break;
-                    case 3: padded += "="; break;
-                }
-
-                string headerJson = Encoding.UTF8.GetString(Convert.FromBase64String(padded));
-                return headerJson.Contains(EventsRpX5t);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         /// <summary>
         /// One-shot: start trace, wait, stop, extract, cleanup. Returns token or null.
         /// </summary>
@@ -259,18 +220,15 @@ namespace XAU.Util.Etw
                 HomeViewModel.EventsLog($"  score={score}, len={token.Length}, hash={hash}");
             }
 
-            // Validate the best candidates
-            foreach (var (token, score) in candidates)
-            {
-                if (IsEventsRpToken(token))
-                {
-                    HomeViewModel.EventsLog($"Candidate validated (x5t check passed), score={score}, len={token.Length}");
-                    return token;
-                }
-            }
-
-            HomeViewModel.EventsLog("No candidate passed x5t validation");
-            return null;
+            // Take the highest-scored candidate. The scoring already prefers tokens
+            // seen near OneCollector traffic (+5000) and ticket-header context (+2000),
+            // which in practice separates Solitaire events tokens from the Xbox app's
+            // own XAUTH token (the latter scores ~3xxx without the OneCollector bonus).
+            // The former hardcoded x5t thumbprint filter was removed: it rejected every
+            // valid token whenever Microsoft rotated the events RP certificate.
+            var best = candidates[0];
+            HomeViewModel.EventsLog($"Returning top candidate: score={best.score}, len={best.token.Length}");
+            return best.token;
         }
 
         public static void CleanupFiles()

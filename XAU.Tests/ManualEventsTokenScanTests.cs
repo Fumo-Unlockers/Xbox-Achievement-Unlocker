@@ -31,7 +31,7 @@ public class ManualEventsTokenScanTests
     public void RapidClicks_StartExactlyOneScan_AndLaterClicksAreIgnored()
     {
         // Simulates the reported burst of clicks while a scan is in flight. The key property of the
-        // real button: once started, ManualScanRunning stays true for the whole ~25s+ background
+        // real button: once started, ManualScanRunning stays true for the whole ~15s+ background
         // grab (it is only cleared in the Task's finally, much later), so the burst of clicks all
         // arrive while it is still true and are refused.
         bool running = false;

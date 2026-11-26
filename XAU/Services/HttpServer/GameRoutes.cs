@@ -100,7 +100,11 @@ public static class GameRoutes
                 return;
             }
 
-            string gamertag = request.Url.Segments.Last().TrimEnd('/');
+            // HttpListener gives raw segments; %23 (#) arrives encoded. Unescape so a
+            // gamertag suffix like "Name#12345" survives the trip to GetGamertagProfileAsync
+            // (which re-escapes it when building the profile URL).
+            string gamertag = Uri.UnescapeDataString(request.Url.Segments.Last().TrimEnd('/'));
+
             var xboxRestAPI = getXboxRestAPI();
 
             var gamertagProfile = await xboxRestAPI.GetGamertagProfileAsync(gamertag);
