@@ -14,6 +14,7 @@ namespace XAU.Views.Pages
         private readonly ISnackbarService _snackbarService;
         private readonly HomeViewModel _homeViewModel;
         private readonly DispatcherTimer _tokenRefreshTimer;
+        private readonly DispatcherTimer _captureStatusTimer;
         private string _lastKnownEventsToken;
         private bool _manualScanInProgress;
         private bool _clearingAuthUi;
@@ -63,6 +64,24 @@ namespace XAU.Views.Pages
                 }
             };
             _tokenRefreshTimer.Start();
+
+            // Live capture status: 1s poll while a manual grab runs, so the countdown
+            // ("PLAY SOLITAIRE NOW - flip cards! 12s...") is visible in the status line.
+            _captureStatusTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            _captureStatusTimer.Tick += (_, _) =>
+            {
+                if (!_homeViewModel.ManualScanRunning)
+                {
+                    _captureStatusTimer.Stop();
+                    UpdateEventsTokenStatus();
+                    return;
+                }
+                var status = HomeViewModel.EventsCaptureStatus;
+                if (string.IsNullOrEmpty(status))
+                    return;
+                EventsTokenStatus.Text = status;
+                EventsTokenStatus.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Orange);
+            };
 
             InitializeComponent();
         }
@@ -142,6 +161,7 @@ namespace XAU.Views.Pages
 
             _manualScanInProgress = true;
             GrabEventsTokenButton.IsEnabled = false;
+            _captureStatusTimer.Start();
 
             _snackbarService.Show(
                 "Scanning...",

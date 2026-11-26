@@ -33,7 +33,7 @@ namespace XAU.ViewModels.Pages
 
     public partial class HomeViewModel : ObservableObject, INavigationAware
     {
-        public static string ToolVersion = "26.11.11";
+        public static string ToolVersion = "26.11.26";
         public static string EventsVersion = "1.0";
 
         //attach vars
@@ -252,7 +252,18 @@ namespace XAU.ViewModels.Pages
             {
                 var jsonResponse = await _gitHubRestAPI.Value.GetDevToolVersionAsync();
 
-                if (("DEV-" + jsonResponse.LatestBuildVersion.ToString()) != ToolVersion)
+                // Same semantic compare as the stable branch: only prompt when the Pre-Release build
+                // is strictly NEWER than the running DEV build, never offer a downgrade.
+                var latestDevTag = "DEV-" + jsonResponse.LatestBuildVersion?.ToString();
+                System.Version devReleaseVersion = null;
+                System.Version.TryParse(jsonResponse.LatestBuildVersion?.ToString(), out devReleaseVersion);
+                System.Version devLocalVersion = null;
+                System.Version.TryParse(ToolVersion.Replace("DEV-", ""), out devLocalVersion);
+                // Prompt only when the Pre-Release build is strictly NEWER. If the local DEV version
+                // can't be parsed, fall back to plain inequality (original behavior).
+                if (devReleaseVersion != null && devLocalVersion != null
+                        ? devReleaseVersion > devLocalVersion
+                        : latestDevTag != ToolVersion)
                 {
                     var result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
@@ -280,7 +291,16 @@ namespace XAU.ViewModels.Pages
                 if (jsonResponse.Count == 0)
                     return;
 
-                if (jsonResponse[0].tag_name.ToString() != ToolVersion)
+                // Semantic compare: only prompt when the release is strictly NEWER than the running
+                // build. A plain string inequality also fires when the local build is newer than the
+                // latest release (dev builds bumping past 26.11.10), offering a bogus downgrade.
+                var latestTag = jsonResponse[0].tag_name.ToString();
+                System.Version releaseVersion = null;
+                System.Version.TryParse(latestTag, out releaseVersion);
+                System.Version localVersion = null;
+                System.Version.TryParse(ToolVersion, out localVersion);
+                // Unparseable release tag (or, defensively, local version) -> do not prompt.
+                if (releaseVersion == null || (localVersion != null && releaseVersion > localVersion))
                 {
                     var result = await _contentDialogService.ShowSimpleDialogAsync(
                         new SimpleContentDialogCreateOptions()
@@ -492,7 +512,7 @@ namespace XAU.ViewModels.Pages
                     UnlockAllEnabled = false,
                     AutoSpooferEnabled = false,
                     AutoLaunchXboxAppEnabled = false,
-                    FakeSignatureEnabled = true,
+                    FakeSignatureEnabled = false,
                     RegionOverride = false,
                     UseAcrylic = false,
                     PrivacyMode = false,
@@ -1137,6 +1157,21 @@ namespace XAU.ViewModels.Pages
         private static readonly TimeSpan EventsTokenCheckInterval = TimeSpan.FromMinutes(10);
         private static readonly TimeSpan EventsTokenMaxAge = TimeSpan.FromHours(23);
 
+        // Active capture window for the Solitaire grab: the user plays during these seconds.
+        private const int EventsCaptureSeconds = 15;
+
+        // Live capture status, read by the Settings page's UI timer and mirrored to the events log.
+        // A static volatile string polled by the UI (rather than an observable property raised from
+        // the capture's background thread) keeps the cross-thread marshalling in one place.
+        private static volatile string _eventsCaptureStatus = "";
+        public static string EventsCaptureStatus => _eventsCaptureStatus;
+
+        internal static void SetEventsCaptureStatus(string status)
+        {
+            _eventsCaptureStatus = status;
+            EventsLog(status);
+        }
+
         private static DateTime _eventsTokenObtainedAt = DateTime.MinValue;
         private static string _eventsUserHash = null;
 
@@ -1320,16 +1355,18 @@ namespace XAU.ViewModels.Pages
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 // Start tracing before launching Solitaire so its initial telemetry is captured.
+                SetEventsCaptureStatus("Starting network capture...");
                 EtwTokenCapture.Cleanup();
                 method = EtwTokenCapture.Start();
                 if (method == null)
                 {
-                    EventsLog("Failed to start ETW trace (not running as admin?)");
+                    SetEventsCaptureStatus("Failed to start ETW trace (not running as admin?)");
                     return null;
                 }
                 traceRunning = true;
                 if (!alreadyRunning)
                 {
+                    SetEventsCaptureStatus("Launching Solitaire...");
                     var p = new Process
                     {
                         StartInfo = new ProcessStartInfo
@@ -1345,35 +1382,51 @@ namespace XAU.ViewModels.Pages
                             return null;
                     if (Process.GetProcessesByName(ProcessNames.Solitaire).Length == 0)
                     {
-                        EventsLog("Solitaire never appeared after 15s");
+                        SetEventsCaptureStatus("Solitaire never appeared after 15s");
                         return null;
                     }
                 }
 
-                EventsLog("Waiting 25s for Xbox Live init + telemetry events...");
-                if (cancellationToken.WaitHandle.WaitOne(25000))
-                    return null;
+                // Active capture window: the user PLAYS during the countdown so Solitaire's
+                // telemetry burst lands inside the trace. (The old flow waited passively 25s
+                // for a startup burst that often fired before the trace was up.)
+                for (int remaining = EventsCaptureSeconds; remaining > 0; remaining--)
+                {
+                    SetEventsCaptureStatus($"PLAY SOLITAIRE NOW - flip cards! {remaining}s...");
+                    if (cancellationToken.WaitHandle.WaitOne(1000))
+                        return null;
+                }
                 EtwTokenCapture.Stop(method);
                 traceRunning = false;
+                SetEventsCaptureStatus("Analyzing capture...");
                 if (cancellationToken.WaitHandle.WaitOne(2000))
                     return null;
                 string? captured = EtwTokenCapture.ExtractTokens();
                 EtwTokenCapture.CleanupFiles();
                 if (!string.IsNullOrWhiteSpace(captured))
+                {
+                    SetEventsCaptureStatus("Events token captured!");
                     return captured;
+                }
 
                 int attempt = 0;
                 while (!cancellationToken.IsCancellationRequested &&
                        Process.GetProcessesByName(ProcessNames.Solitaire).Length > 0)
                 {
                     attempt++;
+                    SetEventsCaptureStatus($"Attempt {attempt}: play Solitaire! Capturing 20s...");
                     EventsLog($"Capture attempt {attempt}...");
                     captured = EtwTokenCapture.Capture(20);
                     if (!string.IsNullOrWhiteSpace(captured))
+                    {
+                        SetEventsCaptureStatus("Events token captured!");
                         return captured;
+                    }
+                    SetEventsCaptureStatus($"Attempt {attempt} found nothing.");
                     if (cancellationToken.WaitHandle.WaitOne(3000))
                         break;
                 }
+                SetEventsCaptureStatus("No token found - play Solitaire during capture and retry.");
                 return null;
             }
             catch (OperationCanceledException)
