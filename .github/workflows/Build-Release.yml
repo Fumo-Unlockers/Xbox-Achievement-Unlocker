@@ -64,7 +64,11 @@ jobs:
 
     - name: Build
       if: steps.ver.outputs.should_release == 'true'
-      run: dotnet publish XAU.sln -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:PublishReadyToRun=false /p:IncludeAllContentForSelfExtract=true /p:EnableWindowsTargeting=true -o ./publish
+      # Publish only the app project. XAU.sln also contains XAU.Tests (and XauSpoofCli);
+      # the tests project uses the VSTest host with UseAppHost=false, which single-file
+      # publish rejects (NETSDK1098). App-only publish also keeps test/CLI binaries out
+      # of the release artifact.
+      run: dotnet publish XAU/XAU.csproj -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:PublishReadyToRun=false /p:IncludeAllContentForSelfExtract=true /p:EnableWindowsTargeting=true -o ./publish
 
     - name: Stage executable
       if: steps.ver.outputs.should_release == 'true'
