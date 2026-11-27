@@ -1,0 +1,51 @@
+{
+  "ver": "4.0",
+  "name": "REPLACEEVENT",
+  "time": "REPLACETIME",
+  "iKey": "o:0890af88a9ed4cc886a14f5e174a2827",
+  "ext": {
+    "utc": {
+      "shellId": 1,
+      "eventFlags": 514,
+      "pgName": "XBOX",
+      "dvcSample": 42.97,
+      "flags": 52412023344,
+      "edition": 48,
+      "epoch": "1",
+      "seq": REPLACESEQ
+    },
+    "privacy": {
+      "dataType": 33554432,
+      "isRequired": false
+    },
+    "metadata": REPLACEMETADATA,
+    "os": {
+      "bootId": 1,
+      "name": "Windows",
+      "ver": "1",
+      "expId": "1"
+    },
+    "app": {
+      "id": "U:CDPROJEKTSA.Witcher3GOTY_0xkrdv0gjmk28!bin.Gaming.Desktop.x64.witcher3",
+      "ver": "5.0.3.0_x64_ENBRPT!2026/09/30:22:25:50!58122A3!witcher3.exe",
+      "is1P": 2,
+      "asId": 1
+    },
+    "device": {
+      "localId": "s:11111111-1111-1111-1111-111111111111",
+      "deviceClass": "Windows.Desktop"
+    },
+    "protocol": {
+      "devMake": "1",
+      "devModel": "1",
+      "ticketKeys": ["1"]
+    },
+    "user": {
+      "localId": "m:1111111111111111"
+    },
+    "loc": {
+      "tz": "00:00"
+    }
+  },
+  "data": REPLACEDATA
+}
